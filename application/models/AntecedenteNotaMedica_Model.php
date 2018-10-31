@@ -106,7 +106,7 @@ class AntecedenteNotaMedica_Model extends CI_Model {
     public function ActualizarAntecedente($IdAntecedente,$DescripcionAntecedente)
     {
         $data = array('DescripcionAntecedenteNotaMedica' => $DescripcionAntecedente);
-        $this->db->where('IdAntecedenteNotaeMedica', $IdAntecedente);
+        $this->db->where('IdAntecedenteNotaMedica', $IdAntecedente);
        
         return $this->db->update($this->table,$data);
         

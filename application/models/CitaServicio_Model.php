@@ -14,7 +14,7 @@
 class CitaServicio_Model extends CI_Model 
 {
     private $table;
-    private $strSelectALL;
+
     
     public function __construct() {
         parent::__construct();
@@ -47,7 +47,11 @@ class CitaServicio_Model extends CI_Model
         
         if($IdStatus!=FALSE)
         {
-            $this->db->where('IdStatusCita', $IdStatus);
+            $this->db->where($this->table.'.IdStatusCita', $IdStatus);
+        }
+        else
+        {
+            $this->db->where($this->table.'.IdStatusCita !=', ATENDIDA);
         }
         
         $this->db->order_by('HoraCita', 'ASC');
@@ -105,6 +109,21 @@ class CitaServicio_Model extends CI_Model
         return $query->row();
         
     }
+     public function ConsultarCitaPorNotaMedica($IdNotaMedica)
+    {
+         
+        $this->db->select($this->table.'.*,DescripcionServicio');
+        $this->db->from($this->table.',Servicio');
+        //JOIN
+        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
+        //CONDICION
+        $this->db->where('IdNotaMedica', $IdNotaMedica);
+       
+        $query = $this->db->get();
+        
+        return $query->row();
+        
+    }
     
     public function ConfirmarCita($IdCita)
     {
@@ -138,6 +157,15 @@ class CitaServicio_Model extends CI_Model
     {
         
         $data = array('IdNotaMedica'=>$IdNotaMedica);
+        
+        $this->db->where('IdCitaServicio', $IdCita);
+       
+        return $this->db->update($this->table,$data);
+    }
+    
+    public function ActualizarEstatusCita($IdCita, $IdStatus)
+    {
+        $data = array('IdStatusCita'=>$IdStatus);
         
         $this->db->where('IdCitaServicio', $IdCita);
        

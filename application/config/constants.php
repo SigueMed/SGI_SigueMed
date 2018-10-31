@@ -98,4 +98,5 @@ defined('MEDICO')        OR define('MEDICO', 3);
 defined('AGENDADA')        OR define('AGENDADA', 1);
 defined('CONFIRMADA')        OR define('CONFIRMADA', 2);
 defined('REGISTRADA')        OR define('REGISTRADA', 3);
-defined('CANCELADA')        OR define('CANCELADA', 4);
+defined('ATENDIDA')        OR define('ATENDIDA', 4);
+defined('CANCELADA')        OR define('CANCELADA', 5);

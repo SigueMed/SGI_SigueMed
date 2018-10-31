@@ -123,7 +123,12 @@ class NotaMedica_Controller extends Agenda_Controler {
         }
         else
         {
-            $DatosNotaMedica = array(
+            
+            $action = $this->input->post('action');
+            
+            if ($action =='guardar')
+            {
+                $DatosNotaMedica = array(
                 'PesoPaciente'=>$this->input->post('Peso'),
                 'TallaPaciente'=> $this->input->post('Talla'),
                 'PresionPaciente'=> $this->input->post('TA'),
@@ -137,10 +142,34 @@ class NotaMedica_Controller extends Agenda_Controler {
             
             foreach($Antecedentes as $Antecedente)
             {
-                $DescripcionAntecedente = $this->input->post('Antecedente'.$Antecedente->IdAntecedenteNotaMedica);
-                $this->AntecedentesNotaMedica_Model->ActualizarAntecedente($Antecedente->IdNotaMedica,$DescripcionAntecedente);
+                $DescripcionAntecedente = $this->input->post('Antecedente'.$Antecedente['IdAntecedenteNotaMedica']);
+                $this->AntecedenteNotaMedica_Model->ActualizarAntecedente($Antecedente['IdAntecedenteNotaMedica'],$DescripcionAntecedente);
                               
             }
+            
+            $this->NotaMedica_Model->ActualizarNotaMedica($IdNotaMedica,$DatosNotaMedica);
+            
+            $DatosPaciente = array(
+                'Nombre'=>$this->input->post('Nombre'),
+                'Apellidos' => $this->input->post('Apellidos'),
+                'FechaNacimiento' => $this->input->post('FechaNacimiento'),
+                'Calle' => $this->input->post('Calle'),
+                'Colonia' => $this->input->post('Colonia'),
+                'CP' => $this->input->post('CP'),
+                'ViveCon' => $this->input->post('ViveCon'),
+                'Escolaridad' => $this->input->post('Escolaridad'),
+                'NumCelular' => $this->input->post('Celular')
+            );
+            $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
+            
+            $this->Paciente_Model->ActualizarPaciente($NotaMedica->IdPaciente,$DatosPaciente);
+            
+            $Cita = $this->CitaServicio_Model->ConsultarCitaPorNotaMedica($IdNotaMedica);
+            $this->CitaServicio_Model->ActualizarEstatusCita($Cita->IdCitaServicio,ATENDIDA);
+                
+            }
+            
+            $this->CitasDeHoy();
         }
            
     }

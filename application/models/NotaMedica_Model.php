@@ -19,6 +19,7 @@ class NotaMedica_Model extends CI_Model {
     public $IdPaciente;
     public $FechaNotaMedica;
     public $IdServicio;
+    private $UpdateFields;
             
     /*
      * 
@@ -33,6 +34,7 @@ class NotaMedica_Model extends CI_Model {
         $this->load->model('AntecedenteNotaMedica_Model');
         $this->load->helper('date');
         $this->load->helper('array');
+        $this->UpdateFields = array('FechaNotaMedica','PesoPaciente','TallaPaciente','PresionPaciente','FrCardiacaPaciente','FrRespiratoriaPaciente','TemperaturaPaciente');
         //$this->load->model ('Paciente_Model');
 
     }
@@ -132,8 +134,10 @@ class NotaMedica_Model extends CI_Model {
     
     public function ActualizarNotaMedica($IdNotaMedica, $DatosNotaMedica)
     {
-        $data = array('DescripcionAntecedenteNotaMedica' => $DescripcionAntecedente);
-        $this->db->where('IdAntecedenteNotaeMedica', $IdAntecedente);
+         
+        
+        $data = elements($this->UpdateFields,$DatosNotaMedica); 
+        $this->db->where('IdNotaMedica', $IdNotaMedica);
        
         return $this->db->update($this->table,$data);
         
