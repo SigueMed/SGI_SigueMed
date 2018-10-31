@@ -48,6 +48,9 @@ class Paciente_Model extends CI_Model {
         
     }
     
+    /*
+     * Function: Actualizar Paciente
+     */
     public function ActualizarPaciente($IdPacienteUpdt, $PacienteUpdt)
     {
         $this->db->where('IdPaciente', $IdPacienteUpdt);
