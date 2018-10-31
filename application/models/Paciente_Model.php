@@ -50,6 +50,7 @@ class Paciente_Model extends CI_Model {
     
     /*
      * Function: Actualizar Paciente
+     * Parametros:
      */
     public function ActualizarPaciente($IdPacienteUpdt, $PacienteUpdt)
     {
