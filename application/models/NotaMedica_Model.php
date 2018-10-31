@@ -129,6 +129,15 @@ class NotaMedica_Model extends CI_Model {
             
         return $IdNuevaNota;    
     }
+    
+    public function ActualizarNotaMedica($IdNotaMedica, $DatosNotaMedica)
+    {
+        $data = array('DescripcionAntecedenteNotaMedica' => $DescripcionAntecedente);
+        $this->db->where('IdAntecedenteNotaeMedica', $IdAntecedente);
+       
+        return $this->db->update($this->table,$data);
+        
+    }
                     
         
         

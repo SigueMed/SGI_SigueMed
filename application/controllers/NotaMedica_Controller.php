@@ -27,6 +27,7 @@ class NotaMedica_Controller extends Agenda_Controler {
         $this->load->model('NotaMedica_Model');
         $this->load->model('Paciente_Model');
         $this->load->model('CitaServicio_Model');
+        $this->load->model('AntecedenteNotaMedica_Model');
        
         
     }
@@ -132,9 +133,13 @@ class NotaMedica_Controller extends Agenda_Controler {
              );
             
             $Antecedentes = $this->AntecedenteNotaMedica_Model->ConsultarAntecedentesNota($IdNotaMedica);
+
+            
             foreach($Antecedentes as $Antecedente)
             {
-                
+                $DescripcionAntecedente = $this->input->post('Antecedente'.$Antecedente->IdAntecedenteNotaMedica);
+                $this->AntecedentesNotaMedica_Model->ActualizarAntecedente($Antecedente->IdNotaMedica,$DescripcionAntecedente);
+                              
             }
         }
            

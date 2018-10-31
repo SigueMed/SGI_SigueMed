@@ -87,8 +87,8 @@
     {
         foreach ($Antecedentes as $AntecedenteNota)
         {
-            echo "<label for='Antecendete".$AntecedenteNota['IdAntecedente']."'>".$AntecedenteNota['DescripcionAntecedente']."</label></br>";
-            echo "<input type='text' name='Antecedente".$AntecedenteNota['IdAntecedente']." id='Antecedente".$AntecedenteNota['IdAntecedente']."' value='".$AntecedenteNota['DescripcionAntecedenteNotaMedica']."'/></br>";
+            echo "<label for='Antecendete".$AntecedenteNota['IdAntecedenteNotaMedica']."'>".$AntecedenteNota['DescripcionAntecedente']."</label></br>";
+            echo "<input type='text' name='Antecedente".$AntecedenteNota['IdAntecedenteNotaMedica']." id='Antecedente".$AntecedenteNota['IdAntecedenteNotaMedica']."' value='".$AntecedenteNota['DescripcionAntecedenteNotaMedica']."'/></br>";
 
             // put your code here
         }
