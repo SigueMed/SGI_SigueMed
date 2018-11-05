@@ -60,21 +60,15 @@
                 
                 <form class="login-form">
 
-                        <label for="usuario" class="text-uppercase">Usuario:</label>
-                        <input type="text" name="username" id="usuario" class="form-control" placeholder="username">
+                    <label for="usuario" class="text-uppercase">Usuario:</label>
+                    <input type="text" name="username" id="usuario" class="form-control" placeholder="username">
 
-
-                      <label for="password" class="text-uppercase">Contraseña:</label>
-                      <input type="password" name="password" id="password" class="form-control" placeholder="*********">
-
-
-                        <input type="submit" value=" Login " name="submit"/><br />
-
-
+                    <label for="password" class="text-uppercase">Contraseña:</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="*********">
+                    <input type="submit" value=" Login " name="submit"/><br />
                 </form>
-                
                    
-                <?php echo form_close(); ?>
+                <?php echo form_close(); ?>           
             </div>
         </div>
         

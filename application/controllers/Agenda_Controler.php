@@ -16,6 +16,7 @@ class Agenda_Controler extends CI_Controller
     
     public function __construct() {
         parent::__construct();
+        
         $this->load->model('CitaServicio_Model');
         $this->load->model('Paciente_Model');
         $this->load->helper('date');
@@ -39,7 +40,7 @@ class Agenda_Controler extends CI_Controller
         }
         else
         {
-
+            this->load->view('header', $data);
             //$this->load->view('templates/header');
             $this->load->view('Agenda/Agenda',$data);
         }
