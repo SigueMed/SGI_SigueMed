@@ -48,7 +48,7 @@
             <div id="login" style='width:auto;'>
                 <h2>Sistema de Gestión Integral - SigueMed</h2>
                 <hr/>
-                <?php echo form_open('Usuario_Login/LoginUsuario'); ?>
+                <?php echo form_open('Login_Controller/ValidarLogin'); ?>
                 <?php
                     echo "<div class='error_msg'>";
                     if (isset($error_message)) {
