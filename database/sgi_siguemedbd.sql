@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-11-2018 a las 21:02:00
+-- Tiempo de generación: 05-11-2018 a las 23:00:23
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.8
 
@@ -139,6 +139,19 @@ CREATE TABLE `disponibilidadservicio` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `empleado`
+--
+
+CREATE TABLE `empleado` (
+  `IdEmpleado` int(11) NOT NULL,
+  `NombreEmpleado` varchar(255) NOT NULL,
+  `ApellidoEmpleado` varchar(255) NOT NULL,
+  `TelefonoEmpleado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `empresapaciente`
 --
 
@@ -163,6 +176,17 @@ CREATE TABLE `excepciondisponibilidadservicio` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `funcionesperfil`
+--
+
+CREATE TABLE `funcionesperfil` (
+  `IdPerfil` int(11) NOT NULL,
+  `IdMenu` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `medico`
 --
 
@@ -171,6 +195,19 @@ CREATE TABLE `medico` (
   `NombreMedico` varchar(50) NOT NULL,
   `ApellidoMedico` varchar(50) NOT NULL,
   `IdServicio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `menu`
+--
+
+CREATE TABLE `menu` (
+  `IdMenu` int(11) NOT NULL,
+  `DescripcionMenu` varchar(255) NOT NULL,
+  `IdMenuPadre` int(11) DEFAULT NULL,
+  `UrlMenu` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -209,6 +246,17 @@ CREATE TABLE `paciente` (
   `Direccion` varchar(255) DEFAULT NULL,
   `IdTipoPaciente` int(11) DEFAULT NULL,
   `IdEmpresaPaciente` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perfil`
+--
+
+CREATE TABLE `perfil` (
+  `IdPerfil` int(11) NOT NULL,
+  `DecripcionPerfil` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -258,6 +306,20 @@ CREATE TABLE `servicio` (
 
 CREATE TABLE `tipopaciente` (
   `IdTipoPaciente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `IdUsuario` int(11) NOT NULL,
+  `IdEmpleado` int(11) NOT NULL,
+  `IdPerfil` int(11) NOT NULL,
+  `Usuario` varchar(255) NOT NULL,
+  `Contrasena` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -328,6 +390,12 @@ ALTER TABLE `disponibilidadservicio`
   ADD KEY `IdServicio` (`IdServicio`);
 
 --
+-- Indices de la tabla `empleado`
+--
+ALTER TABLE `empleado`
+  ADD PRIMARY KEY (`IdEmpleado`);
+
+--
 -- Indices de la tabla `empresapaciente`
 --
 ALTER TABLE `empresapaciente`
@@ -341,11 +409,24 @@ ALTER TABLE `excepciondisponibilidadservicio`
   ADD KEY `IdServicio` (`IdServicio`);
 
 --
+-- Indices de la tabla `funcionesperfil`
+--
+ALTER TABLE `funcionesperfil`
+  ADD KEY `IdPerfil` (`IdPerfil`),
+  ADD KEY `IdMenu` (`IdMenu`);
+
+--
 -- Indices de la tabla `medico`
 --
 ALTER TABLE `medico`
   ADD PRIMARY KEY (`IdMedico`),
   ADD KEY `IdServicio` (`IdServicio`);
+
+--
+-- Indices de la tabla `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`IdMenu`);
 
 --
 -- Indices de la tabla `notamedica`
@@ -363,6 +444,12 @@ ALTER TABLE `paciente`
   ADD PRIMARY KEY (`IdPaciente`),
   ADD KEY `IdTipoPaciente` (`IdTipoPaciente`),
   ADD KEY `IdEmpresaPaciente` (`IdEmpresaPaciente`);
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`IdPerfil`);
 
 --
 -- Indices de la tabla `productosnotamedica`
@@ -389,6 +476,14 @@ ALTER TABLE `servicio`
 --
 ALTER TABLE `tipopaciente`
   ADD PRIMARY KEY (`IdTipoPaciente`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`IdUsuario`),
+  ADD KEY `IdEmpleado` (`IdEmpleado`),
+  ADD KEY `IdPerfil` (`IdPerfil`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -461,6 +556,12 @@ ALTER TABLE `medico`
   MODIFY `IdMedico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `IdMenu` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `notamedica`
 --
 ALTER TABLE `notamedica`
@@ -473,6 +574,12 @@ ALTER TABLE `paciente`
   MODIFY `IdPaciente` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `IdPerfil` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
@@ -483,6 +590,12 @@ ALTER TABLE `servicio`
 --
 ALTER TABLE `tipopaciente`
   MODIFY `IdTipoPaciente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `IdUsuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -530,6 +643,13 @@ ALTER TABLE `excepciondisponibilidadservicio`
   ADD CONSTRAINT `excepciondisponibilidadservicio_ibfk_1` FOREIGN KEY (`IdServicio`) REFERENCES `servicio` (`IdServicio`);
 
 --
+-- Filtros para la tabla `funcionesperfil`
+--
+ALTER TABLE `funcionesperfil`
+  ADD CONSTRAINT `funcionesperfil_ibfk_1` FOREIGN KEY (`IdPerfil`) REFERENCES `perfil` (`IdPerfil`),
+  ADD CONSTRAINT `funcionesperfil_ibfk_2` FOREIGN KEY (`IdMenu`) REFERENCES `menu` (`IdMenu`);
+
+--
 -- Filtros para la tabla `medico`
 --
 ALTER TABLE `medico`
@@ -563,6 +683,13 @@ ALTER TABLE `productosnotamedica`
 ALTER TABLE `seguimientomedico`
   ADD CONSTRAINT `seguimientomedico_ibfk_1` FOREIGN KEY (`IdNotaMedica`) REFERENCES `notamedica` (`IdNotaMedica`),
   ADD CONSTRAINT `seguimientomedico_ibfk_2` FOREIGN KEY (`IdRespuestaSeguimiento`) REFERENCES `catalogorespuestaseguimiento` (`IdRespuestaSeguimiento`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`IdEmpleado`) REFERENCES `empleado` (`IdEmpleado`),
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`IdPerfil`) REFERENCES `perfil` (`IdPerfil`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
