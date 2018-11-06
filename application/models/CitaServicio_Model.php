@@ -19,7 +19,6 @@ class CitaServicio_Model extends CI_Model
     public function __construct() {
         parent::__construct();
         $this->table = "CitaServicio";
-        
         $this->load->database();
         
     }
@@ -171,6 +170,23 @@ class CitaServicio_Model extends CI_Model
        
         return $this->db->update($this->table,$data);
     }
-    
+    public function ConsultarCitasporMes($Fecha){
+        $this->load->helper("date");
+        
+        $dia = mdate('%d',$Fecha);
+        $mes = mdate('%m',$Fecha);
+        $anio = mdate('%Y',$Fecha);
+        
+        $this->db->select($this->table.'.*, DescripcionServicio, Nombre, Apellidos, DescripcionEstatusCita');
+        $this->db->from($this->table.',Servicio,Paciente, CatalogoEstatusCita');
+        // JOIN
+        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
+        $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
+        $this->db->where($this->table.'.IdStatusCita = CatalogoEstatusCita.IdStatusCita');
+        
+        $this->db->where('DiaCita', $dia);
+        $this->db->where('MesCita BETWEEN', $mes,'AND', $mes);
+        $this->db->where('AnioCita', $anio);
+    }
 
 }
