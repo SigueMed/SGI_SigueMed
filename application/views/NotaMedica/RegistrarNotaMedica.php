@@ -1,7 +1,23 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NOTA MEDICA</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        .box 
+        {
+            width:100%;
+            max-width: 650px;
+            margin:0 auto;
+            
+        }
+    </style>
+    
+</head>
 <body>
     
-    <?php $this->load->helper('url'); ?>
     <?php
         if (isset($errorMessage)) {
             echo "<div class='message'>";
@@ -78,6 +94,7 @@
          
     </div>
     
+    
     <!--Div Antecedentes -->
     
     <div>
@@ -103,6 +120,26 @@
     ?>
     </div>
     
+    <!--DIV PRODUCTOS-->
+    <div class="form-group">
+        <select name="servicio" id="servicio" class="form-control input-lg">
+            <option value="">Selecciona un Servicio</option>
+ 
+            <?php foreach ($Servicios as $servicio)
+            {
+                echo '<option value ="'.$servicio['IdServicio'].'">'.$servicio['DescripcionServicio'].'</option>';
+            }
+            ?>
+        </select>
+    </div>
+    <div class="form-group">
+        <select name="producto" id="producto" class="form-control input-lg">
+            <option value="">Selecciona un Producto</option>
+            
+        </select>
+    </div>
+    
+    
     <!--Div Botones-->
     <div>
         <button type="submit" name="action" value="guardar">Guardar</button>
@@ -112,4 +149,31 @@
     
     </form>
 </body>
+<script type='text/javascript' language='javascript'>
+    $(document).ready(function()
+    {
+       $("#servicio").change(function(){
+           
+          var servicio_id = $('#servicio').val();
+          alert(servicio_id);
+          if(servicio_id!='')
+          {
 
+              $.ajax({
+                  url:"<?php echo site_url();?>/NotaMedica_Controller/ConsultarProductosPorServicio",
+                  method:"POST",
+                  data:{servicio_id:servicio_id},
+                  success: function(data)
+                    {
+                        $('#producto').html(data);
+                    }
+              });
+              
+          }
+          
+       }); 
+    });
+</script>
+
+
+</html>

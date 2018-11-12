@@ -12,42 +12,29 @@
  * @author SigueMed
  */
 class Usuario_Model extends CI_Model {
+    private $table;
     
     public function __construct()
     {
         parent::__construct();
             $this->load->database();
+            $this->table = "Usuarios";
     }
     
-    public function get_UsuarioByUsrPass($Usr=FALSE, $Pass=FALSE)
+    public function ValidarUsuarioContrasena($Usuario=FALSE, $Contrasena=FALSE)
     {
-        if ($Usr == FALSE)
-        {
-            return 0;
-        }
+       
+        $this->db->select($this->table.'.*,NombreEmpleado, ApellidosEmpleado, DescripcionPerfil, Perfil.IdPerfil');
+        $this->db->from($this->table.', Empleado, Perfil');
+        $this->db->where ($this->table.'.IdEmpleado = Empleado.IdEmpleado');
+        $this->db->where ($this->table.'.IdPerfil = Perfil.IdPerfil');
+        $this->db->where ('usuario', $Usuario);
+        $this->db->where ('contrasena', $Contrasena);
+        $this->db->limit(1);
+ 
+        $query = $this->db->get();
         
-        $query = $this->db->get_where('usuarios', array('usuario' => $Usr, 'contrasena' => $Pass));
-        
-        
-        return $query->row_array();
-                
+        return $query->row();                
     }
     
-    public function get_FuncionesPorPerfil($IdPerfil=FALSE)
-    {
-        
-        $IdPerfil = 1;
-        if ($IdPerfil == FALSE)
-        {
-            return 0;
-        }
-        
-        
-        $query = $this->db->get_where('funciones_perfil',array('IdPerfil'=> $IdPerfil));
-        
-        
-        return $query->result_array();          
-    }
-    
-    //put your code here
 }

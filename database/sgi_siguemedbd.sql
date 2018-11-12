@@ -76,9 +76,10 @@ CREATE TABLE `catalogoestatuscita` (
 --
 
 CREATE TABLE `catalogoproductos` (
-  `IdProducto` int(11) NOT NULL,
+  `IdProducto` int(11) NOT NULL AUTO_INCREMENT,
   `CostoProducto` int(11) DEFAULT NULL,
-  `DescripcionProducto` varchar(255) DEFAULT NULL
+  `DescripcionProducto` varchar(255) DEFAULT NULL,
+  `IdServicio` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -357,7 +358,8 @@ ALTER TABLE `catalogoestatuscita`
 -- Indices de la tabla `catalogoproductos`
 --
 ALTER TABLE `catalogoproductos`
-  ADD PRIMARY KEY (`IdProducto`);
+  ADD PRIMARY KEY (`IdProducto`),
+  ADD KEY (`IdServicio`);
 
 --
 -- Indices de la tabla `catalogorespuestaseguimiento`
@@ -538,6 +540,12 @@ ALTER TABLE `disponibilidadservicio`
   MODIFY `IdDisponibilidad` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `empleado`
+--
+ALTER TABLE `empleado`
+  MODIFY `IdEmpleado` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `empresapaciente`
 --
 ALTER TABLE `empresapaciente`
@@ -613,6 +621,12 @@ ALTER TABLE `antecedentenotamedica`
 --
 ALTER TABLE `catalogoantecedentes`
   ADD CONSTRAINT `catalogoantecedentes_ibfk_1` FOREIGN KEY (`IdServicio`) REFERENCES `servicio` (`IdServicio`);
+
+--
+-- Filtros para la tabla `catalogoproductos`
+--
+ALTER TABLE `catalogoproductos`
+  ADD CONSTRAINT `catalogoproductos_ibfk_1` FOREIGN KEY (`IdServicio`) REFERENCES `servicio` (`IdServicio`);
 
 --
 -- Filtros para la tabla `citasservicio`

@@ -28,6 +28,8 @@ class NotaMedica_Controller extends Agenda_Controler {
         $this->load->model('Paciente_Model');
         $this->load->model('CitaServicio_Model');
         $this->load->model('AntecedenteNotaMedica_Model');
+        $this->load->model('Servicio_Model');
+        $this->load->model('CatalogoProductos_Model');
        
         
     }
@@ -118,6 +120,7 @@ class NotaMedica_Controller extends Agenda_Controler {
             $data['NotaMedica'] = $NotaMedica;
             $data['Paciente'] = $this->Paciente_Model->ConsultarPacientePorId($NotaMedica->IdPaciente);
             $data['Antecedentes'] = $this->AntecedenteNotaMedica_Model->ConsultarAntecedentesNota($IdNotaMedica);
+            $data['Servicios'] = $this->Servicio_Model->ConsultarServicios();
             
             $this->load->view('NotaMedica/RegistrarNotaMedica', $data); 
         }
@@ -172,6 +175,24 @@ class NotaMedica_Controller extends Agenda_Controler {
             $this->CitasDeHoy();
         }
            
+    }
+    
+    public function ConsultarProductosPorServicio()
+    {
+        
+        if($this->input->post('servicio_id'))
+        {
+        
+            $Productos=  $this->CatalogoProductos_Model->ConsultarProductosPorServicio($this->input->post('servicio_id'));
+            
+            $output='<option value="">Selecciona n Producto</option>';
+            foreach($Productos as $producto)
+            {
+                $output .= '<option value="'.$producto['IdProducto'].'">'.$producto['DescripcionProducto'].'</option>';
+            }
+            echo $output;
+        }
+        
     }
     
    

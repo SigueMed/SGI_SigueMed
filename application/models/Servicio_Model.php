@@ -13,18 +13,24 @@
  */
 class Servicio_Model extends CI_Model {
     
-    public $Perfil_Medico;
+    private $table;
     
-    public function getPerfilMedico()
-    {
-        return $this->Perfil_Medico;
-    }
-        
-
     public function __construct() {
         parent::__construct();
+        $this->load->database();
+        $this->table = "Servicio";
         
-        $this->Perfil_Medico = 3;
+    }
+    
+    public function ConsultarServicios()    
+    {
+         $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        
+        $query = $this->db->get();
+        
+        return $query->result_array();
+        
     }
     //put your code here
 }

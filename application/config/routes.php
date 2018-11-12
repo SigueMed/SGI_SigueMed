@@ -56,7 +56,7 @@ $route['Agenda/ConfirmarCita/(.+)'] = 'Agenda_Controler/ConfirmarCita/$1';
 $route['NotaMedica/Registrar/(.+)'] = 'NotaMedica_Controller/RegistrarSomatometria/$1';
 
 //Index.php Dirige al Login
-$route['default_controller'] = 'Usuario_Login';
+$route['default_controller'] = 'Login_Controller/ValidarLogin';
 $route['NotaMedica/ElaborarNota/(.+)'] = 'NotaMedica_Controller/ElaborarNotaMedica/$1';
 $route['usuario/login'] = 'Usuario/login';
 $route['main/TableroPrincipal'] = 'Usuario/TableroPrincipal';

@@ -40,8 +40,8 @@ class Agenda_Controler extends CI_Controller
         }
         else
         {
-            this->load->view('header', $data);
-            //$this->load->view('templates/header');
+            //$this->load->view('header', $data);
+            $this->load->view('templates/headerMenu');
             $this->load->view('Agenda/Agenda',$data);
         }
         

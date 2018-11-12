@@ -1,9 +1,7 @@
 <?php
 class CatalogoProductos_model extends CI_Model{
     private $table;
-    private $IdProducto;
-    private $CostoProducto;
-    private $DescripcionProducto;
+   
     
      public function __construct() {
         parent::__construct();
@@ -12,12 +10,8 @@ class CatalogoProductos_model extends CI_Model{
 
     }
     
-    private function LoadRow($row){
-        $this->IdPaciente = $row->IdPaciente;
-        $this->CostoProducto = $row->CostoProducto;
-        $this->DescripcionProducto = $row->DescripcionProducto;
-    }
-    public function ConsultarCatalogoporproducto($IdProducto){
+  
+     public function ConsultarCatalogoporproducto($IdProducto){
         $condition = "IdProducto =" . $IdProducto;
         $this->db->select('*');
         $this->db->from($this->table);
@@ -32,5 +26,31 @@ class CatalogoProductos_model extends CI_Model{
         }else{
             return false;
         }
+    }
+    
+    public function ConsultarProductosPorServicio($IdServicio)
+    {
+        $this->db->select($this->table.'.*, DescripcionServicio');
+        $this->db->from($this->table.',Servicio');
+        $this->db->where($this->table.'.IdServicio=Servicio.IdServicio');
+        $this->db->where($this->table.'.IdServicio', $IdServicio);
+        
+        $query= $this->db->get();
+        
+        return $query->result_array();
+    }
+    
+    public function CargarListaProductosPorServicio($IdServicio)
+    {
+        $this->db->select($this->table.'.*, DescripcionServicio');
+        $this->db->from($this->table.',Servicio');
+        $this->db->where($this->table.'.IdServicio=Servicio.IdServicio');
+        $this->db->where($this->table.'.IdServicio', $IdServicio);
+        
+        $query= $this->db->get();
+        
+        return $query->result_array();
+        
+       
     }
 }
