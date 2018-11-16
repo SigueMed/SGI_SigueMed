@@ -34,9 +34,9 @@
 	$(document).ready(function() {
 		
                 //llama la funcion getEventos para mostrar los eventos de la bd en el calendario
-		$.post('<?php echo base_url();?>ccalendar/getEventos',
+		$.post('<?php echo site_url();?>/ccalendar/getEventos',
 			function(data){
-				//alert(data);
+				alert(data);
 
 				$('#calendar').fullCalendar({
 					header: {
@@ -53,6 +53,7 @@
 					events: $.parseJSON(data),
                                         //eventDrop es para poder guardar la fecha al moverla de posicion
 					eventDrop: function(event, delta, revertFunc){
+                                                alert(event.end.format());
 						var id = event.id;
 						var fi = event.start.format();
 						var ff = event.end.format();
@@ -60,7 +61,7 @@
 						if (!confirm("Esta seguro de mover la fecha del evento?")) {
 							revertFunc();
 						}else{
-							$.post("<?php echo base_url();?>ccalendar/updEvento",
+							$.post("<?php echo site_url();?>/Agenda_Controler/updEvento",
 							{
 								id:id,
 								fecini:fi,
@@ -109,8 +110,13 @@
 
 				    	// alert(event.title);
 				    	$('#idEvento').val(event.id);
+                                        $('#idPaciente').val(event.id);
 				    	$('#mtitulo').html(event.title);
-				    	$('#txtPaciente').val(event.title);
+				    	$('#txtPaciente').val(event.descripcion);
+                                        $('#txtDia').val(event.start.format('DD'));
+                                        $('#txtMes').val(event.start.format("MM"));
+                                        $('#txtAnio').val(event.start.format("YYYY"));
+                                        $('#txtHora').val(event.start.format("HH:mm"));
 				    	$('#modalEvento').modal();
 
 				    	if (event.url) {
@@ -177,9 +183,10 @@
                                     
                                     limpiarFormulario();
                                     
-                                    $('#txtDia').val(date.format('dddd'));
+                                    $('#txtDia').val(date.format('DD'));
                                     $('#txtMes').val(date.format("MM"));
                                     $('#txtAnio').val(date.format("YYYY"));
+                                    
                                     $('#modalEvento').modal();
                                     }
 					
@@ -264,6 +271,7 @@
 	            <!-- form start -->
 	            
 	            <input type="hidden" id="idEvento">
+                    <input type="hidden" id="idPaciente">
 	            
                     <div class="form-row">
 	                <div class="form-group col-md-10">
@@ -323,7 +331,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header bg-yellow-gradient">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="mtitulo">Agregar nuevo paciente</h4>
+	        <h4 class="modal-title" id="mtitulo">Registrar Nuevo Paciente</h4>
 	      </div>
 
 	      <div class="modal-body">
@@ -334,8 +342,11 @@
 	            
                     <div class="form-row">
 	                <div class="form-group col-md-10">
-	                  <label>Nombre paciente</label>
+	                  <label>Nombre:</label>
                             <input type="text" class="form-control" id="txtNombrePaciente">
+                          <label>Apellidos:</label>
+                            <input type="text" class="form-control" id="txtApellidoPaciente">
+                          
 	               </div>
                         <div class="form-group col-md-2">
                             <label>-</label>
@@ -393,15 +404,15 @@
         
         //guardar nuevos eventos
         $('#btnGuardarCita').click(function(){
-		var nome = $('#txtPaciente').val();
+		var idPaciente = $('#idPaciente').val();
                 var fecini = $('#txtHora').val;
                 var fecfin = $('#txtMes').val;
 		var web = $('#txtDia').val();
                 
                 
-		$.post("<?php echo base_url();?>ccalendar/agregarEvento",
+		$.post("<?php echo base_url();?>Agenda_Controller/agregarEvento",
 		{
-			nom: nome,
+			idPaciente: idPaciente,
                         fecini: fecini,
                         fecfin: fecfin,
 			web: web

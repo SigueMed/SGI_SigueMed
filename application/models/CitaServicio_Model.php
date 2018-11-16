@@ -62,31 +62,32 @@ class CitaServicio_Model extends CI_Model
         
     }
     
-    public function ConsultarCitasPorDiaPorServicio($Fecha,$IdServicio,$IdStatus=FALSE)
+    public function ConsultarCitasPorServicio($IdServicio)
     {
         $this->load->helper("date");
         
-        $dia = mdate('%d',$Fecha);
+        $Fecha = now();
+        
         $mes = mdate('%m',$Fecha);
         $anio = mdate('%Y',$Fecha);
         
         
         
-        $this->db->select($this->table.'.* ,DescripcionServicio');
-
-        $this->db->from($this->table.',Servicio,Paciente');
+        $this->db->select('IdCitaServicio as id, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, '
+                . 'CONCAT(anioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(HoraCita,"%H:%i:%s"), FALSE) as start');
+         $this->db->select('CONCAT(AnioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s"),FALSE) as end', FALSE);
+         $this->db->select('IdStatusCita');
+        $this->db->from($this->table);
         // JOIN
-        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
-        $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
-        $this->db->where('DiaCita', $dia);
-        $this->db->where('MesCita', $mes);
-        $this->db->where('AnioCita', $anio);
-        $this->db->where('IdServicio', $IdServicio);
-        if ($IdStatus != FALSE )
-        {
-            $this->db->where('IdStatusCita', $IdStatus);
-        }
+        $this->db->join('Servicio','Servicio.IdServicio='.$this->table.'.IdServicio');
+        $this->db->join('Paciente','Paciente.IdPaciente='.$this->table.'.IdPaciente');
+    
+
+        $this->db->where('MesCita >='.$mes);
+        $this->db->where('AnioCita>='.$anio);
         
+        $this->db->where($this->table.'.IdServicio', $IdServicio);
+                
         
         $query = $this->db->get();
         
@@ -205,6 +206,49 @@ public function ConsultarCitaPorId($IdCita)
         $this->db->where('DiaCita', $dia);
         $this->db->where('MesCita BETWEEN', $mes,'AND', $mes);
         $this->db->where('AnioCita', $anio);
+    }
+    
+    public function updEvento($param)
+    {
+        
+        $dia = mdate('%d',$param['fecini']);
+        $mes = mdate('%m',$param['fecini']);
+        $anio = mdate('%Y',$param['fecini']);
+        $hora = mdate('%h:%i:%s', $param['fecini']);
+        $campos = array(
+                'DiaCita' => $dia,
+                'MesCita' => $mes,
+                'AnioCita' => $anio,
+                'HoraCita' => $hora
+                );
+
+        $this->db->where('IdCitaServicio',$param['id']);
+        $this->db->update($this->table,$campos);
+
+        if ($this->db->affected_rows() == 1) {
+                return 1;
+        }else{
+                return 0;
+        }
+    }
+    public function agregarEvento($param){
+        $campos = array(
+            'IdPaciente' => $param['idPaciente'],
+            'DiaCita' => $param['idPaciente'],
+            'MesCita' => $param['idPaciente'],
+            'AnioCita' => $param['idPaciente'],
+            'Hora' => $param['idPaciente']
+           );
+        
+        $this->db->insert('eventospruebas', $campos);
+        
+        if ($this->db->affected_rows() == 1) {
+			return 1;
+		}else{
+			return 0;
+		}
+        
+        
     }
 
 }

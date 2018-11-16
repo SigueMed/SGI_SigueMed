@@ -12,11 +12,15 @@ class Ccalendar extends CI_Controller
 	}
 
 	public function index(){
-		$this->load->view('vcalendar');
+		$this->load->view('Agenda/vcalendar');
 	}
 
 	public function getEventos(){
-		$r = $this->Mcalendar->getEventos();
+            
+            $this->load->Model('CitaServicio_Model');
+            
+            $r= $this->CitaServicio_Model->ConsultarCitasPorServicio(1);
+		//$r = $this->Mcalendar->getEventos();
 		echo json_encode($r);
 	}
 

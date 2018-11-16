@@ -24,6 +24,53 @@ class Agenda_Controler extends CI_Controller
         
     }
     
+    public function index(){
+		$this->load->view('Agenda/VistaAgenda');
+	}
+        
+    public function getEventos()
+    {
+            
+        $this->load->Model('CitaServicio_Model');
+
+        $r= $this->CitaServicio_Model->ConsultarCitasPorServicio(1);
+            //$r = $this->Mcalendar->getEventos();
+            echo json_encode($r);
+    }
+    
+    public function updEvento()
+    {
+        $param['id'] = $this->input->post('id');
+        $fdate = human_to_unix($this->input->post('fecini'));
+        $param['fecini'] = $fdate;
+        $param['fecfin'] = $this->input->post('fecfin');
+
+        $r = $this->CitaServicio_Model->updEvento($param);
+
+        echo $r;
+    }
+    
+     public function agregarEvento()
+    {
+         
+        $dia = mdate('%d',$this->input->post('fecini'));
+        $mes = mdate('%m',$this->input->post('fecini'));
+        $anio = mdate('%Y',$this->input->post('fecini'));
+        $hora = mdate('%h:%i', $this->input->post('fecini'));
+        
+        $param['idPaciente'] = $this->input->post('idPaciente');
+        $param['DiaCita'] = $dia;
+        $param['MesCita'] = $mes;
+        $param['AnioCita'] = $anio;
+        $param['Hora'] = $hora;
+//	$param['fecfin'] = $this->input->post('fecfin');
+//        $param['web'] = $this->input->post('web');
+        
+        
+        $r = $this->Mcalendar->agregarEvento($param);
+        echo $r;
+    }
+    
     /*
      * Función que devuelve todas las citas con estatus de Agendadas
      */
