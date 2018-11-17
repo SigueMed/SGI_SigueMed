@@ -94,17 +94,23 @@ class CitaServicio_Model extends CI_Model
         return $query->result_array();
     }
 
-public function ConsultarCitasPorMesPorServicio ($Mes, $IdServicio){
+public function ConsultarCitasPorServicio ($IdServicio){
       
- 
+        $this->load->helper("date");
         
-                $this->db->select($this->table.'.* ,DescripcionServicio, NombrePaciente, ApellidoPaciente, TelefonoPaciente');
-
+        $Fecha = now();
+        $dia = mdate('%d',$Fecha);
+        $mes = mdate('%m',$Fecha);
+        $anio = mdate('%Y',$Fecha);
+       
+        //Consulta
+        $this->db->select($this->table.'.* ,DescripcionServicio, NombrePaciente, ApellidoPaciente, TelefonoPaciente');
         $this->db->from($this->table.',Servicio,Paciente');
         // JOIN
         $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
-        $this->db->where('MesCita', $Mes);
+        $this->db->where('MesCita >='.$mes);
+        $this->db->or_where('AnioCita >='.$anio);
         $this->db->where('IdServicio', $IdServicio);
         
         $query = $this->db->get();

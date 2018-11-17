@@ -120,6 +120,13 @@ class Agenda_Controler extends CI_Controller
     }
     
     
+    public function CargarAgendaServicio($IdServicio){
+        $this->load->model('CitaServicio_Model');
+        $data ['Citas']= $this->CitaServicio_Model->ConsultarCitasPormes($IdServicio);
+        
+        } 
+    
+    
     /*
      * Funcion que Carga Vista para confirmar cita 
      */
