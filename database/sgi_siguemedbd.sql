@@ -146,7 +146,7 @@ CREATE TABLE `disponibilidadservicio` (
 CREATE TABLE `empleado` (
   `IdEmpleado` int(11) NOT NULL,
   `NombreEmpleado` varchar(255) NOT NULL,
-  `ApellidoEmpleado` varchar(255) NOT NULL,
+  `ApellidosEmpleado` varchar(255) NOT NULL,
   `TelefonoEmpleado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
