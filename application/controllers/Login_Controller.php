@@ -40,7 +40,7 @@ class Login_Controller extends CI_Controller {
         {
             if($this->session->has_userdata('logged_in'))
             {
-                $this->load->view('main/admin_page');
+                $this->load->view('templates/headerMenu');
             }
             else
             {
