@@ -141,15 +141,16 @@ CREATE TABLE `empleado` (
   `IdEmpleado` int(11) NOT NULL,
   `NombreEmpleado` tinytext COLLATE latin1_spanish_ci NOT NULL,
   `ApellidosEmpleado` tinytext COLLATE latin1_spanish_ci NOT NULL,
-  `TelefonoEmpleado` tinytext COLLATE latin1_spanish_ci NOT NULL
+  `TelefonoEmpleado` tinytext COLLATE latin1_spanish_ci NOT NULL,
+  `IdServicio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `empleado`
 --
 
-INSERT INTO `empleado` (`IdEmpleado`, `NombreEmpleado`, `ApellidosEmpleado`, `TelefonoEmpleado`) VALUES
-(1, 'Constanzo Manuel', 'Basurto Chipolini', '');
+INSERT INTO `empleado` (`IdEmpleado`, `NombreEmpleado`, `ApellidosEmpleado`, `TelefonoEmpleado`, `IdServicio`) VALUES
+(1, 'Constanzo Manuel', 'Basurto Chipolini', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -176,18 +177,6 @@ INSERT INTO `funcionesperfil` (`IdPerfil`, `IdMenu`) VALUES
 (3, 5),
 (3, 6);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `medico`
---
-
-CREATE TABLE `medico` (
-  `IdMedico` int(11) NOT NULL,
-  `NombreMedico` tinytext COLLATE latin1_spanish_ci NOT NULL,
-  `ApellidosMedico` tinytext COLLATE latin1_spanish_ci NOT NULL,
-  `Telefono` tinytext COLLATE latin1_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -223,7 +212,7 @@ CREATE TABLE `notamedica` (
   `FechaNotaMedica` date NOT NULL,
   `IdPaciente` int(11) NOT NULL,
   `IdServicio` int(11) NOT NULL,
-  `IdMedico` int(11) NOT NULL,
+  `IdUsuario` int(11) NOT NULL,
   `PesoPaciente` tinyint(4) NOT NULL,
   `TallaPaciente` tinyint(4) NOT NULL,
   `TemperaturaPaciente` tinyint(4) NOT NULL,
@@ -372,7 +361,8 @@ ALTER TABLE `disponibilidadservicio`
 -- Indices de la tabla `empleado`
 --
 ALTER TABLE `empleado`
-  ADD PRIMARY KEY (`IdEmpleado`);
+  ADD PRIMARY KEY (`IdEmpleado`),
+  ADD KEY `empleado_ibfk_1` (`IdServicio`);
 
 --
 -- Indices de la tabla `funcionesperfil`
@@ -381,11 +371,6 @@ ALTER TABLE `funcionesperfil`
   ADD KEY `funcionesperfil_ibfk_1` (`IdPerfil`),
   ADD KEY `funcionesperfil_ibfk_2` (`IdMenu`);
 
---
--- Indices de la tabla `medico`
---
-ALTER TABLE `medico`
-  ADD PRIMARY KEY (`IdMedico`);
 
 --
 -- Indices de la tabla `menu`
@@ -400,7 +385,7 @@ ALTER TABLE `notamedica`
   ADD PRIMARY KEY (`IdNotaMedica`),
   ADD KEY `IdPaciente` (`IdPaciente`),
   ADD KEY `IdServicio` (`IdServicio`),
-  ADD KEY `IdMedico` (`IdMedico`);
+  ADD KEY `IdUsuario` (`IdUsuario`);
 
 --
 -- Indices de la tabla `paciente`
@@ -474,11 +459,7 @@ ALTER TABLE `disponibilidadservicio`
 ALTER TABLE `empleado`
   MODIFY `IdEmpleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT de la tabla `medico`
---
-ALTER TABLE `medico`
-  MODIFY `IdMedico` int(11) NOT NULL AUTO_INCREMENT;
+
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
@@ -543,6 +524,13 @@ ALTER TABLE `citaservicio`
   ADD CONSTRAINT `citasservicio_ibfk_4` FOREIGN KEY (`IdNotaMedica`) REFERENCES `notamedica` (`IdNotaMedica`);
 
 --
+-- Filtros para la tabla `empleado`
+--
+ALTER TABLE `empleado`
+  ADD CONSTRAINT `empleado_ibfk_1` FOREIGN KEY (`IdServicio`) REFERENCES `servicio` (`IdServicio`);
+COMMIT;
+
+--
 -- Filtros para la tabla `funcionesperfil`
 --
 ALTER TABLE `funcionesperfil`
@@ -555,6 +543,7 @@ ALTER TABLE `funcionesperfil`
 ALTER TABLE `notamedica`
   ADD CONSTRAINT `notamedica_ibfk_1` FOREIGN KEY (`IdPaciente`) REFERENCES `paciente` (`IdPaciente`),
   ADD CONSTRAINT `notamedica_ibfk_2` FOREIGN KEY (`IdServicio`) REFERENCES `servicio` (`IdServicio`);
+  ADD CONSTRAINT `notamedica_ibfk_3` FOREIGN KEY (`IdUsuario`) REFERENCES `usuarios` (`IdUsuario`);
 
 --
 -- Filtros para la tabla `usuarios`
