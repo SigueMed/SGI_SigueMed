@@ -54,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['Agenda/CitasHoy'] = 'Agenda_Controler/CitasDeHoy';
 $route['Agenda/VistaAgenda'] = 'Agenda_Controler';
 $route['Agenda/ConfirmarCita/(.+)'] = 'Agenda_Controler/ConfirmarCita/$1';
+$route['Agenda/CitasAtendidas'] = 'Agenda_Controler/CitasAtendidas';
 $route['NotaMedica/Registrar/(.+)'] = 'NotaMedica_Controller/RegistrarSomatometria/$1';
 
 //Index.php Dirige al Login

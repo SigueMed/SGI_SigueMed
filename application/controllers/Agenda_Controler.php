@@ -121,8 +121,6 @@ class Agenda_Controler extends CI_Controller
         $data ['Citas']= $this->CitaServicio_Model->ConsultarCitasPormes($IdServicio);
         
         } 
-    
-    
     /*
      * Funcion que Carga Vista para confirmar cita 
      */
@@ -199,4 +197,23 @@ class Agenda_Controler extends CI_Controller
         }
         
     }
+    
+    public function CitasAtendidas()
+    {
+        $Fecha = now();
+        
+        $data['Citas'] = $this->CitaServicio_Model->ConsultarCitasPorDia($Fecha,ATENDIDA);
+        
+        if (empty($data['Citas']))
+        {
+            $data['errorMessage'] ='No existen citas para: '.mdate('%d',$Fecha).'/'.mdate('%M', $Fecha);
+            
+        }
+        $this->load->view('templates/headerMenu');
+        $this->load->view('Agenda/CitasAtendidas',$data);
+        
+       
+        
+    }
+    
 }
