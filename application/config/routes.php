@@ -65,3 +65,4 @@ $route['usuario/login'] = 'Usuario/login';
 $route['main/TableroPrincipal'] = 'Usuario/TableroPrincipal';
 
 //Nota Medica
+$route['NotaMedica/CrearNota'] = 'NotaMedica_Controller/CrearNotaRemision';
