@@ -72,7 +72,7 @@ class Agenda_Controler extends CI_Controller
     }
     
     /*
-     * Función que devuelve todas las citas con estatus de Agendadas
+     * Descripcion: Función que devuelve todas las citas del día actual
      */
     public function CitasDeHoy()
     {
@@ -93,7 +93,7 @@ class Agenda_Controler extends CI_Controller
     }
     
     /*
-     * Función para consultar todas las citas YA confirmadas de un servicio especifico
+     * escripcion: Función para consultar todas las citas YA confirmadas de un servicio especifico
      */
     public function CitasConfirmadasPorServicio($IdServicio)
     {
@@ -116,15 +116,9 @@ class Agenda_Controler extends CI_Controller
     }
     
     
-    public function CargarAgendaServicio($IdServicio){
-        $this->load->model('CitaServicio_Model');
-        $data ['Citas']= $this->CitaServicio_Model->ConsultarCitasPormes($IdServicio);
-        
-        } 
-    
-    
+       
     /*
-     * Funcion que Carga Vista para confirmar cita 
+     * Descripcion: Funcion que Carga Vista para confirmar cita 
      */
     public function ConfirmarCita($IdCita)
     {
@@ -168,7 +162,7 @@ class Agenda_Controler extends CI_Controller
                 $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
                 if (isset($Cita))
                 {
-                    $Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
+                    //$Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
                 
                     $PacienteUpdt = array(
                         'Nombre'=>$this->input->post('Nombre'),
@@ -179,19 +173,20 @@ class Agenda_Controler extends CI_Controller
                         'CP' => $this->input->post('CP'),
                         'ViveCon' => $this->input->post('ViveCon'),
                         'Escolaridad' => $this->input->post('Escolaridad'),
+                        'EstadoCivil' => $this->input->post('EstadoCivil'),
                         'NumCelular' => $this->input->post('Celular')
                         );
                 
-                    $this->Paciente_Model->ActualizarPaciente($Paciente->IdPaciente, $PacienteUpdt);
+                    $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
                 }
                 
                 //Confirmar Cita
-                $this->CitaServicio_Model->ConfirmarCita($IdCita);
+                $this->CitaServicio_Model->ActualizarEstatusCita($IdCita,CONFIRMADA);
             }
             if($action=='cancelar')
             {
                 //CancelarCita
-                $this->CitaServicio_Model->CancelarCita($IdCita);
+                $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, CANCELADA);
                 
             }
             $this->CitasDeHoy();
