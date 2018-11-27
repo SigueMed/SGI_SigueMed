@@ -94,7 +94,7 @@ class NotaMedica_Model extends CI_Model {
         
     }
     
-    public function CrearNuevaNotaMedica($IdCita, $DatosSomatometria, $IdUltimaNotaMedica = FALSE)
+    public function CrearNuevaNotaMedica($IdCita, $DatosSomatometria,$IdUsuario, $IdUltimaNotaMedica = FALSE)
     {
         //No tiene notas medias anteriores
         $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
@@ -109,7 +109,8 @@ class NotaMedica_Model extends CI_Model {
                 'PresionPaciente'=>$DatosSomatometria['PresionPaciente'],
                 'FrCardiacaPaciente'=>$DatosSomatometria['FrCardiacaPaciente'],
                 'FrRespiratoriaPaciente'=>$DatosSomatometria['FrRespiratoriaPaciente'],
-                'TemperaturaPaciente'=>$DatosSomatometria['TemperaturaPaciente']
+                'TemperaturaPaciente'=>$DatosSomatometria['TemperaturaPaciente'],
+                'IdUsuario'=>$IdUsuario
             );
             
         $this->db->insert('NotaMedica', $InsertArray);

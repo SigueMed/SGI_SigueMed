@@ -122,7 +122,8 @@ class NotaMedica_Controller extends Agenda_Controler {
             'TemperaturaPaciente'=> $this->input->post('Temperatura')
              );
             
-            $NuevaNotaMedica = $this->NotaMedica_Model->CrearNuevaNotaMedica($IdCita,$DatosSomatometria,$IdUltimaNota);
+            $IdUsuario =  $this->session->userdata('IdUsuario');
+            $NuevaNotaMedica = $this->NotaMedica_Model->CrearNuevaNotaMedica($IdCita,$DatosSomatometria,$IdUsuario,$IdUltimaNota);
             $this->CitaServicio_Model->AsignarNotaMedica($IdCita, $NuevaNotaMedica);
         }
         
