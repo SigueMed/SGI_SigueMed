@@ -51,9 +51,12 @@ class NotaMedica_Controller extends Agenda_Controler {
         $this->form_validation->set_rules('Temperatura', 'Temperatura', 'required');
         $this->form_validation->set_rules('FC', 'F/C', 'required');
         $this->form_validation->set_rules('FR', 'FR', 'required');
+        
+        
+        $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
         if ($this->form_validation->run() === FALSE)
         {
-            $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
+            
             if (isset($Cita))
             {
                 $Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
@@ -73,8 +76,25 @@ class NotaMedica_Controller extends Agenda_Controler {
         }
         else
         {
+            //Actualizar Paciente
+            $PacienteUpdt = array(
+                'Nombre'=>$this->input->post('Nombre'),
+                'Apellidos' => $this->input->post('Apellidos'),
+                'FechaNacimiento' => $this->input->post('FechaNacimiento'),
+                'Calle' => $this->input->post('Calle'),
+                'Colonia' => $this->input->post('Colonia'),
+                'CP' => $this->input->post('CP'),
+                'ViveCon' => $this->input->post('ViveCon'),
+                'Escolaridad' => $this->input->post('Escolaridad'),
+                'EstadoCivil' => $this->input->post('EstadoCivil'),
+                'NumCelular' => $this->input->post('Celular')
+                );
+                
+            $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
+            
+            //Crear Nota Medica 
             $this->CrearNuevaNotaMedica($IdCita);
-            $this->CitaServicio_Model->RegistrarCita($IdCita);
+            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, REGISTRADA);
             
             $this->CitasDeHoy();
         }
