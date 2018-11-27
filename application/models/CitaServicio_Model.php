@@ -23,6 +23,10 @@ class CitaServicio_Model extends CI_Model
         
     }
     
+    /*
+     * Descripcion: Consulta la citas de un dia especifico
+     * IdStatus: Si se indica, consultas las citas del día especifico con el estatus proporcionado
+     */
     public function ConsultarCitasPorDia($Fecha, $IdStatus=FALSE)
     {
         $this->load->helper("date");
@@ -62,6 +66,11 @@ class CitaServicio_Model extends CI_Model
         
     }
     
+    
+    /*
+     * Descripcion:Consulta TODAS las citas de un servicio del mes actual en adelante
+     * IdServicio: El ID del servicio del que se quieren obtener las citas
+     */
     public function ConsultarCitasPorServicio($IdServicio)
     {
         $this->load->helper("date");
@@ -95,7 +104,11 @@ class CitaServicio_Model extends CI_Model
     }
 
 
-public function ConsultarCitaPorId($IdCita)
+    /*
+     * Descripcion:Consultar una cita por ID
+     * IdCita: El ID de la cia que se quiere consultar
+     */
+    public function ConsultarCitaPorId($IdCita)
     {
          
         $this->db->select($this->table.'.*,DescripcionServicio');
@@ -110,7 +123,12 @@ public function ConsultarCitaPorId($IdCita)
         return $query->row();
         
     }
-     public function ConsultarCitaPorNotaMedica($IdNotaMedica)
+    
+    /*
+     * Descripcion: Consultar una cita por el Id de la Nota Medica asociada
+     * IdNotaMedica: Id de la nota medica de la que se quiere obtener la cita
+     */
+    public function ConsultarCitaPorNotaMedica($IdNotaMedica)
     {
          
         $this->db->select($this->table.'.*,DescripcionServicio');
@@ -126,33 +144,9 @@ public function ConsultarCitaPorId($IdCita)
         
     }
     
-    public function ConfirmarCita($IdCita)
-    {
-        $data = array('IdStatusCita' => CONFIRMADA);
-        $this->db->where('IdCitaServicio', $IdCita);
-       
-        return $this->db->update($this->table,$data);
-               
-    }
+
     
-    public function CancelarCita($IdCita)
-    {
-        $data = array('IdStatusCita'=>CANCELADA);
-        
-        $this->db->where('IdCitaServicio', $IdCita);
-       
-        return $this->db->update($this->table,$data);
-        
-    }
-    
-    public function RegistrarCita($IdCita)
-    {
-        $data = array('IdStatusCita'=>REGISTRADA);
-        
-        $this->db->where('IdCitaServicio', $IdCita);
-       
-        return $this->db->update($this->table,$data);
-    }
+   
 
     public function AsignarNotaMedica($IdCita,$IdNotaMedica)
     {
@@ -172,24 +166,8 @@ public function ConsultarCitaPorId($IdCita)
        
         return $this->db->update($this->table,$data);
     }
-    public function ConsultarCitasporMes($Fecha){
-        $this->load->helper("date");
-        
-        $dia = mdate('%d',$Fecha);
-        $mes = mdate('%m',$Fecha);
-        $anio = mdate('%Y',$Fecha);
-        
-        $this->db->select($this->table.'.*, DescripcionServicio, Nombre, Apellidos, DescripcionEstatusCita');
-        $this->db->from($this->table.',Servicio,Paciente, CatalogoEstatusCita');
-        // JOIN
-        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
-        $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
-        $this->db->where($this->table.'.IdStatusCita = CatalogoEstatusCita.IdStatusCita');
-        
-        $this->db->where('DiaCita', $dia);
-        $this->db->where('MesCita BETWEEN', $mes,'AND', $mes);
-        $this->db->where('AnioCita', $anio);
-    }
+    
+   
     
     public function updEvento($param)
     {
