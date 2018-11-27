@@ -34,7 +34,7 @@
 	$(document).ready(function() {
 		
                 //llama la funcion getEventos para mostrar los eventos de la bd en el calendario
-		$.post('<?php echo site_url();?>/ccalendar/getEventos',
+		$.post('<?php echo site_url();?>/Agenda_Controler/getEventos',
 			function(data){
 				alert(data);
 
