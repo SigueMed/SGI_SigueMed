@@ -54,4 +54,22 @@ class Paciente_Model extends CI_Model {
        
         return $this->db->update($this->table,$PacienteUpdt);
     }
+
+    //------------------
+    
+    public function agregarNuevoPaciente($param){
+            
+        $campos = array(
+            'Nombre' => $param['nombre'],
+            'Apellidos' => $param['apellido'],
+            'NumCelular' => $param['telefono'],
+        );
+        
+        $this->db->insert($this->table, $campos);
+        if ($this->db->affected_rows() == 1) {
+			return 1;
+		}else{
+			return 0;
+		}
+    }
 }

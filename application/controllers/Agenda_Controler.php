@@ -50,7 +50,7 @@ class Agenda_Controler extends CI_Controller
         echo $r;
     }
     
-     public function agregarEvento()
+    public function agregarEvento()
     {
          
         $dia = mdate('%d',$this->input->post('fecini'));
@@ -58,16 +58,18 @@ class Agenda_Controler extends CI_Controller
         $anio = mdate('%Y',$this->input->post('fecini'));
         $hora = mdate('%h:%i', $this->input->post('fecini'));
         
-        $param['idPaciente'] = $this->input->post('idPaciente');
+        $param['IdPaciente'] = $this->input->post('IdPaciente');
+        $param['IdServicio'] = $this->input->post('IdServicio');
         $param['DiaCita'] = $dia;
         $param['MesCita'] = $mes;
         $param['AnioCita'] = $anio;
-        $param['Hora'] = $hora;
+        $param['HoraCita'] = $hora;
+        $param['IdStatusCita'] = $this->input->post('IdStatusCita');
 //	$param['fecfin'] = $this->input->post('fecfin');
 //        $param['web'] = $this->input->post('web');
         
         
-        $r = $this->Mcalendar->agregarEvento($param);
+        $r = $this->CitaServicio_Model->agregarEvento($param);
         echo $r;
     }
     
@@ -215,5 +217,34 @@ class Agenda_Controler extends CI_Controller
        
         
     }
+
+    //------------------
+    
+    
+        //muestra los servicios en el dropdown
+        public function getServiciosClinica(){
+            $resultado = $this->CitaServicio_Model->getServiciosClinica();
+            echo json_encode($resultado);
+        }
+        
+        
+       //muestra el nombre del paciente aucomcompletenado el input (no usa modelo)
+       public function autocompleteNombre(){
+           $resultado = $this->db->get('paciente');
+           echo json_encode($resultado->result());
+       }
+       
+   
+       //agrega nuevo paciente si este no existe
+       public function agregarNuevoPaciente(){
+
+           $param['nombre'] = $this->input->post('nombre');
+           $param['apellido'] = $this->input->post('apellido');
+           $param['telefono'] = $this->input->post('telefono');
+           
+           
+           $r = $this->Paciente_Model->agregarNuevoPaciente($param);
+           echo $r;
+       }
     
 }

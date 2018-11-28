@@ -71,11 +71,9 @@ class CitaServicio_Model extends CI_Model
         $mes = mdate('%m',$Fecha);
         $anio = mdate('%Y',$Fecha);
         
-        
-        
         $this->db->select('IdCitaServicio as id, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, '
-                . 'CONCAT(anioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(HoraCita,"%H:%i:%s"), FALSE) as start');
-         $this->db->select('CONCAT(AnioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s"),FALSE) as end', FALSE);
+                . 'CONCAT(anioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(HoraCita,"%H:%i:%s")) as start');
+         $this->db->select('CONCAT(AnioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s")) as end', FALSE);
          $this->db->select('IdStatusCita');
         $this->db->from($this->table);
         // JOIN
@@ -216,24 +214,30 @@ public function ConsultarCitaPorId($IdCita)
     }
     public function agregarEvento($param){
         $campos = array(
-            'IdPaciente' => $param['idPaciente'],
-            'DiaCita' => $param['idPaciente'],
-            'MesCita' => $param['idPaciente'],
-            'AnioCita' => $param['idPaciente'],
-            'Hora' => $param['idPaciente']
+            'IdPaciente' => $param['IdPaciente'],
+            'IdServicio' => $param['IdServicio'],
+            'DiaCita' => $param['DiaCita'],
+            'MesCita' => $param['MesCita'],
+            'AnioCita' => $param['AnioCita'],
+            'HoraCita' => $param['HoraCita'],
+            'IdStatusCita' => $param['IdStatusCita']
            );
         
-        $this->db->insert('eventospruebas', $campos);
+        $this->db->insert('citaservicio', $campos);
         
         if ($this->db->affected_rows() == 1) {
 			return 1;
 		}else{
 			return 0;
 		}
-        
-        
     }
     
+    //------------------
     
-
+    //muestra los servicios en el dropdown
+    public function getServiciosClinica(){
+            $query = $this->db->get('servicio');
+            return $query->result();
+    }
+    
 }
