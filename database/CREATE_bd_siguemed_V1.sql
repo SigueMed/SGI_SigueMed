@@ -115,8 +115,28 @@ CREATE TABLE `citaservicio` (
   `IdStatusCita` int(11) NOT NULL,
   `IdNotaMedica` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `diagnosticonotamedica`
+--
 
+CREATE TABLE `diagnosticonotamedica` (
+  `IdNotaMedica` int(11) DEFAULT NULL,
+  `IdDiagnostico` int(11) DEFAULT NULL,
+  `ObservacionesDiagostico` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `catalogodiagnosticos`
+--
+
+CREATE TABLE `catalogodiagnosticos` (
+  `IdDiagnostico` int(11) NOT NULL,
+  `DescripcionDiagnostico` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -269,6 +289,35 @@ INSERT INTO `perfil` (`IdPerfil`, `DescripcionPerfil`) VALUES
 
 -- --------------------------------------------------------
 
+
+--
+-- Estructura de tabla para la tabla `productosnotamedica`
+--
+
+CREATE TABLE `productosnotamedica` (
+  `IdProducto` int(11) DEFAULT NULL,
+  `CantidadProductoNM` int(11) DEFAULT NULL,
+  `Descuento` int(11) DEFAULT NULL,
+  `IdNotaMedica` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `seguimientomedico`
+--
+
+CREATE TABLE `seguimientomedico` (
+  `SecuenciaSeguimiento` varchar(25) DEFAULT NULL,
+  `FechaSeguimiento` date DEFAULT NULL,
+  `EstadoSeguimiento` varchar(255) DEFAULT NULL,
+  `ObservacionesSeguimiento` varchar(255) DEFAULT NULL,
+  `IdNotaMedica` int(11) DEFAULT NULL,
+  `IdRespuestaSeguimiento` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `servicio`
 --
@@ -342,6 +391,13 @@ ALTER TABLE `catalogoproductos`
   ADD KEY `IdServicio` (`IdServicio`);
 
 --
+-- Indices de la tabla `catalogodiagnosticos`
+--
+ALTER TABLE `catalogodiagnosticos`
+  ADD PRIMARY KEY (`IdDiagnostico`);
+
+
+--
 -- Indices de la tabla `citaservicio`
 --
 ALTER TABLE `citaservicio`
@@ -352,10 +408,18 @@ ALTER TABLE `citaservicio`
   ADD KEY `IdNotaMedica` (`IdNotaMedica`);
 
 --
+-- Indices de la tabla `diagnosticonotamedica`
+--
+ALTER TABLE `diagnosticonotamedica`
+  ADD KEY `IdNotaMedica` (`IdNotaMedica`),
+  ADD KEY `IdDiagnostico` (`IdDiagnostico`);
+
+--
 -- Indices de la tabla `disponibilidadservicio`
 --
 ALTER TABLE `disponibilidadservicio`
   ADD PRIMARY KEY (`IdDisponiblidadServicio`);
+
 
 --
 -- Indices de la tabla `empleado`
@@ -400,6 +464,21 @@ ALTER TABLE `perfil`
   ADD PRIMARY KEY (`IdPerfil`);
 
 --
+-- Indices de la tabla `productosnotamedica`
+--
+ALTER TABLE `productosnotamedica`
+  ADD KEY `IdProducto` (`IdProducto`),
+  ADD KEY `IdNotaMedica` (`IdNotaMedica`);
+
+--
+-- Indices de la tabla `seguimientomedico`
+--
+ALTER TABLE `seguimientomedico`
+  ADD KEY `IdNotaMedica` (`IdNotaMedica`),
+  ADD KEY `IdRespuestaSeguimiento` (`IdRespuestaSeguimiento`);
+
+
+--
 -- Indices de la tabla `servicio`
 --
 ALTER TABLE `servicio`
@@ -428,6 +507,12 @@ ALTER TABLE `antecedentenotamedica`
 --
 ALTER TABLE `catalogoantecedentes`
   MODIFY `IdAntecedente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `catalogodiagnosticos`
+--
+ALTER TABLE `catalogodiagnosticos`
+  MODIFY `IdDiagnostico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `catalogoestatuscita`
@@ -480,6 +565,7 @@ ALTER TABLE `paciente`
   MODIFY `IdPaciente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+
 -- AUTO_INCREMENT de la tabla `perfil`
 --
 ALTER TABLE `perfil`
@@ -524,6 +610,13 @@ ALTER TABLE `citaservicio`
   ADD CONSTRAINT `citasservicio_ibfk_4` FOREIGN KEY (`IdNotaMedica`) REFERENCES `notamedica` (`IdNotaMedica`);
 
 --
+-- Filtros para la tabla `diagnosticonotamedica`
+--
+ALTER TABLE `diagnosticonotamedica`
+  ADD CONSTRAINT `diagnosticonotamedica_ibfk_1` FOREIGN KEY (`IdDiagnostico`) REFERENCES `catalogodiagnosticos` (`IdDiagnostico`),
+  ADD CONSTRAINT `diagnosticonotamedica_ibfk_2` FOREIGN KEY (`IdNotaMedica`) REFERENCES `notamedica` (`IdNotaMedica`);
+
+--
 -- Filtros para la tabla `empleado`
 --
 ALTER TABLE `empleado`
@@ -544,6 +637,12 @@ ALTER TABLE `notamedica`
   ADD CONSTRAINT `notamedica_ibfk_1` FOREIGN KEY (`IdPaciente`) REFERENCES `paciente` (`IdPaciente`),
   ADD CONSTRAINT `notamedica_ibfk_2` FOREIGN KEY (`IdServicio`) REFERENCES `servicio` (`IdServicio`);
   ADD CONSTRAINT `notamedica_ibfk_3` FOREIGN KEY (`IdUsuario`) REFERENCES `usuarios` (`IdUsuario`);
+
+-- Filtros para la tabla `productosnotamedica`
+--
+ALTER TABLE `productosnotamedica`
+  ADD CONSTRAINT `productosnotamedica_ibfk_1` FOREIGN KEY (`IdProducto`) REFERENCES `catalogoproductos` (`IdProducto`),
+  ADD CONSTRAINT `productosnotamedica_ibfk_2` FOREIGN KEY (`IdNotaMedica`) REFERENCES `notamedica` (`IdNotaMedica`);
 
 --
 -- Filtros para la tabla `usuarios`
