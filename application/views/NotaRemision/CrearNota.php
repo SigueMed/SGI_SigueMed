@@ -10,11 +10,17 @@ and open the template in the editor.
         <title>Nota de Remision</title>
     </head>
     <body>
-        <?php
-        
+    
+    <?php
+        if (isset($errorMessage)) {
+            echo "<div class='message'>";
+            echo $errorMessage;
+            echo "</div>";
+        }
     ?>
         
         <table>
+            
             <tr>
                 <th>Nombre</th>
                 <th>Apellidos</th>
@@ -28,18 +34,17 @@ and open the template in the editor.
                 <th>Presion</th>
                 <th>Frecuencia Cardiaca</th>
                 <th>Frecuencia Respiratoria</th>
+                <th>Descripcion de Servicio</th>
                 <th>Cantidad de Productos</th>
                 <th>Descuento</th>
+                
             </tr>
-            
-       
-        
+               
         <?php
         
             foreach($Nota as $Nota_Rem)
             {
                 echo "<tr>";
-                echo "<td>".$Nota_Rem['DescripcionServicio']."</td>";
                 echo "<td>".$Nota_Rem['Nombre']."</td>";
                 echo "<td>".$Nota_Rem['Apellidos']."</td>";
                 echo "<td>".date($Nota_Rem['FechaNacimiento'])."</td>";
@@ -52,8 +57,10 @@ and open the template in the editor.
                 echo "<td>".$Nota_Rem['PresionPaciente']."</td>";
                 echo "<td>".$Nota_Rem['FrCardiacaPaciente']."</td>";
                 echo "<td>".$Nota_Rem['FrRespiratoriaPaciente']."</td>";
+                echo "<td>".$Nota_Rem['DescripcionServicio']."</td>";
                 echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
                 echo "<td>".$Nota_Rem['Descuento']."</td>";
+                
                 echo "</tr>";
                 
             }
