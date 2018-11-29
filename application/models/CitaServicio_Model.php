@@ -190,6 +190,7 @@ class CitaServicio_Model extends CI_Model
                 return 0;
         }
     }
+    //AUTOR 'Carlos Esquivel' -- Guarda nuevas citas
     public function agregarEvento($param){
         $campos = array(
             'IdPaciente' => $param['IdPaciente'],
@@ -201,7 +202,7 @@ class CitaServicio_Model extends CI_Model
             'IdStatusCita' => $param['IdStatusCita']
            );
         
-        $this->db->insert('citaservicio', $campos);
+        $this->db->insert($this->table, $campos);
         
         if ($this->db->affected_rows() == 1) {
 			return 1;
@@ -210,12 +211,5 @@ class CitaServicio_Model extends CI_Model
 		}
     }
     
-    //------------------
-    
-    //muestra los servicios en el dropdown
-    public function getServiciosClinica(){
-            $query = $this->db->get('servicio');
-            return $query->result();
-    }
     
 }
