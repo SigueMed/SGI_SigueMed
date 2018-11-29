@@ -56,7 +56,7 @@ class Paciente_Model extends CI_Model {
     }
 
     //------------------
-    
+    //AUTOR 'Carlos Esquivel' -- Guarda nuevo paciente
     public function agregarNuevoPaciente($param){
             
         $campos = array(
