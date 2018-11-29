@@ -145,11 +145,11 @@ class NotaMedica_Model extends CI_Model {
     }
                     
     public function CrearNotaDeRemision(){
-        $this->db->select($this->table.'.*, Nombre, Apellidos, FechaNacimiento, Direccion, FechaNotaMedica, PesoPaciente, TallaPaciente'
-                . ', TemperaturaPaciente, IMCPaciente, PresionPaciente, FrCardiacaPaciente, FrRespiratoriaPaciente, CantidadProductoNM'
-                . ', Descuento');
-        $this->db->from($this->table.', Paciente, ProductosNotaMedica');
-        
+        $this->db->select($this->table.'.*, Nombre, Apellidos, FechaNacimiento,'
+                . ' FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
+                . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente, FrRespiratoriaPaciente,'
+                . 'CantidadProductoNM, Descuento');
+        $this->db->from($this->table.' NotaMedica, .Paciente, ProductosNotaMedica');
         $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
         $this->db->where($this->table.'.IdProducto = ProductosNotaMedica.IdProducto');
