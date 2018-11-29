@@ -19,6 +19,7 @@ class Agenda_Controler extends CI_Controller
         
         $this->load->model('CitaServicio_Model');
         $this->load->model('Paciente_Model');
+        $this->load->model('Servicio_Model');
         $this->load->helper('date');
         
         
@@ -30,10 +31,12 @@ class Agenda_Controler extends CI_Controller
         
     public function getEventos()
     {
+        //f($this->input->post('servicio_id'))
+        $IdServicio =$this->input->post('IdServicio');
             
         $this->load->Model('CitaServicio_Model');
 
-        $r= $this->CitaServicio_Model->ConsultarCitasPorServicio(1);
+        $r= $this->CitaServicio_Model->ConsultarCitasPorServicio($IdServicio);
             //$r = $this->Mcalendar->getEventos();
             echo json_encode($r);
     }
@@ -50,25 +53,26 @@ class Agenda_Controler extends CI_Controller
         echo $r;
     }
     
+    //Autor: Carlos Esquivel
     public function agregarEvento()
     {
-         
-        $dia = mdate('%d',$this->input->post('fecini'));
-        $mes = mdate('%m',$this->input->post('fecini'));
-        $anio = mdate('%Y',$this->input->post('fecini'));
-        $hora = mdate('%h:%i', $this->input->post('fecini'));
+
+//        $dia = mdate('%d',$this->input->post('fecini'));
+//        $mes = mdate('%m',$this->input->post('fecini'));
+//        $anio = mdate('%Y',$this->input->post('fecini'));
+//        $hora = mdate('%h:%i', $this->input->post('fecini'));
         
         $param['IdPaciente'] = $this->input->post('IdPaciente');
         $param['IdServicio'] = $this->input->post('IdServicio');
-        $param['DiaCita'] = $dia;
-        $param['MesCita'] = $mes;
-        $param['AnioCita'] = $anio;
-        $param['HoraCita'] = $hora;
+        $param['DiaCita'] = $this->input->post('DiaCita');
+        $param['MesCita'] = $this->input->post('MesCita');
+        $param['AnioCita'] = $this->input->post('AnioCita');
+        $param['HoraCita'] = $this->input->post('HoraCita');
         $param['IdStatusCita'] = $this->input->post('IdStatusCita');
 //	$param['fecfin'] = $this->input->post('fecfin');
 //        $param['web'] = $this->input->post('web');
-        
-        
+
+
         $r = $this->CitaServicio_Model->agregarEvento($param);
         echo $r;
     }
@@ -95,7 +99,7 @@ class Agenda_Controler extends CI_Controller
     }
     
     /*
-     * escripcion: Función para consultar todas las citas YA confirmadas de un servicio especifico
+     * Descripcion: Función para consultar todas las citas YA confirmadas de un servicio especifico
      */
     public function CitasConfirmadasPorServicio($IdServicio)
     {
@@ -218,21 +222,21 @@ class Agenda_Controler extends CI_Controller
     //------------------
     
     
-        //muestra los servicios en el dropdown
+        //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
         public function getServiciosClinica(){
-            $resultado = $this->CitaServicio_Model->getServiciosClinica();
+            $resultado = $this->Servicio_Model->getServiciosClinica();
             echo json_encode($resultado);
         }
         
         
-       //muestra el nombre del paciente aucomcompletenado el input (no usa modelo)
+       //AUTOR 'Carlos Esquivel' -- muestra el nombre del paciente aucomcompletenado el input (no usa modelo)
        public function autocompleteNombre(){
            $resultado = $this->db->get('paciente');
            echo json_encode($resultado->result());
        }
        
    
-       //agrega nuevo paciente si este no existe
+       //AUTOR 'Carlos Esquivel' -- agrega nuevo paciente si este no existe
        public function agregarNuevoPaciente(){
 
            $param['nombre'] = $this->input->post('nombre');
