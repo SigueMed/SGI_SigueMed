@@ -34,11 +34,28 @@
 <script>
 	$(document).ready(function() {
                 //llama la funcion getEventos para mostrar los eventos de la bd en el calendario
-		$.post('<?php echo site_url();?>/Agenda_Controler/getEventos',
-			function(data){
-				alert(data);
+                
+                 ////muestra los servicios en el dropdown
+                $.post("<?php echo site_url();?>/agenda_controler/getServiciosClinica",
 
-				$('#calendar').fullCalendar({
+                    function(data){
+                        var servi = JSON.parse(data);
+                        var selected = true;
+                        $.each(servi,function(i,item){
+                            if (selected)
+                            {
+                             $('#getServicio').append('<option selected="selected" value="'+item.IdServicio+'">'+item.DescripcionServicio+'</option>'); 
+                             selected = false;
+                            }
+                            else
+                            {
+                              $('#getServicio').append('<option value="'+item.IdServicio+'">'+item.DescripcionServicio+'</option>');  
+                            }
+                        });
+                        
+                });
+                
+                $('#calendar').fullCalendar({
 					header: {
 						left: 'prev,next today',
 						center: 'title',
@@ -50,8 +67,17 @@
 					eventLimit: true, // allow "more" link when too many events
 					editable: true,
                                         //llama a data de la funcion getEvetos
-					events: $.parseJSON(data),
-                                        
+					events: {
+                                                url:"<?php echo site_url();?>/Agenda_Controler/getEventos",
+                                                type: 'POST',
+                                                data: {
+                                                    IdServicio: 1// $('#getServicio').val()
+                                                    }
+                                                },  
+                                        defaultView:'agendaWeek',
+                                       
+                                                        ////$.parseJSON(data),
+                                        //alert('prueba');
                                         //eventDrop es para poder guardar la fecha al moverla de posicion
 					eventDrop: function(event, delta, revertFunc){
 						var id = event.id;
@@ -171,8 +197,9 @@
                                     }
 					
 				});
+                                
 			});
-	});
+
         
 </script>
 
@@ -257,7 +284,7 @@
 
 	      <div class="modal-body">
 	            <!-- form start -->
-	            <input type="hidden" id="idEvento">
+	            <input id="idEvento">
                     <input  type="hidden" id="txtidStatus" class="form-control" value="1" readonly="readonly"/>
                     <!--<input type="hidden" id="idPaciente">-->
                     
@@ -327,9 +354,9 @@
                     <div class="form-row">
 	                <div class="form-group col-md-10">
 	                  <label>Nombre:</label>
-                            <input type="text" class="form-control" id="txtNombrePaciente">
+                          <input type="text" class="form-control" id="txtNombrePaciente" required="required">
                           <label>Apellidos:</label>
-                            <input type="text" class="form-control" id="txtApellidosPaciente">
+                            <input type="text" class="form-control" id="txtApellidosPaciente" required="required">
                           
 	               </div>
                         <div class="form-group col-md-2">
@@ -339,7 +366,7 @@
                     </div>
                     <div class="form-group col-md-5">
 	                  <label>Telefono</label>
-                            <input type="text" class="form-control" id="txtTelefonoPaciente">
+                            <input type="text" class="form-control" id="txtTelefonoPaciente" required="required">
                     </div>
               </div><br>
 	      <div class="modal-footer"></div>
@@ -387,19 +414,25 @@
     
     
     
-    ////muestra los servicios en el dropdown
-    $.post("<?php echo site_url();?>/agenda_controler/getServiciosClinica",
-   
-        function(data){
-            var servi = JSON.parse(data);
-            $.each(servi,function(i,item){
-               $('#getServicio').append('<option value="'+item.IdServicio+'">'+item.DescripcionServicio+'</option>'); 
-            });
-    });
-   
+      
     //id en input del idServicio
     function myFuncion(e) {
-    document.getElementById("txtidServicio").value = e.target.value
+    document.getElementById("txtidServicio").value = e.target.value;
+    //alert("Tu seleccionaste el id: " + e.target.value);
+   
+
+                    var events ={
+                                url:"<?php echo site_url();?>/Agenda_Controler/getEventos",
+                                type: 'POST',
+                                data: {
+                                    IdServicio:e.target.value
+                                    }
+                                };
+
+                    $('#calendar').fullCalendar('removeEventSource', events);
+                    $('#calendar').fullCalendar('addEventSource', events);
+                    $('#calendar').fullCalendar('refetchEvents');
+                
     }
     
     //limpiar formulario en la ventana modal
@@ -443,8 +476,11 @@
                 var DiaCita = $('#txtDia').val();
                 var MesCita = $('#txtMes').val();
                 var AnioCita = $('#txtAnio').val();
-                var HoraCita = $('#txtHora').val;
+                var HoraCita = $('#txtHora').val();
                 var IdStatusCita = $('#txtidStatus').val();
+                
+                
+                
                 
 		$.post("<?php echo site_url();?>/Agenda_Controler/agregarEvento",
 		{
