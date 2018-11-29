@@ -42,6 +42,12 @@ and open the template in the editor.
                
         <?php
         
+                    if (!$this->session->has_userdata('logged_in'))
+            {
+               
+                redirect(base_url());
+            }
+        
             foreach($Nota as $Nota_Rem)
             {
                 echo "<tr>";
@@ -59,8 +65,7 @@ and open the template in the editor.
                 echo "<td>".$Nota_Rem['FrRespiratoriaPaciente']."</td>";
                 echo "<td>".$Nota_Rem['DescripcionServicio']."</td>";
                 echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
-                echo "<td>".$Nota_Rem['Descuento']."</td>";
-                
+                echo "<td>".$Nota_Rem['Descuento']."</td>"; 
                 echo "</tr>";
                 
             }
