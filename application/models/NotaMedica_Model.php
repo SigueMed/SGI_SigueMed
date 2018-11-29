@@ -149,10 +149,10 @@ class NotaMedica_Model extends CI_Model {
                 . ' FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
                 . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente, FrRespiratoriaPaciente,'
                 . 'CantidadProductoNM, Descuento');
-        $this->db->from($this->table.' NotaMedica, .Paciente, ProductosNotaMedica');
+        $this->db->from($this->table.' , Paciente, ProductosNotaMedica');
         $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
-        $this->db->where($this->table.'.IdProducto = ProductosNotaMedica.IdProducto');
+        //$this->db->where($this->table.'.IdProducto = ProductosNotaMedica.IdProducto');
         
         $query = $this->db->get();
         
