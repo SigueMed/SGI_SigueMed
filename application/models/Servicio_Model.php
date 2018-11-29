@@ -33,4 +33,11 @@ class Servicio_Model extends CI_Model {
         
     }
     //put your code here
+
+    //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
+    public function getServiciosClinica(){
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
