@@ -154,10 +154,10 @@ class NotaMedica_Model extends CI_Model {
         
         $this->db->join('Paciente','Paciente.IdPaciente='.$this->table.'.IdPaciente');
         $this->db->join('ProductosNotaMedica','ProductosNotaMedica.IdNotaMedica='.$this->table.'.IdNotaMedica');
-        
+        $this->db->where($this->table.'.IdNotaMedica = ProductosNotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
-        //$this->db->where($this->table.'.IdProducto = ProductosNotaMedica.IdProducto');
+        
         
         $query = $this->db->get();
         
