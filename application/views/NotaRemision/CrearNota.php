@@ -23,7 +23,6 @@ and open the template in the editor.
             
             <tr>
                 <th>Nombre</th>
-                <th>Apellidos</th>
                 <th>Fecha de Nacimiento</th>
                 <th>Direccion</th>
                 <th>Fecha de NotaMedica</th>
@@ -37,22 +36,21 @@ and open the template in the editor.
                 <th>Descripcion de Servicio</th>
                 <th>Cantidad de Productos</th>
                 <th>Descuento</th>
-                
+            
             </tr>
                
         <?php
         
-                    if (!$this->session->has_userdata('logged_in'))
+                            if (!$this->session->has_userdata('logged_in'))
             {
                
                 redirect(base_url());
             }
-        
+            
             foreach($Nota as $Nota_Rem)
             {
                 echo "<tr>";
-                echo "<td>".$Nota_Rem['Nombre']."</td>";
-                echo "<td>".$Nota_Rem['Apellidos']."</td>";
+                echo "<td>".$Nota_Rem['Nombre']." ".$Nota_Rem['Apellidos']."</td>";
                 echo "<td>".date($Nota_Rem['FechaNacimiento'])."</td>";
                 echo "<td>".$Nota_Rem['Direccion']."</td>";
                 echo "<td>".date($Nota_Rem['FechaNotaMedica'])."</td>";
@@ -65,7 +63,8 @@ and open the template in the editor.
                 echo "<td>".$Nota_Rem['FrRespiratoriaPaciente']."</td>";
                 echo "<td>".$Nota_Rem['DescripcionServicio']."</td>";
                 echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
-                echo "<td>".$Nota_Rem['Descuento']."</td>"; 
+                echo "<td>".$Nota_Rem['Descuento']."</td>";
+                echo "<td><a href=".site_url('NotaRemision/CrearNota/'.$Nota_Rem['IdCitaServicio']).">Crear</td>";
                 echo "</tr>";
                 
             }
