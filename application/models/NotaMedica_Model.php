@@ -27,6 +27,7 @@ class NotaMedica_Model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->table = "NotaMedica";
+        $this->tabla = "productosnotamedica";
         $this->load->database();
         
         $this->load->model('CitaServicio_Model');
@@ -161,12 +162,15 @@ class NotaMedica_Model extends CI_Model {
         
         $this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia,'
                 . 'FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
-                . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente,FrRespiratoriaPaciente'
-                . '');
+                . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente,FrRespiratoriaPaciente, DescripcionProducto'
+                . ',CantidadProductoNM, Descuento');
         $this->db->from($this->table);
-        $this->db->join('Paciente','Paciente.IdPaciente='.$this->table.'.IdPaciente');
+        $this->db->join('Paciente','Paciente.IdPaciente ='.$this->table.'.IdPaciente');
+        $this->db->join('ProductosNotaMedica','ProductosNotaMedica.IdNotaMedica='.$this->table.'.IdNotaMedica');
+        $this->db->join('catalogoproductos','catalogoproductos.Idproducto ='.$this->tabla.'.IdProducto');
         $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
+        
         
         $query = $this->db->get();
         

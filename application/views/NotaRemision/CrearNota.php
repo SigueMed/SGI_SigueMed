@@ -32,10 +32,9 @@ and open the template in the editor.
                 <th>Presion</th>
                 <th>Frecuencia Cardiaca</th>
                 <th>Frecuencia Respiratoria</th>
-                <!--<th>Descripcion de Servicio</th>
+                <th>Descripcion de Servicio</th>
                 <th>Cantidad de Productos</th>
                 <th>Descuento</th>
-                -->
                 <td> <a href = "/sgi_siguemed/index.php/Agenda/CitasAtendidas"  >Volver</td>
                 
             </tr>
@@ -56,9 +55,9 @@ and open the template in the editor.
                 echo "<td>".$Nota_Rem['PresionPaciente']."</td>";
                 echo "<td>".$Nota_Rem['FrCardiacaPaciente']."</td>";
                 echo "<td>".$Nota_Rem['FrRespiratoriaPaciente']."</td>";
-                //echo "<td>".$Nota_Rem['DescripcionServicio']."</td>";
-                //echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
-                //echo "<td>".$Nota_Rem['Descuento']."</td>";
+                echo "<td>".$Nota_Rem['DescripcionProducto']."</td>";
+                echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
+                echo "<td>".$Nota_Rem['Descuento']."</td>";
                 echo "<td><a href=".site_url('NotaRemision/CrearNota/').">Crear</td>";
                 echo "</tr>";
              
