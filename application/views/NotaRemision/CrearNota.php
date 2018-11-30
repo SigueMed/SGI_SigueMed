@@ -20,7 +20,6 @@ and open the template in the editor.
     ?>
         
         <table>
-            
             <tr>
                 <th>Nombre</th>
                 <th>Fecha de Nacimiento</th>
@@ -36,16 +35,11 @@ and open the template in the editor.
                 <th>Descripcion de Servicio</th>
                 <th>Cantidad de Productos</th>
                 <th>Descuento</th>
-            
+                <td> <a href = "/sgi_siguemed/index.php/Agenda/CitasAtendidas"  >Volver</td>
+                
             </tr>
                
         <?php
-        
-                            if (!$this->session->has_userdata('logged_in'))
-            {
-               
-                redirect(base_url());
-            }
             
             foreach($Nota as $Nota_Rem)
             {
