@@ -215,17 +215,7 @@ class NotaMedica_Controller extends Agenda_Controler {
         }
         
     }
-    public function CrearNotaRemision(){
-        $this->load->model('NotaMedica_Model');
-        $data ['Nota'] = $this->NotaMedica_Model->CrearNotaDeRemision();
-        $this->form_validation->set_rules('FR', 'FR', 'required');
-        
-        if ($this->form_validation->run() === FALSE)
-        {
-            $this->load->view('NotaRemision/CrearNota', $data); 
-        }
-        
-    }   
+  
    
 }
     

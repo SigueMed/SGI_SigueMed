@@ -58,7 +58,7 @@ and open the template in the editor.
                 echo "<td>".$Nota_Rem['DescripcionProducto']."</td>";
                 echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
                 echo "<td>".$Nota_Rem['Descuento']."</td>";
-                echo "<td><a href=".site_url('NotaRemision/CrearNota/').">Crear</td>";
+                echo "<td><a href=".site_url('/sgi_siguemed/index.php/Agenda/CitasAtendidas').">Crear</td>";
                 echo "</tr>";
              
                 

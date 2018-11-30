@@ -64,5 +64,5 @@ $route['NotaMedica/ElaborarNota/(.+)'] = 'NotaMedica_Controller/ElaborarNotaMedi
 $route['usuario/login'] = 'Usuario/login';
 $route['main/TableroPrincipal'] = 'Usuario/TableroPrincipal';
 
-//Nota Medica
-$route['NotaRemision/CrearNota/(.+)'] = 'NotaMedica_Controller/CrearNotaRemision/$1';
+//Nota Remision
+$route['NotaRemision/CrearNota/(.+)'] = 'NotaRemision_Controller/CrearNotaRemision/$1';
