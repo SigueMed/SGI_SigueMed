@@ -41,7 +41,7 @@ class NotaRemision_Model extends CI_Model {
         
     }
     
-     public function CrearNotaDeRemision(){
+     /*public function CrearNotaDeRemision(){
        
       /*  $this->db->select($this->table.'.*, Nombre, Apellidos, FechaNacimiento,'
                 . ' FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
@@ -56,7 +56,7 @@ class NotaRemision_Model extends CI_Model {
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
         */
         
-        $this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia,'
+       /* $this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia,'
                 . 'FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
                 . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente,FrRespiratoriaPaciente, DescripcionProducto'
                 . ',CantidadProductoNM, Descuento');
@@ -71,5 +71,5 @@ class NotaRemision_Model extends CI_Model {
         $query = $this->db->get();
         
         return $query->result_array();
-    }
+    }*/
 }

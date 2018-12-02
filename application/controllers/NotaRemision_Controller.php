@@ -18,6 +18,7 @@ class NotaRemision_Controller extends CI_Controller {
         $this->load->model('NotaMedica_Model');
         $this->load->model('Paciente_Model');
         $this->load->model('ProductosNotaMedica_Model');
+        $this->load->model('NotaRemision_Model');
         
     }
     
