@@ -20,8 +20,11 @@ and open the template in the editor.
     ?>
         <div>
             <label>Nombre</label>
-            <label>Fecha de Nacimiento</label>
+            <input type="text">
+          <label>Fecha de Nacimiento</label>
+            <input type="text">
             <label>Direccion</label>
+            <input type="text">
         </div>
         <div>
             <table>
@@ -35,16 +38,10 @@ and open the template in the editor.
                     <th>Presion</th>
                     <th>Frecuencia Cardiaca</th>
                     <th>Frecuencia Respiratoria</th>
-                    <th>Descripcion de Servicio</th>
-                    <th>Cantidad de Productos</th>
-                    <th>Descuento</th>
-                    <td> <a href = "/sgi_siguemed/index.php/Agenda/CitasAtendidas"  >Volver</td>
-                
                 </tr>
-                
-            <?php
+                <?php
             
-              /*  foreach($Nota as $Nota_Rem)
+                foreach($Nota as $Nota_Rem)
                 {
                     echo "<tr>";
                     //echo "<td>".$Nota_Rem['Nombre']." ".$Nota_Rem['Apellidos']."</td>";
@@ -58,6 +55,34 @@ and open the template in the editor.
                     echo "<td>".$Nota_Rem['PresionPaciente']."</td>";
                     echo "<td>".$Nota_Rem['FrCardiacaPaciente']."</td>";
                     echo "<td>".$Nota_Rem['FrRespiratoriaPaciente']."</td>";
+                    echo "</tr>";
+             
+                
+                }
+            ?>
+              </table>
+            
+        </div>
+        <div>
+            <table>
+                <tr>
+              
+                    <th>Descripcion de Servicio</th>
+                    <th>Cantidad de Productos</th>
+                    <th>Descuento</th>
+                  <!-- <td> <a href = "/sgi_siguemed/index.php/Agenda/CitasAtendidas"  >Volver</td>
+                  --->
+                </tr>
+                
+            <?php
+            
+                foreach($Nota as $Nota_Rem)
+                {
+                    echo "<tr>";
+                    //echo "<td>".$Nota_Rem['Nombre']." ".$Nota_Rem['Apellidos']."</td>";
+                    //echo "<td>".date($Nota_Rem['FechaNacimiento'])."</td>";
+                    //echo "<td>".$Nota_Rem['Calle']." ".$Nota_Rem['Colonia']."</td>";
+                  
                     echo "<td>".$Nota_Rem['DescripcionProducto']."</td>";
                     echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
                     echo "<td>".$Nota_Rem['Descuento']."</td>";
@@ -65,7 +90,7 @@ and open the template in the editor.
                     echo "</tr>";
              
                 
-                }*/
+                }
             ?>
             </table>
         </div>

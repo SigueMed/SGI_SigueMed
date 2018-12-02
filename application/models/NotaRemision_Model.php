@@ -19,13 +19,15 @@ class NotaRemision_Model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->table = "NotaRemision";
-        $this->tproductosnm = "productosnotamedica";
+        $this->tabla = "productosnotamedica";
         $this->tpaciente = "pasiente";
         
         $this->load->database();
         
         $this->load->model('NotaMedica_Model');
+        $this->load->model('NotaRemision_Model');
         $this->load->model('ProductosNotaMedica_Model');
+        
         $this->load->model('Paciente_Model');
         $this->load->helper('date');
         $this->load->helper('array');
@@ -41,9 +43,9 @@ class NotaRemision_Model extends CI_Model {
         
     }
     
-     /*public function CrearNotaDeRemision(){
+     public function CrearNotaDeRemision($idNotaMedica){
        
-      /*  $this->db->select($this->table.'.*, Nombre, Apellidos, FechaNacimiento,'
+      /* $this->db->select($this->table.'.*, Nombre, Apellidos, FechaNacimiento,'
                 . ' FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
                 . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente, FrRespiratoriaPaciente,'
                 . 'CantidadProductoNM, Descuento');
@@ -56,7 +58,7 @@ class NotaRemision_Model extends CI_Model {
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
         */
         
-       /* $this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia,'
+        /*$this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia,'
                 . 'FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
                 . 'IMCPaciente, PresionPaciente, FrCardiacaPaciente,FrRespiratoriaPaciente, DescripcionProducto'
                 . ',CantidadProductoNM, Descuento');
@@ -64,12 +66,12 @@ class NotaRemision_Model extends CI_Model {
         $this->db->join('Paciente','Paciente.IdPaciente ='.$this->table.'.IdPaciente');
         $this->db->join('ProductosNotaMedica','ProductosNotaMedica.IdNotaMedica='.$this->table.'.IdNotaMedica');
         $this->db->join('catalogoproductos','catalogoproductos.Idproducto ='.$this->tabla.'.IdProducto');
-        $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica &&');
+        $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
         
         
         $query = $this->db->get();
         
-        return $query->result_array();
-    }*/
+        return $query->result_array();*/
+    }
 }
