@@ -50,6 +50,8 @@
                             else
                             {
                               $('#getServicio').append('<option value="'+item.IdServicio+'">'+item.DescripcionServicio+'</option>');  
+                              
+                                document.getElementById("txtidServicio").value = 1;
                             }
                         });
                         
@@ -78,12 +80,12 @@
                                        
                                                         ////$.parseJSON(data),
                                         //alert('prueba');
-                                        //eventDrop es para poder guardar la fecha al moverla de posicion
+                                        //eventDrop es para poder guardar la fechaHr al moverla de posicion
 					eventDrop: function(event, delta, revertFunc){
 						var id = event.id;
 						var fi = event.start.format();
 						var ff = event.end.format();
-                                                alert(event.start.format());
+                                                //alert(event.start.format());
 						if (!confirm("Esta seguro de mover la fecha del evento?")) {
 							revertFunc();
 						}else{
@@ -103,14 +105,14 @@
 						}
 					},
                                             
-                                        //eventResize guada la fecha al agregar o quitar dias del evento.
+                                        //eventResize guada la fechaHr al agregar o quitar dias del evento.
 					eventResize: function(event, delta, revertFunc) {
                                                 var id = event.id;
 						var fi = event.start.format();
 						var ff = event.end.format();
 
-						if (!confirm("Esta seguro de cambiar la fecha?")) {
-							revertFunc();//reverFunct regresa a la fecha si se cancela el cambio
+						if (!confirm("Esta seguro de cambiar la fechaHr?")) {
+							revertFunc();//reverFunct regresa a la fechaHr si se cancela el cambio
 						}else{
 							$.post("<?php echo base_url();?>ccalendar/updEvento",
 							{
@@ -136,7 +138,9 @@
 
 				    	// alert(event.title);
 				    	$('#idEvento').val(event.id);
-                                        $('#idPaciente').val(event.id);
+                                        $('#idPaciente').val(event.idpac);
+                                        
+                                        
 				    	$('#mtitulo').html(event.title);
 				    	$('#txtPaciente').val(event.descripcion);
                                         $('#txtDia').val(event.start.format('DD'));
@@ -164,14 +168,14 @@
 								return false;
 							}else{
 								var id = event.id;
-								$.post("<?php echo base_url();?>ccalendar/deleteEvento",
+								$.post("<?php echo site_url();?>/Agenda_Controler/deleteEvento",
 								{
 									id:id
 								},
 								function(data){
-									alert(data);
+									//alert(data);
 									if (data == 1) {
-										$('#calendar').fullCalendar( 'removeEvents', event.id);
+										//$('#calendar').fullCalendar( 'removeEvents', event.id);
 										alert('Se elimino correctamente');
 									}else{
 										alert('ERROR.');
@@ -180,9 +184,21 @@
 					        }
 				        });
 				    },
-                                    dayClick: function(date,jsEvent,view){
+                                    dayClick: function(date, allDay, jsEvent, view){
                                     
-                                    //activar y desactivar botones
+                                    var myDate  = new Date();
+                                    
+                                    myDate.setDate(myDate.getDate()-1);
+                                    if (date < myDate) 
+                                    {
+                                       
+                                       alert("No puedes agendar esta fecha!");
+                                       
+                                       
+                                    } 
+                                    else {
+                                       
+                                   //activar y desactivar botones
                                     $('#btnGuardarCita').prop("disabled",false);
                                     $('#btnModificar').prop("disabled",true);
                                     $('#btnEliminar').prop("disabled",true);
@@ -193,9 +209,11 @@
                                     $('#txtMes').val(date.format("MM"));
                                     $('#txtAnio').val(date.format("YYYY"));
                                     
+                                    
                                     $('#modalEvento').modal();
+                                
                                     }
-					
+                                    }
 				});
                                 
 			});
@@ -219,7 +237,11 @@
         .fc th{
                 padding: 10px 0px;
                 vertical-align: middle;
-                background: #F2F2F2;
+                background: #C0C0C0;
+            }
+            
+            .fc-past{
+                background-color: #F08080;
             }
             
         #dropdownServicio{
@@ -284,13 +306,13 @@
 
 	      <div class="modal-body">
 	            <!-- form start -->
-	            <input id="idEvento">
+                    <input type="hidden" id="idEvento">
                     <input  type="hidden" id="txtidStatus" class="form-control" value="1" readonly="readonly"/>
                     <!--<input type="hidden" id="idPaciente">-->
                     
                     <div class="form-group">
-                        <label>IdServicio</label>
-                        <input type="text" class="form-control" id="txtidServicio"  readonly="readonly"/>
+                        
+                        <input type="hidden" class="form-control" id="txtidServicio"  readonly="readonly"/>
                         <label>IdPaciente</label>
                         <input type="text" class="form-control" id="idPaciente" readonly="readonly"/>
                     </div>
@@ -298,7 +320,7 @@
                     <div class="form-row">
 	                <div class="form-group col-md-10">
 	                  <label>Paciente</label>
-                          <input type="text" class="inputNombrePaciente" id="txtPaciente" required="required"/>
+                          <input type="text" class="inputNombrePaciente" id="txtPaciente" required="required" />
 	               </div>
                         <div class="form-group col-md-2">
                             <label>-</label>
@@ -323,8 +345,8 @@
                         <div class="form-group col-md-4">
 	                  <label>Hora</label>
 
-                            <div class="input-group clockpicker" data-autoclose="true">
-                                <input type="text" class="form-control" id="txtHora"/>
+                          <div class="input-group clockpicker" data-autoclose="true">
+                                <input  class="form-control" id="txtHora"/>
                             </div>
 	                </div>
                         </div>
@@ -348,39 +370,46 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="mtitulo">Registrar Nuevo Paciente</h4>
 	      </div>
-
+                
 	      <div class="modal-body">
 	            <!-- form start -->
+                    
                     <div class="form-row">
 	                <div class="form-group col-md-10">
 	                  <label>Nombre:</label>
-                          <input type="text" class="form-control" id="txtNombrePaciente" required="required">
+                          <input type="text" class="form-control" id="txtNombrePaciente" name="NombrePaciente">
                           <label>Apellidos:</label>
-                            <input type="text" class="form-control" id="txtApellidosPaciente" required="required">
+                          <input type="text" class="form-control" id="txtApellidosPaciente" name="ApellidosPaciente">
                           
-	               </div>
-                        <div class="form-group col-md-2">
-                            <label>-</label>
-                            <button type="button" class="btn btn-success" id="btnGuardarPaciente">Guardar</button>
                         </div>
+                        
                     </div>
                     <div class="form-group col-md-5">
 	                  <label>Telefono</label>
-                            <input type="text" class="form-control" id="txtTelefonoPaciente" required="required">
+                          <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente">
                     </div>
+                    <div class="form-group col-md-2">
+                            <label>-</label>
+                            
+                            <input type="submit" name="submitPaciente" value="Enviar" class="btn btn-success" id="btnGuardarPaciente">
+                            
+                    </div>
+                   
               </div><br>
 	      <div class="modal-footer"></div>
 	    </div>
 	  </div>
 	</div>
         
-        
-        
-        
+
 
 <script type="text/javascript">
     //llamando a la clase clockpicker del reloj
-    $('.clockpicker').clockpicker();
+    $('.clockpicker').clockpicker({
+        //twelvehour: true
+    });
+    
+    
     
     //input autocomplete Nombre
     var optionsNombre = {
@@ -395,17 +424,22 @@
             }
         },
         list: {
-            maxNumberOfElements: 3,
+            maxNumberOfElements: 5,
             match:{
                 enabled:true
             }, 
             onClickEvent: function(){
+                
                 var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+                
                 $("#idPaciente").val(value).trigger("change");
+            
             }
         },
         theme: "plate-dark"
     };
+    
+    
     $('#txtPaciente').easyAutocomplete(optionsNombre);
     
     
@@ -435,6 +469,8 @@
                 
     }
     
+    
+    
     //limpiar formulario en la ventana modal
     function limpiarFormulario(){
         $('#idEvento').val('');
@@ -449,17 +485,15 @@
         
         //acualizar eventos
 	$('#btnModificar').click(function(){
-		var idPaciente = $('#idPaciente').val();
-		var idStatus = $('$txtidStatus').val();
-                var HoraCita = $('#txtHora').val;
-		var ide = $('#idEvento').val();
+		var IdPaciente = $('#idPaciente').val();
+                var HoraCita = $('#txtHora').val();
+		var IdCitaServicio = $('#idEvento').val();
 
-		$.post("<?php echo base_url();?>Agenda_Controler/ActualizarCita",
+		$.post("<?php echo site_url();?>/Agenda_Controler/ActualizarCita",
 		{
-			IdPaciente: idPaciente,
+			IdPaciente: IdPaciente,
 			HoraCita: HoraCita,
-                        idStatus: idStatus,
-			id: ide
+                        IdCitaServicio: IdCitaServicio
 		},
 		function(data){
 			if (data == 1) {
@@ -478,9 +512,35 @@
                 var AnioCita = $('#txtAnio').val();
                 var HoraCita = $('#txtHora').val();
                 var IdStatusCita = $('#txtidStatus').val();
+                //yo
+                var nombrePaciente = $('#txtPaciente').val();
                 
                 
                 
+                var fechaHr=new Date();
+
+                var hora=fechaHr.getHours()-1;
+                var minutos=fechaHr.getMinutes();
+                //var segundos=quehora.getSeconds();
+//                var dia = fechaHr.getDate();
+//                var mes = fechaHr.getMonth()+1;
+//                var anio = fechaHr.getFullYear();
+                //fechaHr.setDate(fechaHr.getDate());
+                                    
+
+                //alert("  son las  : "+ hora + " : " +minutos + " : " + segundos);
+                
+                if(idPaciente === ""){
+                    alert("No existe Paciente \n\
+                Agrega un nuevo paciente");
+                
+                return false;
+                }else if(HoraCita === ""){
+                    alert("Agrega la Hr de la cita");
+                }else if(HoraCita < hora+":"+minutos){
+                    
+                    alert("No se permite agregar una cita antes de la hr actual");
+                }else{
                 
 		$.post("<?php echo site_url();?>/Agenda_Controler/agregarEvento",
 		{
@@ -497,7 +557,9 @@
 				//$('#btnCerrarModal').click();
                                 alert('La informacion se ha guardado');
 			}
+                    
 		});
+            }
 	});
         
         
@@ -507,7 +569,15 @@
                 var apellidos = $('#txtApellidosPaciente').val();
                 var telefono = $('#txtTelefonoPaciente').val();
 		
-                
+               
+                if(nombre === ""){
+                alert("Agrega un Nombre");
+                return false;
+                }else if(apellidos === ""){
+                    alert("Agrega los Apellidos");
+                }else if(telefono === ""){
+                    alert("Agrega un Telefono");
+                }else{
                 
 		$.post("<?php echo site_url();?>/agenda_controler/agregarNuevoPaciente",
 		{
@@ -521,12 +591,13 @@
                                 alert('El paciente se ha guardado');
 			}
 		});
+            }
             });
             
             //eliminar cita por medio del boton borrar
             $('#btnEliminar').click(function(){
                     var ide = $('#idEvento').val();
-                    $.post("<?php echo base_url();?>agenda_controler/deleteCita",
+                    $.post("<?php echo site_url();?>/agenda_controler/deleteEvento",
                     {
                     id:ide
                     },
