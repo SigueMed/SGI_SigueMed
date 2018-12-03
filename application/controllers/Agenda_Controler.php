@@ -34,7 +34,7 @@ class Agenda_Controler extends CI_Controller
         //f($this->input->post('servicio_id'))
         $IdServicio =$this->input->post('IdServicio');
             
-        $this->load->Model('CitaServicio_Model');
+        //$this->load->Model('CitaServicio_Model');
 
         $r= $this->CitaServicio_Model->ConsultarCitasPorServicio($IdServicio);
             //$r = $this->Mcalendar->getEventos();
@@ -247,5 +247,22 @@ class Agenda_Controler extends CI_Controller
            $r = $this->Paciente_Model->agregarNuevoPaciente($param);
            echo $r;
        }
+
+       //AUTOR 'Carlos Esquivel' -- Borra cita
+        public function deleteEvento(){
+            $id = $this->input->post('id');
+            $r = $this->CitaServicio_Model->deleteEvento($id);
+            echo $r;
+        }
+        //AUTOR 'Carlos Esquivel'
+        public function ActualizarCita(){
+            $param['IdCitaServicio'] = $this->input->post('IdCitaServicio');
+            $param['IdPaciente'] = $this->input->post('IdPaciente');
+            $param['HoraCita'] = $this->input->post('HoraCita');
+
+            $r = $this->CitaServicio_Model->ActualizarCita($param);
+
+            echo $r;
+        }
     
 }
