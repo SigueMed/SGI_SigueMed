@@ -87,71 +87,40 @@ and open the template in the editor.
          
     </div>
 
-       
-        
-        <div>
+     <div>
             <table>
                 
             <tr>
                     <th>Servicio</th>
                     <th>Producto</th>
                     <th>Precio</th>
-                    <th>Cantidad</th>
+                    <th>Cantidad de Productos</th>
+                    <th>Descuento</th>
+                    <th>Total</th>
+                        
                    
             </tr>
-                <?php
+            <?php
             
                foreach($ProductosNotaMedica as $Producto)
                 {
                     echo "<tr>";
-                    //echo "<td>".$Nota_Rem['Nombre']." ".$Nota_Rem['Apellidos']."</td>";
-                    //echo "<td>".date($Nota_Rem['FechaNacimiento'])."</td>";
-                    //echo "<td>".$Nota_Rem['Calle']." ".$Nota_Rem['Colonia']."</td>";
                     echo "<td>".$Producto['DescripcionServicio']."</td>";
                     echo "<td>".$Producto['DescripcionProducto']."</td>";
                     echo "<td>".$Producto['CostoProducto']."</td>";
                     echo "<td>".$Producto['CantidadProductoNM']."</td>";
-                   
+                    echo "<td>".$Producto['Descuento']."</td>";
                     echo "</tr>";
              
-                
                 }
-                
-                
             ?>
               </table>
-            
         </div>
-        <div>
-            <table>
-                <tr>
-              
-                    <th>Descripcion de Servicio</th>
-                    <th>Cantidad de Productos</th>
-                    <th>Descuento</th>
-                  <!-- <td> <a href = "/sgi_siguemed/index.php/Agenda/CitasAtendidas"  >Volver</td>
-                  --->
-                </tr>
-                
-            <?php
-            /*
-                foreach($Nota as $Nota_Rem)
-                {
-                    echo "<tr>";
-                    //echo "<td>".$Nota_Rem['Nombre']." ".$Nota_Rem['Apellidos']."</td>";
-                    //echo "<td>".date($Nota_Rem['FechaNacimiento'])."</td>";
-                    //echo "<td>".$Nota_Rem['Calle']." ".$Nota_Rem['Colonia']."</td>";
-                  
-                    echo "<td>".$Nota_Rem['DescripcionProducto']."</td>";
-                    echo "<td>".$Nota_Rem['CantidadProductoNM']."</td>";
-                    echo "<td>".$Nota_Rem['Descuento']."</td>";
-                    echo "<td><a href=".site_url('/sgi_siguemed/index.php/Agenda/CitasAtendidas').">Crear</td>";
-                    echo "</tr>";
-             
-                
-               }*/
-            ?>
-            </table>
-        </div>
+    <div> 
+        <?php
+            echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";
+        ?>
+    </div>
+    
     </body>
 </html>
