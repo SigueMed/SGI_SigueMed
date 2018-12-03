@@ -24,12 +24,12 @@ and open the template in the editor.
           <label>Fecha de Nacimiento</label>
             <input type="text">
             <label>Direccion</label>
-            <input type="text">
+            <input type="text" echo = $Nota_Rem['Calle']..$Nota_Rem['Colonia']>
         </div>
         <div>
             <table>
-                <tr>
-              
+                
+            <tr>
                     <th>Fecha de NotaMedica</th>
                     <th>Peso</th>
                     <th>Talla</th>
@@ -38,7 +38,7 @@ and open the template in the editor.
                     <th>Presion</th>
                     <th>Frecuencia Cardiaca</th>
                     <th>Frecuencia Respiratoria</th>
-                </tr>
+            </tr>
                 <?php
             
                 foreach($Nota as $Nota_Rem)

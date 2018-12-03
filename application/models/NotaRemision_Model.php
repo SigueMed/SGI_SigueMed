@@ -18,9 +18,9 @@ class NotaRemision_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        $this->table = "NotaRemision";
+        $this->table = "NotaMedica";
         $this->tabla = "productosnotamedica";
-        $this->tpaciente = "pasiente";
+        $this->tpasiente = "paciente";
         
         $this->load->database();
         
@@ -69,9 +69,15 @@ class NotaRemision_Model extends CI_Model {
         $this->db->where($this->table.'.IdNotaMedica = NotaMedica.IdNotaMedica');
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
         
-        
+        */
+         $this->db->select($this->tpasiente.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia');
+         $this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia');
+         $this->db->from($this->tpasiente);
+         $this->db->where($this->tpasiente.'.IdPaciente = Paciente.IdPaciente');
+         $this->db->where($this->tproductosnm.'.IdNotaMedica = ProductosNotaMedica.IdNotaMedica');
+         
         $query = $this->db->get();
         
-        return $query->result_array();*/
+        return $query->result_array();
     }
 }
