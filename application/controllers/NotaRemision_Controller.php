@@ -27,6 +27,7 @@ class NotaRemision_Controller extends CI_Controller {
             if ($IdNotaMedica) // crear una nota de remisión a partir de una cita
             {
                 $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
+                $data['NotaMedica'] = $NotaMedica;
                 $data['Paciente'] = $this->Paciente_Model->ConsultarPacientePorId($NotaMedica->IdPaciente);
                 
                 $data['ProductosNotaMedica'] = $this->ProductosNotaMedica_Model->ConsultarProductosPorNotaMedica($IdNotaMedica);
