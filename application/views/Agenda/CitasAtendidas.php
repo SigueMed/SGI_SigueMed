@@ -38,7 +38,7 @@ and open the template in the editor.
                 echo "<td>".$Cita_Item['DescripcionServicio']."</td>";
                 echo "<td>".$Cita_Item['Nombre']." ".$Cita_Item['Apellidos']."</td>";
                 echo "<td>".date('H:i',strtotime($Cita_Item['HoraCita']))."</td>";
-                echo "<td><a href=".site_url('NotaRemision/CrearNota/'.$Cita_Item['IdCitaServicio']).">Crear</td>";
+                echo "<td><a href=".site_url('NotaRemision/CrearNota/'.$Cita_Item['IdNotaMedica']).">Crear</td>";
                 echo "</tr>";
                 
             }

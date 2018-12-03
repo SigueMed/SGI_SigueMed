@@ -20,7 +20,7 @@ class NotaRemision_Model extends CI_Model {
         parent::__construct();
         $this->table = "NotaMedica";
         $this->tabla = "productosnotamedica";
-        $this->tpasiente = "paciente";
+        $this->tpaciente = "paciente";
         
         $this->load->database();
         
@@ -43,7 +43,7 @@ class NotaRemision_Model extends CI_Model {
         
     }
     
-     public function CrearNotaDeRemision($idNotaMedica){
+     public function CrearNotaDeRemision($IdNotaMedica){
        
       /* $this->db->select($this->table.'.*, Nombre, Apellidos, FechaNacimiento,'
                 . ' FechaNotaMedica, PesoPaciente, TallaPaciente, TemperaturaPaciente,'
@@ -70,11 +70,12 @@ class NotaRemision_Model extends CI_Model {
         $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
         
         */
-         $this->db->select($this->tpasiente.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia');
-         $this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia');
-         $this->db->from($this->tpasiente);
-         $this->db->where($this->tpasiente.'.IdPaciente = Paciente.IdPaciente');
-         $this->db->where($this->tproductosnm.'.IdNotaMedica = ProductosNotaMedica.IdNotaMedica');
+          $this->db->select($this->tpaciente.'.*,Nombre,Apellidos,FechaNacimiento');
+          $this->db->from($this->tpaciente);
+         //$this->db->select($this->table.'.*,Nombre, Apellidos,FechaNacimiento, Calle, Colonia');
+//         $this->db->from($this->tpasiente);
+  //       $this->db->where($this->tpasiente.'.IdPaciente = Paciente.IdPaciente');
+    //     $this->db->where($this->tproductosnm.'.IdNotaMedica = ProductosNotaMedica.IdNotaMedica');
          
         $query = $this->db->get();
         

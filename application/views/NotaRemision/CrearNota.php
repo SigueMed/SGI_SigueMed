@@ -20,45 +20,45 @@ and open the template in the editor.
     ?>
         <div>
             <label>Nombre</label>
-            <input type="text">
+            <input type="text" readonly="readonly" text="<?php echo $Paciente->Nombre." ".$Paciente->Apellidos;?>">
           <label>Fecha de Nacimiento</label>
             <input type="text">
             <label>Direccion</label>
-            <input type="text" echo = $Nota_Rem['Calle']..$Nota_Rem['Colonia']>
+            <input
+                <?php echo "<td>".$Paciente->Nombre." ".$Paciente->Apellidos."";
+                ?>
+                readonly="readonly"
+            > 
         </div>
         <div>
             <table>
                 
             <tr>
-                    <th>Fecha de NotaMedica</th>
-                    <th>Peso</th>
-                    <th>Talla</th>
-                    <th>Temperatura</th>
-                    <th>IMC</th>
-                    <th>Presion</th>
-                    <th>Frecuencia Cardiaca</th>
-                    <th>Frecuencia Respiratoria</th>
+                    <th>Servicio</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                   
             </tr>
                 <?php
             
-                foreach($Nota as $Nota_Rem)
+               foreach($ProductosNotaMedica as $Producto)
                 {
                     echo "<tr>";
                     //echo "<td>".$Nota_Rem['Nombre']." ".$Nota_Rem['Apellidos']."</td>";
                     //echo "<td>".date($Nota_Rem['FechaNacimiento'])."</td>";
                     //echo "<td>".$Nota_Rem['Calle']." ".$Nota_Rem['Colonia']."</td>";
-                    echo "<td>".date($Nota_Rem['FechaNotaMedica'])."</td>";
-                    echo "<td>".$Nota_Rem['PesoPaciente']."</td>";
-                    echo "<td>".$Nota_Rem['TallaPaciente']."</td>";
-                    echo "<td>".$Nota_Rem['TemperaturaPaciente']."</td>";
-                    echo "<td>".$Nota_Rem['IMCPaciente']."</td>";
-                    echo "<td>".$Nota_Rem['PresionPaciente']."</td>";
-                    echo "<td>".$Nota_Rem['FrCardiacaPaciente']."</td>";
-                    echo "<td>".$Nota_Rem['FrRespiratoriaPaciente']."</td>";
+                    echo "<td>".$Producto['DescripcionServicio']."</td>";
+                    echo "<td>".$Producto['DescripcionProducto']."</td>";
+                    echo "<td>".$Producto['CostoProducto']."</td>";
+                    echo "<td>".$Producto['CantidadProductoNM']."</td>";
+                   
                     echo "</tr>";
              
                 
                 }
+                
+                
             ?>
               </table>
             
@@ -75,7 +75,7 @@ and open the template in the editor.
                 </tr>
                 
             <?php
-            
+            /*
                 foreach($Nota as $Nota_Rem)
                 {
                     echo "<tr>";
@@ -90,7 +90,7 @@ and open the template in the editor.
                     echo "</tr>";
              
                 
-                }
+               }*/
             ?>
             </table>
         </div>

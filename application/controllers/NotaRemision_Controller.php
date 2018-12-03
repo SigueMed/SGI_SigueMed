@@ -22,9 +22,20 @@ class NotaRemision_Controller extends CI_Controller {
         
     }
     
-        public function CrearNotaRemision(){
-        $this->load->model('NotaRemision_Model');
-        $data ['Nota'] = $this->NotaRemision_Model->CrearNotaDeRemision();
+        public function CrearNotaRemision($IdNotaMedica = FALSE){
+        
+            if ($IdNotaMedica) // crear una nota de remisión a partir de una cita
+            {
+                $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
+                $data['Paciente'] = $this->Paciente_Model->ConsultarPacientePorId($NotaMedica->IdPaciente);
+                
+                $data['ProductosNotaMedica'] = $this->ProductosNotaMedica_Model->ConsultarProductosPorNotaMedica($IdNotaMedica);
+            }
+            else
+            {
+            
+            }
+            
         $this->form_validation->set_rules('FR', 'FR', 'required');
         
         if ($this->form_validation->run() === FALSE)

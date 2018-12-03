@@ -35,6 +35,22 @@ class ProductosNotaMedica_Model extends CI_Model{
             return false;
         }
     }
+    
+    public function ConsultarProductosPorNotaMedica($IdNotaMedica)
+    {
+        $this->db->select ($this->table.'.*, DescripcionProducto, DescripcionServicio, CostoProducto');
+        $this->db->from($this->table.',CatalogoProductos, servicio');
+        //JOIN
+        $this->db->where($this->table.'.IdProducto = CatalogoProductos.IdProducto');
+        $this->db->where('CatalogoProductos.IdServicio = Servicio.IdServicio');
+        //Condicion
+        $this->db->where($this->table.'.IdNotaMedica='.$IdNotaMedica);
+        
+        $query = $this->db->get();
+        
+        return $query->result_array();
+        
+    }
 }
 
 
