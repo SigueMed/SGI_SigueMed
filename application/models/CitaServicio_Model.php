@@ -80,7 +80,7 @@ class CitaServicio_Model extends CI_Model
         $mes = mdate('%m',$Fecha);
         $anio = mdate('%Y',$Fecha);
         
-        $this->db->select('IdCitaServicio as id, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, '
+        $this->db->select('IdCitaServicio as id, Paciente.IdPaciente as idpac, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, '
                 . 'CONCAT(anioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(HoraCita,"%H:%i:%s")) as start');
          $this->db->select('CONCAT(AnioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s")) as end', FALSE);
          $this->db->select('IdStatusCita');
@@ -210,6 +210,30 @@ class CitaServicio_Model extends CI_Model
 			return 0;
 		}
     }
+
+    //AUTOR 'Carlos Esquivel' -- eliminar cita
+	public function deleteEvento($id){
+		$this->db->where('IdCitaServicio', $id);
+		return $this->db->delete($this->table);
+	}
+        
+        //AUTOR 'Carlos Esquivel' -- actualizar cita
+	public function ActualizarCita($param){
+		$campos = array(
+			'IdPaciente' => $param['IdPaciente'],
+                        'HoraCita' => $param['HoraCita']
+			
+			);
+
+		$this->db->where('IdCitaServicio',$param['IdCitaServicio']);
+		$this->db->update($this->table,$campos);
+
+		if ($this->db->affected_rows() == 1) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
     
     
 }
