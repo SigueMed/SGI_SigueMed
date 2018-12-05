@@ -104,12 +104,17 @@ and open the template in the editor.
             
                foreach($ProductosNotaMedica as $Producto)
                 {
+                    $costo = $Producto['CostoProducto'];
+                    $Cantidad = $Producto['CantidadProductoNM'];
+                    $Descuento = $Producto['Descuento'];
+                    $total = ($costo * $Cantidad)/$Descuento; 
                     echo "<tr>";
                     echo "<td>".$Producto['DescripcionServicio']."</td>";
                     echo "<td>".$Producto['DescripcionProducto']."</td>";
                     echo "<td>".$Producto['CostoProducto']."</td>";
                     echo "<td>".$Producto['CantidadProductoNM']."</td>";
                     echo "<td>".$Producto['Descuento']."</td>";
+                    echo "<td>".$total."</td>";
                     echo "</tr>";
              
                 }
