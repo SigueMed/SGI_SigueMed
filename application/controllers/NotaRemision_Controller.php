@@ -43,6 +43,9 @@ class NotaRemision_Controller extends CI_Controller {
         {
             $this->load->view('NotaRemision/CrearNota', $data); 
         }
-        
+        else
+        {
+            //crear la nota remision
+        }
     } 
 }
