@@ -7,7 +7,15 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Nota de Remision</title>
+        <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap/css/bootstrap.css"); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/alertify.css"); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/themes/default.css"); ?>"/>
+        
+        <script src="assets/jquery-3.3.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.js"></script>
+        <script src="assets/alertifyjs/alertify.js"></script>
     </head>
     <body>
     
@@ -22,7 +30,8 @@ and open the template in the editor.
         <?php echo form_open('NotaRemision_Controller/CrearNotaRemision/'.$NotaMedica->IdNotaMedica); ?>
 
     <!--Div Paciente-->
-    <div>
+    <div class="container">
+    <div >
         <label for="Nombre">Nombre</label>
         <input type="text" name="Nombre" id="Nombre" value="<?php echo $Paciente->Nombre; ?>"/>
 
@@ -86,10 +95,16 @@ and open the template in the editor.
         
          
     </div>
-
-     <div>
-            <table>
+    <div class="row">
+     <div class="col-sm-12">
+         <h2></h2>
+         <h3></h3>
+         <h3></h3>
+         <h3></h3>
+        <table class="table table-hover table-condensed table-bordered">
                 
+            
+          
             <tr>
                     <th>Servicio</th>
                     <th>Producto</th>
@@ -121,11 +136,11 @@ and open the template in the editor.
             ?>
               </table>
         </div>
-    <div> 
-        <?php
-            echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";
-        ?>
     </div>
-    
+   
+    <div> 
+        <button class="btn btn-danger"><?php echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";?></button>
+    </div>
+   </div> 
     </body>
 </html>
