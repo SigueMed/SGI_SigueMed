@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+
 <head>
 <meta charset='utf-8' />
 <link href='<?php echo base_url();?>assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
@@ -75,6 +74,8 @@
                                                 data: {
                                                     IdServicio: 1// $('#getServicio').val()
                                                     }
+                                                        
+                                                   
                                                 },  
                                         defaultView:'agendaWeek',
                                        
@@ -143,6 +144,7 @@
                                         
 				    	$('#mtitulo').html(event.title);
 				    	$('#txtPaciente').val(event.descripcion);
+                                        $('#txtTelefono').val(event.descripcioncel);
                                         $('#txtDia').val(event.start.format('DD'));
                                         $('#txtMes').val(event.start.format("MM"));
                                         $('#txtAnio').val(event.start.format("YYYY"));
@@ -210,7 +212,7 @@
                                     $('#txtAnio').val(date.format("YYYY"));
                                     
                                     
-                                    $('#modalEvento').modal();
+                                    $('#modalEvento').modal('show');
                                 
                                     }
                                     }
@@ -245,8 +247,8 @@
             }
             
         #dropdownServicio{
-            margin: 0 auto;
-            max-width: 30%;
+            margin: 0;
+            max-width: 18%;
             padding: 5px;
             border: 1px solid #d9d9d9;
             background-color: #f0f8ff;
@@ -291,7 +293,6 @@
        </select>
        
     </div>
-   <br><br>
     
 	<div id='calendar'></div>
 
@@ -313,19 +314,27 @@
                     <div class="form-group">
                         
                         <input type="hidden" class="form-control" id="txtidServicio"  readonly="readonly"/>
-                        <label>IdPaciente</label>
-                        <input type="text" class="form-control" id="idPaciente" readonly="readonly"/>
+                        
+                        <input type="hidden" class="form-control" id="idPaciente" readonly="readonly"/>
+                        
+                        
                     </div>
 	            
                     <div class="form-row">
 	                <div class="form-group col-md-10">
 	                  <label>Paciente</label>
-                          <input type="text" class="inputNombrePaciente" id="txtPaciente" required="required" />
+                          <input type="text" class="inputNombrePaciente" id="txtPaciente" required="required"/>
 	               </div>
                         <div class="form-group col-md-2">
                             <label>-</label>
                             <button class="form-control btn btn-info" data-toggle="modal" data-target="#modalEventoCliente">Add</button>
                         </div>
+                    </div>
+                    <div class="form-row">
+	                <div class="form-group col-md-12">
+	                  <label>Telefono</label>
+                          <input type="text" class="form-control" id="txtTelefono" readonly="readonly"/>
+	               </div>
                     </div>
 	                <div class="form-row">
                           <div class="form-group col-md-3">
@@ -421,6 +430,8 @@
             type: "custom",
             method: function(value, item){
                 return item.Nombre + " " + item.Apellidos;
+                
+                
             }
         },
         list: {
@@ -428,25 +439,68 @@
             match:{
                 enabled:true
             }, 
+            
             onClickEvent: function(){
+            
+            
                 
                 var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+                var valueTel = $("#txtPaciente").getSelectedItemData().NumCelular;
                 
                 $("#idPaciente").val(value).trigger("change");
+                $("#txtTelefono").val(valueTel).trigger("change");
             
+            },
+            
+            onChooseEvent: function()
+            {
+                var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+                var valueTel = $("#txtPaciente").getSelectedItemData().NumCelular;
+                
+                $("#idPaciente").val(value).trigger("change");
+                $("#txtTelefono").val(valueTel).trigger("change");
             }
+            
+//            onClickEvent: function() {},
+//				onSelectItemEvent: function() {},
+//				onLoadEvent: function() {},
+//				onChooseEvent: function() {},
+//				onKeyEnterEvent: function() {},
+//				onMouseOverEvent: function() {},
+//				onMouseOutEvent: function() {},	
+//				onShowListEvent: function() {},
+//				onHideListEvent: function() {}
+            
+           
+                
         },
         theme: "plate-dark"
     };
     
-    
     $('#txtPaciente').easyAutocomplete(optionsNombre);
+    
+    
+        
     
     
      //http://easyautocomplete.com/examples
      //https://stackoverflow.com/questions/4718968/detecting-no-results-on-jquery-ui-autocomplete
     
-    
+   
+//    var text = document.getElementById("txtPaciente");
+//    var result = document.getElementById("idPaciente");
+
+//    text.addEventListener("keypress", function(evento){
+//        if(evento.keyCode === 13)
+//           
+//    })
+
+
+//        function uniKeyCode(event) {
+//            if(event.keyCode === 13){
+//                
+//            }
+//        }
     
       
     //id en input del idServicio
@@ -455,18 +509,23 @@
     //alert("Tu seleccionaste el id: " + e.target.value);
    
 
-                    var events ={
+    RefreshFullCalendar(e.target.value);
+                
+    }
+    
+    function RefreshFullCalendar(IdServicioSel)
+    {
+         var events ={
                                 url:"<?php echo site_url();?>/Agenda_Controler/getEventos",
                                 type: 'POST',
                                 data: {
-                                    IdServicio:e.target.value
+                                    IdServicio:IdServicioSel
                                     }
                                 };
 
                     $('#calendar').fullCalendar('removeEventSource', events);
                     $('#calendar').fullCalendar('addEventSource', events);
                     $('#calendar').fullCalendar('refetchEvents');
-                
     }
     
     
@@ -481,6 +540,8 @@
         $('#txtNombrePaciente').val('');
         $('#txtApellidosPaciente').val('');
         $('#txtTelefonoPaciente').val('');
+        $('#txtTelefono').val('');
+        
     }
         
         //acualizar eventos
@@ -521,6 +582,7 @@
 
                 var hora=fechaHr.getHours()-1;
                 var minutos=fechaHr.getMinutes();
+                var dia = fechaHr.getDate();
                 //var segundos=quehora.getSeconds();
 //                var dia = fechaHr.getDate();
 //                var mes = fechaHr.getMonth()+1;
@@ -537,7 +599,7 @@
                 return false;
                 }else if(HoraCita === ""){
                     alert("Agrega la Hr de la cita");
-                }else if(HoraCita < hora+":"+minutos){
+                }else if(parseInt(DiaCita) <= dia && HoraCita < hora+":"+minutos){
                     
                     alert("No se permite agregar una cita antes de la hr actual");
                 }else{
@@ -553,9 +615,13 @@
                         IdStatusCita: IdStatusCita
 		},
 		function(data){
+                   
 			if (data == 1) {
 				//$('#btnCerrarModal').click();
                                 alert('La informacion se ha guardado');
+                                $('#modalEvento').modal('hide');
+                                
+                                RefreshFullCalendar(idServicio);
 			}
                     
 		});
