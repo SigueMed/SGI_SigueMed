@@ -80,9 +80,9 @@ class CitaServicio_Model extends CI_Model
         $mes = mdate('%m',$Fecha);
         $anio = mdate('%Y',$Fecha);
         
-        $this->db->select('IdCitaServicio as id, Paciente.IdPaciente as idpac, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, '
-                . 'CONCAT(anioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(HoraCita,"%H:%i:%s")) as start');
-         $this->db->select('CONCAT(AnioCita,"-",MesCita,"-",DiaCita," ",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s")) as end', FALSE);
+        $this->db->select('IdCitaServicio as id, Paciente.IdPaciente as idpac, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, Paciente.NumCelular as descripcioncel,'
+                . 'CAST(CONCAT(anioCita,"-",MesCita,"-",DiaCita,"T",TIME_FORMAT(HoraCita,"%H:%i:%s")) as datetime) as start');
+         $this->db->select('CAST(CONCAT(AnioCita,"-",MesCita,"-",DiaCita,"T",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s")) as datetime) as end', FALSE);
          $this->db->select('IdStatusCita');
         $this->db->from($this->table);
         // JOIN
