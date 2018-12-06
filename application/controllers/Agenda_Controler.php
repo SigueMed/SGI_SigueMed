@@ -22,10 +22,10 @@ class Agenda_Controler extends CI_Controller
         $this->load->model('Servicio_Model');
         $this->load->helper('date');
         
-        
     }
     
     public function index(){
+        $this->load->view('templates/headerMenu');
 		$this->load->view('Agenda/VistaAgenda');
 	}
         
