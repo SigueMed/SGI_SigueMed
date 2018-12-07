@@ -146,7 +146,8 @@ and open the template in the editor.
     </div>
    
     <div> 
-        <button class="btn"><?php echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";?> </button>
+        
+        <a href="<?php echo site_url('/Agenda/CitasAtendidas')?>" class="btn btn-primary">Volver</a>
     </div>
    </div> 
     </body>
