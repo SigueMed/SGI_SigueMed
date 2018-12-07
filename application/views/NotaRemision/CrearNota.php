@@ -9,12 +9,12 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Nota de Remision</title>
-        <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap/css/bootstrap.css"); ?>" />
+        <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap_1/css/bootstrap.css"); ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/alertify.css"); ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/themes/default.css"); ?>"/>
         
         <script src="assets/jquery-3.3.1.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.js"></script>
+        <script src="assets/bootstrap_1/js/bootstrap.js"></script>
         <script src="assets/alertifyjs/alertify.js"></script>
     </head>
     <body>
