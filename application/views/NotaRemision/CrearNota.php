@@ -134,7 +134,7 @@ and open the template in the editor.
                     echo "<td>".$Producto['DescripcionProducto']."</td>";
                     echo "<td>".$Producto['CostoProducto']."</td>";
                     echo "<td>".$Producto['CantidadProductoNM']."</td>";
-                    echo "<td>".$Producto['Descuento']."</td>";
+                    echo "<td>".$Producto['Descuento']."%"."</td>";
                     echo "<td>".$totalGeneral."</td>";
                     echo "<td>".$total."</td>";
                     echo "</tr>";
@@ -146,7 +146,7 @@ and open the template in the editor.
     </div>
    
     <div> 
-        <button class="btn btn-danger"><?php echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";?></button>
+        <button class="btn"><?php echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";?> </button>
     </div>
    </div> 
     </body>
