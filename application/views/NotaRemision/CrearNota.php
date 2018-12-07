@@ -95,6 +95,7 @@ and open the template in the editor.
         
          
     </div>
+    
     <div class="row">
      <div class="col-sm-12">
          <h2></h2>
@@ -111,7 +112,8 @@ and open the template in the editor.
                     <th>Precio</th>
                     <th>Cantidad de Productos</th>
                     <th>Descuento</th>
-                    <th>Total</th>
+                    <td>Total</td>
+                    <th>Total Con Descuento</th>
                         
                    
             </tr>
@@ -122,13 +124,18 @@ and open the template in the editor.
                     $costo = $Producto['CostoProducto'];
                     $Cantidad = $Producto['CantidadProductoNM'];
                     $Descuento = $Producto['Descuento'];
-                    $total = ($costo * $Cantidad)/$Descuento; 
+                    $totalGeneral = $costo * $Cantidad;
+                    $DescuentoADec = $Descuento/100;
+                    $DescuentoTotal = $DescuentoADec * 1.0;
+                    $AplicarDescuento = $totalGeneral * $DescuentoTotal; 
+                    $total = $totalGeneral - $AplicarDescuento;
                     echo "<tr>";
                     echo "<td>".$Producto['DescripcionServicio']."</td>";
                     echo "<td>".$Producto['DescripcionProducto']."</td>";
                     echo "<td>".$Producto['CostoProducto']."</td>";
                     echo "<td>".$Producto['CantidadProductoNM']."</td>";
                     echo "<td>".$Producto['Descuento']."</td>";
+                    echo "<td>".$totalGeneral."</td>";
                     echo "<td>".$total."</td>";
                     echo "</tr>";
              
