@@ -21,7 +21,10 @@ class NotaRemision_Controller extends CI_Controller {
         $this->load->model('NotaRemision_Model');
         
     }
-    
+        public function index(){
+                $this->load->view('templates/headerMenu');
+		
+	}
         public function CrearNotaRemision($IdNotaMedica = FALSE){
         
             if ($IdNotaMedica) // crear una nota de remisión a partir de una cita
@@ -41,7 +44,9 @@ class NotaRemision_Controller extends CI_Controller {
         
         if ($this->form_validation->run() === FALSE)
         {
+            $this->load->view('templates/headerMenu');
             $this->load->view('NotaRemision/CrearNota', $data); 
+            
         }
         else
         {
