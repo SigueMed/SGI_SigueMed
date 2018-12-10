@@ -7,15 +7,9 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Nota de Remision</title>
-        <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap_1/css/bootstrap.css"); ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/alertify.css"); ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/themes/default.css"); ?>"/>
         
-        <script src="assets/jquery-3.3.1.min.js"></script>
-        <script src="assets/bootstrap_1/js/bootstrap.js"></script>
-        <script src="assets/alertifyjs/alertify.js"></script>
+        <title>Nota de Remision</title>
+        
     </head>
     <body>
     
@@ -30,9 +24,12 @@ and open the template in the editor.
         <?php echo form_open('NotaRemision_Controller/CrearNotaRemision/'.$NotaMedica->IdNotaMedica); ?>
 
     <!--Div Paciente-->
+    
     <div class="container">
     <div >
-        <label for="Nombre">Nombre</label>
+        <div class="jumbotron">
+            <center><h2>Datos Personales</h2></center>
+        <label for="Nombre" >Nombre</label>
         <input type="text" name="Nombre" id="Nombre" value="<?php echo $Paciente->Nombre; ?>"/>
 
         <label for="Apellidos">Apellidos</label>
@@ -70,17 +67,14 @@ and open the template in the editor.
         
         <label for="Celular">Celular:</label>
         <input type="text" name="Celular" value="<?php echo $Paciente->NumCelular; ?>"/>
-        
+        </div> 
     </div>
    
     
     
     <div class="row">
      <div class="col-sm-12">
-         <h2></h2>
-         <h3></h3>
-         <h3></h3>
-         <h3></h3>
+         
         <table class="table table-hover table-condensed table-bordered">
                 
             
