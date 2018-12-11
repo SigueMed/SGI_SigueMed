@@ -27,7 +27,7 @@ and open the template in the editor.
     
     <div class="container">
     
-        <div class="jumbotron">
+        
             <center><h2>Datos Personales</h2></center>
         <div class="col-md-6">
         <label for="Nombre" >Nombre</label>
@@ -81,9 +81,10 @@ and open the template in the editor.
         <input type="text" name="Celular" value="<?php echo $Paciente->NumCelular; ?>"/>
             </div>
         </div>
-    </div>
+   
     
-    
+    <br>
+    <br>
     
     <div class ="container">
     <div class="row">
