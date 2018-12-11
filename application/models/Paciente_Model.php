@@ -72,4 +72,26 @@ class Paciente_Model extends CI_Model {
 			return 0;
 		}
     }
+
+    public function consultarIdNuevoPaciente($param){
+            
+        $this->db->select('IdPaciente');
+        $this->db->from($this->table);
+        $this->db->where('Nombre',$param['nombre']);
+        $this->db->where('Apellidos',$param['apellido']);
+        $this->db->where('NumCelular',$param['telefono']);
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) 
+        {
+            $row = $query->row();
+            
+            return $row;
+        } 
+        else 
+        {
+            return 0;
+    }
+    
+        }
 }
