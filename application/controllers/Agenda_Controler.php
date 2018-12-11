@@ -239,13 +239,19 @@ class Agenda_Controler extends CI_Controller
        //AUTOR 'Carlos Esquivel' -- agrega nuevo paciente si este no existe
        public function agregarNuevoPaciente(){
 
-           $param['nombre'] = $this->input->post('nombre');
-           $param['apellido'] = $this->input->post('apellido');
-           $param['telefono'] = $this->input->post('telefono');
-           
-           
-           $r = $this->Paciente_Model->agregarNuevoPaciente($param);
-           echo $r;
+            $param['nombre'] = $this->input->post('nombre');
+            $param['apellido'] = $this->input->post('apellido');
+            $param['telefono'] = $this->input->post('telefono');
+            
+            
+            $r = $this->Paciente_Model->agregarNuevoPaciente($param);
+            if($r == 1){
+                $row = $this->Paciente_Model->consultarIdNuevoPaciente($param);
+            echo $row->IdPaciente;
+            
+            }else{
+            echo 0;
+            }
        }
 
        //AUTOR 'Carlos Esquivel' -- Borra cita
