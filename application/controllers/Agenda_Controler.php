@@ -88,11 +88,16 @@ class Agenda_Controler extends CI_Controller
         
         if (empty($data['Citas']))
         {
-            $data['errorMessage'] ='No existen citas para: '.mdate('%d',$Fecha).'/'.mdate('%M', $Fecha);
+            $data['infoMessage'] ='No existen citas para: '.mdate('%d',$Fecha).'/'.mdate('%M', $Fecha);
             
         }
-        $this->load->view('templates/headerMenu');
+        $data['title']= 'Citas del día';
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Agenda/ListaAgendaHoy',$data);
+        $this->load->view('templates/footer');
+
+        
         
        
         
@@ -147,7 +152,12 @@ class Agenda_Controler extends CI_Controller
                 {
                     $data['Paciente'] = $Paciente;
                     $data['Cita']= $Cita;
+                    $data['title']='Confirmar Cita';
+                    $this->load->view('templates/MainContainer',$data);
+                    $this->load->view('templates/HeaderContainer',$data);
                     $this->load->view('Agenda/ConfirmarCita',$data);
+                    $this->load->view('templates/footer');
+
                 }
             }
             else
