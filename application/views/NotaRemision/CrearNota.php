@@ -7,15 +7,9 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Nota de Remision</title>
-        <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap_1/css/bootstrap.css"); ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/alertify.css"); ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/alertifyjs/css/themes/default.css"); ?>"/>
         
-        <script src="assets/jquery-3.3.1.min.js"></script>
-        <script src="assets/bootstrap_1/js/bootstrap.js"></script>
-        <script src="assets/alertifyjs/alertify.js"></script>
+        <title>Nota de Remision</title>
+        
     </head>
     <body>
     
@@ -30,57 +24,72 @@ and open the template in the editor.
         <?php echo form_open('NotaRemision_Controller/CrearNotaRemision/'.$NotaMedica->IdNotaMedica); ?>
 
     <!--Div Paciente-->
+    
     <div class="container">
-    <div >
-        <label for="Nombre">Nombre</label>
+    
+        
+            <center><h2>Datos Personales</h2></center>
+        <div class="col-md-6">
+        <label for="Nombre" >Nombre</label>
         <input type="text" name="Nombre" id="Nombre" value="<?php echo $Paciente->Nombre; ?>"/>
-
+        </div>
+        <div class="col-md-6">    
         <label for="Apellidos">Apellidos</label>
         <input type="text" name="Apellidos" id="Apellidos" value="<?php echo $Paciente->Apellidos; ?>"/><br/>
-        
+        </div>
+        <div class="col-md-6">    
         <label for="Edad">Edad</label>
         <input type="text" name="Edad" id ="Edad" value="<?php 
          
             $edad = (time()-strtotime($Paciente->FechaNacimiento))/ (60*60*24*365.35); 
             echo floor($edad) ?>"/>
-        
+        </div>
+        <div class="col-md-6">
         <label for="FechaNacimiento">Fecha Nacimiento</label>
         <input type="text" name="FechaNacimiento" id="FechaNacimiento" value="<?php echo $Paciente->FechaNacimiento; ?>"/><br/>
-        
+        </div>
+        <div class="col-md-6">    
         <label for="calle">Calle</label>
         <input type="text" name="Calle" value="<?php echo $Paciente->Calle; ?>"/>
-        
+        </div>
+        <div class="col-md-6">    
         <label for="colonia">Colonia</label>
         <input type="text" name="Colonia" value="<?php echo $Paciente->Colonia; ?>"/>
-        
+        </div>
+        <div class="col-md-6">     
         <label for="cp">Código Postal</label>
         <input type="text" name="CP" value="<?php echo $Paciente->CP; ?>"/><br/>
-        
+        </div>
+        <div class="col-md-6"> 
         <label for="EstadoCivil">Estado Civil:</label>
         <input type="text" name="EstadoCivil" value="<?php echo $Paciente->EstadoCivil; ?>"/>
-        
+        </div>
+        <div class="col-md-6">     
         <label for="ViveCon">Vive con:</label>
         <input type="text" name="ViveCon" value="<?php echo $Paciente->ViveCon; ?>"/>
-        
+        </div>
+        <div class="col-md-6"> 
         <label for="Escolaridad">Escolaridad</label>
         <input type="text" name="Escolaridad" value="<?php echo $Paciente->Escolaridad; ?>"/><br/>
-        
+        </div>
+        <div class="col-md-6"> 
         <label for="IdServiciosMedicos">Recursos Medicos</label>
         <input type="text" name="IdServiciosMedicos" value=""/>
-        
+        </div>
+        <div class="col-md-6">     
         <label for="Celular">Celular:</label>
         <input type="text" name="Celular" value="<?php echo $Paciente->NumCelular; ?>"/>
-        
-    </div>
+            </div>
+        </div>
    
     
+    <br>
+    <br>
     
+    <div class ="container">
     <div class="row">
      <div class="col-sm-12">
-         <h2></h2>
-         <h3></h3>
-         <h3></h3>
-         <h3></h3>
+         
         <table class="table table-hover table-condensed table-bordered">
                 
             
@@ -125,7 +134,8 @@ and open the template in the editor.
     </div>
    
     <div> 
-        <button class="btn"><?php echo "<a href=".site_url('/Agenda/CitasAtendidas').">Volver";?> </button>
+        
+        <a href="<?php echo site_url('/Agenda/CitasAtendidas')?>" class="btn btn-primary">Volver</a>
     </div>
    </div> 
     </body>
