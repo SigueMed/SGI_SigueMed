@@ -40,7 +40,9 @@ class Login_Controller extends CI_Controller {
         {
             if($this->session->has_userdata('logged_in'))
             {
-                $this->load->view('templates/headerMenu');
+                $this->load->view('templates/MainContainer');
+                $this->load->view('templates/FooterContainer');
+                
             }
             else
             {
@@ -77,8 +79,9 @@ class Login_Controller extends CI_Controller {
                  
                  //Establecer Sesion del usuario
                  $this->session->set_userdata($SessionData);
-                 $this->load->view('templates/headerMenu');
-                 //redirect('Agenda/CitasHoy');
+                 $data['title'] = 'Clinica Siguemed';
+                $this->load->view('templates/MainContainer', $data);
+                $this->load->view('templates/FooterContainer');
                  
                          
                  

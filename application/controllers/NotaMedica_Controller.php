@@ -34,47 +34,35 @@ class NotaMedica_Controller extends Agenda_Controler {
         
     }
     
-    
+    public function Load_RegistrarSomatometria($IdCita)
+    {
+        $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
+        $Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
+        $data['Paciente'] = $Paciente;
+        $data['Cita']= $Cita;
+        
+        $data['title']='Somatometria Paciente';
+        $data['PacienteSubmitAction'] = '';
+        $data['PacienteActionsEnabled'] = false;
+        $data['SomatometriaActionsEnabled'] = true;
+        $data['SomatometriaSubmitAction']='confirmar';
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+        $this->load->view('NotaMedica/FormRegistrarSomatometria',$data);
+        $this->load->view('Paciente/PacienteCard',$data);
+        $this->load->view('NotaMedica/SomatometriaCard',$data);
+        $this->load->view('templates/FormFooter',$data); 
+        $this->load->view('templates/FooterContainer');
+    }
     /*
      * Function: RegistrarSomatometria
      * Descripttion:La función mostrara la vista para Registrar los datos de Somatometria del paciente que agendo la Cita <$IdCita> y creará una nueva nota médica
      */
     public function RegistrarSomatometria($IdCita)
     {
-        
-        
-        //Validaciones para los campos de Somatometria
-
-        $this->form_validation->set_rules('Peso', 'Peso', 'required');
-        $this->form_validation->set_rules('Talla', 'Talla', 'required');
-        $this->form_validation->set_rules('TA', 'T/A', 'required');
-        $this->form_validation->set_rules('Temperatura', 'Temperatura', 'required');
-        $this->form_validation->set_rules('FC', 'F/C', 'required');
-        $this->form_validation->set_rules('FR', 'FR', 'required');
-        
-        
-        $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
-        if ($this->form_validation->run() === FALSE)
-        {
+        $action = $this->input->post('action');
             
-            if (isset($Cita))
-            {
-                $Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
-
-                if(isset($Paciente))
-                {
-                    $data['Paciente'] = $Paciente;
-                    $data['Cita']= $Cita;
-                    $this->load->view('NotaMedica/SeccionSomatometria',$data);
-                }
-            }
-            else
-            {
-                $data['errorMessage'] = "Error al cargar información del paciente";
-                $this->load->view('NotaMedica/SeccionSomatometria',$data);
-            }
-        }
-        else
+        if ($action =='confirmar')
         {
             //Actualizar Paciente
             $PacienteUpdt = array(
@@ -87,17 +75,22 @@ class NotaMedica_Controller extends Agenda_Controler {
                 'ViveCon' => $this->input->post('ViveCon'),
                 'Escolaridad' => $this->input->post('Escolaridad'),
                 'EstadoCivil' => $this->input->post('EstadoCivil'),
-                'NumCelular' => $this->input->post('Celular')
+                'NumCelular' => $this->input->post('Celular'),
+                'email'=> $this->input->post('email')
                 );
-                
+
+            $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
             $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
             
             //Crear Nota Medica 
             $this->CrearNuevaNotaMedica($IdCita);
             $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, REGISTRADA);
-            
-            $this->CitasDeHoy();
         }
+       
+        $this->CitasDeHoy(); 
+      
+            
+            
     }
     /*
      * Function: NuevaNotaMedica
@@ -127,7 +120,34 @@ class NotaMedica_Controller extends Agenda_Controler {
             $this->CitaServicio_Model->AsignarNotaMedica($IdCita, $NuevaNotaMedica);
         }
         
-    }    
+    }   
+    
+    public function Load_ElaborarNotaMedica($IdNotaMedica)
+    {
+        $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
+        $data['NotaMedica'] = $NotaMedica;
+        $data['Paciente'] = $this->Paciente_Model->ConsultarPacientePorId($NotaMedica->IdPaciente);
+        $data['Antecedentes'] = $this->AntecedenteNotaMedica_Model->ConsultarAntecedentesNota($IdNotaMedica);
+        $data['Servicios'] = $this->Servicio_Model->ConsultarServicios();
+        
+        $data['title']='Nota Medica';
+        $data['PacienteSubmitAction'] = '';
+        $data['PacienteActionsEnabled'] = false;
+        $data['SomatometriaActionsEnabled'] = false;
+        $data['SomatometriaSubmitAction']='';
+        
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+        $this->load->view('NotaMedica/FormNotaMedica',$data);
+        $this->load->view('Paciente/PacienteCard',$data);
+        $this->load->view('NotaMedica/SomatometriaCard',$data);
+        $this->load->view('NotaMedica/CardAntecedentes',$data);
+        $this->load->view('NotaMedica/CardProductosNotaMedica',$data);
+        $this->load->view('NotaMedica/CardDiagnosticoNotaMedica',$data);
+        $this->load->view('templates/FormFooter',$data); 
+        $this->load->view('templates/FooterContainer');
+        
+    }
     
     public function ElaborarNotaMedica($IdNotaMedica)
     {
@@ -206,7 +226,7 @@ class NotaMedica_Controller extends Agenda_Controler {
         
             $Productos=  $this->CatalogoProductos_Model->ConsultarProductosPorServicio($this->input->post('servicio_id'));
             
-            $output='<option value="">Selecciona n Producto</option>';
+            $output='<option value="">Selecciona un Producto</option>';
             foreach($Productos as $producto)
             {
                 $output .= '<option value="'.$producto['IdProducto'].'">'.$producto['DescripcionProducto'].'</option>';
@@ -214,6 +234,17 @@ class NotaMedica_Controller extends Agenda_Controler {
             echo $output;
         }
         
+    }
+    
+    public function ConsultarProductoPorId()
+    {
+        if($this->input->post('producto_id'))
+        {
+            
+            $Producto_detail = $this->CatalogoProductos_Model->ConsultarProductoPorId($this->input->post('producto_id'));
+            
+            echo json_encode($Producto_detail);
+        }
     }
   
    
