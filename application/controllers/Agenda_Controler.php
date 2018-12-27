@@ -17,6 +17,10 @@ class Agenda_Controler extends CI_Controller
     public function __construct() {
         parent::__construct();
         
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->helper('url_helper');
+        
         $this->load->model('CitaServicio_Model');
         $this->load->model('Paciente_Model');
         $this->load->model('Servicio_Model');
@@ -25,9 +29,23 @@ class Agenda_Controler extends CI_Controller
     }
     
     public function index(){
-        $this->load->view('templates/headerMenu');
-		$this->load->view('Agenda/VistaAgenda');
+        $data['title']="Agenda Servicios";
+
+
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+//        //$this->load->view('Agenda/VistaAgenda');
+        $this->load->view('Agenda/CardAgenda',$data);
+        $this->load->view('templates/FooterContainer');
+//        $this->load->view('Agenda/VistaAgenda');
+
+              
 	}
+        
+        public function CargarAgenda()
+        {
+            $this->load->view('Agenda/VistaAgenda');
+        }
         
     public function getEventos()
     {
@@ -95,7 +113,7 @@ class Agenda_Controler extends CI_Controller
         $this->load->view('templates/MainContainer',$data);
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Agenda/ListaAgendaHoy',$data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/FooterContainer');
 
         
         
@@ -126,90 +144,70 @@ class Agenda_Controler extends CI_Controller
         
     }
     
-    
+    public function Load_ConfirmarCita($IdCita)
+    {
+        $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
+        $Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
+        
+        $data['Paciente'] = $Paciente;
+        $data['Cita']= $Cita;
+        $data['title']='Confirmar Cita';
+        $data['PacienteSubmitAction'] = 'confirmar';
+        $data['PacienteActionsEnabled'] = true;
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+        $this->load->view('Agenda/FormConfirmarCita',$data);
+        $this->load->view('Paciente/PacienteCard',$data);
+        $this->load->view('templates/FormFooter',$data);
+        $this->load->view('templates/FooterContainer');
+    }
        
     /*
      * Descripcion: Funcion que Carga Vista para confirmar cita 
      */
     public function ConfirmarCita($IdCita)
     {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+        $action = $this->input->post('action');
 
-        $this->form_validation->set_rules('Nombre', 'nombre', 'required');
-        $this->form_validation->set_rules('Apellidos', 'apellidos', 'required');
-        $this->form_validation->set_rules('FechaNacimiento', 'Fecha de Nacimiento', 'required');
-        
-
-        if ($this->form_validation->run() === FALSE)
+        if ($action =='confirmar')
         {
+
+            //Actualizar Paciente
             $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
             if (isset($Cita))
             {
-                $Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
+                //$Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
 
-                if(isset($Paciente))
-                {
-                    $data['Paciente'] = $Paciente;
-                    $data['Cita']= $Cita;
-                    $data['title']='Confirmar Cita';
-                    $this->load->view('templates/MainContainer',$data);
-                    $this->load->view('templates/HeaderContainer',$data);
-                    $this->load->view('Agenda/ConfirmarCita',$data);
-                    $this->load->view('templates/footer');
+                $PacienteUpdt = array(
+                    'Nombre'=>$this->input->post('Nombre'),
+                    'Apellidos' => $this->input->post('Apellidos'),
+                    'FechaNacimiento' => $this->input->post('FechaNacimiento'),
+                    'Calle' => $this->input->post('Calle'),
+                    'Colonia' => $this->input->post('Colonia'),
+                    'CP' => $this->input->post('CP'),
+                    'ViveCon' => $this->input->post('ViveCon'),
+                    'Escolaridad' => $this->input->post('Escolaridad'),
+                    'EstadoCivil' => $this->input->post('EstadoCivil'),
+                    'NumCelular' => $this->input->post('Celular'),
+                    'email'=> $this->input->post('email')
+                    );
 
-                }
+                $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
             }
-            else
-            {
-                //TODO: Manejo de error cuando el paciente de la cita no existe
-            }
- 
-    
+
+            //Confirmar Cita
+            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita,CONFIRMADA);
         }
-        else
-        { 
-            $action = $this->input->post('action');
-            
-            if ($action =='confirmar')
-            {
-                
-                //Actualizar Paciente
-                $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
-                if (isset($Cita))
-                {
-                    //$Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
-                
-                    $PacienteUpdt = array(
-                        'Nombre'=>$this->input->post('Nombre'),
-                        'Apellidos' => $this->input->post('Apellidos'),
-                        'FechaNacimiento' => $this->input->post('FechaNacimiento'),
-                        'Calle' => $this->input->post('Calle'),
-                        'Colonia' => $this->input->post('Colonia'),
-                        'CP' => $this->input->post('CP'),
-                        'ViveCon' => $this->input->post('ViveCon'),
-                        'Escolaridad' => $this->input->post('Escolaridad'),
-                        'EstadoCivil' => $this->input->post('EstadoCivil'),
-                        'NumCelular' => $this->input->post('Celular')
-                        );
-                
-                    $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
-                }
-                
-                //Confirmar Cita
-                $this->CitaServicio_Model->ActualizarEstatusCita($IdCita,CONFIRMADA);
-            }
-            if($action=='cancelar')
-            {
-                //CancelarCita
-                $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, CANCELADA);
-                
-            }
+        if($action=='cancelar')
+        {
+            //CancelarCita
+            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, CANCELADA);
+
+        }
             $this->CitasDeHoy();
            
         }
-        
-    }
+
     
     public function CitasAtendidas()
     {

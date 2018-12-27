@@ -30,14 +30,14 @@ class AntecedenteNotaMedica_Model extends CI_Model {
         
         $query = $this->db->get();
 
-       // if ($query->num_rows() >= 1) 
-        //{
-        return $query->result_array();
-        //} 
-        //else 
-        //{
-          //  return false;
-        //}
+        if ($query->num_rows() >= 1) 
+        {
+            return $query->result_array();
+        } 
+        else 
+        {
+            return false;
+        }
     }
     
     public function CrearNuevosAntecedentesPorServicio($IdNotaMedica, $IdServicio)
@@ -45,26 +45,36 @@ class AntecedenteNotaMedica_Model extends CI_Model {
         
         //Crear Antecedentes
         $AntecedentesServicios = $this->AntecedenteServicio_Model->ConsultarAntecedentesPorServicio($IdServicio);
-
-        foreach ($AntecedentesServicios as $Antecedente)
+        
+        if ($AntecedentesServicios)
         {
-            $NuevoAntecedente = array(
-                'IdNotaMedica'=>$IdNotaMedica,
-                'IdAntecedente'=>$Antecedente['IdAntecedente'],
-                'DescripcionAntecedenteNotaMedica'=>'-'.$Antecedente['IdAntecedente'].'-'.$Antecedente['IdServicio'] //-----NOTA MEDICA CREADA FECHA:'.mdate('%Y-%m-%d').'-----'
-            );
-        
-         
-            $resultado = $this->db->insert($this->table, $NuevoAntecedente);
-
-            if ($resultado == FALSE)
+            foreach ($AntecedentesServicios as $Antecedente)
             {
-                return false;
+                $NuevoAntecedente = array(
+                    'IdNotaMedica'=>$IdNotaMedica,
+                    'IdAntecedente'=>$Antecedente['IdAntecedente'],
+                    'DescripcionAntecedenteNotaMedica'=>'-'.$Antecedente['IdAntecedente'].'-'.$Antecedente['IdServicio'] //-----NOTA MEDICA CREADA FECHA:'.mdate('%Y-%m-%d').'-----'
+                );
+
+
+                $resultado = $this->db->insert($this->table, $NuevoAntecedente);
+
+                if ($resultado == FALSE)
+                {
+                    return false;
+                }
+
             }
- 
+            return true;
         }
+        else
+        {
+            return false;
+        }
+
         
-        return true;
+        
+        
     
     }
     

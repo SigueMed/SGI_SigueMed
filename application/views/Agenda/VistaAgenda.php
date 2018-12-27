@@ -3,8 +3,22 @@
 <meta charset='utf-8' />
 <link href='<?php echo base_url();?>assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
 <link href='<?php echo base_url();?>assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/bootstrap.css">
+    <!-- font icons-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/fonts/icomoon.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/fonts/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/vendors/css/extensions/pace.css">
+    
+    <!-- BEGIN ROBUST CSS-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/colors.css">
+    
+    
 <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css">-->
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -49,7 +63,7 @@
                             else
                             {
                               $('#getServicio').append('<option value="'+item.IdServicio+'">'+item.DescripcionServicio+'</option>');  
-                              
+
                                 document.getElementById("txtidServicio").value = 1;
                                 
                             }
@@ -80,7 +94,8 @@
                                                    
                                                 },  
                                         defaultView:'agendaWeek',
-                                       
+                                        scrollTime: new Date().getHours()+":00:00",
+                                        
                                                         ////$.parseJSON(data),
                                         //alert('prueba');
                                         //eventDrop es para poder guardar la fechaHr al moverla de posicion
@@ -244,12 +259,12 @@
 
 <style>
 
-	body {
+/*	body {
 		margin: 40px 10px;
 		padding: 0;
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		font-size: 130%;
-	}
+	}*/
 
 	#calendar {
 		max-width: 60%;
@@ -264,7 +279,7 @@
             }
             
             .fc-past{
-                background-color: #F08080;
+                background-color: #DEB887;
             }
             
         #dropdownServicio{
@@ -275,12 +290,6 @@
 
         }
         
-        #getServicio{
-            background-color: #e6fff2;
-            font-size: 1100%;
-            border-radius: 5px 5px 5px 5px;
-            cursor: pointer;
-        }
         
         
         @media screen and (max-width: 1200px) { 
@@ -329,18 +338,40 @@
 
 
 <body>
-    <div class="form-row">
+    <div class="row match-height">
+        <div class="col-md-12">
+            <div class="card">
+    <div class="card-body collapse in">
+        <div class="card-block">
+            <div class="form-body">
     <!--dropdownServicio-->
-   <div class="" id="dropdownServicio">
+   <div class="row" id="dropdownServicio">
+       <div class="col-md-12">
+           <div class="form-group">
+              
+               <select class="form-control" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Servicios" id="getServicio" onchange="myFuncion(event)"  name="getServicio" >
+                <option value="">Servicios:</option>
+               </select>
+           </div>
        
-       <select class="form-control input-lg" id="getServicio" onchange="myFuncion(event)"  name="getServicio" >
-           <option value="">Servicios:</option>
-       </select>
+       </div>
        
     </div>
-    <br><br><br><br><br>
-    <div id='calendar'></div>
+    <br><br>
+
+    <div class ="row">
+        <div class="col-md-12">
+            <div  id='calendar'></div>
+        </div>
+        
     </div>
+    </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+   
     
 	<!-- Modal 1 (Agregar, modificar, eliminar) (ventana modal con Bootstrap) -->
 	<div class="modal fade" id="modalEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -629,9 +660,9 @@
                 return false;
                 }else if(HoraCita === ""){
                     alert("Agrega la Hr de la cita");
-                }else if(parseInt(DiaCita) <= dia && HoraCita < hora+":"+minutos){
-                    
-                    alert("No se permite agregar una cita antes de la hr actual");
+                }else if(parseInt(DiaCita) <= dia && Date.parse(HoraCita) < Date.parse(hora+":"+minutos)){
+
+                    alert("No se permite agregar una cita ("+ HoraCita +") antes de la hr actual. Hora Actual: " + hora+":"+minutos);
                 }else{
                 
 		$.post("<?php echo site_url();?>/Agenda_Controler/agregarEvento",

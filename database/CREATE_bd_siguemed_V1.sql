@@ -263,7 +263,8 @@ CREATE TABLE `paciente` (
   `Escolaridad` tinytext COLLATE latin1_spanish_ci NOT NULL,
   `Religion` tinytext COLLATE latin1_spanish_ci NOT NULL,
   `Ocupacion` tinytext COLLATE latin1_spanish_ci NOT NULL,
-  `NumCelular` tinytext COLLATE latin1_spanish_ci NOT NULL
+  `NumCelular` tinytext COLLATE latin1_spanish_ci NOT NULL,
+   `email` tinytext COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 
