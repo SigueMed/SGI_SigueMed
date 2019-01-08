@@ -18,7 +18,7 @@ class Usuario_Model extends CI_Model {
     {
         parent::__construct();
             $this->load->database();
-            $this->table = "Usuarios";
+            $this->table = "usuarios";
     }
     
     public function ValidarUsuarioContrasena($Usuario=FALSE, $Contrasena=FALSE)
@@ -26,8 +26,8 @@ class Usuario_Model extends CI_Model {
        
         $this->db->select($this->table.'.*,NombreEmpleado, ApellidosEmpleado, DescripcionPerfil, Perfil.IdPerfil');
         $this->db->from($this->table.', Empleado, Perfil');
-        $this->db->where ($this->table.'.IdEmpleado = Empleado.IdEmpleado');
-        $this->db->where ($this->table.'.IdPerfil = Perfil.IdPerfil');
+        $this->db->where ($this->table.'.IdEmpleado = empleado.IdEmpleado');
+        $this->db->where ($this->table.'.IdPerfil = perfil.IdPerfil');
         $this->db->where ('usuario', $Usuario);
         $this->db->where ('contrasena', $Contrasena);
         $this->db->limit(1);

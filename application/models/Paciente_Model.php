@@ -19,7 +19,7 @@ class Paciente_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        $this->table = "Paciente";
+        $this->table = "paciente";
         $this->load->database();
         
     }

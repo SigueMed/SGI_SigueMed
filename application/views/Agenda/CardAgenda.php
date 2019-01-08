@@ -1,12 +1,9 @@
 
-<section id="Agenda">
-    <div class="row match-height">
-        <div class="col-md-12">
-            <iframe width="100%" height="500" src=<?php echo site_url().'/Agenda/CargarAgenda';?>></iframe>
-            
+<div class="embed-responsive embed-responsive-1by1">
+    <iframe class="embed-responsive-item" src=<?php echo site_url().'/Agenda/CargarAgenda';?> allowfullscreen></iframe>
+             
         </div>
-    </div>
-</section>
+
 
                 
 

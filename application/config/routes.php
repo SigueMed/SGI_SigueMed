@@ -59,11 +59,12 @@ $route['Agenda/CitasAtendidas'] = 'Agenda_Controler/CitasAtendidas';
 $route['NotaMedica/Registrar/(.+)'] = 'NotaMedica_Controller/Load_RegistrarSomatometria/$1';
 
 //Index.php Dirige al Login
-$route['default_controller'] = 'Login_Controller/ValidarLogin';
+$route['default_controller'] = 'Login_Controller/Cargar_Login';
+
 //$route['default_controller'] = 'Ccalendar';
 $route['NotaMedica/ElaborarNota/(.+)'] = 'NotaMedica_Controller/Load_ElaborarNotaMedica/$1';
-$route['usuario/login'] = 'Usuario/login';
-$route['main/TableroPrincipal'] = 'Usuario/TableroPrincipal';
+$route['Usuario/CerrarSesion'] = 'Login_Controller/CerrarSesion';
+$route['Clinica/SeleccionarClinica'] = 'Clinica_Controller/Cargar_SeleccionarClinica';
 
 //Nota Remision
 $route['NotaRemision/CrearNota/(.+)'] = 'NotaRemision_Controller/CrearNotaRemision/$1';

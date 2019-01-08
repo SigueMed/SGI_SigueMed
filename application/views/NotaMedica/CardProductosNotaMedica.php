@@ -21,6 +21,7 @@
                     <div class="card-block">
                         <!--FORM BODY-->
                         <div class="form-body">
+                            <!--FILA PRODUCTO-->
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
@@ -122,6 +123,22 @@
                            </div>
                             
                         </div>
+                        <!--FORM ACTIONS-->
+                        <div class="form-actions">
+                            <?php
+                                if($ProductosNotaActionsEnabled== true)
+                                {
+                                    echo '<button type="submit" class="btn btn-warning mr-1" name="action" value="cancelar">';
+                                    echo '<i class="icon-cross2"></i> Cancelar';
+                                    echo '</button>';
+                                    echo '<button type="submit" class="btn btn-primary" name="action" value='.$ProductosNotaSubmitAction.'>';
+                                    echo '<i class="icon-check2"></i> Guardar';
+                                    echo '</button>';
+                                }
+                            ?>
+                                
+                                
+                        </div>
                     </div>
                 </div>
             </div>
@@ -199,10 +216,10 @@ $(document).ready(function()
                     '<tr id=row'+numFila+'>'+
                     '<td>'+numFila+'</td>'+
                     '<td><input type="hidden" value='+idServicio+'>'+descServicio+'</td>'+
-                    '<td><input type="hidden" value='+idProducto+'>'+descProducto+'</td>'+
-                    '<td>'+precio+'</td>'+
-                    '<td>'+cantidad+'</td>'+
-                    '<td>'+descuento+'%</td>'+
+                    '<td><input type="hidden" name="IdProducto[]" value='+idProducto+'>'+descProducto+'</td>'+
+                    '<td><input class="form-control" name="precio[]" value="'+precio+'" readonly></td>'+
+                    '<td><input class="form-control" name="cantidad[]" value="'+cantidad+'"readonly></td>'+
+                    '<td><input class="form-control" name="descuento[]" value="'+descuento+'%" readonly></td>'+
                     '<td>'+subtotal+'</td>'+
                     '<td type="button" name="remove" class="btn btn-danger btn-xs remove" data-row="row'+numFila+'"><i class="icon-ios-trash"></i></td>'+
                     '</tr>'
@@ -222,6 +239,7 @@ $(document).ready(function()
         //Borrar filas de la tabla productos
         $(document).on('click', '.remove', function(){
             var delete_row = $(this).data("row");
+            
             var subtotal = parseInt($("#"+delete_row).find("td")[6].innerHTML);
             $('#' + delete_row).remove();
             

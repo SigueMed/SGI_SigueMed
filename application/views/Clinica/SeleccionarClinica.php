@@ -69,38 +69,30 @@
                 <div class="card-title text-xs-center">
                     <div class="p-1"><img src="<?php echo base_url();?>app-assets/images/logo/SigueMEDLogo.png" alt="branding logo"></div>
                 </div>
-                <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Sistema de Gestión Integral</span></h6>
+                <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Pagina de Acceso - SGI</span></h6>
             </div>
             <div class="card-body collapse in">
                 <div class="card-block">
                     
      
 
-                        <?php echo form_open('Login_Controller/ValidarLogin','class="form-horizontal form-simple" novalidate'); ?>
+                        <?php echo form_open('Clinica_Controller/SeleccionarClinica','class="form-horizontal form-simple" novalidate'); ?>
                     
-                    
-                        <fieldset class="form-group position-relative has-icon-left mb-0">
-                            <input type="text" class="form-control form-control-lg input-lg"name="username" id="usuario" placeholder="Tu Usuario" required>
-                            <div class="form-control-position">
-                                <i class="icon-head"></i>
-                            </div>
-                        </fieldset>
-                        <fieldset class="form-group position-relative has-icon-left">
-                            <input type="password" class="form-control form-control-lg input-lg" name="password" id="password" placeholder="Contraseña" required>
-                            <div class="form-control-position">
-                                <i class="icon-key3"></i>
-                            </div>
-                        </fieldset>
-                        <fieldset class="form-group row">
-                            <div class="col-md-6 col-xs-12 text-xs-center text-md-left">
-                                <fieldset>
-                                    <input type="checkbox" id="remember-me" class="chk-remember">
-                                    <label for="remember-me"> Recuerdame</label>
-                                </fieldset>
-                            </div>
-                           
-                        </fieldset>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" value=" Login " name="submit"><i class="icon-unlock2"></i> Ingresar</button>
+                    <fieldset class="form-group position-relative">
+                        <label for="Nombre">Bienvenido: <?php echo $this->session->userdata('NombreUsuario')?>;</label>
+                    </fieldset>
+                        
+                    <fieldset class="form-group position-relative">
+                        <label for="Clinicas">Selecciona una Clínica</label><br> 
+                        <select class="form-group position-relative width-60-per"  id="Clinicas" name="Clinicas" >
+                            <option value="">Opcion 1</option>
+
+                        </select>
+                    </fieldset>
+                  
+                            
+                        
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" value="select" name="submit"><i class="icon-unlock2"></i> Ingresar</button>
                       
                     </form>
                 </div>
@@ -133,7 +125,30 @@
     <script src="<?php echo base_url();?>app-assets/js/core/app.js" type="text/javascript"></script>
     <!-- END ROBUST JS-->
     <!-- BEGIN PAGE LEVEL JS-->
+    
+    <script type="text/javascript">
+        $(document).ready(function()
+    {
+        CargarClinicasEmpleado();
+       
+        });
+        
+        function CargarClinicasEmpleado()
+        {
+            var idEmpleado = <?php echo $this->session->userdata('IdEmpleado');?>;
+            $.ajax({
+                  url:"<?php echo site_url();?>/Clinica_Controller/ConsultarClinicasEmpleado",
+                  method:"POST",
+                  data:{IdEmpleado:idEmpleado},
+                  success: function(data)
+                    {
+                        $('#Clinicas').html(data);
+                    }
+              });
+            
+            
+        }
+    </script>
     <!-- END PAGE LEVEL JS-->
   </body>
 </html>
-

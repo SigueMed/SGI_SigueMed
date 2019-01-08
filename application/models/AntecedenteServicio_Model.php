@@ -15,7 +15,7 @@ class AntecedenteServicio_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        $this->table = "CatalogoAntecedentes";
+        $this->table = "catalogoantecedentes";
         $this->load->database();
     }
     

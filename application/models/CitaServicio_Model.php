@@ -18,7 +18,7 @@ class CitaServicio_Model extends CI_Model
     
     public function __construct() {
         parent::__construct();
-        $this->table = "CitaServicio";
+        $this->table = "citaservicio";
         $this->load->database();
         
     }
@@ -27,7 +27,7 @@ class CitaServicio_Model extends CI_Model
      * Descripcion: Consulta la citas de un dia especifico
      * IdStatus: Si se indica, consultas las citas del día especifico con el estatus proporcionado
      */
-    public function ConsultarCitasPorDia($Fecha, $IdStatus=FALSE)
+    public function ConsultarCitasPorDia($Fecha, $IdStatus=FALSE, $IdEmpleado=FALSE)
     {
         $this->load->helper("date");
         
@@ -40,9 +40,9 @@ class CitaServicio_Model extends CI_Model
         $this->db->select($this->table.'.*, DescripcionServicio, Nombre, Apellidos, DescripcionEstatusCita');
         $this->db->from($this->table.',Servicio,Paciente, CatalogoEstatusCita');
         // JOIN
-        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
-        $this->db->where($this->table.'.IdPaciente = Paciente.IdPaciente');
-        $this->db->where($this->table.'.IdStatusCita = CatalogoEstatusCita.IdStatusCita');
+        $this->db->where($this->table.'.IdServicio = servicio.IdServicio');
+        $this->db->where($this->table.'.IdPaciente = paciente.IdPaciente');
+        $this->db->where($this->table.'.IdStatusCita = catalogoestatuscita.IdStatusCita');
         //CONDICION
         $this->db->where('DiaCita', $dia);
         $this->db->where('MesCita', $mes);
@@ -56,6 +56,15 @@ class CitaServicio_Model extends CI_Model
         {
             $this->db->where($this->table.'.IdStatusCita !=', ATENDIDA);
         }
+        
+        If($IdEmpleado!=FALSE)
+        {
+            $this->db->where($this->table.'.IdEmpleado', $IdEmpleado);
+        }
+        $this->db->where('IdClinica',$this->session->userdata('IdClinica'));
+        
+       
+        
         
         $this->db->order_by('HoraCita', 'ASC');
       
@@ -71,7 +80,7 @@ class CitaServicio_Model extends CI_Model
      * Descripcion:Consulta TODAS las citas de un servicio del mes actual en adelante
      * IdServicio: El ID del servicio del que se quieren obtener las citas
      */
-    public function ConsultarCitasPorServicio($IdServicio)
+    public function ConsultarCitasPorServicio($IdServicio=FALSE, $IdStatus=FALSE)
     {
         $this->load->helper("date");
         
@@ -80,21 +89,44 @@ class CitaServicio_Model extends CI_Model
         $mes = mdate('%m',$Fecha);
         $anio = mdate('%Y',$Fecha);
         
-        $this->db->select('IdCitaServicio as id, Paciente.IdPaciente as idpac, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, Paciente.NumCelular as descripcioncel,'
+        $this->db->select('IdCitaServicio as id, paciente.IdPaciente as idpac, DescripcionServicio as title, CONCAT(Nombre," ", Apellidos) as descripcion, paciente.NumCelular as descripcioncel,'
                 . 'CAST(CONCAT(anioCita,"-",MesCita,"-",DiaCita,"T",TIME_FORMAT(HoraCita,"%H:%i:%s")) as datetime) as start');
          $this->db->select('CAST(CONCAT(AnioCita,"-",MesCita,"-",DiaCita,"T",TIME_FORMAT(ADDTIME(HoraCita,"1:00:00"),"%H:%i:%s")) as datetime) as end', FALSE);
          $this->db->select('IdStatusCita');
+         $this->db->select('IdEmpleado');
+         $this->db->select('Comentarios');
+         $this->db->select($this->table.'.IdServicio');
+         $this->db->select('CodigoColorServicio as color');
         $this->db->from($this->table);
         // JOIN
-        $this->db->join('Servicio','Servicio.IdServicio='.$this->table.'.IdServicio');
-        $this->db->join('Paciente','Paciente.IdPaciente='.$this->table.'.IdPaciente');
+        $this->db->join('servicio','servicio.IdServicio='.$this->table.'.IdServicio');
+        $this->db->join('paciente','paciente.IdPaciente='.$this->table.'.IdPaciente');
     
 
         $this->db->where('MesCita >='.$mes);
         $this->db->where('AnioCita>='.$anio);
         
-        $this->db->where($this->table.'.IdServicio', $IdServicio);
-                
+        if ($IdServicio !== FALSE)
+        {
+            $this->db->where($this->table.'.IdServicio', $IdServicio);
+        }       
+        
+        if($IdStatus!== FALSE)
+        {
+            $this->db->where($this->table.'.IDStatusCita', $IdStatus);
+        }
+        else
+        {
+            $this->db->where($this->table.'.IDStatusCita!=', ATENDIDA);
+            $this->db->where($this->table.'.IDStatusCita!=', CANCELADA);
+            
+        }
+        
+        if($this->session->has_userdata('IdClinica'))
+        {
+            $IdClinica = $this->session->userdata('IdClinica');
+            $this->db->where('IdClinica',$IdClinica);
+        }
         
         $query = $this->db->get();
         
@@ -110,9 +142,9 @@ class CitaServicio_Model extends CI_Model
     {
          
         $this->db->select($this->table.'.*,DescripcionServicio');
-        $this->db->from($this->table.',Servicio');
+        $this->db->from($this->table.',servicio');
         //JOIN
-        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
+        $this->db->where($this->table.'.IdServicio = servicio.IdServicio');
         //CONDICION
         $this->db->where('IdCitaServicio', $IdCita);
        
@@ -130,9 +162,9 @@ class CitaServicio_Model extends CI_Model
     {
          
         $this->db->select($this->table.'.*,DescripcionServicio');
-        $this->db->from($this->table.',Servicio');
+        $this->db->from($this->table.',servicio');
         //JOIN
-        $this->db->where($this->table.'.IdServicio = Servicio.IdServicio');
+        $this->db->where($this->table.'.IdServicio = servicio.IdServicio');
         //CONDICION
         $this->db->where('IdNotaMedica', $IdNotaMedica);
        
@@ -143,10 +175,7 @@ class CitaServicio_Model extends CI_Model
     }
     
 
-    
-   
-
-    public function AsignarNotaMedica($IdCita,$IdNotaMedica)
+      public function AsignarNotaMedica($IdCita,$IdNotaMedica)
     {
         
         $data = array('IdNotaMedica'=>$IdNotaMedica);
@@ -166,30 +195,6 @@ class CitaServicio_Model extends CI_Model
     }
     
    
-    
-    public function updEvento($param)
-    {
-        
-        $dia = mdate('%d',$param['fecini']);
-        $mes = mdate('%m',$param['fecini']);
-        $anio = mdate('%Y',$param['fecini']);
-        $hora = mdate('%h:%i:%s', $param['fecini']);
-        $campos = array(
-                'DiaCita' => $dia,
-                'MesCita' => $mes,
-                'AnioCita' => $anio,
-                'HoraCita' => $hora
-                );
-
-        $this->db->where('IdCitaServicio',$param['id']);
-        $this->db->update($this->table,$campos);
-
-        if ($this->db->affected_rows() == 1) {
-                return 1;
-        }else{
-                return 0;
-        }
-    }
     //AUTOR 'Carlos Esquivel' -- Guarda nuevas citas
     public function agregarEvento($param){
         $campos = array(
@@ -199,9 +204,13 @@ class CitaServicio_Model extends CI_Model
             'MesCita' => $param['MesCita'],
             'AnioCita' => $param['AnioCita'],
             'HoraCita' => $param['HoraCita'],
-            'IdStatusCita' => $param['IdStatusCita']
+            'IdStatusCita' => $param['IdStatusCita'],
+            'IdEmpleado'=> $param['IdEmpleado'],
+            'Comentarios'=>$param['Comentarios'],
+            'IdClinica'=> $param['IdClinica']
            );
         
+           log_message('info', $param['IdPaciente']);
         $this->db->insert($this->table, $campos);
         
         if ($this->db->affected_rows() == 1) {
@@ -220,12 +229,17 @@ class CitaServicio_Model extends CI_Model
         //AUTOR 'Carlos Esquivel' -- actualizar cita
 	public function ActualizarCita($param){
 		$campos = array(
-			'IdPaciente' => $param['IdPaciente'],
-                        'HoraCita' => $param['HoraCita']
 			
-			);
+                    'HoraCita' => $param['HoraCita'],
+                    'IdEmpleado'=> $param['IdEmpleado'],
+                    'MesCita'=>$param['MesCita'],
+                    'AnioCita'=>$param['AnioCita'],
+                    'DiaCita'=>$param['DiaCita'],
+                    'Comentarios'=>$param['Comentarios']
 
-		$this->db->where('IdCitaServicio',$param['IdCitaServicio']);
+                    );
+
+		$this->db->where('IdCitaServicio',$param['IdCi  taServicio']);
 		$this->db->update($this->table,$campos);
 
 		if ($this->db->affected_rows() == 1) {

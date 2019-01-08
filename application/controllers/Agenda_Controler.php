@@ -24,6 +24,7 @@ class Agenda_Controler extends CI_Controller
         $this->load->model('CitaServicio_Model');
         $this->load->model('Paciente_Model');
         $this->load->model('Servicio_Model');
+        $this->load->model('Empleado_Model');
         $this->load->helper('date');
         
     }
@@ -52,47 +53,60 @@ class Agenda_Controler extends CI_Controller
         //f($this->input->post('servicio_id'))
         $IdServicio =$this->input->post('IdServicio');
             
+        if ($IdServicio == "*")
+        {
+            $r= $this->CitaServicio_Model->ConsultarCitasPorServicio();
+        }
+        else
+        {
+            $r= $this->CitaServicio_Model->ConsultarCitasPorServicio($IdServicio);
+        }
         //$this->load->Model('CitaServicio_Model');
 
-        $r= $this->CitaServicio_Model->ConsultarCitasPorServicio($IdServicio);
+        
             //$r = $this->Mcalendar->getEventos();
             echo json_encode($r);
     }
     
-    public function updEvento()
-    {
-        $param['id'] = $this->input->post('id');
-        $fdate = human_to_unix($this->input->post('fecini'));
-        $param['fecini'] = $fdate;
-        $param['fecfin'] = $this->input->post('fecfin');
-
-        $r = $this->CitaServicio_Model->updEvento($param);
-
-        echo $r;
-    }
+//    public function updEvento()
+//    {
+//        $param['IdCitaServicio'] = $this->input->post('id');
+//        $param['DiaCita'] = $this->input->post('DiaCita');
+//        $param['MesCita'] = $this->input->post('MesCita');
+//        $param['AnioCita'] = $this->input->post('AnioCita');
+//        $param['HoraCita'] = $this->input->post('HoraCita');
+//        $param['Comentarios'] = $this->input->post('Comentarios');
+//
+//        $r = $this->CitaServicio_Model->updEvento($param);
+//
+//        echo $r;
+//    }
     
     //Autor: Carlos Esquivel
     public function agregarEvento()
     {
+        try
+        {
+            $param['IdPaciente'] = $this->input->post('IdPaciente');
+            $param['IdServicio'] = $this->input->post('IdServicio');
+            $param['DiaCita'] = $this->input->post('DiaCita');
+            $param['MesCita'] = $this->input->post('MesCita');
+            $param['AnioCita'] = $this->input->post('AnioCita');
+            $param['HoraCita'] = $this->input->post('HoraCita');
+            $param['IdStatusCita'] = $this->input->post('IdStatusCita');
+            $param['IdEmpleado'] = $this->input->post('IdEmpleado');
+            $param['Comentarios'] = $this->input->post('Comentarios');
+            $param['IdClinica'] = $this->session->userdata('IdClinica');
 
-//        $dia = mdate('%d',$this->input->post('fecini'));
-//        $mes = mdate('%m',$this->input->post('fecini'));
-//        $anio = mdate('%Y',$this->input->post('fecini'));
-//        $hora = mdate('%h:%i', $this->input->post('fecini'));
+
+
+            $r = $this->CitaServicio_Model->agregarEvento($param);
+            echo $r;
+
+        } catch (Exception $ex) {
+            echo 2;
+        }
         
-        $param['IdPaciente'] = $this->input->post('IdPaciente');
-        $param['IdServicio'] = $this->input->post('IdServicio');
-        $param['DiaCita'] = $this->input->post('DiaCita');
-        $param['MesCita'] = $this->input->post('MesCita');
-        $param['AnioCita'] = $this->input->post('AnioCita');
-        $param['HoraCita'] = $this->input->post('HoraCita');
-        $param['IdStatusCita'] = $this->input->post('IdStatusCita');
-//	$param['fecfin'] = $this->input->post('fecfin');
-//        $param['web'] = $this->input->post('web');
-
-
-        $r = $this->CitaServicio_Model->agregarEvento($param);
-        echo $r;
     }
     
     /*
@@ -102,7 +116,20 @@ class Agenda_Controler extends CI_Controller
     {
         $Fecha = now();
         
-        $data['Citas'] = $this->CitaServicio_Model->ConsultarCitasPorDia($Fecha);
+        $IdPerfil =$this->session->userdata('IdPerfil');
+        $IdEmpleado = $this->session->userdata('IdEmpleado');
+    
+        if ($IdPerfil==MEDICO)
+        {
+             $data['Citas'] = $this->CitaServicio_Model->ConsultarCitasPorDia($Fecha,FALSE,$IdEmpleado);
+
+        }
+        else
+        {
+            $data['Citas'] = $this->CitaServicio_Model->ConsultarCitasPorDia($Fecha);
+        }
+        
+
         
         if (empty($data['Citas']))
         {
@@ -231,8 +258,8 @@ class Agenda_Controler extends CI_Controller
     
     
         //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
-        public function getServiciosClinica(){
-            $resultado = $this->Servicio_Model->getServiciosClinica();
+        public function getServiciosAgenda(){
+            $resultado = $this->Servicio_Model->getServiciosAgenda();
             echo json_encode($resultado);
         }
         
@@ -271,12 +298,47 @@ class Agenda_Controler extends CI_Controller
         //AUTOR 'Carlos Esquivel'
         public function ActualizarCita(){
             $param['IdCitaServicio'] = $this->input->post('IdCitaServicio');
-            $param['IdPaciente'] = $this->input->post('IdPaciente');
             $param['HoraCita'] = $this->input->post('HoraCita');
+            $param['MesCita'] = $this->input->post('MesCita');
+            $param['AnioCita'] = $this->input->post('AnioCita');
+            $param['DiaCita'] = $this->input->post('DiaCita');
+            $param['IdEmpleado'] = $this->input->post('IdEmpleado');
+            $param['Comentarios'] = $this->input->post('Comentarios');
+            
+            $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($this->input->post('IdCitaServicio'));
+            
+            if ($Cita->IdStatusCita== CONFIRMADA || $Cita->IdStatusCita == REGISTRADA)
+            {
+                echo 2;
+            }
+            else
+            {
+                $r = $this->CitaServicio_Model->ActualizarCita($param);
 
-            $r = $this->CitaServicio_Model->ActualizarCita($param);
-
-            echo $r;
+                echo $r;
+                
+            }
+           
+            
+        }
+        
+        //Cargar Medicos por servicio seleccionado
+        //Parametros metodo POST
+        public function ConsultarMediciosServicio()
+        {
+            $IdServicio = $this->input->post('IdServicio');
+            
+            if ($IdServicio !== null)
+            {
+                $Medicos = $this->Empleado_Model->ConsultarMedicosPorServicio($IdServicio);
+                $output='<option value="">Selecciona un Medico</option>';
+                foreach($Medicos as $Medico)
+                {
+                     $output .= '<option value="'.$Medico['IdEmpleado'].'">'.$Medico['Nombre'].'</option>';
+                }
+            }
+            echo $output;   
+            
         }
     
 }

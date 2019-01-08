@@ -18,7 +18,7 @@ class NotaRemision_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        $this->table = "NotaMedica";
+        $this->table = "notamedica";
         $this->tabla = "productosnotamedica";
         $this->tpaciente = "paciente";
         

@@ -18,7 +18,7 @@ class Servicio_Model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->load->database();
-        $this->table = "Servicio";
+        $this->table = "servicio";
         
     }
     
@@ -26,6 +26,7 @@ class Servicio_Model extends CI_Model {
     {
          $this->db->select($this->table.'.*');
         $this->db->from($this->table);
+        $this->db->where('Habilitado', TRUE);
         
         $query = $this->db->get();
         
@@ -35,8 +36,10 @@ class Servicio_Model extends CI_Model {
     //put your code here
 
     //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
-    public function getServiciosClinica(){
+    public function getServiciosAgenda(){
         $this->db->from($this->table);
+        $this->db->where('ManejoAgenda', TRUE);
+        $this->db->where('Habilitado', TRUE);
         $query = $this->db->get();
         return $query->result();
     }

@@ -26,13 +26,14 @@ class NotaMedica_Model extends CI_Model {
      */
     public function __construct() {
         parent::__construct();
-        $this->table = "NotaMedica";
+        $this->table = "notamedica";
         $this->tabla = "productosnotamedica";
         $this->load->database();
         
         $this->load->model('CitaServicio_Model');
         $this->load->model('AntecedenteServicio_Model');
         $this->load->model('AntecedenteNotaMedica_Model');
+        
         $this->load->helper('date');
         $this->load->helper('array');
         $this->UpdateFields = array('FechaNotaMedica','PesoPaciente','TallaPaciente','PresionPaciente','FrCardiacaPaciente','FrRespiratoriaPaciente','TemperaturaPaciente');
@@ -95,26 +96,27 @@ class NotaMedica_Model extends CI_Model {
         
     }
     
-    public function CrearNuevaNotaMedica($IdCita, $DatosSomatometria,$IdUsuario, $IdUltimaNotaMedica = FALSE)
+    public function CrearNuevaNotaMedica($IdCita, $DatosSomatometria,$IdEmpleado, $IdUltimaNotaMedica = FALSE)
     {
         //No tiene notas medias anteriores
         $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
+        $Fecha = now();
         
         //Crear Nueva Nota con Datos Somatometria
         $InsertArray = array(
                 'IdPaciente'=>$Cita->IdPaciente,
                 'IdServicio'=>$Cita->IdServicio,
-                'FechaNotaMedica'=>mdate('%Y-%m-%d'),
+                'FechaNotaMedica'=>mdate('%Y-%m-%d', $Fecha),
                 'PesoPaciente'=>$DatosSomatometria['PesoPaciente'],
                 'TallaPaciente'=>$DatosSomatometria['TallaPaciente'],
                 'PresionPaciente'=>$DatosSomatometria['PresionPaciente'],
                 'FrCardiacaPaciente'=>$DatosSomatometria['FrCardiacaPaciente'],
                 'FrRespiratoriaPaciente'=>$DatosSomatometria['FrRespiratoriaPaciente'],
                 'TemperaturaPaciente'=>$DatosSomatometria['TemperaturaPaciente'],
-                'IdUsuario'=>$IdUsuario
+                'IdEmpleado'=>$IdEmpleado
             );
             
-        $this->db->insert('NotaMedica', $InsertArray);
+        $this->db->insert($this->table, $InsertArray);
                     
         $IdNuevaNota = $this->ConsultarUltimaNotaMedicaPorPaciente($Cita->IdPaciente, $Cita->IdServicio);
                    

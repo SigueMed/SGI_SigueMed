@@ -15,7 +15,7 @@ class AntecedenteNotaMedica_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        $this->table = "AntecedenteNotaMedica";
+        $this->table = "antecedentemotaMedica";
         $this->load->model('NotaMedica_Model');
         $this->load->database();
     }
@@ -53,7 +53,7 @@ class AntecedenteNotaMedica_Model extends CI_Model {
                 $NuevoAntecedente = array(
                     'IdNotaMedica'=>$IdNotaMedica,
                     'IdAntecedente'=>$Antecedente['IdAntecedente'],
-                    'DescripcionAntecedenteNotaMedica'=>'-'.$Antecedente['IdAntecedente'].'-'.$Antecedente['IdServicio'] //-----NOTA MEDICA CREADA FECHA:'.mdate('%Y-%m-%d').'-----'
+                    'DescripcionAntecedenteNotaMedica'=>'[Fecha: '.mdate('%Y-%m-%d').']'
                 );
 
 
@@ -90,8 +90,8 @@ class AntecedenteNotaMedica_Model extends CI_Model {
                 {
                     $NuevoAntecedente = array(
                         'IdNotaMedica'=>$IdNuevaNotaMedica,
-                        'IdAntecedente'=>$Antecedente|['IdAntecedente'],
-                        'DescripcionAntecedenteNotaMedica'=>'----'.mdate('%Y-%m-%m',now()).'----\n '.$Antecedente['DescripcionAntecedenteNotaMedica']
+                        'IdAntecedente'=>$Antecedente['IdAntecedente'],
+                        'DescripcionAntecedenteNotaMedica'=>'Historial:'.$Antecedente['DescripcionAntecedenteNotaMedica'].' -- [Fecha: '.mdate('%Y-%m-%m',now()).']' 
                     );
 
                     $resultado = $this->db->insert($this->table, $NuevoAntecedente);

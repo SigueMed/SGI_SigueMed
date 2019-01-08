@@ -15,7 +15,7 @@ class ProductosNotaMedica_Model extends CI_Model{
     
     public function __construct(){
         parent::__construct();
-        $this->table = "ProductosNotaMedica";
+        $this->table = "productosnotamedica";
         $this->load->database();
     }
     
@@ -39,16 +39,33 @@ class ProductosNotaMedica_Model extends CI_Model{
     public function ConsultarProductosPorNotaMedica($IdNotaMedica)
     {
         $this->db->select ($this->table.'.*, DescripcionProducto, DescripcionServicio, CostoProducto');
-        $this->db->from($this->table.',CatalogoProductos, servicio');
+        $this->db->from($this->table.',catalogoproductos, servicio');
         //JOIN
-        $this->db->where($this->table.'.IdProducto = CatalogoProductos.IdProducto');
-        $this->db->where('CatalogoProductos.IdServicio = Servicio.IdServicio');
+        $this->db->where($this->table.'.IdProducto = catalogocroductos.IdProducto');
+        $this->db->where('catalogoproductos.IdServicio = servicio.IdServicio');
         //Condicion
         $this->db->where($this->table.'.IdNotaMedica='.$IdNotaMedica);
         
         $query = $this->db->get();
         
         return $query->result_array();
+        
+    }
+    
+    public function AgregarProductoNotaMedica($IdNotaMedica, $NuevoProductoArray)
+            
+    {
+        
+        $NuevoProducto = array(
+            'IdNotaMedica'=>$IdNotaMedica,
+            'IdProducto'=>$NuevoProductoArray['IdProducto'],
+            'precio'=>$NuevoProductoArray['precio'],
+            'CantidadProductoNM'=>$NuevoProductoArray['cantidad'],
+            'Descuento'=>$NuevoProductoArray['descuento']
+            
+        );
+        $resultado = $this->db->insert($this->table,$NuevoProducto);
+        return $resultado;
         
     }
 }
