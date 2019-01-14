@@ -15,7 +15,7 @@ class AntecedenteNotaMedica_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        $this->table = "antecedentemotaMedica";
+        $this->table = "antecedentenotamedica";
         $this->load->model('NotaMedica_Model');
         $this->load->database();
     }
@@ -24,8 +24,8 @@ class AntecedenteNotaMedica_Model extends CI_Model {
     {
 
         $this->db->select($this->table.'.*, DescripcionAntecedente');
-        $this->db->from($this->table.', CatalogoAntecedentes');
-        $this->db->where($this->table.'.IdAntecedente = CatalogoAntecedentes.IdAntecedente');
+        $this->db->from($this->table.', catalogoantecedentes');
+        $this->db->where($this->table.'.IdAntecedente = catalogoantecedentes.IdAntecedente');
         $this->db->where('IdNotaMedica', $IdNotaMedica);
         
         $query = $this->db->get();

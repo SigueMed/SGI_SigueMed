@@ -38,7 +38,7 @@ class CitaServicio_Model extends CI_Model
         
         
         $this->db->select($this->table.'.*, DescripcionServicio, Nombre, Apellidos, DescripcionEstatusCita');
-        $this->db->from($this->table.',Servicio,Paciente, CatalogoEstatusCita');
+        $this->db->from($this->table.',servicio,paciente, catalogoestatuscita');
         // JOIN
         $this->db->where($this->table.'.IdServicio = servicio.IdServicio');
         $this->db->where($this->table.'.IdPaciente = paciente.IdPaciente');
@@ -125,7 +125,7 @@ class CitaServicio_Model extends CI_Model
         if($this->session->has_userdata('IdClinica'))
         {
             $IdClinica = $this->session->userdata('IdClinica');
-            $this->db->where('IdClinica',$IdClinica);
+            $this->db->where($this->table.'.IdClinica',$IdClinica);
         }
         
         $query = $this->db->get();
@@ -245,6 +245,11 @@ class CitaServicio_Model extends CI_Model
 		if ($this->db->affected_rows() == 1) {
 			return 1;
 		}else{
+                    if($this->db->error()!="")
+                    {
+                        log_message('Error', $this->db->error());
+                        throw new Exception($this->db->error('error'));
+                    }
 			return 0;
 		}
 	}

@@ -297,27 +297,37 @@ class Agenda_Controler extends CI_Controller
         }
         //AUTOR 'Carlos Esquivel'
         public function ActualizarCita(){
-            $param['IdCitaServicio'] = $this->input->post('IdCitaServicio');
-            $param['HoraCita'] = $this->input->post('HoraCita');
-            $param['MesCita'] = $this->input->post('MesCita');
-            $param['AnioCita'] = $this->input->post('AnioCita');
-            $param['DiaCita'] = $this->input->post('DiaCita');
-            $param['IdEmpleado'] = $this->input->post('IdEmpleado');
-            $param['Comentarios'] = $this->input->post('Comentarios');
             
-            $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($this->input->post('IdCitaServicio'));
-            
-            if ($Cita->IdStatusCita== CONFIRMADA || $Cita->IdStatusCita == REGISTRADA)
+            try
             {
-                echo 2;
-            }
-            else
-            {
-                $r = $this->CitaServicio_Model->ActualizarCita($param);
+                $param['IdCitaServicio'] = $this->input->post('IdCitaServicio');
+                $param['HoraCita'] = $this->input->post('HoraCita');
+                $param['MesCita'] = $this->input->post('MesCita');
+                $param['AnioCita'] = $this->input->post('AnioCita');
+                $param['DiaCita'] = $this->input->post('DiaCita');
+                $param['IdEmpleado'] = $this->input->post('IdEmpleado');
+                $param['Comentarios'] = $this->input->post('Comentarios');
 
-                echo $r;
+                $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($this->input->post('IdCitaServicio'));
+
+                if ($Cita->IdStatusCita== CONFIRMADA || $Cita->IdStatusCita == REGISTRADA)
+                {
+                    echo 2;
+                }
+                else
+                {
+                    $r = $this->CitaServicio_Model->ActualizarCita($param);
+
+                    echo $r;
+
+                }
                 
+            } catch (Exception $ex) {
+                echo 3;
+                
+
             }
+            
            
             
         }

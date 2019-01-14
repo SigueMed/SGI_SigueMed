@@ -36,7 +36,7 @@ class NotaMedica_Model extends CI_Model {
         
         $this->load->helper('date');
         $this->load->helper('array');
-        $this->UpdateFields = array('FechaNotaMedica','PesoPaciente','TallaPaciente','PresionPaciente','FrCardiacaPaciente','FrRespiratoriaPaciente','TemperaturaPaciente');
+        $this->UpdateFields = array('FechaNotaMedica','PesoPaciente','TallaPaciente','PresionPaciente','FrCardiacaPaciente','FrRespiratoriaPaciente','TemperaturaPaciente','DiagnosticoGeneral');
         //$this->load->model ('Paciente_Model');
 
     }

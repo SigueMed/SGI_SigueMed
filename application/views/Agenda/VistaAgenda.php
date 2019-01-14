@@ -550,7 +550,7 @@
     
     //input autocomplete Nombre
     var optionsNombre = {
-        url: "<?php echo site_url();?>/agenda_controler/autocompleteNombre",
+        url: "<?php echo site_url();?>/Agenda_Controler/autocompleteNombre",
         getValue: function (element){
                         return element.Nombre + " " + element.Apellidos;
                     },
@@ -619,7 +619,8 @@
                   success: function(data)
                     {
                         $('#Medico').html(data);
-                    }
+                        //alert(data);
+                    }   
               });
         }
         
@@ -690,7 +691,7 @@
                 if(HoraCita === ""){
                     alert('Agrega la hora de la cita');
                 }else if(parseInt(DiaCita) <= dia && HoraCita < hora+":"+minutos){
-                    alert("No se permite agregar una cita antes de la hr actual");
+                    alert("No se permite modificar una cita a una fecha anterior a la actual.");
                 }else{
 
 
@@ -712,6 +713,15 @@
                                 
                                 RefreshFullCalendar(idServicio);
 			}
+                        else if(data==2)
+                        {
+                            alert('No se puede modificar una cita que ya fue atendida o confirmada');
+                        }
+                        else if(data==3)
+                        {
+                            alert('Error al modificar la cita.');
+                        }
+                            
 		});
             }
 	});
@@ -734,9 +744,7 @@
                 var hora=fechaHr.getHours();
                 var minutos=fechaHr.getMinutes();
                 var dia = fechaHr.getDate();
-                
-                alert(Comentarios);
-               
+                               
                 
                 if(idPaciente === ""){
                     alert("No existe Paciente \n\
@@ -801,7 +809,7 @@
                     alert("Agrega un Telefono");
                 }else{
                 
-		$.post("<?php echo site_url();?>/agenda_controler/agregarNuevoPaciente",
+		$.post("<?php echo site_url();?>/Agenda_Controler/agregarNuevoPaciente",
 		{
 			nombre: nombre,
                         apellido: apellidos,
@@ -831,7 +839,7 @@
             $('#btnEliminar').click(function(){
                     var ide = $('#idEvento').val();
                     var idServicio = $('#txtidServicio').val();
-                    $.post("<?php echo site_url();?>/agenda_controler/deleteEvento",
+                    $.post("<?php echo site_url();?>/Agenda_Controler/deleteEvento",
                     {
                     id:ide
                     },

@@ -149,6 +149,7 @@ class NotaMedica_Controller extends Agenda_Controler {
         $this->load->view('NotaMedica/CardAntecedentes',$data);
         $this->load->view('NotaMedica/CardDiagnosticoNotaMedica',$data);
         $this->load->view('NotaMedica/CardProductosNotaMedica',$data);
+        $this->load->view('NotaMedica/CardSeguimiento',$data);
         $this->load->view('templates/FormFooter',$data); 
         $this->load->view('templates/FooterContainer');
         
@@ -169,7 +170,8 @@ class NotaMedica_Controller extends Agenda_Controler {
                 'PresionPaciente'=> $this->input->post('TA'),
                 'FrCardiacaPaciente'=> $this->input->post('FC'),
                 'FrRespiratoriaPaciente'=> $this->input->post('FR'),
-                'TemperaturaPaciente'=> $this->input->post('Temperatura')
+                'TemperaturaPaciente'=> $this->input->post('Temperatura'),
+                'DiagnosticoGeneral' => $this->input->post('DiagnosticoGeneral')
              );
                 
                 $this->db->trans_begin();
