@@ -83,7 +83,7 @@ class Usuario_Login extends CI_Controller {
                     'IdUsuario' => $result['$IdUsuario'],
                     );
                     // Add user data in session
-                    
+                    $this->session->sess_expiration = '28800';
                     $this->session->set_userdata($session_data);
                     redirect('Agenda/CitasHoy');
                     

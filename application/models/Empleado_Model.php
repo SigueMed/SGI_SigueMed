@@ -37,7 +37,7 @@ class Empleado_Model extends CI_Model {
         
         return $query->row();                
     }
-    public function ConsultarMedicosPorServicio($IdServicio)
+    public function ConsultarMedicosPorServicio($IdServicio,$IdClinica = FALSE)
     {
         
         $this->db->select($this->table.'.*');
@@ -46,6 +46,11 @@ class Empleado_Model extends CI_Model {
         $this->db->where('IdServicio', $IdServicio);
         $this->db->where('IdPerfil', MEDICO);
         $this->db->where('Habilitado',TRUE);
+        if($IdClinica!== FALSE)
+        {
+            $this->db->join('empleadoclinica',$this->table.'.IdEmpleado=empleadoclinica.IdEmpleado');
+            $this->db->where('IdClinica',$IdClinica);
+        }        
         
         $query = $this->db->get();
         

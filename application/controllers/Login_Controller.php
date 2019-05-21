@@ -21,7 +21,7 @@ class Login_Controller extends CI_Controller {
         
         // Load form helper library
         $this->load->helper('form');
-        
+        $this->load->helper('date');
         $this->load->model('Empleado_Model');
         $this->load->model('FuncionesPerfil_Model');
         
@@ -32,9 +32,11 @@ class Login_Controller extends CI_Controller {
     {
         if($this->session->has_userdata('logged_in'))
             {
-                $data['title'] = "SGI - SigueMED";
-                $this->load->view('templates/MainContainer', $data);
-                $this->load->view('templates/FooterContainer');
+//                $data['title'] = "SGI - SigueMED";
+//                $this->load->view('templates/MainContainer', $data);
+//                $this->load->view('templates/FooterContainer');
+            
+                redirect(site_url('Dashboard/Main'));
                 
             }
             else
@@ -71,14 +73,16 @@ class Login_Controller extends CI_Controller {
                  
                  //Cargar funciones del perfil
                  //$MenuPerfil = $this->FuncionesPerfil_Model->ConsultarFuncionesPorPerfil($Usuario->IdPerfil);
-                 
+                 $IdTurno = $this->CalcularTurno();
                  $SessionData = array(
                      'IdEmpleado'=>$Usuario->IdEmpleado,
                      'NombreUsuario'=>$Usuario->NombreEmpleado.' '.$Usuario->ApellidosEmpleado,
                      'IdPerfil'=>$Usuario->IdPerfil,
                      'DescripcionPerfil'=>$Usuario->DescripcionPerfil,
-                     //'FuncionesPerfil'=>$MenuPerfil,
-                     'logged_in'=>TRUE
+                     'IdServicio'=>$Usuario->IdServicio,
+                     'logged_in'=>TRUE,
+                     'IdTurno'=>$IdTurno,
+                     'Turno'=>$this->DescripcionTurno($IdTurno)
                  );
                  
                  //Establecer Sesion del usuario
@@ -106,6 +110,69 @@ class Login_Controller extends CI_Controller {
             $this->session->unset_userdata('logged_in','IdUsuario');
             
             $this->Cargar_Login(TRUE);
+        }
+        
+        public function CalcularTurno()
+        {
+            $Fecha = now();
+            $dia = date('w', strtotime($Fecha));
+            $hora_t= mdate('%h',$Fecha);
+            $timeFormat = mdate('%a',$Fecha);
+  
+            if ($timeFormat =='pm')
+            {
+                $hora = intval($hora_t) + 12;
+            }
+            else
+            {
+                $hora = intval($hora_t);
+                if ($hora >=12)
+                {
+                    $hora = 0;
+                }
+            }
+            
+            
+            if($dia==6 || $dia==0)
+            {
+                return JORNADA;
+            }
+            else if($hora>=0 && $hora <7)
+            {
+                return NOCTURNO;
+            }
+            else if($hora >= 7&& $hora <14)
+            {
+                return MATUTINO;
+            }
+            else if($hora >=14 && $hora < 21)
+            {
+                return VESPERTINO;
+            }
+            else if ($hora >= 21)
+            {
+                return NOCTURNO;
+            }
+            
+        }
+        public function DescripcionTurno($IdTurno)
+        {
+            switch ($IdTurno)
+            {
+                case MATUTINO:
+                    return "MATUTINO";
+
+                case VESPERTINO:
+                    return "VESPERTINO";
+
+                case NOCTURNO:
+                    return "NOCTURNO";
+
+                case JORNADA:
+                    return "JORNADA";
+
+                
+            }
         }
     }
     

@@ -17,13 +17,14 @@ class AntecedenteNotaMedica_Model extends CI_Model {
         parent::__construct();
         $this->table = "antecedentenotamedica";
         $this->load->model('NotaMedica_Model');
+        
         $this->load->database();
     }
     
     Public function ConsultarAntecedentesNota($IdNotaMedica)
     {
 
-        $this->db->select($this->table.'.*, DescripcionAntecedente');
+        $this->db->select($this->table.'.*, DescripcionAntecedente, MinEdad,MaxEdad,Sexo');
         $this->db->from($this->table.', catalogoantecedentes');
         $this->db->where($this->table.'.IdAntecedente = catalogoantecedentes.IdAntecedente');
         $this->db->where('IdNotaMedica', $IdNotaMedica);
@@ -45,24 +46,42 @@ class AntecedenteNotaMedica_Model extends CI_Model {
         
         //Crear Antecedentes
         $AntecedentesServicios = $this->AntecedenteServicio_Model->ConsultarAntecedentesPorServicio($IdServicio);
+        $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
+        $Paciente = $this->Paciente_Model->ConsultarPacientePorId($NotaMedica->IdPaciente);
+        
+        
+        
+        
+
+        log_message('debug', 'AntecedenteNotaMedica_Model->CrearNuevosAntecedentesPorServicio: Edad ='.$Paciente->Edad);
         
         if ($AntecedentesServicios)
         {
             foreach ($AntecedentesServicios as $Antecedente)
             {
-                $NuevoAntecedente = array(
-                    'IdNotaMedica'=>$IdNotaMedica,
-                    'IdAntecedente'=>$Antecedente['IdAntecedente'],
-                    'DescripcionAntecedenteNotaMedica'=>'[Fecha: '.mdate('%Y-%m-%d').']'
-                );
-
-
-                $resultado = $this->db->insert($this->table, $NuevoAntecedente);
-
-                if ($resultado == FALSE)
+                $sexo = true;
+                if($Antecedente['Sexo']!=="")
                 {
-                    return false;
+                    if($Paciente->Sexo !== $Antecedente['Sexo'])
+                    {
+                        $sexo = false;
+                    }
+                    
                 }
+                if($Paciente->Edad >= $Antecedente['MinEdad'] && $Paciente->Edad <= $Antecedente['MaxEdad'] && $sexo)
+                {
+                    $ahora = now();
+                
+                    $NuevoAntecedente = array(
+                        'IdNotaMedica'=>$IdNotaMedica,
+                        'IdAntecedente'=>$Antecedente['IdAntecedente'],
+                        'DescripcionAntecedenteNotaMedica'=>'PRIMER CONSULTA [Fecha: '.mdate('%Y-%m-%d',$ahora).']'
+                    );
+
+
+                    $resultado = $this->db->insert($this->table, $NuevoAntecedente);
+                }
+                
 
             }
             return true;
@@ -91,7 +110,7 @@ class AntecedenteNotaMedica_Model extends CI_Model {
                     $NuevoAntecedente = array(
                         'IdNotaMedica'=>$IdNuevaNotaMedica,
                         'IdAntecedente'=>$Antecedente['IdAntecedente'],
-                        'DescripcionAntecedenteNotaMedica'=>'Historial:'.$Antecedente['DescripcionAntecedenteNotaMedica'].' -- [Fecha: '.mdate('%Y-%m-%m',now()).']' 
+                        'DescripcionAntecedenteNotaMedica'=>$Antecedente['DescripcionAntecedenteNotaMedica'].' -- [Fecha: '.mdate('%Y-%m-%d',now()).']' 
                     );
 
                     $resultado = $this->db->insert($this->table, $NuevoAntecedente);

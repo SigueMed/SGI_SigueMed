@@ -37,9 +37,7 @@
 <!-- <script src='<?php echo base_url();?>assets/fullcalendar/lib/jquery.min.js'></script> -->
 <script src='<?php echo base_url();?>assets/fullcalendar/fullcalendar.min.js'></script>
 <script src='<?php echo base_url();?>assets/fullcalendar/locale/es.js'></script>
-<!-- plugin Reloj-->
-<script src="<?php echo base_url();?>assets/pluginreloj/bootstrap-clockpicker.js"></script>
-<link rel="stylesheet" href="<?php echo base_url();?>assets/pluginreloj/bootstrap-clockpicker.css">
+
 
 
 <title>Agenda Citas</title>
@@ -88,7 +86,7 @@
 					eventLimit: true, // allow "more" link when too many events
 					editable: true,
                                         minTime: "07:00:00",
-                                        maxTime: "22:00:00",
+                                        maxTime: "23:00:00",
                                         //llama a data de la funcion getEvetos
 					events: {
                                                 url:"<?php echo site_url();?>/Agenda_Controler/getEventos",
@@ -116,6 +114,7 @@
                                                 var AnioCita = event.start.format("YYYY");
                                                 var IdEmpleado = event.IdEmpleado;
                                                 var IdServicio =event.IdServicio;
+                                                var Comentarios = event.Comentarios;
                                                 
 						if (!confirm("Esta seguro de mover la fecha del evento?")) {
 							revertFunc();
@@ -127,7 +126,8 @@
                                                                 MesCita:MesCita,
                                                                 DiaCita:DiaCita,
                                                                 AnioCita:AnioCita,
-                                                                IdEmpleado:IdEmpleado
+                                                                IdEmpleado:IdEmpleado,
+                                                                Comentarios:Comentarios
                                                        
                                                         },
 
@@ -183,16 +183,20 @@
                                         
                                         
                                        
-				    	$('#mtitulo').html(event.title);
-				    	$('#txtPaciente').val(event.descripcion);
+				    	$('#mtitulo').html(event.descripcion);
+				    	$('#txtPaciente').val(event.title);
                                         $('#txtTelefono').val(event.descripcioncel);
                                         //alert(event.IdEmpleado);
                                         $('#Medico').val(event.IdEmpleado);
                                         $('#txtComentarios').val(event.Comentarios);
-                                        $('#txtDia').val(event.start.format('DD'));
-                                        $('#txtMes').val(event.start.format("MM"));
-                                        $('#txtAnio').val(event.start.format("YYYY"));
-                                        $('#txtHora').val(event.start.format("HH:mm"));
+                                        
+                                        $('#FechaInicio').val(moment(event.start).format("YYYY-MM-DD"));
+                                        $('#HoraInicio').val(moment(event.start).format("HH:mm"));
+
+                                       
+
+                                        $('#HoraFin').val(moment(event.end).format("HH:mm"));
+                                        
 				    	$('#modalEvento').modal();
 
 				    	if (event.url) {
@@ -252,7 +256,7 @@
                                         else {
 
                                             //activar y desactivar botones
-                                             $('#btnGuardarCita').prop("disabled",false);
+                                             $('#btnGuardarCita').prop("disabled",true);
                                              $('#btnModificar').prop("disabled",true);
                                              $('#btnEliminar').prop("disabled",true);
 
@@ -267,10 +271,17 @@
                                              //mostrarTitulo(value);
 
                                              $('#mtitulo').html(DescServicio);
-                                             $('#txtDia').val(date.format('DD'));
-                                             $('#txtMes').val(date.format("MM"));
-                                             $('#txtHora').val(date.format("HH:mm"));
-                                             $('#txtAnio').val(date.format("YYYY"));
+                                             
+                                             
+                                             $('#FechaInicio').val(date.format("YYYY-MM-DD"));
+                                             $('#HoraInicio').val(date.format("HH:mm"));
+                                             
+                                             var end = moment(date).add(0.5,"hour");
+                                             
+                                             $('#HoraFin').val(end.format("HH:mm"));
+                                             
+                                             
+                                             
                                              
                                              CargarMedicosServicio();
 
@@ -325,33 +336,7 @@
                 background-color: #B5CCCD;
             }
             
-        #dropdownServicio{
-            margin: 0;
-            font-size: 13%;
-            max-width: 18%;
-            padding: 2px;
-
-        }
         
-        
-        
-        @media screen and (max-width: 1200px) { 
-            #getServicio {  width: 110%;
-            font-size: 800%;
-            } 
-        }
-        
-        @media screen and (max-width: 790px) { 
-            #getServicio {  width: 170%;
-            font-size: 1000%;
-            } 
-        }
-        
-        @media screen and (max-width: 700px) { 
-            #getServicio { width: 570%; 
-            font-size: 1000%;
-            } 
-        }
         
 </style>
 
@@ -389,12 +374,18 @@
             <div class="form-body">
     <!--dropdownServicio-->
    <div class="row" id="dropdownServicio">
-       <div class="col-md-12">
+       <div class="col-md-7 col-xs-7">
            <div class="form-group">
               
                <select class="form-control" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Servicios" id="getServicio" onchange="myFuncion(event)"  name="getServicio" >
                 <option value="">Servicios:</option>
                </select>
+           </div>
+       
+       </div>
+       <div class="col-md-2 col-xs-2">
+           <div class="form-group">
+              <button type="button" class="btn btn-primary" id="btnNuevaCita"><i class="icon-android-add"></i>Cita</button>
            </div>
        
        </div>
@@ -420,12 +411,13 @@
 	<div class="modal fade" id="modalEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog modal-body" role="document">
 	    <div class="modal-content">
-	      <div class="modal-header bg-aqua-gradient">
+	      <div class="modal-header bg-blue-gradient">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="mtitulo"></h4>
                 <select class="form-control" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Medico" id="Medico"  name="Medico" >
                     <option value="">Medico:</option>
                </select>
+                
 	      </div>
 
 	      <div class="modal-body">
@@ -449,7 +441,7 @@
                           <input type="text" class="inputNombrePaciente" id="txtPaciente" required="required" placeholder="Buscar" />
 	               </div>
                         <div class="form-group col-md-5">
-	                  <label>Telefono</label>
+	                  <label>Telefono</label>   
                           <input type="text" class="form-control" id="txtTelefono" readonly="readonly" placeholder="Seleccionar Paciente"/>
 	               </div>
                         <div class="form-group col-md-2">
@@ -464,27 +456,21 @@
 	               </div>
                     </div>
 	                <div class="form-row">
-                          <div class="form-group col-md-3">
-	                  <label>Dia</label>
-                          <input type="text" class="form-control" id="txtDia" readonly="readonly"/>
-	                </div>
-                        <div class="form-group col-md-2">
-	                  <label>Mes</label>
-                          <input type="text" class="form-control" id="txtMes" readonly="readonly"/>
-	                </div>
-                            
-                        <div class="form-group col-md-3">
-	                  <label>Año</label>
-	                    <input type="text" class="form-control" id="txtAnio" readonly="readonly"/>
-	                </div>
-                            
+                          
                         <div class="form-group col-md-4">
-	                  <label>Hora</label>
-
-                          <div class="input-group clockpicker" data-autoclose="true">
-                                <input  class="form-control" id="txtHora"/>
-                            </div>
+                            <label>Fecha Inicio</label>
+                            <input type="date" class="form-control" id="FechaInicio"/>
 	                </div>
+                        <div class="form-group col-md-4">
+                            <label>Hora Inicio</label>
+                            <input type="time" class="form-control" id="HoraInicio" onchange ="ActualizarHoraFin()"/>
+	                </div>
+                        <div class="form-group col-md-4">
+                            <label>Hora Fin</label>
+                            <input type="time" class="form-control" id="HoraFin"/>
+	                </div>
+                            
+                       
                         </div>
               </div>
               <div class="modal-footer">
@@ -541,11 +527,7 @@
 
 
 <script type="text/javascript">
-    //llamando a la clase clockpicker del reloj
-    $('.clockpicker').clockpicker({
-        //twelvehour: true
-    });
-        
+   
     
     
     //input autocomplete Nombre
@@ -574,6 +556,12 @@
                 
                 $("#idPaciente").val(value).trigger("change");
                 $("#txtTelefono").val(valueTel).trigger("change");
+                
+                if (value !== null)
+                {
+                    $('#btnGuardarCita').prop("disabled",false);
+                }
+                
             
             },
             
@@ -584,6 +572,11 @@
                 
                 $("#idPaciente").val(value).trigger("change");
                 $("#txtTelefono").val(valueTel).trigger("change");
+                
+                 if (value !== null)
+                {
+                    $('#btnGuardarCita').prop("disabled",false);
+                }
             }
             
         },
@@ -602,7 +595,8 @@
             document.getElementById("txtidServicio").value = e.target.value;
             document.getElementById("mtitulo").innerHTML = e.target.value;
 
-            RefreshFullCalendar(e.target.value);            
+            RefreshFullCalendar(e.target.value);  
+            CargarMedicosServicio();
     }
     
     function CargarMedicosServicio()
@@ -664,6 +658,7 @@
         $('#txtApellidosPaciente').val('');
         $('#txtTelefonoPaciente').val('');
         $('#txtTelefono').val('');
+        $('#Medico').val('');
         
     }
     
@@ -674,50 +669,56 @@
         //acualizar eventos
 	$('#btnModificar').click(function(){
 
-                var HoraCita = $('#txtHora').val();
+ 
 		var IdCitaServicio = $('#idEvento').val();
                 var idServicio = $('#txtidServicio').val();
-                var DiaCita = $('#txtDia').val();
-                var MesCita = $('#txtMes').val();
-                var AnioCita = $('#txtAnio').val();
+                var FechaInicio = $("#FechaInicio").val();
+                var HoraInicio = $("#HoraInicio").val();
+                var HoraFin = $("#HoraFin").val();
                 var IdEmpleado = $('#Medico').val();
+                
+                var Inicio = FechaInicio +" " + HoraInicio;
+                var Fin = FechaInicio + " " + HoraFin;
+                
                 var Comentarios = $('#txtComentarios').val();
                 
                 var fechaHr=new Date();
-                var hora=fechaHr.getHours();
-                var minutos=fechaHr.getMinutes();
-                var dia = fechaHr.getDate();
+               
+                
+                var dateInicio = new Date (Inicio);
+                
 
-                if(HoraCita === ""){
+                if(HoraInicio === ""){
                     alert('Agrega la hora de la cita');
-                }else if(parseInt(DiaCita) <= dia && HoraCita < hora+":"+minutos){
+                }else if(dateInicio.getTime() < fechaHr.getTime()){
                     alert("No se permite modificar una cita a una fecha anterior a la actual.");
                 }else{
+                    alert('Modificar');
+                    
 
 
 		$.post("<?php echo site_url();?>/Agenda_Controler/ActualizarCita",
 		{
-			HoraCita: HoraCita,
                         IdCitaServicio: IdCitaServicio,
-                        MesCita:MesCita,
-                        DiaCita:DiaCita,
-                        AnioCita:AnioCita,
+                        Inicio:Inicio,
+                        Fin:Fin,
                         IdEmpleado: IdEmpleado,
                         Comentarios:Comentarios
 		},
 		function(data){
-			if (data == 1) {
+                       
+			if (data === '1') {
 				//$('#btnCerrarModal').click();
                                 alert('La informacion se modifico correctamente');
                                 $('#modalEvento').modal('hide');
                                 
                                 RefreshFullCalendar(idServicio);
 			}
-                        else if(data==2)
+                        else if(data==='2')
                         {
                             alert('No se puede modificar una cita que ya fue atendida o confirmada');
                         }
-                        else if(data==3)
+                        else if(data==='3')
                         {
                             alert('Error al modificar la cita.');
                         }
@@ -730,10 +731,13 @@
         $('#btnGuardarCita').click(function(){
 		var idPaciente = $('#idPaciente').val();
                 var idServicio = $('#txtidServicio').val();
-                var DiaCita = $('#txtDia').val();
-                var MesCita = $('#txtMes').val();
-                var AnioCita = $('#txtAnio').val();
-                var HoraCita = $('#txtHora').val();
+                var FechaInicio = $("#FechaInicio").val();
+                var HoraInicio = $("#HoraInicio").val();
+                var HoraFin = $("#HoraFin").val();
+                
+                var Inicio = FechaInicio +" " + HoraInicio;
+                var Fin = FechaInicio + " " + HoraFin;
+                
                 var IdStatusCita = $('#txtidStatus').val();
                 var IdEmpleado = $('#Medico').val();
                 var Comentarios = $('#txtComentarios').val();
@@ -742,20 +746,16 @@
                 var fechaHr=new Date();
 
                 var hora=fechaHr.getHours();
-                var minutos=fechaHr.getMinutes();
-                var dia = fechaHr.getDate();
-                               
+                var minutos=fechaHr.getMinutes();                               
                 
                 if(idPaciente === ""){
                     alert("No existe Paciente \n\
                 Agrega un nuevo paciente");
                 
                 return false;
-                }else if(HoraCita === ""){
-                    alert("Indicar la hora");
-                }else if(parseInt(DiaCita) <= dia && Date.parse(HoraCita) < Date.parse(hora+":"+minutos)){
+                }else if(HoraInicio < hora){
 
-                    alert("No se permite agregar una cita ("+ HoraCita +") antes de la hr actual. Hora Actual: " + hora+":"+minutos);
+                    alert("No se permite agregar una cita ("+ HoraInicio +") antes de la hr actual. Hora Actual: " + hora+":"+minutos);
                 }else if(IdEmpleado ===""){
 
                     alert("Seleccione un Médico");
@@ -765,10 +765,8 @@
 		{
 			IdPaciente: idPaciente,
                         IdServicio: idServicio,
-                        DiaCita: DiaCita,
-                        MesCita: MesCita,
-			AnioCita: AnioCita,
-                        HoraCita: HoraCita,
+                        FechaInicio: Inicio,
+                        FechaFin: Fin,
                         IdStatusCita: IdStatusCita,
                         IdEmpleado: IdEmpleado,
                         Comentarios:Comentarios
@@ -816,20 +814,31 @@
                         telefono: telefono
 		},
 		function(data){
-			if (data != 0) {
-				//$('#btnCerrarModal').click();
-                                alert('El paciente se ha guardado');
-                                alert(data);
-                                $('#modalEventoCliente').modal('hide');
-                               
-//                                var idpac = document.getElementById("btnGuardarPaciente").addEventListener('click', guardarIdPaciente, false);
-                                document.getElementById("idPaciente").value = data;
+                        var result = JSON.parse(data);
 
-                                document.getElementById("txtPaciente").value = document.getElementById("txtNombrePaciente").value + " " + document.getElementById("txtApellidosPaciente").value;
+                        if (result === 2)
+                        {
+                            alert("Parece que el paciente YA existe, favor de verificar");
+                            
+                            
+                            
+                        }
+                        else
+                        {
+                            alert('El paciente se ha guardado');
+                            
+                             $('#modalEventoCliente').modal('hide');
+                            
+                                document.getElementById("idPaciente").value = result['IdPaciente'];
+
+                                document.getElementById("txtPaciente").value = result['Nombre']+ " " + result ['Apellidos']; //document.getElementById("txtNombrePaciente").value + " " + document.getElementById("txtApellidosPaciente").value;
                                 
-                                document.getElementById("txtTelefono").value = document.getElementById("txtTelefonoPaciente").value;
+                                document.getElementById("txtTelefono").value = result['NumCelular'];//document.getElementById("txtTelefonoPaciente").value;
+                                $('#btnGuardarCita').prop("disabled",false);
 			
                         }
+                        
+                        
                         
 		});
             }
@@ -856,6 +865,86 @@
                     });
             });
             
+            $('#btnNuevaCita').click(function(){
+                                        
+                        var date  = new Date();
+
+                        var IdServicio = document.getElementById("getServicio").value;
+                        var DescServicio = $("#getServicio option:selected").html();;
+
+
+                        if(IdServicio !=='*')
+                        {
+
+                        
+
+                            //activar y desactivar botones
+                             $('#btnGuardarCita').prop("disabled",true);
+                             $('#btnModificar').prop("disabled",true);
+                             $('#btnEliminar').prop("disabled",true);
+
+                             limpiarFormulario();
+
+
+
+//                                        var e = document.getElementById("getServicio").value;
+//                                        
+//                                        alert(e);
+
+                             //mostrarTitulo(value);
+                             
+                           
+                           var month = date.getMonth()+1;
+                           
+                           if (month<10)
+                           {
+                               month = '0'+ month;
+                           }
+                           $('#FechaInicio').val(date.getFullYear()+'-'+month+'-'+date.getDate());
+                            
+                            $('#HoraInicio').val(date.getHours()+":"+date.getMinutes());
+
+                            var end = moment(date).add(0.5,"hour");
+
+                            $('#HoraFin').val(end.format("HH:mm"));
+
+                             $('#mtitulo').html(DescServicio);
+                             
+
+                             CargarMedicosServicio();
+
+
+                             $('#modalEvento').modal('show');
+
+
+
+
+
+                             }  
+                        else
+                        {
+                            alert('Selecciona un servicio para agendar una cita');
+                        }
+
+                    });
+            
+            function ActualizarHoraFin()
+            {
+                
+                var FechaInicio = $("#FechaInicio").val();
+                var HoraInicio = $("#HoraInicio").val();
+                
+                
+                var Inicio = FechaInicio +" " + HoraInicio;
+                
+                var dateInicio = new Date(Inicio);
+                
+                var end = moment(dateInicio).add(0.5,"hour");
+                                             
+                $('#HoraFin').val(end.format("HH:mm"));
+                                             
+                
+            }
             
         
 </script>

@@ -95,11 +95,11 @@ $db['development'] = array(
 	'save_queries' => TRUE
 );
 $db['production'] = array(
-	'dsn'	=> '‘mysql:host=localhost;dbname=dolcemom_clinicasiguemed’',
+	'dsn'	=> '‘mysql:host=localhost;dbname=clinicas_clinicasiguemed’',
 	'hostname' => 'localhost',
-	'username' => 'dolcemom_clinica',
+	'username' => 'clinicas_clinica',
 	'password' => 'Clinica123.',
-	'database' => 'dolcemom_clinicasiguemed',
+	'database' => 'clinicas_clinicasiguemed',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

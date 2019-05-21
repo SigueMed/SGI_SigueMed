@@ -59,12 +59,10 @@ class Clinica_Controller extends CI_Controller{
             $this->session->set_userdata('IdClinica', $Clinica);
             
             $DetalleClinica = $this->Clinica_Model->ConsultarClinicaPorId($Clinica);
-            echo '<script> alert("'.$DetalleClinica->NombreClinica.');</script>';
+            //echo '<script> alert(Bienvenido a "'.$DetalleClinica->NombreClinica.'");</script>';
             $this->session->set_userdata('DescripcionClinica',$DetalleClinica->NombreClinica);
 
-            $data['title'] = 'SGI-Siguemed';
-            $this->load->view('templates/MainContainer', $data);
-            $this->load->view('templates/FooterContainer');
+            redirect(site_url('Dashboard/Main'));
         }
         
         else

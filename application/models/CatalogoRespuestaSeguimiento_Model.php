@@ -3,8 +3,7 @@ Class CatalogoRespuestaSeguimiento_Model extends CI_Model{
     
     //Variables para la tabla y para cada uno de las columnas que la tabla tiene en la BD. 
     private $table;
-    public $IdRespuestaSeguimiento;
-    public $DescripcionRespuestaSeguimiento;
+    
     
     //El constructor se encarga de resumir las acciones de inicializacion de los objetos.
     public function __construct() {
@@ -17,17 +16,14 @@ Class CatalogoRespuestaSeguimiento_Model extends CI_Model{
         $this->load->database();
     }
     
-    /*
-    Descripción: Funcion que se encarga de cargar los datos de la tabla; 
-    igualando las variables al nombre de las columnas.
-    */ 
-    private function LoadRow($row){
-        $this->IdRespuestaSeguimiento = $row->IdRespuestaSeguimiento;
-        $this->DescripcionRespuestaSeguimiento = $row->DescripcionRespuestaSeguimiento;
+    public function ConsultarCatalogoRespuestasSeguimiento()
+    {
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        
+        $query = $this->db->get();
+        return $query->result_array();
     }
-    
-    
-    
     
     /*
     Descripción: Funcion que se encarga de consultar el catalogo de respuesta de seguimiento por id.

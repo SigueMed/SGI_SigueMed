@@ -44,7 +44,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-xs-3">
                                     <div class="form-group">
                                          <label for="PrecioUnitario">Precio</label>
                                          <div class="input-group">
@@ -53,13 +53,13 @@
                                          </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1 col-xs-3">
                                     <div class="form-group">
                                          <label for="cantidadProducto">Cantidad</label>
                                          <input type="text" id="cantidadProducto" name="cantidadProducto" class="form-control" placeholder="Cantidad" onchange="CalcularSubtotal()"/>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-xs-3">
                                     <div class="form-group">
                                          <label for="descuento">Desc.</label>
                                          <div class="input-group">
@@ -68,7 +68,7 @@
                                          </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-xs-3">
                                     <div class="form-group">
                                          <label for="total">Total</label>
                                          <div class="input-group">
@@ -76,14 +76,26 @@
                                            <input type="text" id="total" name="total" class="form-control" placeholder="Total" readonly/>
                                          </div>
                                     </div>
-                                </div>
                                 
                             </div>
-                            <div align="right">
-                                <button type="button" class="btn btn-blue" id="btnAgregar">
+                            </div>
+                            
+                            <div align = "right">
+                                    <button type="button" class="btn btn-secondary" id="btnInventario">
+                                    <i class="icon-ios-medkit-outline"></i>Inventario
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="btnLimpiar">
+                                    <i class="icon-trash4"></i>Limpiar
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="btnAgregar">
                                     <i class="icon-android-add"></i>Agregar
                                 </button>
+                                    
                             </div>
+                                
+                           
+                            
+                            
                             
                             <!--TABLA PRODUCTOS-->
                             <div class="table-responsive">
@@ -93,6 +105,7 @@
                                             <th>#</th>
                                             <th>Servicio</th>
                                             <th>Producto</th>
+                                            <th>SubProducto</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
                                             <th>Descuento</th>
@@ -131,7 +144,7 @@
                                     echo '<button type="submit" class="btn btn-warning mr-1" name="action" value="cancelar">';
                                     echo '<i class="icon-cross2"></i> Cancelar';
                                     echo '</button>';
-                                    echo '<button type="submit" class="btn btn-primary" name="action" value='.$ProductosNotaSubmitAction.'>';
+                                    echo '<button type="submit" class="btn btn-primary" name="action" value="'.$ProductosNotaSubmitAction.'">';
                                     echo '<i class="icon-check2"></i> Guardar';
                                     echo '</button>';
                                 }
@@ -150,6 +163,17 @@ $(document).ready(function()
     {
         //Lista Servicio Evento: Change
         //Carga lista de productos del servicio seleccionado
+        var Perfil = <?php echo $this->session->userdata('IdPerfil');?>;
+        
+        if (Perfil!==3)
+        {
+            
+            $("#descuento").prop('readonly',true);
+        }
+        else
+        {
+             $("#descuento").prop('readonly',false);
+        }
         $("#servicio").change(function(){
            
           var servicio_id = $('#servicio').val();
@@ -164,6 +188,7 @@ $(document).ready(function()
                   success: function(data)
                     {
                         $('#producto').html(data);
+                        LimpiarCampos();
                     }
               });
               
@@ -190,6 +215,7 @@ $(document).ready(function()
                             document.getElementById("cantidadProducto").focus();
                         }
                 });
+                
             
             }
         });  
@@ -202,24 +228,27 @@ $(document).ready(function()
             var descServicio = $("#servicio option:selected").html();
   
             var idProducto =  $("#producto").val();
+            
+           
             var descProducto = $("#producto option:selected").html();
             var numFila = $('#tablaProductos tbody tr').length+1;
             var precio = $("#PrecioUnitario").val();
             var cantidad = $("#cantidadProducto").val();
             var descuento = $("#descuento").val();
             var subtotal = $("#total").val();
-
+            
             
             if(cantidad!=="" && parseInt(cantidad) >0)
             {
                 $('#tablaProductos').append(
                     '<tr id=row'+numFila+'>'+
                     '<td>'+numFila+'</td>'+
-                    '<td><input type="hidden" value='+idServicio+'>'+descServicio+'</td>'+
-                    '<td><input type="hidden" name="IdProducto[]" value='+idProducto+'>'+descProducto+'</td>'+
-                    '<td><input class="form-control" name="precio[]" value="'+precio+'" readonly></td>'+
-                    '<td><input class="form-control" name="cantidad[]" value="'+cantidad+'"readonly></td>'+
-                    '<td><input class="form-control" name="descuento[]" value="'+descuento+'%" readonly></td>'+
+                    '<td><input type="hidden" value="'+idServicio+'"><input type="hidden" name="IdEmpleado[]" value="">'+descServicio+'</td>'+
+                    '<td><input type="hidden" name="IdProducto[]" value="'+idProducto+'">'+descProducto+'</td>'+
+                    '<td><input type="hidden" name="CodigoSubProducto[]" value=""><input type="hidden" name="Lote[]" value=""></td>'+
+                    '<td><input type="hidden" class="form-control" name="precio[]" value="'+precio+'" readonly>$'+precio+'</td>'+
+                    '<td><input type="hidden" class="form-control" name="cantidad[]" value="'+cantidad+'"readonly>'+cantidad+'</td>'+
+                    '<td><input type="hidden" class="form-control" name="descuento[]" value="'+descuento+'" readonly><input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+descuento+'%</td>'+
                     '<td>'+subtotal+'</td>'+
                     '<td type="button" name="remove" class="btn btn-danger btn-xs remove" data-row="row'+numFila+'"><i class="icon-ios-trash"></i></td>'+
                     '</tr>'
@@ -227,31 +256,48 @@ $(document).ready(function()
                 var TotalNota=0;
                 if($("#totalNota").val()!=="")
                 {
-                    TotalNota = parseInt($("#totalNota").val());
+                    TotalNota = parseFloat($("#totalNota").val());
                 }
 
 
-                TotalNota = TotalNota + parseInt(subtotal);
+                TotalNota = TotalNota + parseFloat(subtotal);
                 $("#totalNota").val(TotalNota);
+                $("#totalNota").change();
+                
+                LimpiarCampos();
+                $('#servicio').val('');
             }     
         });
+        
+        //Agregar nueva fila a la tabla productos
+        $('#btnLimpiar').click(function(){
+            $("#tablaProductos tbody tr").remove();
+ 
+           $("#totalNota").val('');
+        });
+        
         
         //Borrar filas de la tabla productos
         $(document).on('click', '.remove', function(){
             var delete_row = $(this).data("row");
             
-            var subtotal = parseInt($("#"+delete_row).find("td")[6].innerHTML);
+            var subtotal = parseFloat($("#"+delete_row).find("td")[7].innerHTML);
             $('#' + delete_row).remove();
             
             var TotalNota=0;
+            
             if($("#totalNota").val()!=="")
             {
-                TotalNota = parseInt($("#totalNota").val());
+                TotalNota = parseFloat($("#totalNota").val());
             }
             
             
-            TotalNota = TotalNota - parseInt(subtotal);
+            
+            TotalNota = TotalNota - subtotal;
+            
+            
             $("#totalNota").val(TotalNota);
+            $("#totalNota").change();
         });
              
     });
@@ -267,5 +313,20 @@ $(document).ready(function()
 
         $("#total").val(subtotal);
     }
+    
+    function LimpiarCampos()
+    {
+        $("#producto").val('');
+        //
+        $("#cantidadProducto").val('');
+        $("#PrecioUnitario").val('');
+        $("#descuento").val('');
+        $("#total").val('');
+        $('#cb_CuentaProd').val('');
+        
+    }
+    
+    
+    
     
 </script>

@@ -21,19 +21,26 @@
                     <div class="card-block">
                         <!--FORM BODY-->
                         <div class="form-body">
-                            <label for="DiagnosticoGeneral">Diagnostico</label>
-                            <div class="position-relative has-icon-left">
-                                    <textarea id="DiagnosticoGeneral" rows="5" class="form-control" name="DiagnosticoGeneral" placeholder="Diagnostico General"></textarea>
-                                    <div class="form-control-position">
-                                            <i class="icon-file2"></i>
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="DiagnosticoGeneral">Diagnostico</label>
+                                        <div class="position-relative has-icon-left">
+                                                <textarea id="DiagnosticoGeneral" rows="5" class="form-control" name="DiagnosticoGeneral" placeholder="Diagnostico General"></textarea>
+                                                <div class="form-control-position">
+                                                        <i class="icon-file2"></i>
+                                                </div>
+                                        </div>
                                     </div>
+                                </div>
                             </div>
                             
                             <div class="row">
                                 
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="CategoriasDiagnostico">Producto</label>
+                                        <label for="CategoriasDiagnostico">Categorias</label>
                                         <select name="CategoriasDiagnostico" id="CategoriasDiagnostico" class="form-control"  >
                                             <option value="">Categoria</option>
                                         </select>
@@ -67,6 +74,22 @@
                                 </div>
                                 
                             </div>
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="PlanesTratamiento">Planes de Tratamiento</label>
+                                        <div class="position-relative has-icon-left">
+                                                <textarea id="PlanesTratamiento" rows="5" class="form-control" name="PlanesTratamiento" placeholder="Planes Tratamiento"></textarea>
+                                                <div class="form-control-position">
+                                                        <i class="icon-file2"></i>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
                             
                         </div>
                     </div>
@@ -78,6 +101,34 @@
 <script type="text/javascript">
     $(document).ready(function()
     {
+        var DiagnosticoGeneral ='<?php echo $NotaMedica->DiagnosticoGeneral;?>';
+       if(DiagnosticoGeneral !== null)
+       {
+           $('#DiagnosticoGeneral').val(DiagnosticoGeneral);
+       }
+       
+       var tableDiagnosticos =' <?php
+            $numFila=1;
+            if(isset($Diagnosticos))
+            
+            {
+                foreach($Diagnosticos as $diagnostico)
+                {
+                    echo '<tr id=rowD'.$numFila.'>';
+                    echo '<td>'.$numFila.'</td>';
+                    echo '<td>'.$diagnostico['DescripcionDiagnostico'].'</td>';
+                    echo '<td></td>';
+                    echo '</tr>';
+                    $numFila++;
+
+                }
+            }
+            
+       ?>';
+       if(tableDiagnosticos!==null)
+       {
+            $('#tablaDiagnosticos').append(tableDiagnosticos);
+       }
        
        
        $('#btnAgregarDiag').click(function(){
@@ -123,7 +174,7 @@
     
     function CargarDiagnosticos()
     {
-        var servicio_id = 1;
+        var servicio_id = <?php echo $NotaMedica->IdServicio;?>;
         $.ajax({
                   url:"<?php echo site_url();?>/NotaMedica_Controller/CargarCBDiagnosticoServicio",
                   method:"POST",

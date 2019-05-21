@@ -89,10 +89,9 @@ class Agenda_Controler extends CI_Controller
         {
             $param['IdPaciente'] = $this->input->post('IdPaciente');
             $param['IdServicio'] = $this->input->post('IdServicio');
-            $param['DiaCita'] = $this->input->post('DiaCita');
-            $param['MesCita'] = $this->input->post('MesCita');
-            $param['AnioCita'] = $this->input->post('AnioCita');
-            $param['HoraCita'] = $this->input->post('HoraCita');
+            $param['FechaInicio'] = $this->input->post('FechaInicio');
+            $param['FechaFin'] = $this->input->post('FechaFin');
+            
             $param['IdStatusCita'] = $this->input->post('IdStatusCita');
             $param['IdEmpleado'] = $this->input->post('IdEmpleado');
             $param['Comentarios'] = $this->input->post('Comentarios');
@@ -101,10 +100,17 @@ class Agenda_Controler extends CI_Controller
 
 
             $r = $this->CitaServicio_Model->agregarEvento($param);
+            if ($r<1)
+            {
+                throw new Exception('No se ha agregado el evento');
+
+            }
             echo $r;
 
         } catch (Exception $ex) {
-            echo 2;
+            
+            echo 0;
+            log_message('error', '[Agenda_Controller.agregarEvento] Error:'.$ex->getMessage());
         }
         
     }
@@ -112,39 +118,43 @@ class Agenda_Controler extends CI_Controller
     /*
      * Descripcion: Función que devuelve todas las citas del día actual
      */
-    public function CitasDeHoy()
+    public function Load_ConsultarCitas()
     {
-        $Fecha = now();
         
-        $IdPerfil =$this->session->userdata('IdPerfil');
-        $IdEmpleado = $this->session->userdata('IdEmpleado');
-    
-        if ($IdPerfil==MEDICO)
-        {
-             $data['Citas'] = $this->CitaServicio_Model->ConsultarCitasPorDia($Fecha,FALSE,$IdEmpleado);
-
-        }
-        else
-        {
-            $data['Citas'] = $this->CitaServicio_Model->ConsultarCitasPorDia($Fecha);
-        }
+        $data['title']= 'Citas';
         
-
-        
-        if (empty($data['Citas']))
-        {
-            $data['infoMessage'] ='No existen citas para: '.mdate('%d',$Fecha).'/'.mdate('%M', $Fecha);
-            
-        }
-        $data['title']= 'Citas del día';
         $this->load->view('templates/MainContainer',$data);
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Agenda/ListaAgendaHoy',$data);
         $this->load->view('templates/FooterContainer');
-
-        
-        
        
+    }
+    
+    public function ConsultarCitas()
+    {
+        $FechaInicio = $this->input->post('FechaInicio');
+        $FechaFin = $this->input->post('FechaFin');
+        $EstatusCita = $this->input->post('EstatusCita');
+        
+        
+        
+        $IdPerfil =$this->session->userdata('IdPerfil');
+        $IdEmpleado = $this->session->userdata('IdEmpleado');
+        
+        
+        
+        if ($IdPerfil!=='3')
+        {
+            // Si es doctor consulta las citas agendadas al médico
+             $IdEmpleado = FALSE;
+
+        }
+        
+        
+        $Citas = $this->CitaServicio_Model->ConsultarCitasPorDia($FechaInicio,$FechaFin,$EstatusCita,$IdEmpleado);
+        
+        echo json_encode($Citas);
+        
         
     }
     
@@ -179,12 +189,25 @@ class Agenda_Controler extends CI_Controller
         $data['Paciente'] = $Paciente;
         $data['Cita']= $Cita;
         $data['title']='Confirmar Cita';
-        $data['PacienteSubmitAction'] = 'confirmar';
-        $data['PacienteActionsEnabled'] = true;
+        
+        //botones paciente
+        $data['PacienteActionsEnabled'] = false;
+        
+        
+        //botones Cita
+        $data['CitaSubmitAction'] = 'confirmar';
+        $data['CitaActionsEnabled'] = true;
+        $data['CitaSubmitTitle'] = 'Confirmar Cita';
+        $data['CitaCancelActionEnabled'] = true;
+        $data['CitaCancelAction'] = 'cancelar';
+        $data['CitaCancelTitle'] = 'Cancelar Cita';
+        
+        
         $this->load->view('templates/MainContainer',$data);
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Agenda/FormConfirmarCita',$data);
         $this->load->view('Paciente/PacienteCard',$data);
+        $this->load->view('Agenda/CardCita',$data);
         $this->load->view('templates/FormFooter',$data);
         $this->load->view('templates/FooterContainer');
     }
@@ -204,22 +227,9 @@ class Agenda_Controler extends CI_Controller
             if (isset($Cita))
             {
                 //$Paciente = $this->Paciente_Model->ConsultarPacientePorId($Cita->IdPaciente);
-
-                $PacienteUpdt = array(
-                    'Nombre'=>$this->input->post('Nombre'),
-                    'Apellidos' => $this->input->post('Apellidos'),
-                    'FechaNacimiento' => $this->input->post('FechaNacimiento'),
-                    'Calle' => $this->input->post('Calle'),
-                    'Colonia' => $this->input->post('Colonia'),
-                    'CP' => $this->input->post('CP'),
-                    'ViveCon' => $this->input->post('ViveCon'),
-                    'Escolaridad' => $this->input->post('Escolaridad'),
-                    'EstadoCivil' => $this->input->post('EstadoCivil'),
-                    'NumCelular' => $this->input->post('Celular'),
-                    'email'=> $this->input->post('email')
-                    );
-
-                $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
+                
+                
+                $this->Paciente_Model->ActualizarPaciente_Post($Cita->IdPaciente);
             }
 
             //Confirmar Cita
@@ -228,10 +238,12 @@ class Agenda_Controler extends CI_Controller
         if($action=='cancelar')
         {
             //CancelarCita
-            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, CANCELADA);
+            $Comentarios = $this->input->post('CitaComentarios');
+            
+            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, CANCELADA,$Comentarios);
 
         }
-            $this->CitasDeHoy();
+            $this->Load_ConsultarCitas();
            
         }
 
@@ -259,7 +271,8 @@ class Agenda_Controler extends CI_Controller
     
         //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
         public function getServiciosAgenda(){
-            $resultado = $this->Servicio_Model->getServiciosAgenda();
+            $IdClinica = $this->session->userdata('IdClinica');
+            $resultado = $this->Servicio_Model->getServiciosAgenda($IdClinica);
             echo json_encode($resultado);
         }
         
@@ -278,16 +291,22 @@ class Agenda_Controler extends CI_Controller
             $param['apellido'] = $this->input->post('apellido');
             $param['telefono'] = $this->input->post('telefono');
             
-            
-            $r = $this->Paciente_Model->agregarNuevoPaciente($param);
-            if($r == 1){
-                $row = $this->Paciente_Model->consultarIdNuevoPaciente($param);
-            echo $row->IdPaciente;
-            
-            }else{
-            echo 0;
+            $paciente = $this->Paciente_Model->BuscarPacientePorNombre($param['nombre'], $param['apellido']);
+        
+            if ($paciente === false)
+            {
+                $r = $this->Paciente_Model->agregarNuevoPaciente($param);
+                if($r == 1){
+                    $row = $this->Paciente_Model->consultarIdNuevoPaciente($param);
+                    echo json_encode($row);//$row->IdPaciente;
+
+                    }
             }
-       }
+            else
+            {
+                echo 2;
+            }
+        }
 
        //AUTOR 'Carlos Esquivel' -- Borra cita
         public function deleteEvento(){
@@ -301,28 +320,38 @@ class Agenda_Controler extends CI_Controller
             try
             {
                 $param['IdCitaServicio'] = $this->input->post('IdCitaServicio');
-                $param['HoraCita'] = $this->input->post('HoraCita');
-                $param['MesCita'] = $this->input->post('MesCita');
-                $param['AnioCita'] = $this->input->post('AnioCita');
-                $param['DiaCita'] = $this->input->post('DiaCita');
+                $param['FechaInicio'] = $this->input->post('Inicio');
+                $param['FechaFin'] = $this->input->post('Fin');
+
                 $param['IdEmpleado'] = $this->input->post('IdEmpleado');
                 $param['Comentarios'] = $this->input->post('Comentarios');
 
                 $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($this->input->post('IdCitaServicio'));
-
-                if ($Cita->IdStatusCita== CONFIRMADA || $Cita->IdStatusCita == REGISTRADA)
+                
+                if($Cita !== null)
                 {
-                    echo 2;
+                    
+                    if ($Cita->IdStatusCita== CONFIRMADA || $Cita->IdStatusCita == REGISTRADA)
+                    {
+                        echo 2;
+                    }
+                    else
+                    {
+                        $r = $this->CitaServicio_Model->ActualizarCita($param);
+
+                        echo 1;
+
+                    }
+                    
                 }
                 else
                 {
-                    $r = $this->CitaServicio_Model->ActualizarCita($param);
-
-                    echo $r;
-
+                    throw new Exception();
                 }
+
                 
             } catch (Exception $ex) {
+                log_message('error', $ex->getMessage());
                 echo 3;
                 
 
@@ -340,7 +369,8 @@ class Agenda_Controler extends CI_Controller
             
             if ($IdServicio !== null)
             {
-                $Medicos = $this->Empleado_Model->ConsultarMedicosPorServicio($IdServicio);
+                $IdClinica = $this->session->userdata('IdClinica');
+                $Medicos = $this->Empleado_Model->ConsultarMedicosPorServicio($IdServicio,$IdClinica);
                 $output='<option value="">Selecciona un Medico</option>';
                 foreach($Medicos as $Medico)
                 {
@@ -349,6 +379,13 @@ class Agenda_Controler extends CI_Controller
             }
             echo $output;   
             
+        }
+        
+        public function ConsultarTotalCitasDia_ajax()
+        {
+            $TotalCitas = $this->CitaServicio_Model->ConsultasTotalCitasDia();
+            
+            echo json_encode($TotalCitas);
         }
     
 }

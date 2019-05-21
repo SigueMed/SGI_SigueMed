@@ -14,11 +14,7 @@
 class DiagnosticoNotaMedica_Model extends CI_Model {
     
     //Atributos DiagnosticoNotaMedica
-    private $table;
-    public $IdNotaMedica;
-    public $IdDiagnostico;
-    public $ObservacionesDiagnostico;
-            
+    private $table;            
     /*
      * 
      */
@@ -35,6 +31,18 @@ class DiagnosticoNotaMedica_Model extends CI_Model {
         
         return $resultado;
         
+    }
+    
+    public function ConsultarDiagnosticosNotaMedica($IdNotaMedica)
+    {
+        $this->db->select($this->table.'.*, DescripcionDiagnostico');
+        $this->db->from($this->table);
+        $this->db->join('catalogodiagnosticos','catalogodiagnosticos.IdDiagnostico='.$this->table.'.IdDiagnostico');
+        $this->db->where('IdNotaMedica',$IdNotaMedica);
+        
+        $query = $this->db->get();
+        
+        return $query->result_array();
     }
     
   

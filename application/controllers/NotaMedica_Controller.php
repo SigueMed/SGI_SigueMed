@@ -33,6 +33,7 @@ class NotaMedica_Controller extends Agenda_Controler {
         $this->load->model('CatalogoProductos_Model');
         $this->load->model('ProductosNotaMedica_Model');
         $this->load->model('DiagnosticoNotaMedica_Model');
+        $this->load->model('SeguimientoMedico_Model');
        
         
     }
@@ -46,6 +47,8 @@ class NotaMedica_Controller extends Agenda_Controler {
         
         $data['title']='Somatometria Paciente';
         $data['PacienteSubmitAction'] = '';
+        $data['PacienteCancelAction'] = '';
+        $data['PacienteCancelTitle'] = '';
         $data['PacienteActionsEnabled'] = false;
         $data['SomatometriaActionsEnabled'] = true;
         $data['SomatometriaSubmitAction']='confirmar';
@@ -67,30 +70,16 @@ class NotaMedica_Controller extends Agenda_Controler {
             
         if ($action =='confirmar')
         {
-            //Actualizar Paciente
-            $PacienteUpdt = array(
-                'Nombre'=>$this->input->post('Nombre'),
-                'Apellidos' => $this->input->post('Apellidos'),
-                'FechaNacimiento' => $this->input->post('FechaNacimiento'),
-                'Calle' => $this->input->post('Calle'),
-                'Colonia' => $this->input->post('Colonia'),
-                'CP' => $this->input->post('CP'),
-                'ViveCon' => $this->input->post('ViveCon'),
-                'Escolaridad' => $this->input->post('Escolaridad'),
-                'EstadoCivil' => $this->input->post('EstadoCivil'),
-                'NumCelular' => $this->input->post('Celular'),
-                'email'=> $this->input->post('email')
-                );
-
             $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
-            $this->Paciente_Model->ActualizarPaciente($Cita->IdPaciente, $PacienteUpdt);
+            $this->Paciente_Model->ActualizarPaciente_post($Cita->IdPaciente);
             
             //Crear Nota Medica 
             $this->CrearNuevaNotaMedica($IdCita);
             $this->CitaServicio_Model->ActualizarEstatusCita($IdCita, REGISTRADA);
         }
        
-        $this->CitasDeHoy(); 
+        //$this->CitasDeHoy();
+        redirect(site_url('Agenda/CitasHoy'));
       
             
             
@@ -119,7 +108,8 @@ class NotaMedica_Controller extends Agenda_Controler {
              );
             
             $IdEmpleado =  $this->session->userdata('IdEmpleado');
-            $NuevaNotaMedica = $this->NotaMedica_Model->CrearNuevaNotaMedica($IdCita,$DatosSomatometria,$IdEmpleado,$IdUltimaNota);
+            $IdClinica = $this->session->userdata('IdClinica');
+            $NuevaNotaMedica = $this->NotaMedica_Model->CrearNuevaNotaMedica($IdCita,$DatosSomatometria,$IdEmpleado,$IdClinica,$IdUltimaNota);
             $this->CitaServicio_Model->AsignarNotaMedica($IdCita, $NuevaNotaMedica);
         }
         
@@ -133,7 +123,10 @@ class NotaMedica_Controller extends Agenda_Controler {
         $data['Antecedentes'] = $this->AntecedenteNotaMedica_Model->ConsultarAntecedentesNota($IdNotaMedica);
         $data['Servicios'] = $this->Servicio_Model->ConsultarServicios();
         
-        $data['title']='Nota Medica';
+        $Servicio = $this->Servicio_Model->ConsultarServicioPorId($NotaMedica->IdServicio);
+        
+        
+        $data['title']='Nota Medica - '.$Servicio->DescripcionServicio;
         $data['PacienteSubmitAction'] = '';
         $data['PacienteActionsEnabled'] = false;
         $data['SomatometriaActionsEnabled'] = false;
@@ -145,11 +138,13 @@ class NotaMedica_Controller extends Agenda_Controler {
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('NotaMedica/FormNotaMedica',$data);
         $this->load->view('Paciente/PacienteCard',$data);
+        $this->load->view('Paciente/CardFamiliarResponsable',$data);
         $this->load->view('NotaMedica/SomatometriaCard',$data);
         $this->load->view('NotaMedica/CardAntecedentes',$data);
+        $this->load->view('NotaMedica/CardNotaMedica',$data);
         $this->load->view('NotaMedica/CardDiagnosticoNotaMedica',$data);
-        $this->load->view('NotaMedica/CardProductosNotaMedica',$data);
         $this->load->view('NotaMedica/CardSeguimiento',$data);
+        $this->load->view('NotaMedica/CardProductosNotaMedica',$data);
         $this->load->view('templates/FormFooter',$data); 
         $this->load->view('templates/FooterContainer');
         
@@ -161,6 +156,7 @@ class NotaMedica_Controller extends Agenda_Controler {
         try
         {
         $action = $this->input->post('action');
+        log_message('debug', 'Accion Nota Medica:'.$action);
 
         if ($action =='guardar')
         {
@@ -171,10 +167,17 @@ class NotaMedica_Controller extends Agenda_Controler {
                 'FrCardiacaPaciente'=> $this->input->post('FC'),
                 'FrRespiratoriaPaciente'=> $this->input->post('FR'),
                 'TemperaturaPaciente'=> $this->input->post('Temperatura'),
-                'DiagnosticoGeneral' => $this->input->post('DiagnosticoGeneral')
+                'DiagnosticoGeneral' => $this->input->post('DiagnosticoGeneral'),
+                'PadecimientoActual'=> $this->input->post('PadecimientoActual'),
+                'ExploracionFisica'=> $this->input->post('ExploracionFisica'),
+                'Paraclinicos'=> $this->input->post('Paraclinicos'),
+                'PlanesTratamiento'=> $this->input->post('PlanesTratamiento'),
+                'IdEstatusNotaMedica'=>NM_ATENDIDA
+                    
              );
                 
-                $this->db->trans_begin();
+                
+            $this->db->trans_begin();
 
             $Antecedentes = $this->AntecedenteNotaMedica_Model->ConsultarAntecedentesNota($IdNotaMedica);
 
@@ -188,30 +191,19 @@ class NotaMedica_Controller extends Agenda_Controler {
 
             $this->NotaMedica_Model->ActualizarNotaMedica($IdNotaMedica,$DatosNotaMedica);
 
-            $DatosPaciente = array(
-                'Nombre'=>$this->input->post('Nombre'),
-                'Apellidos' => $this->input->post('Apellidos'),
-                'FechaNacimiento' => $this->input->post('FechaNacimiento'),
-                'Calle' => $this->input->post('Calle'),
-                'Colonia' => $this->input->post('Colonia'),
-                'CP' => $this->input->post('CP'),
-                'ViveCon' => $this->input->post('ViveCon'),
-                'Escolaridad' => $this->input->post('Escolaridad'),
-                'EstadoCivil' => $this->input->post('EstadoCivil'),
-                'NumCelular' => $this->input->post('Celular'),
-                'email'=> $this->input->post('email')
-            );
+            
             $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
 
-            $this->Paciente_Model->ActualizarPaciente($NotaMedica->IdPaciente,$DatosPaciente);
+            $this->Paciente_Model->ActualizarPaciente_Post($NotaMedica->IdPaciente);
 
             $Cita = $this->CitaServicio_Model->ConsultarCitaPorNotaMedica($IdNotaMedica);
-            $this->CitaServicio_Model->ActualizarEstatusCita($Cita->IdCitaServicio,ATENDIDA);
+            
 
              $IdProductos = $this->input->post('IdProducto');
              $cantidadProductos = $this->input->post('cantidad');
              $precioProductos = $this->input->post('precio');
-             $DescuentoProductos = $this->input->post('producto');
+             $DescuentoProductos = $this->input->post('descuento');
+              
              
              if (isset($IdProductos))
              {
@@ -234,17 +226,41 @@ class NotaMedica_Controller extends Agenda_Controler {
              
              if(isset($IdDiagnosticos))
              {
-                 for($i=0; $i<sizeof($idDiagnosticos);$i++)
+                 for($i=0; $i<sizeof($IdDiagnosticos);$i++)
                  {
-                     $data[]= array(
+                     $Diagnosticos[]= array(
                          'IdDiagnostico'=>$IdDiagnosticos[$i],
                          'IdNotaMedica'=>$IdNotaMedica
                      );
                  }
                  
-                 $this->DiagnosticoNotaMedica_Model->AgregarDiagnosticosNotaMedicaBatch($data);
+                 $this->DiagnosticoNotaMedica_Model->AgregarDiagnosticosNotaMedicaBatch($Diagnosticos);
                  
              }
+             
+             $descripcionesSeguimiento = $this->input->post('ColDescSeguimiento');
+             $fechasSeguimiento = $this->input->post('ColFechaSeguimiento');
+             
+             if (isset($descripcionesSeguimiento))
+             {
+                 for($i=0; $i<sizeof($descripcionesSeguimiento);$i++)
+                 {
+                     $Seguimientos[] = array(
+                         'DescripcionSeguimiento'=> $descripcionesSeguimiento[$i],
+                         'IdNotaMedica'=> $IdNotaMedica,
+                         'IdPaciente' => $NotaMedica->IdPaciente,
+                         'IdEstatusSeguimiento'=>1,
+                         'IdElaboradoPor'=> $this->session->userdata('IdUsuario'),
+                         'FechaSeguimiento' => $fechasSeguimiento[$i]);
+                 }
+                 
+                 $this->SeguimientoMedico_Model->AgregarSeguimientoNotaMedicaBatch($Seguimientos);
+                 
+                             
+                 
+             }
+             
+             $this->CitaServicio_Model->ActualizarEstatusCita($Cita->IdCitaServicio,ATENDIDA);
              
              if($this->db->trans_status()===FALSE)
              {
@@ -259,7 +275,7 @@ class NotaMedica_Controller extends Agenda_Controler {
              
         }   
 
-        $this->CitasDeHoy();
+        redirect(site_url('Agenda/CitasHoy'));
         
         }
         catch(Exception $e)
@@ -316,8 +332,37 @@ class NotaMedica_Controller extends Agenda_Controler {
         }
     }
     
+    public function ConsultarNotaMedica($IdNotaMedica)
+    {
     
-  
-   
-}
+        $NotaMedica = $this->NotaMedica_Model->ConsultarNotaMedicaPorId($IdNotaMedica);
+        $data['NotaMedica'] = $NotaMedica;
+        $data['Paciente'] = $this->Paciente_Model->ConsultarPacientePorId($NotaMedica->IdPaciente);
+        $data['Antecedentes'] = $this->AntecedenteNotaMedica_Model->ConsultarAntecedentesNota($IdNotaMedica);
+        $data['Servicios'] = $this->Servicio_Model->ConsultarServicios();
+        $data['Diagnosticos']= $this->DiagnosticoNotaMedica_Model->ConsultarDiagnosticosNotaMedica($NotaMedica->IdNotaMedica);
+        
+        $data['title']='Consulta Nota Medica #'.$NotaMedica->IdNotaMedica;
+        $data['PacienteSubmitAction'] = '';
+        $data['PacienteActionsEnabled'] = false;
+        $data['SomatometriaActionsEnabled'] = false;
+        $data['SomatometriaSubmitAction']='';
+        $data['ProductosNotaActionsEnabled']= false;
+        $data['ProductosNotaSubmitAction']='';
+        
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+        $this->load->view('NotaMedica/FormNotaMedica',$data);
+        $this->load->view('Paciente/PacienteCard',$data);
+        $this->load->view('NotaMedica/SomatometriaCard',$data);
+        $this->load->view('NotaMedica/CardAntecedentes',$data);
+        $this->load->view('NotaMedica/CardDiagnosticoNotaMedica',$data);
+        
+        $this->load->view('templates/FormFooter',$data); 
+        $this->load->view('templates/FooterContainer');
+        
+    }
+    }
+    
+?>
     

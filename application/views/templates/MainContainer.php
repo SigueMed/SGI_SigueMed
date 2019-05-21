@@ -31,11 +31,20 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/colors.css">
     <!-- END ROBUST CSS-->
     <!-- BEGIN Page Level CSS-->
+    
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/core/menu/menu-types/vertical-menu.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/core/menu/menu-types/vertical-overlay-menu.css">
     <!-- END Page Level CSS-->
+    
+    
+    <script src="<?php echo base_url();?>app-assets/js/core/libraries/jquery.min.js" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="<?php echo base_url();?>js/vendor/jquery-3.3.1.js"></script>
+    <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js" type="text/javascript"></script>
+    
+    <!-- BEGIN VENDOR JS-->
     <script src="<?php echo base_url();?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
-
+    
    
     <!-- END Custom CSS-->
     <style>
@@ -63,8 +72,22 @@
               <li class="nav-item hidden-sm-down"><a href="#" class="nav-link nav-link-expand"><i class="ficon icon-expand2"></i></a></li>
               
             </ul>
-            <ul class="nav navbar-nav float-xs-right">
-              <!--Navbar Notificaciones 1-->
+              
+            <ul class="nav navbar-nav float-xs-right" vertical-align="middle">
+                <li class="nav-item">
+                    <br>
+                    
+                    <a>TURNO: <?php echo $this->session->userdata('Turno') ?></a>
+                    
+                    
+                </li>
+                <li class="dropdown nav-item">
+                    <a id="dropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link"><i class="icon-hospital-o"></i><span class="selected">Clínica:<?php echo $this->session->userdata('DescripcionClinica'); ?></span></a>
+                    <div aria-labelledby="dropdown-flag" class="dropdown-menu">
+                        <a href="<?php echo site_url(); ?>/Clinica/SeleccionarClinica" class="dropdown-item"><i class="icon-loop2"></i>Cambiar Clínica</a>
+                    </div>
+                </li>
+<!--              Navbar Notificaciones 1
               <li class="dropdown dropdown-notification nav-item"><a href="#" data-toggle="dropdown" class="nav-link nav-link-label"><i class="ficon icon-bell4"></i><span class="tag tag-pill tag-default tag-danger tag-default tag-up">5</span></a>
                 <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                   <li class="dropdown-menu-header">
@@ -116,7 +139,7 @@
                   <li class="dropdown-menu-footer"><a href="javascript:void(0)" class="dropdown-item text-muted text-xs-center">Read all notifications</a></li>
                 </ul>
               </li>
-              <!--Navbar Notificaciones 2-->
+              Navbar Notificaciones 2
               <li class="dropdown dropdown-notification nav-item"><a href="#" data-toggle="dropdown" class="nav-link nav-link-label"><i class="ficon icon-mail6"></i><span class="tag tag-pill tag-default tag-info tag-default tag-up">8</span></a>
                 <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                   <li class="dropdown-menu-header">
@@ -163,7 +186,7 @@
                     <a href="<?php echo site_url(); ?>/Clinica/SeleccionarClinica" class="dropdown-item"><i class="icon-loop2"></i>Cambiar Clínica</a>
 
                 </div>
-              </li>
+              </li>-->
               <!--Navbar Usuario-->
               <li class="dropdown dropdown-user nav-item"><a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online"><img src="<?php echo base_url();?>app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span class="user-name"><?php echo $this->session->userdata('NombreUsuario'); ?></span></a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -201,39 +224,73 @@
               
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><i class="icon-aid-kit"></i><span data-i18n="nav.expediente.main" class="menu-title">Expediente Clínico</span></a>
+          <?php 
+            if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
+            {
+          
+                echo '<li class=" nav-item"><a href="#"><i class="icon-ios-people"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Pacientes</span></a>
+                    <ul class="menu-content">
+                      <li><a href="'.site_url('Paciente/ListaPacientes').'" data-i18n="nav.cards.card_statistics" class="menu-item">Listado de Pacientes </a>
+                      </li>
+                      <li><a href="'.site_url('Paciente/SeguimientoPaciente').'" data-i18n="nav.cards.card_statistics" class="menu-item">Seguimiento a Pacientes </a>
+                      </li>
+
+                    </ul>
+                  </li>';
+            }
+            ?>
+<!--          <li class=" nav-item"><a href="#"><i class="icon-aid-kit"></i><span data-i18n="nav.expediente.main" class="menu-title">Expediente Clínico</span></a>
             <ul class="menu-content">
-              <li><a href="#" data-i18n="nav.expediente.main" class="menu-item">Consulta Expediente</a>
+              <li><a href="<?php echo site_url();?>/ExpedienteClinico/ConsultarExpediente" data-i18n="nav.expediente.main" class="menu-item">Consulta Expediente</a>
               </li>
               
             </ul>
-          </li>
-          <li class=" nav-item"><a href="#"><i class="icon-briefcase4"></i><span data-i18n="nav.project.main" class="menu-title">Notas Remisión</span></a>
-            <ul class="menu-content">
-              <li><a href="invoice-template.html" data-i18n="nav.invoice.invoice_template" class="menu-item">Crear Nota Remisión</a>
-              </li>
-              <li><a href="gallery-grid.html" data-i18n="nav.gallery_pages.gallery_grid" class="menu-item">Consultar Citas Atendidas</a>
-              </li>
-              <li><a href="search-page.html" data-i18n="nav.search_pages.search_page" class="menu-item">Consultar Notas Remisión</a>
-              </li>
-            </ul>
-          </li>
-          <li class=" nav-item"><a href="#"><i class="icon-ios-albums-outline"></i><span data-i18n="nav.cards.main" class="menu-title">Salidas Caja</span></a>
-            <ul class="menu-content">
-              <li><a href="card-bootstrap.html" data-i18n="nav.cards.card_bootstrap" class="menu-item">Pagar a Medicos</a>
-              </li>
-              <li><a href="card-actions.html" data-i18n="nav.cards.card_actions" class="menu-item">Consultar Salidas</a>
-              </li>
-            </ul>
-          </li>
-          <li class=" nav-item"><a href="#"><i class="icon-whatshot"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Administración Caja</span></a>
-            <ul class="menu-content">
-              <li><a href="card-statistics.html" data-i18n="nav.cards.card_statistics" class="menu-item">Corte Turno</a>
-              </li>
-              <li><a href="card-charts.html" data-i18n="nav.cards.card_charts" class="menu-item">Entregar Corte</a>
-              </li>
-            </ul>
-          </li>
+          </li>-->
+          <?php
+          if ($this->session->userdata('IdPerfil') !== '3')
+          {
+              
+              echo '<li class=" nav-item"><a href="#"><i class="icon-lecturer"></i><span data-i18n="nav.project.main" class="menu-title">Recepción</span></a>
+                        <ul class="menu-content">
+                            <li><a href="'.site_url('NotaRemision/CrearNota').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobrar Servicio</a>
+                            </li>
+                            <li><a href="'.site_url('NotaRemision/CrearNotaInventario').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobrar Venta Inventario</a>
+                            </li>
+                            <li><a href="'.site_url('SalidaCaja/PagarServicioMedico').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Pagar Servicios Médicos</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                    <li class=" nav-item"><a href="#"><i class="icon-ios-albums-outline"></i><span data-i18n="nav.cards.main" class="menu-title">Administrar Caja</span></a>
+                        <ul class="menu-content">
+                          <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a>
+                          </li>
+                          <li><a href="'. site_url('NotaRemision/ConsultarNotasRemision').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Consultar Notas Remisión</a>
+                          </li>
+                          <li><a href="card-actions.html" data-i18n="nav.cards.card_actions" class="menu-item">Consultar Salidas</a>
+                          </li>
+                        </ul>
+                    </li>';
+          }
+          ?>
+          
+          <?php 
+            if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
+            {
+          
+                echo '<li class=" nav-item"><a href="#"><i class="icon-archive2"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Inventario</span></a>
+                        <ul class="menu-content">
+                            <li><a href="'. site_url('/Inventario/RegistrarEntrada').'" data-i18n="nav.cards.card_statistics" class="menu-item">Registrar Entrada </a>
+                        </li>
+                        <li><a href="'. site_url('/Inventario/ConsultarInventario').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Inventario</a>
+                        </li>
+                      </ul>
+                    </li>';
+            }
+          ?>
+          
+           
         </ul>
       </div>
       <!-- /main menu content-->
