@@ -15,37 +15,30 @@ class NotaMedica_Model extends CI_Model {
     
     //Atributos NotaMedica
     private $table;
-    public $IdNotaMedica;
-    public $IdPaciente;
-    public $FechaNotaMedica;
-    public $IdServicio;
+    
+    private $UpdateFields;
             
     /*
      * 
      */
     public function __construct() {
         parent::__construct();
-        $this->table = "NotaMedica";
+        $this->table = "notamedica";
+        $this->tabla = "productosnotamedica";
         $this->load->database();
         
         $this->load->model('CitaServicio_Model');
         $this->load->model('AntecedenteServicio_Model');
         $this->load->model('AntecedenteNotaMedica_Model');
+        
         $this->load->helper('date');
         $this->load->helper('array');
+        $this->UpdateFields = array('FechaNotaMedica','PesoPaciente','TallaPaciente','PresionPaciente','FrCardiacaPaciente','FrRespiratoriaPaciente','TemperaturaPaciente','DiagnosticoGeneral');
         //$this->load->model ('Paciente_Model');
 
     }
     
-    private function LoadRow($row)
-    {
-        $this->IdPaciente = $row->IdPaciente;
-        $this->IdServicio = $row->IdServicio;
-        $this->IdNotaMedica = $row->IdNotaMedica;
-        $this->FechaNotaMedica = $row->FechaNotaMedica;
-        
-    }
-    
+       
     /*
      * Descripción: Consulta el ultimo ID de la nota medica del paciente por servicio
      * Salida: Devuelve el ultimo ID de la nota medica del paciente
@@ -92,25 +85,30 @@ class NotaMedica_Model extends CI_Model {
         
     }
     
-    public function CrearNuevaNotaMedica($IdCita, $DatosSomatometria, $IdUltimaNotaMedica = FALSE)
+    public function CrearNuevaNotaMedica($IdCita, $DatosSomatometria,$IdEmpleado,$IdClinica, $IdUltimaNotaMedica = FALSE)
     {
         //No tiene notas medias anteriores
         $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($IdCita);
+        $Fecha = now();
         
         //Crear Nueva Nota con Datos Somatometria
         $InsertArray = array(
                 'IdPaciente'=>$Cita->IdPaciente,
                 'IdServicio'=>$Cita->IdServicio,
-                'FechaNotaMedica'=>mdate('%Y-%m-%d'),
+                'FechaNotaMedica'=>mdate('%Y-%m-%d', $Fecha),
                 'PesoPaciente'=>$DatosSomatometria['PesoPaciente'],
                 'TallaPaciente'=>$DatosSomatometria['TallaPaciente'],
                 'PresionPaciente'=>$DatosSomatometria['PresionPaciente'],
                 'FrCardiacaPaciente'=>$DatosSomatometria['FrCardiacaPaciente'],
                 'FrRespiratoriaPaciente'=>$DatosSomatometria['FrRespiratoriaPaciente'],
-                'TemperaturaPaciente'=>$DatosSomatometria['TemperaturaPaciente']
+                'TemperaturaPaciente'=>$DatosSomatometria['TemperaturaPaciente'],
+                'IdEmpleado'=>$IdEmpleado,
+                'IdClinica'=>$IdClinica,
+                'IdEstatusNotaMedica'=> NM_ABIERTA
             );
+            //log_message('info', 'CrearNuevaNotaMedica: Peso='.$InsertArray['PesoPaciente']);
             
-        $this->db->insert('NotaMedica', $InsertArray);
+        $this->db->insert($this->table, $InsertArray);
                     
         $IdNuevaNota = $this->ConsultarUltimaNotaMedicaPorPaciente($Cita->IdPaciente, $Cita->IdServicio);
                    
@@ -129,9 +127,39 @@ class NotaMedica_Model extends CI_Model {
             
         return $IdNuevaNota;    
     }
-                    
+    
+    public function ActualizarNotaMedica($IdNotaMedica, $DatosNotaMedica)
+    {
+         
         
+        //$data = elements($this->UpdateFields,$DatosNotaMedica); 
+        $this->db->where('IdNotaMedica', $IdNotaMedica);
+       
+        return $this->db->update($this->table,$DatosNotaMedica);
         
+    }
+    
+    /*
+     * DESCRIPCION: Consulta las notas medicas Atendidas para el IdPaciente
+     * RETURN: result_array() de las notas medicas del paciente
+     * AUTOR: Constanzo Manuel Basurto Chipolini
+     */
+    public function ConsultarNotaMedicaAtendidasPaciente($IdPaciente,$IdClinica)
+    {
+        $this->db->select($this->table.'.*, DescripcionServicio');
+        $this->db->from($this->table);
+        $this->db->join('servicio','servicio.IdServicio = '.$this->table.'.IdServicio');
+        $this->db->where($this->table.'.IdPaciente', $IdPaciente);
+        $this->db->where($this->table.'.IdEstatusNotaMedica', NM_ATENDIDA);
+        $this->db->where($this->table.'.IdClinica', $IdClinica);
+        $query = $this->db->get();
         
+        return $query->result_array();
+    }
+    public function ActualizarEstatusNotaMedica($IdNotaMedica,$IdEstatusNotaMedica)
+    {
+        $this->db->set('IdEstatusNotaMedica',$IdEstatusNotaMedica);
+        $this->db->where ('IdNotaMedica',$IdNotaMedica);
+        return $this->db->update($this->table);
+    }
 }
-

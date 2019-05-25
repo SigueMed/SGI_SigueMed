@@ -51,14 +51,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 //Control de Agenda
-$route['Agenda/CitasHoy'] = 'Agenda_Controler/CitasDeHoy';
-$route['Agenda/ConfirmarCita/(.+)'] = 'Agenda_Controler/ConfirmarCita/$1';
-$route['NotaMedica/Registrar/(.+)'] = 'NotaMedica_Controller/RegistrarSomatometria/$1';
+$route['Agenda/CitasHoy'] = 'Agenda_Controler/Load_ConsultarCitas';
+$route['Agenda/VistaAgenda'] = 'Agenda_Controler';
+$route['Agenda/CargarAgenda'] = 'Agenda_Controler/CargarAgenda';
+$route['Agenda/ConfirmarCita/(.+)'] = 'Agenda_Controler/Load_ConfirmarCita/$1';
+$route['Agenda/CitasAtendidas'] = 'Agenda_Controler/CitasAtendidas';
+$route['NotaMedica/Registrar/(.+)'] = 'NotaMedica_Controller/Load_RegistrarSomatometria/$1';
 
 //Index.php Dirige al Login
-$route['default_controller'] = 'Usuario_Login';
-$route['NotaMedica/ElaborarNota/(.+)'] = 'NotaMedica_Controller/ElaborarNotaMedica/$1';
-$route['usuario/login'] = 'Usuario/login';
-$route['main/TableroPrincipal'] = 'Usuario/TableroPrincipal';
+$route['default_controller'] = 'Login_Controller/Cargar_Login';
 
-//Nota Medica
+//$route['default_controller'] = 'Ccalendar';
+$route['NotaMedica/ElaborarNota/(.+)'] = 'NotaMedica_Controller/Load_ElaborarNotaMedica/$1';
+$route['Usuario/CerrarSesion'] = 'Login_Controller/CerrarSesion';
+$route['Clinica/SeleccionarClinica'] = 'Clinica_Controller/Cargar_SeleccionarClinica';
+
+//Nota Remision
+$route['NotaRemision/CrearNota/(.+)'] = 'NotaRemision_Controller/CrearNotaRemision/$1';
+
+//Expediente Clinico
+$route['ExpedienteClinico/ConsultarExpediente'] = 'ExpedienteClinico_Controller/ConsultarExpedientePacientes';
+$route['ExpedienteClinico/ConsultarNotaMedica/(.+)'] = 'NotaMedica_Controller/ConsultarNotaMedica/$1';
+
+//Inventario
+$route['Inventario/RegistrarEntrada'] = 'Inventario_Controller/Load_RegistrarEntradaInventario';
+$route['Inventario/ConsultarInventario'] = 'Inventario_Controller/ConsultarInventario';
+$route['Inventario/ConsultarDetalleProducto/(.+)'] = 'Inventario_Controller/ConsultarDetalleProducto/$1';
+
+//Paciente
+
+$route['Paciente/ListaPacientes'] = 'Paciente_Controller/ConsultarPacientes';
+$route['Paciente/EditarPaciente/(.+)'] = 'Paciente_Controller/Load_EditarPaciente/$1';
+$route['Paciente/SeguimientoPaciente'] = 'Paciente_Controller/Load_ConsultarSeguimientoPacientes';
+
+
+//Nota de Remisión
+
+$route['NotaRemision/CrearNota'] = 'NotaRemision_Controller/Load_RegistrarNotaRemision';
+$route['NotaRemision/CrearNotaInventario'] = 'NotaRemision_Controller/Load_RegistrarNotaRemisionInventario';
+$route['NotaRemision/CrearPDF/(.+)'] = 'NotaRemision_Controller/generarPDFNotaRemision/$1';
+$route['NotaRemision/CargarNotaRemision/(.+)'] = 'NotaRemision_Controller/CargarTemplateNotaRemision/$1';
+
+
+//SALIDA CAJAS
+$route['SalidaCaja/PagarServicioMedico'] = 'SalidaCaja_Controller/Load_PagarServicioMedico';
+$route['SalidaCaja/AbrirPDFSalida/(.+)'] = 'templates/NewWindow/$1';
+$route['SalidaCaja/CargarPDFSalida/(.+)'] = 'SalidaCaja_Controller/CargarPDFSalida/$1';
+
+//CORTE CAJA
+$route['CorteCaja/ElaborarCorteCaja'] = 'CorteCaja_Controller/Load_ElaborarCorteCaja';
+
+//CAJA
+$route['NotaRemision/ConsultarNotasRemision'] = 'NotaRemision_Controller/Load_ConsultaNotasRemision';
+
+//DASHBOARD
+
+$route['Dashboard/Main'] = 'Dashboard_Controller/Load_Dashboard';
+
+//CATALOGOS
+
+$route['Catalogos/AltaProductos'] = 'CatalogoProductos_Controller/Load_AltaProductos';
+$route['Catalogos/ConsultaProductos'] = 'CatalogoProductos_Controller/Load_CatalogoProductos';
+
+
+
+
+
+
+

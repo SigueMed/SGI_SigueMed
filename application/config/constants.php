@@ -98,4 +98,41 @@ defined('MEDICO')        OR define('MEDICO', 3);
 defined('AGENDADA')        OR define('AGENDADA', 1);
 defined('CONFIRMADA')        OR define('CONFIRMADA', 2);
 defined('REGISTRADA')        OR define('REGISTRADA', 3);
-defined('CANCELADA')        OR define('CANCELADA', 4);
+defined('ATENDIDA')        OR define('ATENDIDA', 4);
+defined('CANCELADA')        OR define('CANCELADA', 5);
+
+//SERVICIOS INVENTARIO
+defined('FARMACIA')        OR define('FARMACIA', 13);
+
+//ESTATUS NOTA MEDICA
+defined('NM_ABIERTA')        OR define('NM_ABIERTA', 1);
+defined('NM_ATENDIDA')        OR define('NM_ATENDIDA', 2);
+defined('NM_PAGADA')        OR define('NM_PAGADA', 3);
+defined('NM_CANCELADA')        OR define('NM_CANCELADA', 4);
+
+//TURNOS
+defined('MATUTINO')        OR define('MATUTINO', 1);
+defined('VESPERTINO')        OR define('VESPERTINO', 2);
+defined('NOCTURNO')        OR define('NOCTURNO', 3);
+defined('JORNADA')        OR define('JORNADA', 4);
+
+//ESTATUS NOTA REMISION
+defined('NR_PAGADO')        OR define('NR_PAGADO', 1);
+defined('NR_CANCELADO')        OR define('NR_CANCELADO', 2);
+defined('NR_PAGO_PARCIAL')        OR define('NR_PAGO_PARCIAL', 3);
+defined('NR_NO_PAGADO')        OR define('NR_NO_PAGADO', 4);
+
+//ESTATUS MOVIMIENTO CUENTA
+defined('MC_PENDIENTEPAGO')        OR define('MC_PENDIENTEPAGO', 1);
+defined('MC_PAGADO')        OR define('MC_PAGADO', 2);
+
+//TIPO MOVIMIENTO CUENTA
+defined('TMC_DEPOSITO')        OR define('TMC_DEPOSITO', 1);
+defined('TMC_SALIDA')        OR define('TMC_SALIDAE', 2);
+
+//TIPOS DE PAGO
+defined('TIPOPAGO_EFECTIVO')        OR define('TIPOPAGO_EFECTIVO', 1);
+defined('TIPOPAGO_TARJETACREDITO')        OR define('TIPOPAGO_TARJETACREDITO', 2);
+defined('TIPOPAGO_TRANSFERENCIA')        OR define('TIPOPAGO_TRANSFERENCIA', 3);
+
+defined('ROOTPATH') OR define('ROOTPATH', __DIR__);

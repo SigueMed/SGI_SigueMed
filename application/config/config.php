@@ -23,8 +23,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+if (ENVIRONMENT =='production')
+{
+   $config['base_url'] = 'https://clinicasiguemed.com/SGI_Siguemed/'; 
+}
+else
+{
 
+    $config['base_url'] = 'http://localhost/SGI_SigueMed/';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -223,7 +230,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 2;
 
 /*
 |--------------------------------------------------------------------------
@@ -378,8 +385,8 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
+$config['sess_cookie_name'] = 'siguemed_session';
+$config['sess_expiration'] = 0;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
@@ -488,7 +495,7 @@ $config['compress_output'] = FALSE;
 | helper' page of the user guide for information regarding date handling.
 |
 */
-$config['time_reference'] = 'local';
+$config['time_reference'] = 'America/Mexico_City';
 
 /*
 |--------------------------------------------------------------------------
