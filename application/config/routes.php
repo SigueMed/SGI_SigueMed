@@ -108,6 +108,11 @@ $route['NotaRemision/ConsultarNotasRemision'] = 'NotaRemision_Controller/Load_Co
 
 $route['Dashboard/Main'] = 'Dashboard_Controller/Load_Dashboard';
 
+//CATALOGOS
+
+$route['Catalogos/AltaProductos'] = 'CatalogoProductos_Controller/Load_AltaProductos';
+$route['Catalogos/ConsultaProductos'] = 'CatalogoProductos_Controller/Load_CatalogoProductos';
+
 
 
 
