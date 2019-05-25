@@ -3,7 +3,7 @@
             <div class="card">
                 <!--CARD HEADER-->
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-form">Información Producto</h4>
+                    <h4 class="card-title" id="basic-layout-form">Información del Producto</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -21,7 +21,16 @@
                     <div class="card-block">
                         <!--FORM BODY-->
                         <div class="form-body">
-                            <h4 class="form-section"><i class="icon-document-text"></i>Datos del Producto</h4>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cbServicioProducto">Servicio</label>
+                                        <select id="cbServicioProducto" name="cbServicioProducto" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                     <div class="col-md-8">
                                             <div class="form-group">
@@ -50,9 +59,14 @@
                                     echo '<button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">';
                                     echo '<i class="icon-cross2"></i> Cerrar';
                                     echo '</button>';
-                                    echo '<button type="submit" class="btn btn-danger mr-1" name="action" value="'.$ProductoCancelAction.'">';
-                                    echo '<i class="icon-cross2"></i>'.$ProductoCancelTitle;
-                                    echo '</button>';
+                                    if($ProductoCancelActionEnabled==true)
+                                    {
+                                        echo '<button type="submit" class="btn btn-danger mr-1" name="action" value="'.$ProductoCancelAction.'">';
+                                        echo '<i class="icon-cross2"></i>'.$ProductoCancelTitle;
+                                        echo '</button>';
+                                        
+                                    }
+                                    
                                     echo '<button type="submit" class="btn btn-success" name="action" value='.$ProductoSubmitAction.'>';
                                     echo '<i class="icon-check2"></i>'.$ProductoSubmitTitle;
                                     echo '</button>';
@@ -69,6 +83,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        CargarServicios();
        CargarValores(); 
     });
     
@@ -77,11 +92,37 @@
         var DatosProducto = <?= json_encode($InformacionProducto)?>;
         if (DatosProducto !== null)
         {
-            //alert(Somatometria['PesoPaciente']);
+            $('#cbServicioProducto').val(DatosProducto['IdServicio']);
             $("#DescripcionProducto").val(DatosProducto['DescripcionProducto']);
             $("#CostoProducto").val(DatosProducto['CostoProducto']);
         }
+        else
+        {
+            $("#DescripcionProducto").val();
+            $("#CostoProducto").val();
+        }
 
         
+    }
+    
+    function CargarServicios()
+    {
+         $.ajax({
+                  url:"<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarServicios_ajax",
+                  method:"POST",
+                  
+                  success: function(data)
+                    {
+                        $('#cbServicioProducto').html(data);
+                        
+                         var DatosProducto = <?= json_encode($InformacionProducto)?>;
+                        if (DatosProducto !== null)
+                        {
+                            $('#cbServicioProducto').val(DatosProducto['IdServicio']);
+                            $('#cbServicioProducto').prop('disabled','disabled');
+                        }
+
+                    }
+              });
     }
 </script>

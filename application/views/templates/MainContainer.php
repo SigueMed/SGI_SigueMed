@@ -275,15 +275,37 @@
           }
           ?>
           
-          <?php 
+           <?php 
             if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
             {
           
                 echo '<li class=" nav-item"><a href="#"><i class="icon-archive2"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Inventario</span></a>
-                        <ul class="menu-content">
-                            <li><a href="'. site_url('/Inventario/RegistrarEntrada').'" data-i18n="nav.cards.card_statistics" class="menu-item">Registrar Entrada </a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Inventario/RegistrarEntrada').'" data-i18n="nav.cards.card_statistics" class="menu-item">Registrar Entrada </a>
+                        </li>';
+                }
+                        echo '<li><a href="'. site_url('/Inventario/ConsultarInventario').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Inventario</a>
                         </li>
-                        <li><a href="'. site_url('/Inventario/ConsultarInventario').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Inventario</a>
+                      </ul>
+                    </li>';
+            }
+          ?>
+          <?php 
+            if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
+            {
+          
+                echo '<li class=" nav-item"><a href="#"><i class="icon-monitor"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Catalogos SígueMED</span></a>
+                        <ul class="menu-content">';
+                echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Productos</a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Catalogos/AltaProductos').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Productos </a>
+                        </li>';
+                }
+                        echo '<li><a href="'. site_url('/Catalogos/ConsultaProductos').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Productos</a>
                         </li>
                       </ul>
                     </li>';

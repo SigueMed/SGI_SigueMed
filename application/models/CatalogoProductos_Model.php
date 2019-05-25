@@ -47,7 +47,7 @@ class CatalogoProductos_Model extends CI_Model{
         $this->db->from($this->table);
   
         $this->db->where($this->table.'.IdProducto', $IdProducto);
-        $this->db->order_by('DescripcionProducto','asc');
+       
         
         $query= $this->db->get();
         
@@ -96,5 +96,12 @@ class CatalogoProductos_Model extends CI_Model{
         
         $query = $this->db->get();
         return $query->result_array();
+    }
+    
+    public function AgregarNuevoProducto($NuevoProducto_Array)
+    {
+        $this->db->insert($this->table,$NuevoProducto_Array);
+        
+        return $this->db->insert_id();
     }
 }
