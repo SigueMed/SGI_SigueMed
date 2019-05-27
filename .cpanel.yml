@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/clinicasiguemed/public_html/SGI_Siguemed-test
+    - export DEPLOYPATH=/home/clinicasiguemed/public_html/SGI_Siguemed
     - /bin/cp -R * $DEPLOYPATH
