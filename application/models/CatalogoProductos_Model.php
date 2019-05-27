@@ -104,4 +104,11 @@ class CatalogoProductos_Model extends CI_Model{
         
         return $this->db->insert_id();
     }
+    
+    public function ActualizarProducto($IdProducto,$Producto)
+    {
+        $this->db->where ('IdProducto',$IdProducto);
+        return $this->db->update($this->table,$Producto);
+        
+    }
 }

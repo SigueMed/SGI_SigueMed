@@ -10,7 +10,7 @@ Class CatalogoRespuestaSeguimiento_Model extends CI_Model{
         parent::__construct();
         
         //Igualamos la variable table al nombre de la tabla de nuestra BD.
-        $this->table = "CatalogoRespuestaSeguimiento";
+        $this->table = "catalogorespuestaseguimiento";
         
         //Cargamos la libreria database.
         $this->load->database();

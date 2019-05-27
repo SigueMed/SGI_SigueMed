@@ -43,9 +43,10 @@
                                         <th>Paciente</th>
                                         <th>Teléfono</th>
                                         <th>Seguimiento</th> 
+                                        <th>Servicio</th> 
                                         <th>Fecha Seguimiento</th>
                                         <th>Estatus</th>
-                                        <th>Comentarios</th>
+                                        
                                         <th>Primera</th>
                                         <th>Fecha </th>
                                         <th>Segunda</th>
@@ -64,14 +65,16 @@
                             </table>
                             
                             <!--MODAL FechaConfirmación-->
+                            <?php echo form_open('Seguimiento_Controller/ActualizarSeguimiento'); ?>
                             <div class="modal fade" tabindex="-1" role="dialog" id="ModalLlamada" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h5 class="modal-title">Llamada Seguimiento</h5>
-                                    <input type="hidden" id="ModalLlamada_IdSeguimientoMedico" name="IdSeguimientoMedico">
-                                    <input type="hidden" id="ModalLlamada_IdEstatusSeguimiento" name="IdEstatusSeguimiento">
+                                    <h5 class="modal-title">Llamada Seguimiento #<label id="NumSeguimiento" name ="NumSeguimiento"></label></h5>
+                                    <input type="hidden" id="ModalLlamada_IdSeguimientoMedico" name="ModalLlamada_IdSeguimientoMedico">
+                                    <input type="hidden" id="ModalLlamada_IdEstatusSeguimiento" name="ModalLlamada_IdEstatusSeguimiento">
+                                    <input type="hidden" id="NumeroSeguimiento" name="NumeroSeguimiento">
                                 </div>
                                 <div class="modal-body">
                                     <div class = "row">
@@ -113,19 +116,40 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="ModalLlamada_cbEstatusSeguimiento">Estatus:</label>
+                                                <select name="ModalLlamada_cbEstatusSeguimiento" id="ModalLlamada_cbEstatusSeguimiento" class="form-control" onchange="">
+                                                    <option value="">Seleccione un estatus</option>
+                                                    <option value="2">Volver a llamar</option>
+                                                    <option value="3">Terminar Seguimiento</option>
+                                                    <option value="4">Rechazado por paciente</option>
+                                                    <option value="5">Cancelar Seguimiento</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                 </div>
                                 <div class="modal-footer">
-                                    <button id="ConfirmarFecha" type="button" class="btn btn-primary" data-dismiss="modal">Llamar...</button>
-                                    <button id="CancelarFecha" type="button" class="btn btn-success" data-dismiss="modal">Atendido</button>
-                                    <button id="CancelarFecha" type="button" class="btn btn-danger" data-dismiss="modal">Rechazado</button>
-                                    <button id="CancelarFecha" type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-                                    <button id="CancelarFecha" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    
+                                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                                            <i class="icon-cross2"></i>Cerrar
+                                        </button>
+                                        
+                                        <button type="submit" class="btn btn-success mr-1" name="action" value="GuardarSeguimiento" >
+                                            <i class="icon-edit"></i>Guardar
+                                        </button>
+                                   
                                 </div>
                                 </div>
                             </div>
                             </div> 
+                            </form> <!--MODAL FORM-->
                             </div>
+                            
                         
                     </div>
                 </div>
@@ -162,7 +186,7 @@ function CargarSeguimientoPacientes()
 {
     var t = $('#tbl_SeguimientoPacientes').DataTable({
         "ajax":{
-            url:"<?php echo site_url();?>/Paciente_Controller/ConsultarSeguimientoPacientes_ajax",
+            url:"<?php echo site_url();?>/Seguimiento_Controller/ConsultarSeguimientoPacientes_ajax",
             method:"POST",
             dataSrc: ""
         },
@@ -175,9 +199,7 @@ function CargarSeguimientoPacientes()
               "infoEmpty": "Sin registros disponibles",
               "infoFiltered": "(filtrado de _MAX_ total)"
           },
-          "columnDefs": [
-                { "width": "20%", "targets": [1,3] }
-              ],
+          "autoWidth":true,
           "columns": [
                 {
                     "className":      'details-control',
@@ -188,9 +210,10 @@ function CargarSeguimientoPacientes()
                 { "data": "NombrePaciente" },
                 { "data": "NumCelular" },
                 { "data": "DescripcionSeguimiento" },
+                { "data": "DescripcionServicio" },
                 { "data": "FechaSeguimiento" },
                 { "data": "DescripcionEstatusSeguimiento" },
-                { "data": "ObservacionesSeguimiento" },
+                
                 { "data": "Respuesta1" },
                 { "data": "FechaRespuesta_1" },
                 { "data": "Respuesta2" },
@@ -220,10 +243,14 @@ function LoadRowDetail ( d ) {
         
     '</table>';
 }
-function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento)
+function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento, NumeroSeguimiento)
     {        
+
         $('#ModalLlamada_IdSeguimientoMedico').val(IdSeguimientoMedico);
         $('#ModalLlamada_IdEstatusSeguimiento').val(IdEstatusSeguimiento);
+        alert(IdSeguimientoMedico);
+        $('#NumeroSeguimiento').val(NumeroSeguimiento);
+        $("#NumSeguimiento").html(NumeroSeguimiento);
         var fecha = new Date(); 
         var mes = fecha.getMonth()+1; 
         var dia = fecha.getDate(); 
@@ -235,7 +262,30 @@ function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento)
         
         var hoy = ano+"-"+mes+"-"+dia;
         $('#ModalLlamada_FechaLlamada').val(hoy);
+        LimpiarModalLlamadas();
+        CargarRespuestas();
         $("#ModalLlamada").modal('show');
+    }
+    
+    function CargarRespuestas()
+    {
+         $.ajax({
+                  url:"<?php echo site_url();?>/Seguimiento_Controller/CargarRespuestas_ajax",
+                  method:"POST",
+                  success: function(data)
+                    {
+                        
+                        $('#ModalLlamada_cbRespuestaLlamada').html(data);
+                        
+                       
+                    }
+              });
+    }
+    
+    function LimpiarModalLlamadas()
+    {
+        $('#ModalLamada_Comentarios').val();
+        
     }
 //    
 </script>

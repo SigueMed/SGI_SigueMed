@@ -52,6 +52,11 @@ class Agenda_Controler extends CI_Controller
     {
         //f($this->input->post('servicio_id'))
         $IdServicio =$this->input->post('IdServicio');
+        
+        if ($this->session->userdata('IdPerfil')==MEDICO)
+        {
+            $IdServicio = $this->session->userdata('IdServicio');
+        }
             
         if ($IdServicio == "*")
         {
@@ -61,26 +66,9 @@ class Agenda_Controler extends CI_Controller
         {
             $r= $this->CitaServicio_Model->ConsultarCitasPorServicio($IdServicio);
         }
-        //$this->load->Model('CitaServicio_Model');
-
-        
-            //$r = $this->Mcalendar->getEventos();
             echo json_encode($r);
     }
     
-//    public function updEvento()
-//    {
-//        $param['IdCitaServicio'] = $this->input->post('id');
-//        $param['DiaCita'] = $this->input->post('DiaCita');
-//        $param['MesCita'] = $this->input->post('MesCita');
-//        $param['AnioCita'] = $this->input->post('AnioCita');
-//        $param['HoraCita'] = $this->input->post('HoraCita');
-//        $param['Comentarios'] = $this->input->post('Comentarios');
-//
-//        $r = $this->CitaServicio_Model->updEvento($param);
-//
-//        echo $r;
-//    }
     
     //Autor: Carlos Esquivel
     public function agregarEvento()
@@ -233,7 +221,8 @@ class Agenda_Controler extends CI_Controller
             }
 
             //Confirmar Cita
-            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita,CONFIRMADA);
+            $Comentarios = $this->input->post('CitaComentarios');
+            $this->CitaServicio_Model->ActualizarEstatusCita($IdCita,CONFIRMADA, $Comentarios);
         }
         if($action=='cancelar')
         {
@@ -272,7 +261,17 @@ class Agenda_Controler extends CI_Controller
         //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
         public function getServiciosAgenda(){
             $IdClinica = $this->session->userdata('IdClinica');
-            $resultado = $this->Servicio_Model->getServiciosAgenda($IdClinica);
+            
+            if ($this->session->userdata('IdPerfil') ==MEDICO)
+            {
+                //$ServicioPerfil = $this->Empleado_Model->ConsultarEmpleadoPorId($this->session->userdata('IdEmpleado'));
+                $resultado = $this->Servicio_Model->getServiciosAgenda($IdClinica,$this->session->userdata('IdServicio'));
+            }
+            else
+            {
+                $resultado = $this->Servicio_Model->getServiciosAgenda($IdClinica);
+            }
+            
             echo json_encode($resultado);
         }
         

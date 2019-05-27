@@ -57,5 +57,15 @@ class Empleado_Model extends CI_Model {
         return $query->result_array();
                
     }
+    
+    public function ConsultarEmpleadoPorId($IdEmpleado)
+    {
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        $this->db->where('IdEmpleado',$IdEmpleado);
+        $query = $this->db->get();
+        
+        return $query->row();
+    }
     //put your code here
 }

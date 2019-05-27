@@ -62,7 +62,7 @@ class SeguimientoMedico_Model extends CI_Model{
         
         
         $this->db->where($this->table.'.IdEstatusSeguimiento',1);
-        $this->db->or_where($this->table.'.IdEstatusSeguimiento',3);
+        $this->db->or_where($this->table.'.IdEstatusSeguimiento',2);
         
         $query = $this->db->get();
         
@@ -82,5 +82,11 @@ class SeguimientoMedico_Model extends CI_Model{
         $query = $this->db->get();
         
         return $query->row();
+    }
+    
+    public function ActualizarSeguimiento($IdSeguimiento, $Seguimiento)
+    {
+        $this->db->where('IdSeguimientoMedico',$IdSeguimiento);
+        return $this->db->update($this->table,$Seguimiento);
     }
 }
