@@ -250,7 +250,7 @@ class NotaMedica_Controller extends Agenda_Controler {
                          'IdNotaMedica'=> $IdNotaMedica,
                          'IdPaciente' => $NotaMedica->IdPaciente,
                          'IdEstatusSeguimiento'=>1,
-                         'IdElaboradoPor'=> $this->session->userdata('IdUsuario'),
+                         'IdElaboradoPor'=> $this->session->userdata('IdEmpleado'),
                          'FechaSeguimiento' => $fechasSeguimiento[$i]);
                  }
                  

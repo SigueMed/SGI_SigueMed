@@ -74,13 +74,7 @@
             </ul>
               
             <ul class="nav navbar-nav float-xs-right" vertical-align="middle">
-                <li class="nav-item">
-                    <br>
-                    
-                    <a>TURNO: <?php echo $this->session->userdata('Turno') ?></a>
-                    
-                    
-                </li>
+                
                 <li class="dropdown nav-item">
                     <a id="dropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link"><i class="icon-hospital-o"></i><span class="selected">Clínica:<?php echo $this->session->userdata('DescripcionClinica'); ?></span></a>
                     <div aria-labelledby="dropdown-flag" class="dropdown-menu">
@@ -209,8 +203,11 @@
     <div data-scroll-to-active="true" class="main-menu menu-fixed menu-light menu-accordion menu-shadow">
       <!-- main menu header-->
       <div class="main-menu-header">
-        <input type="text" placeholder="Search" class="menu-search form-control round"/>
+          <label><i class="icon-user"></i> <?php echo $this->session->userdata('NombreUsuario');?></label>
+          <label><i class="icon-clock3"></i> <?php echo $this->session->userdata('Turno');?></label>
+          <hr>
       </div>
+      
       <!-- / main menu header-->
       <!-- main menu content-->
       <div class="main-menu-content">

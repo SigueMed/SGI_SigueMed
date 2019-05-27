@@ -82,7 +82,7 @@ $route['Inventario/ConsultarDetalleProducto/(.+)'] = 'Inventario_Controller/Cons
 
 $route['Paciente/ListaPacientes'] = 'Paciente_Controller/ConsultarPacientes';
 $route['Paciente/EditarPaciente/(.+)'] = 'Paciente_Controller/Load_EditarPaciente/$1';
-$route['Paciente/SeguimientoPaciente'] = 'Paciente_Controller/Load_ConsultarSeguimientoPacientes';
+$route['Paciente/SeguimientoPaciente'] = 'Seguimiento_Controller/Load_ConsultarSeguimientoPacientes';
 
 
 //Nota de Remisión

@@ -26,6 +26,7 @@ class NotaRemision_Controller extends CI_Controller {
         $this->load->model('CatalogoTipoPago_Model');
         $this->load->model('MovimientoCuenta_Model');
         $this->load->model('MovimientoInventario_Model');
+        $this->load->model('SeguimientoMedico_Model');
         
     }
         public function index(){
@@ -52,6 +53,7 @@ class NotaRemision_Controller extends CI_Controller {
             $this->load->view('NotaRemision/CardNotaRemision',$data);
             
             $this->load->view('NotaMedica/CardProductosNotaMedica',$data);
+            $this->load->view('NotaMedica/CardSeguimiento',$data);
             $this->load->view('NotaRemision/CardResumenNotaRemision',$data);
             $this->load->view('templates/FormFooter',$data); 
             $this->load->view('templates/FooterContainer');
@@ -277,6 +279,29 @@ class NotaRemision_Controller extends CI_Controller {
                                 
                                 $this->NotaMedica_Model->ActualizarEstatusNotaMedica($NotasMedicasAbiertas[$i], NM_PAGADA);
                             }
+                        }
+                        
+                        //REGISTRAR SEGUIMIENTOS A PACIENTE
+                        $descripcionesSeguimiento = $this->input->post('ColDescSeguimiento');
+                        $fechasSeguimiento = $this->input->post('ColFechaSeguimiento');
+
+                        if (isset($descripcionesSeguimiento))
+                        {
+                            for($i=0; $i<sizeof($descripcionesSeguimiento);$i++)
+                            {
+                                $Seguimientos[] = array(
+                                    'DescripcionSeguimiento'=> $descripcionesSeguimiento[$i],
+                                    
+                                    'IdPaciente' => $IdPaciente,
+                                    'IdEstatusSeguimiento'=>1,
+                                    'IdElaboradoPor'=> $this->session->userdata('IdEmpleado'),
+                                    'FechaSeguimiento' => $fechasSeguimiento[$i]);
+                            }
+
+                            $this->SeguimientoMedico_Model->AgregarSeguimientoNotaMedicaBatch($Seguimientos);
+
+
+
                         }
                         
                      

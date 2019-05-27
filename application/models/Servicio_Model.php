@@ -58,7 +58,7 @@ class Servicio_Model extends CI_Model {
     //put your code here
 
     //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
-    public function getServiciosAgenda($IdClinica=FALSE){
+    public function getServiciosAgenda($IdClinica=FALSE, $IdServicio = FALSE){
         $this->db->select($this->table.'.*');
         $this->db->from($this->table);
         $this->db->where('ManejoAgenda', TRUE);
@@ -67,6 +67,11 @@ class Servicio_Model extends CI_Model {
         {
             $this->db->join('servicioclinica',$this->table.'.IdServicio = servicioclinica.IdServicio');
             $this->db->where('IdClinica', $IdClinica);
+        }
+        
+        if($IdServicio !== FALSE)
+        {
+            $this->db->where($this->table.'.IdServicio', $IdServicio);
         }
         $query = $this->db->get();
         return $query->result();

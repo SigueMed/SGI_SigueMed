@@ -45,6 +45,7 @@
                             </table>
                             
                             <!--MODAL EDITAR PRODUCTO-->
+                            <?php echo form_open('CatalogoProductos_Controller/GuardarProducto'); ?>
                             <div class="modal fade" tabindex="-1" role="dialog" id="modalEditarProducto" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -156,13 +157,20 @@
                                          
                                     </div>
                                     <div class="modal-footer">
-                                        <button id="Cancelar" type="button" class="btn btn-warning mr-1" data-dismiss="modal">Cancelar</button>
-                                        <button id="EditarProducto" type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                                    
+                                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                                            <i class="icon-cross2"></i>Cerrar
+                                        </button>
                                         
-                                    </div>
+                                        <button type="submit" class="btn btn-success mr-1" name="action" value="GuardarProducto" >
+                                            <i class="icon-edit"></i>Guardar
+                                        </button>
+                                   
+                                </div>
                                     </div>
                                 </div>
                             </div>
+                        </form><!--FORM MODAL-->
                         </div>
                         
                     </div>
@@ -288,6 +296,20 @@
                     
                         {   
                             return '<a classs = "btn" onclick="OpenModal_EditarProducto('+data+')"><i class="icon-pencil2" data-toggle="tooltip" data-placement="top" id="EditarProducto" title="Editar Producto"> Editar</i></a>';
+                            
+                        },
+                    "targets":3, "render": function(data,type,row,meta)
+                    
+                        {   
+                            if (data=='1')
+                            {
+                                return "HABILITADO";
+                            }
+                            else
+                            {
+                                return "DESHABILITADO";
+                            }
+                            
                             
                         }}
                        

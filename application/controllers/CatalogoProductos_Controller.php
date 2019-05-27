@@ -182,30 +182,52 @@ class CatalogoProductos_Controller extends CI_Controller {
         echo json_encode($CuentasProducto);
     }
     
-    public function ActualizarProducto_ajax()
+    public function GuardarProducto()
     {
-        $IdProducto = $this->input->post('IdProducto');
-        $DescripcionProducto = $this->input->post('Descripcion');
-        $CostoProducto = $this->input->post('CostoProducto');
-        $Habilitado = $this->input->post('Habilitado');
-        
-        $DatosProducto = array(
-            'IdProducto'=> $IdProducto,
-            'DescripcionProducto'=> $DescripcionProducto,
-            'CostoProducto' => $CostoProducto,
-            'Habilitado'=> $Habilitado
-        );
-        
-        $result = $this->CatalogoProductos_Model->ActualizarProducto($DatosProducto);
-        
-        if($result == 1)
+        $action = $this->input->post('action');
+        if ($action =="GuardarProducto")
         {
+            $IdProducto = $this->input->post('Modal_IdProducto');
+            $DescripcionProducto = $this->input->post('Modal_Descripcion');
+            $CostoProducto = $this->input->post('Modal_CostoProducto');
+            $Habilitado = $this->input->post('Modal_chkHabilitado   ');
+
+            $DatosProducto = array(
+              
+                'DescripcionProducto'=> $DescripcionProducto,
+                'CostoProducto' => $CostoProducto,
+                'Habilitado'=> $Habilitado
+            );
+
+            $result = $this->CatalogoProductos_Model->ActualizarProducto($IdProducto,$DatosProducto);
+
+            if($result == 1)
+            {
+                $Cuentas = $this->input->post('IdCuentaProducto');
+                $PorcentajeCuentas =$this->input->post('PorcentajeProducto');
+                
+                if (isset($Cuentas))
+                {
+                    $this->CuentaProducto_Model->EliminarCuentasProducto($IdProducto);
+                    
+                    for ($i=0; $i<sizeof($Cuentas); $i++)
+                        {
+                            $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($IdProducto,$Cuentas[$i],($PorcentajeCuentas[$i]/100));
+                            if ($result <0)
+                            {
+                                throw new Exception('Error al registrar cuentas del producto');
+                            }
+                        }
+                }
+            }
+            else
+            {
+
+            }
+
             
         }
-        else
-        {
-            
-        }
+                
         
         
     }
