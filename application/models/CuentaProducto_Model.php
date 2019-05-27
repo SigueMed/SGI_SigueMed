@@ -43,5 +43,11 @@ class CuentaProducto_Model extends CI_Model {
         return $query->result_array();
         
     }
+    
+    public function EliminarCuentasProducto($IdProducto)
+    {
+        $this->db->where('IdProducto',$IdProducto);
+        return $this->db->delete($this->table);
+    }
     //put your code here
 }

@@ -29,7 +29,7 @@ class Dashboard_Controller extends CI_Controller {
         {
             case 1:
                 $this->load->view('Dashboard/CardDashCaja');
-                //$this->load->view('Dashboard/CardDashPaciente');
+                $this->load->view('Dashboard/CardDashPaciente');
                 break;
             case 2:
                 $this->load->view('Dashboard/CardDashCaja');
