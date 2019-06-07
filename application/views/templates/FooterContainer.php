@@ -26,6 +26,8 @@
     <!-- BEGIN PAGE LEVEL JS-->
     <script type="text/javascript" src="<?php echo base_url();?>js/vendor/jquery.dataTables.min.js"></script> 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/> 
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/currency.js"></script> 
+    
     <!-- END PAGE LEVEL JS-->
   </body>
 </html>

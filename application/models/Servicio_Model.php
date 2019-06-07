@@ -21,7 +21,23 @@ class Servicio_Model extends CI_Model {
         $this->table = "servicio";
         
     }
-    
+    public function ConsultarServiciosPorGrupo($IdGrupo = FALSE)
+    {
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        $this->db->where('Habilitado',TRUE);
+        
+        if($IdGrupo!== FALSE)
+        {
+            $this->db->where('IdGrupoServicio',$IdGrupo);
+        }
+       
+        
+        $query = $this->db->get();
+        
+        return $query->result_array();
+        
+    }
     public function ConsultarServicios($Inventario = FALSE)    
     {
          $this->db->select($this->table.'.*');

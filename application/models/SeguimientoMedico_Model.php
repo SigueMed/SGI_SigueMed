@@ -17,6 +17,13 @@ class SeguimientoMedico_Model extends CI_Model{
         return $resultado;
     }
     
+    public function InsertarSeguimiento($data)
+    {
+        $resultado = $this->db->insert($this->table,$data);
+        
+        return $resultado;
+    }
+    
    
     public function ConsultarSeguimientobyid($IdNotaMedica) {
         $condition = "IdNotaMedica =" . $IdNotaMedica;
