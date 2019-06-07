@@ -1,4 +1,14 @@
+<!--easy Autocomplete-->
+<script src="<?php echo base_url();?>assets/easyautocomplete/jquery.easy-autocomplete.min.js" ></script>
+<link rel="stylesheet" href="<?php echo base_url();?>assets/easyautocomplete/easy-autocomplete.min.css">
+<link rel="stylesheet" href="<?php echo base_url();?>assets/easyautocomplete/easy-autocomplete.themes.min.css">
+
+
+
 <style>
+    .inputNombrePaciente{
+         width: 300px;
+    }
     td.details-control {
         background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_open.png');?>) no-repeat center center;
         cursor: pointer;
@@ -31,7 +41,17 @@
                 <div class="card-body collapse in">
                     <div class="card-block">
                         <!--FORM BODY-->
-                        <div class="form-body">   
+                        <div class="form-body"> 
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="ShowModalNuevoSeguimiento()">Nuevo Seguimiento</button>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                                
                             <table id="tbl_SeguimientoPacientes" class="table table-striped table-bordered table-responsive" style="width:100%">
                                 <thead>
                                     <tr>
@@ -148,6 +168,100 @@
                             </div>
                             </div> 
                             </form> <!--MODAL FORM-->
+                            <!--MODAL ModalNuevoSeguimiento-->
+                            <?php echo form_open('Seguimiento_Controller/AgregarNuevoSeguimiento'); ?>
+                            <div class="modal fade" tabindex="-1" role="dialog" id="ModalNuevoSeguimiento" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h5 class="modal-title">Nuevo Seguimiento</h5>
+                                    
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                          
+                                        <div class="form-group col-md-12 col-xs-12">
+                                                <input type="hidden" class="form-control" id="idPaciente" name="idPaciente"  readonly="readonly"/>
+                                                <label>Paciente</label>
+                                                <input type="text" class="inputNombrePaciente form-control" id="txtPaciente" required="required" placeholder="Buscar" />
+                                        </div>
+                          
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-xs-3">
+                                            <img src="<?php echo base_url();?>app-assets/images/portrait/small/paciente50.png" alt="avatar">
+                                        </div>
+                                        <div class="col-md-9 col-xs-9">
+                                            <b><label class="form-group" id="lblNombrePaciente" style="font-size: 16px"></label></b>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label for="ModalSeguimiento_cbGrupoServicio">Grupo Servicios</label>
+                                                <select name="ModalSeguimiento_cbGrupoServicio" id="ModalSeguimiento_cbGrupoServicio" class="form-control" onchange="CargarServiciosGrupo(this)">
+                                                    <option value="">Grupos de Servicios</option>
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label for="ModalSeguimiento_cbServicio">Servicio</label>
+                                                <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" >
+                                                    <option value="">Servicios</option>
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                    <label for="DescripcionSeguimiento">Seguimiento</label>
+                                                    <input type="text" name="DescripcionSeguimiento" id="DescripcionSeguimiento" class="form-control" placeholder="Descripción Seguimiento"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                        <label for="diasSeguimiento">días</label>
+                                                        <input type="text" name="diasSeguimiento" id="diasSeguimiento" class="form-control" placeholder="Días" value ="3" onchange="EstablecerFechaSeguimiento(this.value)"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label for="FechaSeguimiento">Fecha Seguimiento</label>
+                                                    <div class="position-relative has-icon-left">
+                                                        <input type="date" id="FechaSeguimiento" class="form-control" name="FechaSeguimiento" value=""/>
+                                                        <div class="form-control-position">
+                                                                <i class="icon-calendar5"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="modal-footer">
+                                    
+                                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                                            <i class="icon-cross2"></i>Cerrar
+                                        </button>
+                                        
+                                        <button type="submit" class="btn btn-success mr-1" name="action" value="AgregarSeguimiento" >
+                                            <i class="icon-edit"></i>Guardar
+                                        </button>
+                                   
+                                </div>
+                                </div>
+                            </div>
+                            </div> 
+                            </form> <!--MODAL FORM-->
                             </div>
                             
                         
@@ -158,6 +272,59 @@
 </div><!--DIV ROW MATCH-->
 
 <script type="text/javascript">
+    //input autocomplete Nombre
+    var optionsNombre = {
+        url: "<?php echo site_url();?>/Agenda_Controler/autocompleteNombre",
+        getValue: function (element){
+                        return element.Nombre + " " + element.Apellidos;
+                    },
+        template: {
+            type: "custom",
+            method: function(value, item){
+                return item.Nombre + " " + item.Apellidos;
+                
+            }
+        },
+        list: {
+            maxNumberOfElements: 5,
+            match:{
+                enabled:true
+            }, 
+            
+            onClickEvent: function(){
+            
+            
+                var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+                
+                var NombrePaciente = $("#txtPaciente").getSelectedItemData().Nombre +' '+ $("#txtPaciente").getSelectedItemData().Apellidos;
+                
+                $("#idPaciente").val(value);
+                $("#lblNombrePaciente").html(NombrePaciente);
+                    
+                
+            
+            },
+            
+            onChooseEvent: function()
+            {
+                 var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+                
+                var NombrePaciente = $("#txtPaciente").getSelectedItemData().Nombre +' '+ $("#txtPaciente").getSelectedItemData().Apellidos;
+                
+                $("#idPaciente").val(value);
+                $("#lblNombrePaciente").html(NombrePaciente);
+                
+                
+                
+                
+            }
+            
+        },
+        theme: "plate-dark"
+    };
+    
+    $('#txtPaciente').easyAutocomplete(optionsNombre);
+    
     $(document).ready(function() {
         
         CargarSeguimientoPacientes();
@@ -285,6 +452,72 @@ function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento,
     function LimpiarModalLlamadas()
     {
         $('#ModalLamada_Comentarios').val();
+        
+    }
+    
+    function ShowModalNuevoSeguimiento()
+    {
+         CargarGruposServicio();
+         EstablecerFechaSeguimiento(3);
+        $("#ModalNuevoSeguimiento").modal('show');
+    }
+    
+    function CargarGruposServicio()
+    {
+        
+        $.ajax({
+            url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarGruposServicio_ajax",
+            method: "POST",            
+            success: function(data)
+                {                         
+                     $('#ModalSeguimiento_cbGrupoServicio').html(data);
+                }
+        });
+        
+    }
+    
+    function CargarServiciosGrupo(sel)
+    {
+         var IdGrupo = sel.value;
+        
+        $.ajax({
+            url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarServiciosPorGrupo_ajax",
+            data: {IdGrupo: IdGrupo},
+            method: "POST",            
+            success: function(data)
+                {                         
+                     $('#ModalSeguimiento_cbServicio').html(data);
+                }
+        });
+        
+    }
+    
+    function EstablecerFechaSeguimiento(dias)
+    {
+        
+     var hoy = new Date();
+     
+     
+    hoy.setDate(hoy.getDate()+parseInt(dias));
+    
+    var d = hoy.getDate();
+    if (d<10)
+    {
+        d= '0'+d;
+    }
+    var m =  parseInt(hoy.getMonth())+1;
+    if (m <10)
+     {
+         m = '0'+m;
+     }
+     
+     
+     $('#FechaSeguimiento').val(hoy.getFullYear()+'-'+m+'-'+d);
+    }
+    function ModalSeguimiento_cbGrupoServicio()
+    {
+        
+       
         
     }
 //    

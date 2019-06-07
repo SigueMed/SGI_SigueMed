@@ -17,7 +17,7 @@
 
                 </div>
                 <!--CARD BODY-->
-                <div class="card-body collapse in">
+                <div class="card-body collapse in" id="BodyNotaRemision">
                     <div class="card-block">
                         <!--FORM BODY-->
                         <div class="form-body">

@@ -4,6 +4,8 @@
     .inputNombrePaciente{
          width: 95%;
     }
+    th { font-size: 13px; }
+    td { font-size:12px; }
     
   </style>
   
@@ -83,6 +85,7 @@
                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalDetalleAduedos">
                                             Detalle
                                         </button>
+                                           <a classs = "btn" onclick="Siguiente(1)"><i class="icon-arrow13" data-toggle="tooltip" data-placement="top" id="Siguiente" title="Ir a Productos"> Siguiente</i></a>
                                           
                                     </div>
                                 </div>
@@ -99,7 +102,7 @@
 
                             </div>
                             
-                            <!-- Modal -->
+                            <!-- MODAL DETALLE ADEUDOS -->
                             <div class="modal fade" id="ModalDetalleAduedos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                               aria-hidden="true">
                               <div class="modal-dialog" role="document">
@@ -137,6 +140,7 @@
                             </div>
                         </div>
                         
+                        
        
                     </div>
                 </div>
@@ -165,9 +169,15 @@
                     <!--FORM BODY-->
                     <div class="form-body"> 
                         <table id="tblNotasAtendidasPaciente" class="table table-striped table-bordered table-responsive" style="width:100%">
+                            <col style="width:20%">
+                            <col style="width:20%">
+                            <col style="width:20%">
+                            <col style="width:25%">
+                            <col style="width:5%">
+                            
                                 <thead>
                                     <tr>
-                                        <th>No. Nota</th>
+                                        <th>#</th>
                                         <th>Servicio</th>
                                         <th>Fecha</th>
                                         <th>Acciones</th>
@@ -178,6 +188,67 @@
                                 <tbody>
                                 </tbody>
                         </table>
+                        
+                        <!-- MODAL INFORMACION SERVICIO -->
+                            <div class="modal fade" id="ModalInformacionServicio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Información Servicio
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </h5>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                               <div class="form-group">
+                                                    <label for="Modal_Medico">Atendido por:</label>
+                                                    <div class="form-group">
+                                                        <input type="text" id="Modal_Medico" class="form-control" name="Modal_Medico" placeholder="Atendido por"/>
+                                                    </div>
+                                                </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                               <div class="form-group">
+                                                    <label for="Modal_PlanesTratamiento">Planes de Tratamiento</label>
+                                                    <div class="position-relative has-icon-left">
+                                                            <textarea id="Modal_PlanesTratamiento" rows="5" class="form-control" name="Modal_PlanesTratamiento" placeholder="Planes Tratamiento"></textarea>
+                                                            <div class="form-control-position">
+                                                                    <i class="icon-file2"></i>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                          </div>
+                                      </div>
+                                      <table id="Modal_tblProductosNotaMedica" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Descuento</th>
+                                                    <th>Total</th>
+                                                    
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                    </table>
+                            
+                                    
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
 
 
@@ -303,7 +374,7 @@
                            if(VentaInventario==0)
                             {   
                                 
-                               tdCargar = '<a class="tooltip-test" title="Cargar Nota" data-original-title="Tooltip" data-toggle="tooltip" href="#" onclick="CargarProductosNota('+NotasMedicas[i]['IdNotaMedica']+','+NotasMedicas[i]['IdEmpleado']+')"><i class="icon-download5"></i></a>';
+                               tdCargar = '<a class="tooltip-test" title="Cargar Nota" data-original-title="Tooltip" data-toggle="tooltip" href="#" onclick="CargarProductosNota('+NotasMedicas[i]['IdNotaMedica']+','+NotasMedicas[i]['IdEmpleado']+')"><i class="icon-download5"></i>Cargar</a>';
                                        
                             }
                            
@@ -313,9 +384,9 @@
                             '<td>'+NotasMedicas[i]['IdNotaMedica']+'</td>'+
                             '<td><input type="hidden" value='+NotasMedicas[i]['IdNotaMedica']+'>'+NotasMedicas[i]['DescripcionServicio']+'</td>'+
                             '<td>'+NotasMedicas[i]['FechaNotaMedica']+'</td>'+
-                            '<td align="center" data-row="rowNotasAtendidas'+i+'"><a class="tooltip-test" title="Productos" data-original-title="Tooltip" data-toggle="tooltip" href="#" onclick="ConsultarDetalleNota('+NotasMedicas[i]['IdNotaMedica']+')"><i class="icon-zoom-in2"></i></a>'+tdCargar +'</td>'+
+                            '<td align="center" data-row="rowNotasAtendidas'+i+'"><a class="tooltip-test" title="Productos" data-original-title="Tooltip" data-toggle="tooltip" href="#" onclick="ConsultarDetalleNota('+NotasMedicas[i]['IdNotaMedica']+')"><i class="icon-zoom-in2"></i>Ver </a>|'+tdCargar +'</td>'+
                             '<td><input type="checkbox" name="chkNotasAtendidas[]" value ="'+NotasMedicas[i]['IdNotaMedica']+'" checked></td>'+
-                            
+                                
                             '</tr>'
                             );
                         }
@@ -324,11 +395,44 @@
               });
        
    }
+   function Siguiente(Card)
+   {
+       switch (Card)
+       {
+           case 1:
+               var tbl = document.getElementById("BodyNotaRemision");
+                tbl.scrollIntoView();
+               break;
+           case 2:
+               break;
+           case 3:
+               break;
+       }
+       
+   }
    
    function ConsultarDetalleNota(IdNotaMedica)
    {
        
-            alert(IdNotaMedica);
+       $.ajax({
+            url:"<?php echo site_url();?>/NotaRemision_Controller/ConsultarNotaMedica_ajax",
+            data:{
+                IdNotaMedica:IdNotaMedica
+            },
+            method:"POST",
+            success: function(data)
+                {
+                  var NotaMedica = JSON.parse(data);
+
+                  $("#Modal_PlanesTratamiento").val(NotaMedica['PlanesTratamiento']);
+                  $("#Modal_Medico").val(NotaMedica['ElaboradoPor']);
+
+                }
+            });
+            
+            $("#ModalInformacionServicio").modal('show');
+       
+            
        
    }
    function CargarProductosNota(IdNotaMedica, IdEmpleado)

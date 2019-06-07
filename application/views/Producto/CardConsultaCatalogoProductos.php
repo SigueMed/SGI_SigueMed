@@ -292,13 +292,23 @@
               },
               "columnDefs":[
                 {
+                 "type": 'currency',"targets":2, "render": function(data,type,row,meta)
+                    
+                        {   
+                            return "$"+(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                            
+                        }   
+                },
+                {
+                   
+                   
                     "targets":4, "render": function(data,type,row,meta)
                     
                         {   
                             return '<a classs = "btn" onclick="OpenModal_EditarProducto('+data+')"><i class="icon-pencil2" data-toggle="tooltip" data-placement="top" id="EditarProducto" title="Editar Producto"> Editar</i></a>';
                             
-                        },
-                    "targets":3, "render": function(data,type,row,meta)
+                        }},
+                            {"targets":3, "render": function(data,type,row,meta)
                     
                         {   
                             if (data=='1')
@@ -319,9 +329,9 @@
                     
                     { "data": "IdProducto" },
                     { "data": "DescripcionProducto" },
-                    { "data": "CostoProducto" },
+                    { "data": "CostoProducto"},
                     { "data": "Habilitado" },
-                    {"data":"IdProducto"}
+                    {"data":"IdProducto", "width": "20%"}
                     ]
 
             });
