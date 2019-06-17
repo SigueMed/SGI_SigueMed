@@ -61,5 +61,24 @@ class CargaCatalogos_Controller extends CI_Controller {
             
         }
     }
+    
+    public function CargarProductosPorServicio_ajax()
+    {
+     
+        $IdServicio = $this->input->post('IdServicio');
+        $this->load->model('CatalogoProductos_Model');
+        $Productos = $this->CatalogoProductos_Model->ConsultarProductosPorServicio($IdServicio);
+        
+         $output='<option value="">Selecciona un Producto</option>';
+         
+        foreach($Productos as $producto)
+        {
+            $output .= '<option value="'.$producto['IdProducto'].'">'.$producto['DescripcionProducto'].'</option>';
+        }
+        echo $output;
+        
+        
+        
+    }
     //put your code here
 }
