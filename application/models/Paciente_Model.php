@@ -12,19 +12,19 @@
  * @author SigueMed
  */
 class Paciente_Model extends CI_Model {
-    
-    private $table;
-  
 
-    
+    private $table;
+
+
+
     public function __construct() {
         parent::__construct();
         $this->table = "paciente";
         $this->load->database();
-        
+
     }
-      
-   
+
+
     public function ConsultarPacientePorId($IdPaciente)
     {
         $condition = "IdPaciente =" . $IdPaciente;
@@ -35,15 +35,15 @@ class Paciente_Model extends CI_Model {
         $this->db->limit(1);
         $query = $this->db->get();
 
-        if ($query->num_rows() == 1) 
+        if ($query->num_rows() == 1)
         {
             return $query->row();
-        } 
+        }
        return false;
-        
-        
+
+
     }
-    
+
     public function ActualizarPaciente_Post($IdPacienteUpdt)
     {
         if($this->input->post('cbEscolaridad')=="")
@@ -76,8 +76,8 @@ class Paciente_Model extends CI_Model {
                 {
                     $IdRecursosMedicos = $this->input->post('cbRecursosMedicos');
                 }
-                
-                
+
+
 
                 $PacienteUpdt = array(
                     'Nombre'=>$this->input->post('Nombre'),
@@ -89,7 +89,7 @@ class Paciente_Model extends CI_Model {
                     'CP' => $this->input->post('CP'),
                     'ViveCon' => $this->input->post('ViveCon'),
                     'Escolaridad' => $this->input->post('Escolaridad'),
-                    
+
                     'IdEscolaridad' => $IdEscolaridad,
                     'IdReligion' => $IdReligion,
                     'Religion' => $this->input->post('Religion'),
@@ -104,30 +104,37 @@ class Paciente_Model extends CI_Model {
                     );
 
         $this->db->where('IdPaciente', $IdPacienteUpdt);
-       
+
         return $this->db->update($this->table,$PacienteUpdt);
     }
-    
-   
+
+
     //------------------
     //AUTOR 'Carlos Esquivel' -- Guarda nuevo paciente
     public function agregarNuevoPaciente($param){
-            
+
         $campos = array(
             'Nombre' => $param['nombre'],
             'Apellidos' => $param['apellido'],
             'NumCelular' => $param['telefono'],
         );
-        
-       
+
+
         $this->db->insert($this->table, $campos);
-        if ($this->db->affected_rows() == 1) 
+        if ($this->db->affected_rows() == 1)
             {
                 return 1;
             }
         return 0;
     }
-    
+
+    public function AgregarPaciente($DatosPaciente)
+    {
+      $this->db->insert($this->table,$DatosPaciente);
+
+      return $this->db->insert_id();
+    }
+
     public function BuscarPacientePorNombre($Nombre, $Apellidos)
     {
         $this->db->select('Nombre, Apellidos');
@@ -138,14 +145,14 @@ class Paciente_Model extends CI_Model {
         if ($query->num_rows()>0)
         {
             return $query->result_array();
-            
+
         }
-        
+
         return false;
     }
 
     public function consultarIdNuevoPaciente($param){
-            
+
         $this->db->select($this->table.'.*');
         $this->db->from($this->table);
         $this->db->where('Nombre',$param['nombre']);
@@ -153,19 +160,19 @@ class Paciente_Model extends CI_Model {
         $this->db->where('NumCelular',$param['telefono']);
         $query = $this->db->get();
 
-        if ($query->num_rows() == 1) 
+        if ($query->num_rows() == 1)
         {
             $row = $query->row();
-            
+
             return $row;
-        } 
-        else 
+        }
+        else
         {
             return 0;
     }
-    
+
         }
-    
+
     /**
      * DESCRIPCION: Función para consultar todos los pacientes que tengan nota medica
      * $IdServicio: Filtra los pacientes de acuerdo al servicio, Todos en caso de que no se indique
@@ -176,13 +183,13 @@ class Paciente_Model extends CI_Model {
     {
         $this->db->select($this->table.'.*, IdNotaMedica,FechaNotaMedica, DescripcionServicio');
         $this->db->from($this->table);
-        
+
         $this->db->join('notamedica',$this->table.'.IdPaciente = notamedica.IdPaciente');
         $this->db->join('servicio','notamedica.IdServicio = servicio.IdServicio');
         $this->db->order_by('Apellidos','asc');
         $this->db->order_by('DescripcionServicio','asc');
         $this->db->order_by('IdNotaMedica','asc');
-        
+
         if($IdClinica!== FALSE)
         {
             $this->db->where('IdClinica',$IdClinica);
@@ -191,16 +198,16 @@ class Paciente_Model extends CI_Model {
         {
             $this->db->where('notamedica.IdServicio', $IdServicio);
         }
-        
+
         $query = $this->db->get();
-        
+
         return $query->result_array();
-        
-        
+
+
     }
-    
+
     /*
-     * DESCRIPCION: Consultar TODOS los pacientes 
+     * DESCRIPCION: Consultar TODOS los pacientes
      * RETURN: array con la información de todos los pacientes
      * AUTOR: Constanzo Manuel Basurto Chipolini
      */
@@ -209,7 +216,7 @@ class Paciente_Model extends CI_Model {
         $this->db->select($this->table.'.*');
         $this->db->from($this->table);
         $query = $this->db->get();
-        
+
         return $query->result_array();
     }
 }
