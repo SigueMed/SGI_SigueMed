@@ -27,6 +27,7 @@
 
 <div class="row">
 
+    <!--PACIENTE-ULTIMAS NOTAS-->
     <div class="col-lg-4 col-xs-12">
 
         <!-- PACIENTE -->
@@ -106,6 +107,7 @@
         </div>
 
       </div>
+    <!--SERVICIOS NOTA-->
     <div class="col-lg-5 col-xs-12">
         <!--SERVICIOS NOTA-->
         <div class="card my-4">
@@ -203,11 +205,8 @@
             </div>
         </div>
     </div>
-
-
+    <!--RESUMEN NOTA-->
     <div class="col-lg-3 col-xs-12">
-
-
         <!--RESUMEN NOTA-->
         <?php echo form_open('NotaRemision_Controller/RegistrarNotaRemision');?>
         <div class="card my-0">
@@ -340,14 +339,9 @@
             <input type="hidden" id="ModalLlamada_IdEstatusSeguimiento" name="ModalLlamada_IdEstatusSeguimiento">
             <input type="hidden" id="NumeroSeguimiento" name="NumeroSeguimiento">
         </div>
-
-
         <div class="modal-body">
-
-
-                <input type="text" hidden="true" name="ModalIdPaciente" id="IdFamiliarResponsable"/>
-                <div class="row">
-
+          <input type="text" hidden="true" name="ModalIdPaciente" id="IdFamiliarResponsable"/>
+          <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="ModalNombre">Nombre</label>
@@ -372,7 +366,7 @@
                                 </div>
                         </div>
                 </div>
-                <div class="row">
+          <div class="row">
                     <div class="col-md-4 col-xs-6">
                         <div class="form-group">
                             <label for="ModalFechaNacimiento">Fecha Nacimiento</label>
@@ -401,8 +395,8 @@
 
 
                 </div>
-              <h6 class="form-section">Facturación</h6>
-                <div class="row">
+          <h6 class="form-section">Facturación</h6>
+          <div class="row">
 
                   <div class="col-md-5">
 
@@ -418,46 +412,43 @@
                     </div>
                   </div>
                 </div>
+          <h5 class="form-section"><i class="icon-clipboard4"></i> Dirección</h5>
 
+          <!--DIRECCION-->
+          <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="ModalDondeVive">Donde Vive:</label>
+                    <select name="ModalDondeVive" id="ModalDondeVive" class="form-control" onchange="">
+                        <option value="">Seleccione una opción</option>
+                        <option value="1">Zona Urbana</option>
+                        <option value="0">Zona Rural</option>
 
-                <h5 class="form-section"><i class="icon-clipboard4"></i> Dirección</h5>
-
-                <!--DIRECCION-->
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="ModalDondeVive">Donde Vive:</label>
-                            <select name="ModalDondeVive" id="ModalDondeVive" class="form-control" onchange="">
-                                <option value="">Seleccione una opción</option>
-                                <option value="1">Zona Urbana</option>
-                                <option value="0">Zona Rural</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="ModalCalle">Calle</label>
-                            <input type="text" name="ModalCalle" id="ModalCalle" class="form-control" placeholder="Calle"/>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="ModalColonia">Colonia</label>
-                            <input type="text" name="ModalColonia" id="ModalColonia" class="form-control" placeholder="Colonia"/>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="ModalCalle">Calle</label>
+                    <input type="text" name="ModalCalle" id="ModalCalle" class="form-control" placeholder="Calle"/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="ModalColonia">Colonia</label>
+                    <input type="text" name="ModalColonia" id="ModalColonia" class="form-control" placeholder="Colonia"/>
+                </div>
+            </div>
+            <div class="col-md-2">
                         <div class="form-group">
                              <label for="ModalCP">Código Postal</label>
                             <input type="text" id="ModalCP" name="ModalCP" class="form-control" placeholder="C.P."/>
                         </div>
                     </div>
+          </div>
 
-                </div>
-
-                <!-- FORM ACTIONS-->
-                <div class="modal-footer">
+          <!-- FORM ACTIONS-->
+          <div class="modal-footer">
                     <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
                         <i class="icon-cross2"></i>Cerrar
                     </button>
@@ -465,9 +456,8 @@
                         <i class="icon-check2"></i>Registrar
                     </button>
                 </div>
-              </div>
-
         </div>
+      </div>
     </div>
 </div>
 
@@ -882,7 +872,8 @@
 
           $("#txtPaciente").val(NombrePaciente);
           $("#idPaciente").val(result['IdPaciente']);
-          $("#lblNombrePaciente").html(result['FechaNacimiento']);
+          $("#lblNombrePaciente").html(NombrePaciente);
+          $("#lblFechaNacimiento").html(result['FechaNacmiento']);
           if (result['Sexo']=='F') {
               $("#lblSexo").html('FEMENINO');
           }

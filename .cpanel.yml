@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/clinicasiguemed/sgi.siguemed.com.mx
-    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp -R application $DEPLOYPATH
