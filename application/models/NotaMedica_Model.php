@@ -68,8 +68,10 @@ class NotaMedica_Model extends CI_Model {
     public function ConsultarNotaMedicaPorId($IdNotaMedica)
     {
         $condition = "IdNotaMedica =" . $IdNotaMedica;
-        $this->db->select('*');
+        $this->db->select($this->table.'.*');
+        $this->db->select('CONCAT (NombreEmpleado," ", ApellidosEmpleado) as ElaboradoPor');
         $this->db->from($this->table);
+        $this->db->join('empleado',$this->table.'.IdEmpleado = empleado.IdEmpleado');
         $this->db->where($condition);
         $this->db->limit(1);
         $query = $this->db->get();

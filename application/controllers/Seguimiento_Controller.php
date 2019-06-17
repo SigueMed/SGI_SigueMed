@@ -17,6 +17,7 @@ class Seguimiento_Controller extends CI_Controller {
         parent::__construct();
         
         $this->load->model('SeguimientoMedico_Model');
+        $this->load->model('Servicio_Model');
         $this->load->model('CatalogoRespuestaSeguimiento_Model');
         $this->load->helper('date');
     }
@@ -145,5 +146,41 @@ class Seguimiento_Controller extends CI_Controller {
             redirect(site_url('Paciente/SeguimientoPaciente'));
         }
         
+    }
+    
+    public function AgregarNuevoSeguimiento()
+    {
+        $IdPaciente = $this->input->post('idPaciente');
+        $IdServicio = $this->input->post('IdServicio');
+        $DescripcionSeguimiento = $this->input->post('DescripcionSeguimiento');
+        $FechaSeguimiento = $this->input->post('FechaSeguimiento');
+        
+        $Seguimiento = array(
+            'DescripcionSeguimiento'=> $DescripcionSeguimiento,
+            'IdServicio'=>$IdServicio,
+            'IdPaciente' => $IdPaciente,
+             'IdEstatusSeguimiento'=>1,
+             'IdElaboradoPor'=> $this->session->userdata('IdEmpleado'),
+             'FechaSeguimiento' => $FechaSeguimiento);
+        
+        $this->SeguimientoMedico_Model->InsertarSeguimiento($Seguimiento);
+        
+         echo "<script>
+            alert('Se ha registrado el nuevo seguimiento');
+            window.location.href='".site_url('Paciente/SeguimientoPaciente')."';
+            </script>";
+                
+    }
+    
+    public function CargarServicios_ajax()
+    {
+        $Servicios = $this->Servicio_Model->ConsultarServicios();
+            
+        $output='<option value="">Selecciona un Producto</option>';
+        foreach($Servicios as $servicio)
+        {
+            $output .= '<option value="'.$servicio['IdServicio'].'">'.$servicio['DescripcionServicio'].'</option>';
+        }
+        echo $output;
     }
 }

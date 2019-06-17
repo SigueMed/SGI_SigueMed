@@ -162,6 +162,7 @@
      
      $("#resumenSaldoPendiente").val(totalPendiente);
  }
+ 
  $("#resumenTotalPago").on('change keyup',function(){
      CalcularTotalesNotaRemision();
  });

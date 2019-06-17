@@ -172,6 +172,7 @@ class NotaMedica_Controller extends Agenda_Controler {
                 'ExploracionFisica'=> $this->input->post('ExploracionFisica'),
                 'Paraclinicos'=> $this->input->post('Paraclinicos'),
                 'PlanesTratamiento'=> $this->input->post('PlanesTratamiento'),
+                'IdEmpleado'=> $this->input->post('IdEmpleado'),   
                 'IdEstatusNotaMedica'=>NM_ATENDIDA
                     
              );
