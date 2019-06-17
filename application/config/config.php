@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 if (ENVIRONMENT =='production')
 {
-   $config['base_url'] = 'https://clinicasiguemed.com/SGI_Siguemed/'; 
+   $config['base_url'] = 'https://sgi.siguemed.com.mx/'; 
 }
 else
 {
