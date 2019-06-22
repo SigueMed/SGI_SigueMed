@@ -13,7 +13,7 @@
                                     <li><a data-action="close"><i class="icon-cross2"></i></a></li>
                             </ul>
                     </div>
-                    
+
 
                 </div>
                 <!--CARD BODY-->
@@ -85,7 +85,7 @@
                                         <label for="cbEscolaridad">Escolaridad:</label>
                                         <select name="cbEscolaridad" id="cbEscolaridad" class="form-control" onchange="">
                                             <option value="">Escolaridad</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                                         <label for="cbEstadoCivil">Estado Civil:</label>
                                         <select name="cbEstadoCivil" id="cbEstadoCivil" class="form-control" onchange="">
                                             <option value="">Estado Civil</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -110,17 +110,17 @@
                                         <input type="text" name="ViveCon" id="ViveCon" class="form-control" placeholder="Vive con"/>
                                     </div>
                                 </div>
-                                
+
 
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="cbReligion">Religion:</label>
                                         <select name="cbReligion" id="cbReligion" class="form-control" onchange="">
                                             <option value="">Religion</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                         <label for="cbOcupacion">Ocupación:</label>
                                         <select name="cbOcupacion" id="cbOcupacion" class="form-control" onchange="">
                                             <option value="">Ocupación</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -145,23 +145,23 @@
                                         <input type="text" name="Ocupacion" id="Ocupacion" class="form-control" placeholder="Otro-Ocupación"/>
                                     </div>
                                 </div>
-                                
+
 
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="cbRecursosMedicos">Recursos Medicos</label>
                                         <select name="cbRecursosMedicos" id="cbRecursosMedicos" class="form-control" onchange="">
                                             <option value="">Recursos Medicos</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <div class="form-group">
-                          
+
                                           <label for="RFC">RFC:</label>
                                         <input type="text" id = "RFC" name="RFC" class="form-control" placeholder="RFC"/>
                                     </div>
@@ -179,7 +179,7 @@
                                             <option value="">Seleccione una opción</option>
                                             <option value="1">Zona Urbana</option>
                                             <option value="0">Zona Rural</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -202,40 +202,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="DondeVive">Donde Vive:</label>
-                                        <select name="DondeVive" id="DondeVive" class="form-control" onchange="">
-                                            <option value="">Seleccione una opción</option>
-                                            <option value="1">Zona Urbana</option>
-                                            <option value="0">Zona Rural</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="Calle">Calle</label>
-                                        <input type="text" name="Calle" id="Calle" class="form-control" placeholder="Calle"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="colonia">Colonia</label>
-                                        <input type="text" name="Colonia" id="Colonia" class="form-control" placeholder="Colonia"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                         <label for="cp">Código Postal</label>
-                                        <input type="text" id="CP" name="CP" class="form-control" placeholder="C.P."/>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            
-                            
+
+                                                        
+
+
                         </div>
                         <!-- FORM ACTIONS-->
                         <div class="form-actions">
@@ -256,8 +226,8 @@
                                     echo '</button>';
                                 }
                             ?>
-                                
-                                
+
+
                         </div>
                     </div>
                 </div>
@@ -274,18 +244,18 @@
         CargarOcupacion();
         CargarRecursosMedicos();
         CargarPaciente();
-        
-        
-             
+
+
+
     });
-    
+
     function ActualizarEdad()
     {
         edad = CalcularEdad($("#FechaNacimiento").val());
         $("#Edad").val(edad);
     }
-    
-    
+
+
     function CalcularEdad(FechaNacimiento)
     {
         var hoy = new Date();
@@ -297,9 +267,9 @@
             edad--;
         }
 
-        return edad;  
+        return edad;
     }
-    
+
     function CargaEscolaridad()
     {
         $.ajax({
@@ -307,9 +277,9 @@
                   method:"POST",
                   success: function(data)
                     {
-                        
+
                         $('#cbEscolaridad').html(data);
-                        
+
                         var Paciente = <?= json_encode($Paciente)?>;
                         if (Paciente !== null)
                         {
@@ -317,8 +287,8 @@
                         }
                     }
               });
-    }   
-    
+    }
+
     function CargarEstadoCivil()
     {
         $.ajax({
@@ -326,9 +296,9 @@
                   method:"POST",
                   success: function(data)
                     {
-                        
+
                         $('#cbEstadoCivil').html(data);
-                        
+
                         var Paciente = <?= json_encode($Paciente)?>;
                         if (Paciente !== null)
                         {
@@ -337,8 +307,8 @@
                     }
               });
     }
-    
-    
+
+
     function CargarReligion()
     {
         $.ajax({
@@ -346,9 +316,9 @@
                   method:"POST",
                   success: function(data)
                     {
-                        
+
                         $('#cbReligion').html(data);
-                        
+
                         var Paciente = <?= json_encode($Paciente)?>;
                         if (Paciente !== null)
                         {
@@ -357,7 +327,7 @@
                     }
               });
     }
-    
+
     function CargarOcupacion()
     {
         $.ajax({
@@ -365,9 +335,9 @@
                   method:"POST",
                   success: function(data)
                     {
-                        
+
                         $('#cbOcupacion').html(data);
-                        
+
                         var Paciente = <?= json_encode($Paciente)?>;
                         if (Paciente !== null)
                         {
@@ -376,7 +346,7 @@
                     }
               });
     }
-    
+
     function CargarRecursosMedicos()
     {
         $.ajax({
@@ -384,9 +354,9 @@
                   method:"POST",
                   success: function(data)
                     {
-                        
+
                         $('#cbRecursosMedicos').html(data);
-                        
+
                         var Paciente = <?= json_encode($Paciente)?>;
                         if (Paciente !== null)
                         {
@@ -395,8 +365,8 @@
                     }
               });
     }
-    
-    
+
+
     function CargarPaciente()
     {
         var Paciente = <?= json_encode($Paciente)?>;
@@ -408,7 +378,7 @@
 
             if(Paciente['FechaNacimiento'] !== '0000-00-00')
             {
-           
+
                 $("#FechaNacimiento").val(Paciente['FechaNacimiento']);
                 $("#Edad").val(CalcularEdad(Paciente['FechaNacimiento']));
             }
@@ -432,10 +402,10 @@
 
 
             //$("#IdServiciosMedicos").val(Paciente['IdServiciosMedicos']);
-          
-        
+
+
         }
-        
+
     }
-    
+
 </script>

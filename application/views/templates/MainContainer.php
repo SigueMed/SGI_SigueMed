@@ -17,35 +17,38 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    
+
     <!-- BEGIN VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/bootstrap.css">
     <!-- font icons-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/fonts/icomoon.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/fonts/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/vendors/css/extensions/pace.css">
-    
+
     <!-- BEGIN ROBUST CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/app.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/colors.css">
     <!-- END ROBUST CSS-->
     <!-- BEGIN Page Level CSS-->
-    
+
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/core/menu/menu-types/vertical-menu.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>app-assets/css/core/menu/menu-types/vertical-overlay-menu.css">
     <!-- END Page Level CSS-->
-    
-    
+
+
     <script src="<?php echo base_url();?>app-assets/js/core/libraries/jquery.min.js" type="text/javascript"></script>
-    
+
     <script type="text/javascript" src="<?php echo base_url();?>js/vendor/jquery-3.3.1.js"></script>
     <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js" type="text/javascript"></script>
-    
+
     <!-- BEGIN VENDOR JS-->
     <script src="<?php echo base_url();?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    
-   
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
+
     <!-- END Custom CSS-->
     <style>
         .embed-responsive-10by3 {
@@ -70,11 +73,11 @@
             <ul class="nav navbar-nav">
               <li class="nav-item hidden-sm-down"><a class="nav-link nav-menu-main menu-toggle hidden-xs"><i class="icon-menu5">         </i></a></li>
               <li class="nav-item hidden-sm-down"><a href="#" class="nav-link nav-link-expand"><i class="ficon icon-expand2"></i></a></li>
-              
+
             </ul>
-              
+
             <ul class="nav navbar-nav float-xs-right" vertical-align="middle">
-                
+
                 <li class="dropdown nav-item">
                     <a id="dropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link"><i class="icon-hospital-o"></i><span class="selected">Clínica:<?php echo $this->session->userdata('DescripcionClinica'); ?></span></a>
                     <div aria-labelledby="dropdown-flag" class="dropdown-menu">
@@ -207,7 +210,7 @@
           <label><i class="icon-clock3"></i> <?php echo $this->session->userdata('Turno');?></label>
           <hr>
       </div>
-      
+
       <!-- / main menu header-->
       <!-- main menu content-->
       <div class="main-menu-content">
@@ -218,16 +221,18 @@
               </li>
               <li><a href="<?php echo site_url();?>/Agenda/CitasHoy" data-i18n="nav.agenda.main" class="menu-item">Citas del día</a>
               </li>
-              
+
             </ul>
           </li>
-          <?php 
+          <?php
             if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
             {
-          
+
                 echo '<li class=" nav-item"><a href="#"><i class="icon-ios-people"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Pacientes</span></a>
                     <ul class="menu-content">
                       <li><a href="'.site_url('Paciente/ListaPacientes').'" data-i18n="nav.cards.card_statistics" class="menu-item">Listado de Pacientes </a>
+                      </li>
+                      <li><a href="'.site_url('Paciente/NuevoPaciente').'" data-i18n="nav.cards.card_statistics" class="menu-item">Registro de Paciente </a>
                       </li>
                       <li><a href="'.site_url('Paciente/SeguimientoPaciente').'" data-i18n="nav.cards.card_statistics" class="menu-item">Seguimiento a Pacientes </a>
                       </li>
@@ -240,13 +245,13 @@
             <ul class="menu-content">
               <li><a href="<?php echo site_url();?>/ExpedienteClinico/ConsultarExpediente" data-i18n="nav.expediente.main" class="menu-item">Consulta Expediente</a>
               </li>
-              
+
             </ul>
           </li>-->
           <?php
           if ($this->session->userdata('IdPerfil') !== '3')
           {
-              
+
               echo '<li class=" nav-item"><a href="#"><i class="icon-lecturer"></i><span data-i18n="nav.project.main" class="menu-title">Recepción</span></a>
                         <ul class="menu-content">
                             <li><a href="'.site_url('NotaRemision/CrearNota').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobrar Servicio</a>
@@ -271,11 +276,11 @@
                     </li>';
           }
           ?>
-          
-           <?php 
+
+           <?php
             if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
             {
-          
+
                 echo '<li class=" nav-item"><a href="#"><i class="icon-archive2"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Inventario</span></a>
                         <ul class="menu-content">';
                 if($this->session->userdata('IdPerfil')=='2')
@@ -289,10 +294,10 @@
                     </li>';
             }
           ?>
-          <?php 
+          <?php
             if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
             {
-          
+
                 echo '<li class=" nav-item"><a href="#"><i class="icon-monitor"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Catalogos SígueMED</span></a>
                         <ul class="menu-content">';
                 echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Productos</a>
@@ -308,8 +313,8 @@
                     </li>';
             }
           ?>
-          
-           
+
+
         </ul>
       </div>
       <!-- /main menu content-->
@@ -318,7 +323,3 @@
       <!-- main menu footer-->
     </div>
     <!-- / main menu-->
-
-
-
-    

@@ -15,20 +15,25 @@
          </div>
         <div class="content-body">
 <?php
-        if (isset($errorMessage)) {
-            echo "<div class='alert alert-danger mb-2' role='alert'>";
-            echo $errorMessage;
-            echo "</div>";
-        }
-        if (isset($infoMessage)) {
-            echo "<div class='alert alert-info mb-2' role='alert'>";
-            echo $infoMessage;
-            echo "</div>";
+        if (isset($swal) && $swal == true)
+        {
+          $action ="<script>";
+          $action .= "Swal.fire({".$swalMessage."})";
+          if (isset($swalAction))
+          {
+            $action .= $swalAction;
+          }
+          else {
+            $action .=';';
+          }
+          $action .= '</script>';
+          echo $action;
+
         }
         if (!$this->session->has_userdata('logged_in'))
             {
-               
+
                 redirect(base_url());
             }
-            
+
     ?>

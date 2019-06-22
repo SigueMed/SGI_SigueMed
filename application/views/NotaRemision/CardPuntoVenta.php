@@ -1,6 +1,5 @@
 <!--easy Autocomplete-->
 <script src="<?php echo base_url();?>assets/easyautocomplete/jquery.easy-autocomplete.min.js" ></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/easyautocomplete/easy-autocomplete.min.css">
 <link rel="stylesheet" href="<?php echo base_url();?>assets/easyautocomplete/easy-autocomplete.themes.min.css">
 
@@ -24,7 +23,7 @@
 
 </style>
 
-
+<?php echo form_open('NotaRemision_Controller/RegistrarNotaRemision');?>
 <div class="row">
 
     <div class="col-lg-4 col-xs-12">
@@ -40,11 +39,11 @@
                               <div class="form-group">
                                   <input type="hidden" class="form-control" id="idPaciente" name="idPaciente"  readonly="readonly"/>
                                   <label>Paciente</label>
-                                  <input type="text" class="inputNombrePaciente form-control" id="txtPaciente" required="required" placeholder="Buscar" />
+                                  <input type="text" class="inputNombrePaciente form-control" id="txtPaciente" required placeholder="Buscar" />
                               </div>
                             </div>
                           <div class="col-md-2">
-                              <button class="btn btn-sm btn-success" onclick="AbrirModalNuevoPaciente()"><i class="icon-plus"></i></button>
+                              <button type="button" class="btn btn-sm btn-success" onclick="AbrirModalNuevoPaciente()"><i class="icon-plus"></i></button>
                           </div>
 
                       </div>
@@ -105,7 +104,7 @@
           </div>
         </div>
 
-      </div>
+    </div>
     <div class="col-lg-5 col-xs-12">
         <!--SERVICIOS NOTA-->
         <div class="card my-4">
@@ -203,13 +202,8 @@
             </div>
         </div>
     </div>
-
-
     <div class="col-lg-3 col-xs-12">
-
-
         <!--RESUMEN NOTA-->
-        <?php echo form_open('NotaRemision_Controller/RegistrarNotaRemision');?>
         <div class="card my-0">
             <div class="card-header">
                 <h6>Resumen</h6>
@@ -325,11 +319,12 @@
                 </div>
             </div>
         </div>
-        </form>
-    </div>
+
 </div>
+</form>
 
 <!------------------------------------------------------------MODALS--------------------------------------------------------------->
+<!--MODAL NUEVO PACIENTE-->
 <div class="modal fade" id="Modal_NuevoPaciente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -343,23 +338,20 @@
 
 
         <div class="modal-body">
-
-
                 <input type="text" hidden="true" name="ModalIdPaciente" id="IdFamiliarResponsable"/>
                 <div class="row">
-
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="ModalNombre">Nombre</label>
                       <input type="text" name="ModalNombre" id="ModalNombre" class="form-control" placeholder="Nombre"/>
                     </div>
                   </div>
-                        <div class="col-md-4">
-                                <div class="form-group">
-                                        <label for="ModalApellidos">Apellidos</label>
-                                        <input type="text" name="ModalApellidos" id="ModalApellidos" class="form-control" placeholder="Apellidos"/>
-                                </div>
-                        </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ModalApellidos">Apellidos</label>
+                        <input type="text" name="ModalApellidos" id="ModalApellidos" class="form-control" placeholder="Apellidos"/>
+                    </div>
+                  </div>
                         <div class="col-md-4">
                                 <div class="form-group">
                                         <label for="ModalSexo">Sexo</label>
@@ -469,7 +461,8 @@
 
         </div>
     </div>
-</div>
+</div><!--MODAL NUEVO PACIENTE-->
+
 
 <script type="text/javascript">
     $(document).ready(function(){

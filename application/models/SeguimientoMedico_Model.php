@@ -1,30 +1,30 @@
 <?php
 class SeguimientoMedico_Model extends CI_Model{
     private $table;
- 
-    
+
+
     public function __construct() {
         parent::__construct();
         $this->table = "seguimientomedico";
         $this->load->database();
 
     }
-    
+
     public function AgregarSeguimientoNotaMedicaBatch($data)
     {
         $resultado = $this->db->insert_batch($this->table,$data);
-        
+
         return $resultado;
     }
-    
+
     public function InsertarSeguimiento($data)
     {
         $resultado = $this->db->insert($this->table,$data);
-        
+
         return $resultado;
     }
-    
-   
+
+
     public function ConsultarSeguimientobyid($IdNotaMedica) {
         $condition = "IdNotaMedica =" . $IdNotaMedica;
         $this->db->select('*');
@@ -32,7 +32,7 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->where($condition);
         $this->db->limit(1);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() == 1){
             $row = $query->row();
             $this->LoadRow($row);
@@ -40,13 +40,14 @@ class SeguimientoMedico_Model extends CI_Model{
         }else{
             return false;
         }
-        
+
     }
-    
-    public function ConsultarSeguimientosPendientes()
+
+    public function ConsultarSeguimientosPendientes($condicion = FALSE)
     {
         $this->db->select($this->table.'.*, CONCAT(p.Nombre," ",p.Apellidos) as NombrePaciente, NumCelular');
-        $this->db->select('DescripcionEstatusSeguimiento, nm.IdNotaMedica, nm.FechaNotaMedica, DescripcionServicio');
+        $this->db->select('DescripcionEstatusSeguimiento, nm.IdNotaMedica, nm.FechaNotaMedica');
+        $this->db->select('IF (nm.IdNotaMedica IS NULL, ss.DescripcionServicio, snm.DescripcionServicio) AS DescripcionServicio');
         $this->db->select('CONCAT(em.NombreEmpleado," ",em.ApellidosEmpleado) as NombreElaboradoPor');
         $this->db->select('cr1.DescripcionRespuestaSeguimiento as Respuesta1');
         $this->db->select('cr2.DescripcionRespuestaSeguimiento as Respuesta2');
@@ -59,25 +60,31 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->join('empleado em',$this->table.'.IdElaboradoPor = em.IdEmpleado');
         $this->db->join('catalogestatusseguimiento ces',$this->table.'.IdEstatusSeguimiento = ces.IdEstatusSeguimiento');
         $this->db->join('notamedica nm',$this->table.'.IdNotaMedica = nm.IdNotaMedica','left');
-        $this->db->join('servicio s','nm.IdServicio = s.IdServicio','left');
+        $this->db->join('servicio snm','nm.IdServicio = snm.IdServicio','left');
+        $this->db->join('servicio ss','ss.IdServicio ='.$this->table.'.IdServicio', 'left');
         $this->db->join('catalogorespuestaseguimiento cr1',$this->table.'.IdRespuestaSeguimiento_1 = cr1.IdRespuestaSeguimiento','left');
         $this->db->join('catalogorespuestaseguimiento cr2',$this->table.'.IdRespuestaSeguimiento_2 = cr2.IdRespuestaSeguimiento','left');
         $this->db->join('catalogorespuestaseguimiento cr3',$this->table.'.IdRespuestaSeguimiento_3 = cr3.IdRespuestaSeguimiento','left');
         $this->db->join('empleado em1',$this->table.'.IdEmpleado_1 = em1.IdEmpleado','left');
         $this->db->join('empleado em2',$this->table.'.IdEmpleado_2 = em2.IdEmpleado','left');
         $this->db->join('empleado em3',$this->table.'.IdEmpleado_3 = em3.IdEmpleado','left');
-        
-        
-        $this->db->where($this->table.'.IdEstatusSeguimiento',1);
-        $this->db->or_where($this->table.'.IdEstatusSeguimiento',2);
-        
+
+        if ($condicion==FALSE) {
+          $this->db->where($this->table.'.IdEstatusSeguimiento',1);
+          $this->db->or_where($this->table.'.IdEstatusSeguimiento',2);
+        }
+        else {
+          $this->db->where($condicion);
+        }
+
+
         $query = $this->db->get();
-        
+
         return $query->result_array();
-        
-        
+
+
     }
-    
+
     public function ConsultarSeguimientosDia()
     {
         $this->db->select('COUNT(IdSeguimientoMedico) as TotalSeguimientos');
@@ -85,12 +92,12 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->where('FechaSeguimiento <=', mdate('%Y-%m-%d',now()));
         $this->db->where('IdEstatusSeguimiento', 1);
         $this->db->or_where('IdEstatusSeguimiento',2);
-        
+
         $query = $this->db->get();
-        
+
         return $query->row();
     }
-    
+
     public function ActualizarSeguimiento($IdSeguimiento, $Seguimiento)
     {
         $this->db->where('IdSeguimientoMedico',$IdSeguimiento);
