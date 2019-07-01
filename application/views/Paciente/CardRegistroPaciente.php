@@ -39,13 +39,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-2  col-sm-12">
+                <div class="col-md-3 col-xs-12">
                   <div class="form-group">
                     <label for="Edad">Edad</label>
                     <input type="text" name="Edad" id ="Edad" class="form-control" placeholder="Edad" readonly/>
                   </div>
                 </div>
-                <div class="col-md-5  col-sm-12">
+                <div class="col-md-4  col-xs-12">
                   <div class="form-group">
                     <label for="cbSexo">Sexo:</label>
                     <select name="Sexo" id="cbSexo" class="form-control" onchange="">
@@ -56,13 +56,13 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-6 col-xs-12">
                   <fieldset class="form-group">
                     <label for="txtTelefonoPaciente">Teléfono</label>
                     <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente" placeholder="Teléfono">
                   </fieldset>
                 </div>
-                <div class="col-md-6  col-sm-12">
+                <div class="col-md-6  col-xs-12">
                   <fieldset class="form-group">
                     <label for="txtEmailPaciente">@-email</label>
                     <input type="text" class="form-control" id="txtEmailPaciente" name="emailPaciente" placeholder="direccion@correo.com">
@@ -80,15 +80,5 @@
       </div>
     </div>
   </div>
-  <!--COL 2-->
-  <div class="col-md-6">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <button type="button" class="btn btn-primary" name="button"><i class="icon-cross2"></i> Action1</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </div>

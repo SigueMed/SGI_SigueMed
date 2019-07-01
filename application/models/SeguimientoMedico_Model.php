@@ -103,4 +103,21 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->where('IdSeguimientoMedico',$IdSeguimiento);
         return $this->db->update($this->table,$Seguimiento);
     }
+
+    public function EditarDescripcionSeguimiento($IdSeguimiento,$NuevaDescripcion)
+    {
+      $this->db->set('DescripcionSeguimiento',$NuevaDescripcion);
+      $this->db->where('IdSeguimientoMedico',$IdSeguimiento);
+
+      return $this->db->update($this->table);
+
+      // code...
+    }
+
+    public function EliminarSeguimiento($IdSeguimiento)
+    {
+      $this->db->where('IdSeguimientoMedico',$IdSeguimiento);
+      return $this->db->delete($this->table);
+      // code...
+    }
 }

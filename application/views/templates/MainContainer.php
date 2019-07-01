@@ -47,6 +47,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
+    <!--SIGUEMED JS-->
+    <script src="<?php echo base_url();?>js/siguemed_general.js"></script>
+
+
 
 
     <!-- END Custom CSS-->

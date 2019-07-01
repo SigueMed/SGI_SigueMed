@@ -142,13 +142,6 @@ class Seguimiento_Controller extends CI_Controller {
             $FechaSeguimiento = $this->input->post('ModalLlamada_FechaSigLlamada');
             $NumeroSeguimiento = $this->input->post('NumeroSeguimiento');
 
-            if ($NumeroSeguimiento ==3 and $IdRespuestaSeguimiento !== 1)
-            {
-                $IdEstatusSegumiento = 5;
-
-            }
-
-
             $EstatusSeguimiento = array(
 
                 'FechaRespuesta_'.$NumeroSeguimiento=> $FechaLlamada,
@@ -212,5 +205,26 @@ class Seguimiento_Controller extends CI_Controller {
             $output .= '<option value="'.$servicio['IdServicio'].'">'.$servicio['DescripcionServicio'].'</option>';
         }
         echo $output;
+    }
+
+    public function EditarSeguimiento_ajax()
+    {
+
+      $IdSeguimiento = $this->input->post('IdSeguimiento');
+      $DescripcionSeguimiento =$this->input->post('DescripcionSeguimiento');
+
+      $this->SeguimientoMedico_Model->EditarDescripcionSeguimiento($IdSeguimiento,$DescripcionSeguimiento);
+
+
+      // code...
+    }
+
+    public function EliminarSeguimiento_ajax()
+    {
+
+      $IdSeguimiento = $this->input->post('IdSeguimiento');
+
+      $this->SeguimientoMedico_Model->EliminarSeguimiento($IdSeguimiento);
+      // code...
     }
 }
