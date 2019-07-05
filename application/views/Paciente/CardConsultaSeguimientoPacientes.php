@@ -300,7 +300,7 @@
               <div class="col-md-9">
                   <div class="form-group">
                       <label for="ModalSeguimiento_cbServicio">Servicio</label>
-                      <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" >
+                      <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" required="required">
                           <option value="">Servicios</option>
 
                       </select>
@@ -311,7 +311,7 @@
               <div class="col-md-12">
                   <div class="form-group">
                           <label for="DescripcionSeguimiento">Seguimiento</label>
-                          <input type="text" name="DescripcionSeguimiento" id="DescripcionSeguimiento" class="form-control" placeholder="Descripción Seguimiento"/>
+                          <input type="text" name="DescripcionSeguimiento" id="DescripcionSeguimiento" class="form-control" placeholder="Descripción Seguimiento" required="required"/>
                   </div>
               </div>
           </div>
@@ -326,7 +326,7 @@
                       <div class="form-group">
                           <label for="FechaSeguimiento">Fecha Seguimiento</label>
                           <div class="position-relative has-icon-left">
-                              <input type="date" id="FechaSeguimiento" class="form-control" name="FechaSeguimiento" value=""/>
+                              <input type="date" id="FechaSeguimiento" class="form-control" name="FechaSeguimiento" value="" required="required"/>
                               <div class="form-control-position">
                                       <i class="icon-calendar5"></i>
                               </div>

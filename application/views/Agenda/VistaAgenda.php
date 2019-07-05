@@ -109,66 +109,77 @@
                                         //eventDrop es para poder guardar la fechaHr al moverla de posicion
 					eventDrop: function(event, delta, revertFunc){
 						var IdCitaServicio = event.id;
-						var DiaCita = event.start.format("DD");
-						var HoraCita = event.start.format("HH:mm");
-                                                var MesCita = event.start.format("MM");
-                                                var AnioCita = event.start.format("YYYY");
-                                                var IdEmpleado = event.IdEmpleado;
-                                                var IdServicio =event.IdServicio;
-                                                var Comentarios = event.Comentarios;
+            var IdEmpleado = event.IdEmpleado;
+            var IdServicio =event.IdServicio;
+            var Comentarios = event.Comentarios;
 
 						if (!confirm("Esta seguro de mover la fecha del evento?")) {
 							revertFunc();
 						}else{
-							$.post("<?php echo site_url();?>/Agenda_Controler/ActualizarCita",
-                                                        {
-                                                                HoraCita: HoraCita,
-                                                                IdCitaServicio: IdCitaServicio,
-                                                                MesCita:MesCita,
-                                                                DiaCita:DiaCita,
-                                                                AnioCita:AnioCita,
-                                                                IdEmpleado:IdEmpleado,
-                                                                Comentarios:Comentarios
 
-                                                        },
+							$.post("<?php echo site_url();?>/Agenda_Controler/ActualizarCita",
+                  {
+
+                          IdCitaServicio: IdCitaServicio,
+                          Inicio:event.start.format("YYYY-MM-DD HH:mm"),
+                          Fin:event.end.format("YYYY-MM-DD HH:mm"),
+
+                          IdEmpleado:IdEmpleado,
+                          Comentarios:Comentarios
+
+                  },
 
 							function(data){
 								if (data == 1) {
 									alert('Se actualizo correctamente');
 								}else if(data==2)
-                                                                {
-                                                                    alert('La cita ya ha sido confirmada');
-                                                                }else{
+                    {
+                        alert('La cita ya ha sido confirmada');
+                    }else{
 									alert('ERROR.');
 								}
-                                                                RefreshFullCalendar(IdServicio);
+                  RefreshFullCalendar(IdServicio);
 							});
 						}
 					},
 
                                         //eventResize guada la fechaHr al agregar o quitar dias del evento.
-					eventResize: function(event, delta, revertFunc) {
-                                                var id = event.id;
-						var fi = event.start.format();
-						var ff = event.end.format();
+					eventResize: function(event, delta, revertFunc)
+          {
+              var id = event.id;
+              var IdCitaServicio = event.id;
+              var IdEmpleado = event  .IdEmpleado;
+              var IdServicio =event.IdServicio;
+              var Comentarios = event.Comentarios;
 
-						if (!confirm("Esta seguro de cambiar la fechaHr?")) {
-							revertFunc();//reverFunct regresa a la fechaHr si se cancela el cambio
-						}else{
-							$.post("<?php echo base_url();?>Agenda_Controler/updEvento",
-							{
-								id:id,
-								fecini:fi,
-								fecfin:ff
-							},
-							function(data){
-								if (data == 1) {
-									alert('Se cambio correctamente');
-								}else{
-									alert('ERROR.');
-								}
-							});
-						}
+              if (!confirm("¿Está seguro de cambiar la cita?")) {
+                revertFunc();
+              }else{
+
+                $.post("<?php echo site_url();?>/Agenda_Controler/ActualizarCita",
+                    {
+
+                            IdCitaServicio: IdCitaServicio,
+                            Inicio:event.start.format("YYYY-MM-DD HH:mm"),
+                            Fin:event.end.format("YYYY-MM-DD HH:mm"),
+
+                            IdEmpleado:IdEmpleado,
+                            Comentarios:Comentarios
+
+                    },
+
+                function(data){
+                  if (data == 1) {
+                    alert('Se actualizo correctamente');
+                  }else if(data==2)
+                      {
+                          alert('La cita ya ha sido confirmada');
+                      }else{
+                    alert('ERROR.');
+                  }
+                    RefreshFullCalendar(IdServicio);
+                });
+              }
 				    },
                                         eventClick: function(event, jsEvent, view) {
 
