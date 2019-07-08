@@ -50,6 +50,10 @@
     <!--SIGUEMED JS-->
     <script src="<?php echo base_url();?>js/siguemed_general.js"></script>
 
+    <!--FONTAWESOME-->
+  <script src="https://kit.fontawesome.com/58366cd50a.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
 
 
