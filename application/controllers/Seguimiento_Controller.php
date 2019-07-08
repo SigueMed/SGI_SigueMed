@@ -73,16 +73,16 @@ class Seguimiento_Controller extends CI_Controller {
             switch($SeguimientosPaciente[$i]['IdEstatusSeguimiento'])
             {
                 case 1:
-                    $SeguimientosPaciente[$i]['Respuesta1']='<button type="button" class="btn btn-primary" id="btnllamar" onclick="ConfirmarSeguimientoPaciente('.$SeguimientosPaciente[$i]['IdSeguimientoMedico'].','.$SeguimientosPaciente[$i]['IdEstatusSeguimiento'].',1)">Llamar</button>';
+                    $SeguimientosPaciente[$i]['Respuesta1']='<button type="button" class="btn btn-primary" id="btnllamar" onclick="ConfirmarSeguimientoPaciente('.$SeguimientosPaciente[$i]['IdSeguimientoMedico'].','.$SeguimientosPaciente[$i]['IdEstatusSeguimiento'].',1,\''.$SeguimientosPaciente[$i]['NombrePaciente'].'\',\''.$SeguimientosPaciente[$i]['DescripcionServicio'].'\')">Llamar</button>';
                     break;
                 case 2:
                     if($SeguimientosPaciente[$i]['Respuesta2']== null && ($SeguimientosPaciente[$i]['IdEstatusSeguimiento']==2))
                     {
-                        $SeguimientosPaciente[$i]['Respuesta2']='<button type="button" class="btn btn-primary" id="btnllamar" onclick="ConfirmarSeguimientoPaciente('.$SeguimientosPaciente[$i]['IdSeguimientoMedico'].','.$SeguimientosPaciente[$i]['IdEstatusSeguimiento'].',2)">Llamar</button>';
+                        $SeguimientosPaciente[$i]['Respuesta2']='<button type="button" class="btn btn-primary" id="btnllamar" onclick="ConfirmarSeguimientoPaciente('.$SeguimientosPaciente[$i]['IdSeguimientoMedico'].','.$SeguimientosPaciente[$i]['IdEstatusSeguimiento'].',2,\''.$SeguimientosPaciente[$i]['NombrePaciente'].'\',\''.$SeguimientosPaciente[$i]['DescripcionServicio'].'\')">Llamar</button>';
                     }
                     else if ($SeguimientosPaciente[$i]['Respuesta3']== null && ($SeguimientosPaciente[$i]['IdEstatusSeguimiento']==2))
                     {
-                        $SeguimientosPaciente[$i]['Respuesta3']='<button type="button" class="btn btn-primary" id="btnllamar" onclick="ConfirmarSeguimientoPaciente('.$SeguimientosPaciente[$i]['IdSeguimientoMedico'].','.$SeguimientosPaciente[$i]['IdEstatusSeguimiento'].',3)">Llamar</button>';
+                        $SeguimientosPaciente[$i]['Respuesta3']='<button type="button" class="btn btn-primary" id="btnllamar"  onclick="ConfirmarSeguimientoPaciente('.$SeguimientosPaciente[$i]['IdSeguimientoMedico'].','.$SeguimientosPaciente[$i]['IdEstatusSeguimiento'].',3,\''.$SeguimientosPaciente[$i]['NombrePaciente'].'\',\''.$SeguimientosPaciente[$i]['DescripcionServicio'].'\')">Llamar</button>';
                     }
                     break;
                 case 3:
