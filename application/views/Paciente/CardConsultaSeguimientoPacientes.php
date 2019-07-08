@@ -119,7 +119,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h5 class="modal-title">Editar Seguimiento #<label id="lblNumSeguimiento" name ="NumSeguimiento"></label></h5>
+        <h5 class="modal-title">Editar Seguimiento <b><label id="lblNumSeguimiento" name ="NumSeguimiento"></label></b></h5>
           <input type="hidden" class="IdSeguimiento" id="ModalEditar_IdSeguimientoMedico" name="IdSeguimientoMedico">
       </div>
       <div class="modal-body">
@@ -165,7 +165,8 @@
       <div class="modal-content">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h5 class="modal-title">Llamada Seguimiento #<label id="NumSeguimiento" name ="NumSeguimiento"></label></h5>
+          <h5 class="modal-title">Llamada Seguimiento <b><label id="NumSeguimiento" name ="NumSeguimiento"></label></b></h5><br>
+          <label id="DescServicio" for=""></label>
           <input type="hidden" id="ModalLlamada_IdSeguimientoMedico" name="ModalLlamada_IdSeguimientoMedico">
           <input type="hidden" id="ModalLlamada_IdEstatusSeguimiento" name="ModalLlamada_IdEstatusSeguimiento">
           <input type="hidden" id="NumeroSeguimiento" name="NumeroSeguimiento">
@@ -228,9 +229,9 @@
           <div class = "row">
               <div class="col-md-8">
                   <div class="form-group">
-                      <label for="ModalLlamada_FechaSigLlamada">Fecha Llamada:</label>
+                      <label for="ModalLlamada_FechaSigLlamada">Fecha Sig. Llamada:</label>
                       <div class="position-relative has-icon-left">
-                          <input type="date" id="ModalLlamada_FechaSigLlamada" class="form-control" name="ModalLlamada_FechaSigLlamada"/>
+                          <input type="date" id="ModalLlamada_FechaSigLlamada" class="form-control" name="ModalLlamada_FechaSigLlamada" required="required"/>
                           <div class="form-control-position">
                               <i class="icon-calendar5"></i>
                           </div>
@@ -557,14 +558,14 @@ function LoadRowDetail ( d ) {
         '</tr>'+
     '</table>';
 }
-function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento, NumeroSeguimiento)
+function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento, NumeroSeguimiento, NombrePaciente, DescripcionServicio)
     {
 
         $('#ModalLlamada_IdSeguimientoMedico').val(IdSeguimientoMedico);
         $('#ModalLlamada_IdEstatusSeguimiento').val(IdEstatusSeguimiento);
-
+        $('#DescServicio').html(DescripcionServicio);
         $('#NumeroSeguimiento').val(NumeroSeguimiento);
-        $("#NumSeguimiento").html(NumeroSeguimiento);
+        $("#NumSeguimiento").html(NombrePaciente);
         var fecha = new Date();
         var mes = fecha.getMonth()+1;
         var dia = fecha.getDate();
@@ -576,6 +577,20 @@ function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento,
 
         var hoy = ano+"-"+mes+"-"+dia;
         $('#ModalLlamada_FechaLlamada').val(hoy);
+
+        fecha.setDate(fecha.getDate()+parseInt(3));
+
+        var d = fecha.getDate();
+        if (d<10)
+        {
+            d= '0'+d;
+        }
+        var m =  parseInt(fecha.getMonth())+1;
+        if (m <10)
+         {
+             m = '0'+m;
+         }
+        $("#ModalLlamada_FechaSigLlamada").val(fecha.getFullYear()+'-'+m+'-'+d);
         LimpiarModalLlamadas();
         CargarRespuestas();
         $("#ModalLlamada").modal('show');
