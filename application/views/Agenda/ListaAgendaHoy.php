@@ -18,16 +18,16 @@
                 <div class="card-header">
                     <h4 class="card-title" id="basic-layout-form">Consulta de Citas</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                    
-                    
+
+
 
                 </div>
                 <!--CARD BODY-->
                 <div class="card-body collapse in">
                     <div class="card-block">
                         <!--FORM BODY-->
-                        <div class="form-body">  
-                            
+                        <div class="form-body">
+
                             <div class="row">
                                 <div class="form-group col-md-12 col-xs-12">
                                     <button type="button" class="btn btn-secondary" id="btnCitasHoy"onclick="ConsultarCitasHoy()">
@@ -53,27 +53,27 @@
                                         <th></th>
                                         <th>Servicio</th>
                                         <th>Día/Hora</th>
-                                        
-                                        
+
+
                                         <th>Paciente</th>
                                         <th>Telefono</th>
                                         <th>Razón Cita</th>
                                         <th>Estatus</th>
                                         <th>IdEstatus</th>
                                         <th>IdNotaMedica</th>
-                                        
-                                        
+
+
                                         <th>Acciones</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                 </tbody>
-        
+
                             </table>
                         </div>
-                        
+
                     </div>
                 </div>
             </div><!--DIV CARD-->
@@ -96,8 +96,8 @@
                 row.child( formatCitas(row.data()) ).show();
                 tr.addClass('shown');
             }
-        } ); 
-        
+        } );
+
        ConsultarCitasHoy();
     });
     function formatCitas ( d ) {
@@ -107,172 +107,172 @@
             '<td>ElaboradaPor:</td>'+
             '<td>'+d.NombreElaboradaPor+'</td>'+
             '<td>Modificada Por:</td>'+
-            '<td>'+d.NombreModificadaPor+'</td>'+            
+            '<td>'+d.NombreModificadaPor+'</td>'+
         '</tr>'+
         '<tr>'+
             '<td>Fecha Modificación:</td>'+
             '<td>'+d.FechaModificacion+'</td>'+
             '<td>Comentarios:</td>'+
             '<td>'+d.ComentariosCambio+'</td>'+
-            
+
         '</tr>'+
-        
+
     '</table>';
     }
-    
+
      function ConsultarNotasRemisionMes()
      {
          var hoy  = new Date();
          var Fin = new Date();
          Fin.setMonth(Fin.getMonth()+3);
-         
+
          var mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var mesFin = Fin.getMonth()+1;
          if(mesFin <10)
          {
              mesFin ='0'+mesFin;
          }
-         
+
          var FechaInicio = hoy.getFullYear()+'/'+mesInicio+'/01';
          var FechaFin = hoy.getFullYear()+'/'+mesInicio+'/31';
-         
-        
-         
+
+
+
          $.ajax({
             url:"<?php echo site_url();?>/NotaRemision_Controller/ConsultarNotasDeRemision",
             data:{
                 FechaInicio:FechaInicio,
                 FechaFin:FechaFin
-                
+
             },
             method:"POST",
             success: function(data)
               {
-                  
+
                   CargarTabla(data);
 
 
               }
           });
      }
-     
+
      function ConsultarCitasHoy()
      {
          var hoy  = new Date();
-                  
+
          var mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaInicio = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 00:00:00';
          var FechaFin = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 23:59:59';
-         
-         
-         
+
+
+
         CargarTabla(FechaInicio, FechaFin, 0);
-         
-         
+
+
      }
      function ConsultarCitasSemana()
      {
          var hoy  = new Date();
-                  
+
          var mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaInicio = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 00:00:00';
-         
+
          hoy.setDate(hoy.getDate()+7);
          mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaFin = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 23:59:59';
          CargarTabla(FechaInicio,FechaFin,0);
      }
      function ConsultarTodasCitas()
      {
          var hoy  = new Date();
-                  
-         var mesInicio = hoy.getMonth()+1;
+
+         var mesInicio = hoy.getMonth();
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaInicio = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 00:00:00';
          var FechaFin = (hoy.getFullYear()+1)+'-'+mesInicio+'-'+hoy.getDate()+' 23:59:59';
-         
-         
-         
-        CargarTabla(FechaInicio, FechaFin, 0);
-         
+
+
+
+        CargarTabla(FechaInicio, FechaFin, -1);
+
      }
-     
+
      function ConsultarCitasConfirmadas()
      {
          var hoy  = new Date();
-                  
+
          var mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaInicio = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 00:00:00';
-         
+
          hoy.setDate(hoy.getDate()+7);
          mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaFin = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 23:59:59';
          CargarTabla(FechaInicio,FechaFin,2);
-         
+
      }
-     
+
      function ConsultarCitasPorConfirmadas()
      {
           var hoy  = new Date();
-                  
+
          var mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaInicio = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 00:00:00';
-         
+
          hoy.setDate(hoy.getDate()+7);
          mesInicio = hoy.getMonth()+1;
          if (mesInicio<10)
          {
              mesInicio = '0'+mesInicio;
          }
-         
+
          var FechaFin = hoy.getFullYear()+'-'+mesInicio+'-'+hoy.getDate()+' 23:59:59';
          CargarTabla(FechaInicio,FechaFin,1);
-         
+
      }
-     
-     
+
+
      function CargarTabla(FechaInicio,FechaFin, EstatusCita)
      {
-         
+
          var t = $('#tblCitas').DataTable({
             "ajax":{
                 url:"<?php echo site_url();?>/Agenda_Controler/ConsultarCitas",
@@ -281,9 +281,6 @@
                     FechaInicio:FechaInicio,
                     FechaFin:FechaFin,
                     EstatusCita: EstatusCita
-                    
-                    
-
                 },
                 dataSrc: ""
             },
@@ -299,16 +296,16 @@
               "columnDefs":[
                 {
                     "targets":9, "render": function(data,type,row,meta)
-                    
-                        {   
+
+                        {
                             var IdPerfil = <?php echo $this->session->userdata('IdPerfil');?>;
-                            
+
                             switch (row['IdStatusCita'])
                             {
                                 case '1':
                                     return '<a classs = "btn" href="<?php echo site_url();?>/Agenda/ConfirmarCita/'+data+'"><i class="icon-square-check"> Confirmar</i></a>';
                                     break;
-                                case '2': 
+                                case '2':
                                     return '<a classs = "btn" href="<?php echo site_url();?>/NotaMedica/Registrar/'+data+'"><i class="icon-file2"> Atender</i></a>';
                                     break;
                                 case '3':
@@ -320,20 +317,20 @@
                                     {
                                         return 'En Espera';
                                     }
-                                    
+
                                     break;
                                 default:
                                     return'...';
-                                            
+
                             }
-                            
-                            
-                            
+
+
+
                         }},
                         {"visible":false, "targets" : [7,8]}
-                        
-                        ], 
-                      
+
+                        ],
+
               "columns": [
                     {
                         "className":      'details-control',
@@ -350,7 +347,7 @@
                     { "data": "IdStatusCita" },
                     { "data": "IdNotaMedica" },
                     { "data": "IdCitaServicio" }
-                    
+
 
                         //{ "data": "<a></<a>"}
 
@@ -358,11 +355,11 @@
 
             });
 
-         
-         
-         
+
+
+
      }
-     
+
 </script>
 
 <!--<div class="row match-height">
@@ -380,14 +377,14 @@
                                     <li><a data-action="close"><i class="icon-cross2"></i></a></li>
                             </ul>
                     </div>
-                    
+
 
                 </div>
                 CARD BODY
                 <div class="card-body collapse in">
                     <div class="card-block">
                         FORM BODY
-                        <div class="form-body">   
+                        <div class="form-body">
                             <table id="Table_Citas" class="table table-striped table-bordered table-responsive" style="width:100%">
                                 <thead class="thead-inverse">
                                     <tr>
@@ -402,7 +399,7 @@
                                          if ($this->session->userdata('IdPerfil')== MEDICO) //Administrador
                                                {
                                                    echo "<th>Crear Nota</td>";
-                                                  
+
                                                }
                                         ?>
                                     </tr>
@@ -418,7 +415,7 @@
 //                                           echo "<td>".$Cita_item['NumCelular']."</td>";
 //                                           echo "<td>".$Cita_item['DescripcionServicio']."</td>";
 //                                           echo "<td>".$Cita_item['IdNotaMedica']."</td>";
-//                                           echo "<td>"; 
+//                                           echo "<td>";
 //                                               if ($Cita_item['IdStatusCita'] == AGENDADA)
 //                                               {
 //                                                   echo  "<a href=".site_url('Agenda/ConfirmarCita/'.$Cita_item['IdCitaServicio']).">".$Cita_item['DescripcionEstatusCita']."</a>";
@@ -459,10 +456,10 @@
 //                                       }
 //                                   ?>
                                 </tbody>
-        
+
                             </table>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>DIV CARD
@@ -472,9 +469,9 @@
     $(document).ready(function(){
         $("#Table_Citas").DataTable();
     });
-    
+
      function CargarTabla()
     {
-        
+
     }
 </script>-->

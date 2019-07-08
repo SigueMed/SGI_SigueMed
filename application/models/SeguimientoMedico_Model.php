@@ -70,12 +70,16 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->join('empleado em3',$this->table.'.IdEmpleado_3 = em3.IdEmpleado','left');
 
         if ($condicion==FALSE) {
+          $this->db->group_start();
           $this->db->where($this->table.'.IdEstatusSeguimiento',1);
           $this->db->or_where($this->table.'.IdEstatusSeguimiento',2);
+          $this->db->group_end();
         }
         else {
           $this->db->where($condicion);
         }
+
+        $this->db->where($this->table.'.IdClinica', $this->session->userdata('IdClinica'));
 
 
         $query = $this->db->get();
@@ -90,8 +94,7 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->select('COUNT(IdSeguimientoMedico) as TotalSeguimientos');
         $this->db->from($this->table);
         $this->db->where('FechaSeguimiento <=', mdate('%Y-%m-%d',now()));
-        $this->db->where('IdEstatusSeguimiento', 1);
-        $this->db->or_where('IdEstatusSeguimiento',2);
+        $this->db->where('(IdEstatusSeguimiento=1 OR IdEstatusSeguimiento =2)');
 
         $query = $this->db->get();
 

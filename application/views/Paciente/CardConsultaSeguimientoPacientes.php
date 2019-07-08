@@ -77,6 +77,7 @@
                                     </tr>
                                     <tr>
                                         <th></th>
+                                        <th>Prioridad</th>
                                         <th>Paciente</th>
                                         <th>Teléfono</th>
                                         <th>Seguimiento</th>
@@ -300,7 +301,7 @@
               <div class="col-md-9">
                   <div class="form-group">
                       <label for="ModalSeguimiento_cbServicio">Servicio</label>
-                      <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" >
+                      <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" required="required">
                           <option value="">Servicios</option>
 
                       </select>
@@ -311,7 +312,7 @@
               <div class="col-md-12">
                   <div class="form-group">
                           <label for="DescripcionSeguimiento">Seguimiento</label>
-                          <input type="text" name="DescripcionSeguimiento" id="DescripcionSeguimiento" class="form-control" placeholder="Descripción Seguimiento"/>
+                          <input type="text" name="DescripcionSeguimiento" id="DescripcionSeguimiento" class="form-control" placeholder="Descripción Seguimiento" required="required"/>
                   </div>
               </div>
           </div>
@@ -326,12 +327,24 @@
                       <div class="form-group">
                           <label for="FechaSeguimiento">Fecha Seguimiento</label>
                           <div class="position-relative has-icon-left">
-                              <input type="date" id="FechaSeguimiento" class="form-control" name="FechaSeguimiento" value=""/>
+                              <input type="date" id="FechaSeguimiento" class="form-control" name="FechaSeguimiento" value="" required="required"/>
                               <div class="form-control-position">
                                       <i class="icon-calendar5"></i>
                               </div>
                           </div>
                       </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="cbPrioridadSeguimiento">Prioridad</label>
+                        <select   name="cbPrioridadSeguimiento" id="cbPrioridadSeguimiento" class="form-control" required="required">
+                            <option value=1>Alta </option>
+                            <option value=2 selected>Media</option>
+                            <option value=3>Baja</option>
+
+                        </select>
+                    </div>
+
                   </div>
               </div>
           </div>
@@ -463,6 +476,20 @@ function CargarSeguimientoPacientes(TipoConsulta)
             {"targets": 13, "render":function(data,type,row,meta){
               return '<a id="linkEditar" href="#" onclick="EditarSeguimiento('+data+',\''+row['NombrePaciente']+'\',\''+row['DescripcionServicio']+'\',\''+row['DescripcionSeguimiento']+'\')"><i class="icon-edit2"></i></a>'+
                     '<a id="linkEliminar" href="#" onclick="EliminarSeguimiento('+data+')"><i class="icon-trash2"></i></a>';
+            }},
+            {"targets":1, "render":function(data,type,row,meta){
+
+              switch (data) {
+                case '1':
+                  return '<i class="fa fa-flag red"></i> Alta';
+                  break;
+                case '2':
+                  return '<i class="fa fa-flag yellow"></i> Media';
+                  break;
+                case '3':
+                  return '<i class="fa fa-flag green"></i> Baja';
+                  break;
+              }
             }}
           ],
           "columns": [
@@ -472,6 +499,7 @@ function CargarSeguimientoPacientes(TipoConsulta)
                     "data":           null,
                     "defaultContent": ''
                 },
+                { "data": "Prioridad"},
                 { "data": "NombrePaciente" },
                 { "data": "NumCelular" },
                 { "data": "DescripcionSeguimiento" },
