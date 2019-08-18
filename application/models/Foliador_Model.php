@@ -15,7 +15,7 @@ class Foliador_Model extends CI_Model{
 
     $this->db->select('DISTINCT ('.$this->table.'.IdFoliador), DescripcionFoliador');
     $this->db->from($this->table);
-    $this->db->join('FolioServicio',$this->table.'.IdFoliador = FolioServicio.IdFoliador');
+    $this->db->join('folioservicio',$this->table.'.IdFoliador = folioservicio.IdFoliador');
     $this->db->where('IdClinica',$IdClinica);
 
     $query = $this->db->get();
@@ -28,7 +28,7 @@ class Foliador_Model extends CI_Model{
   {
     $this->db->select('DISTINCT ('.$this->table.'.IdFoliador), DescripcionFoliador');
     $this->db->from($this->table);
-    $this->db->join('FolioServicio',$this->table.'.IdFoliador = FolioServicio.IdFoliador');
+    $this->db->join('folioservicio',$this->table.'.IdFoliador = folioservicio.IdFoliador');
     $this->db->where('IdClinica',$IdClinica);
     $this->db->where('IdServicio',$IdServicio);
 
