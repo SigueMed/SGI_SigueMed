@@ -908,7 +908,15 @@
                            {
                                month = '0'+ month;
                            }
-                           $('#FechaInicio').val(date.getFullYear()+'-'+month+'-'+date.getDate());
+
+                           var dia = date.getDate();
+                           if(dia<10)
+                           {
+                             dia = '0'+dia;
+                           }
+
+                           //alert(date.getFullYear()+'-'+month+'-'+dia);
+                           $('#FechaInicio').val(date.getFullYear()+'-'+month+'-'+dia);
 
                             $('#HoraInicio').val(date.getHours()+":"+date.getMinutes());
 
