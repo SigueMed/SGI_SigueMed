@@ -27,7 +27,6 @@
 <div class="row">
 
     <div class="col-lg-4 col-xs-12">
-
         <!-- PACIENTE -->
         <div class="card my-4">
 
@@ -87,7 +86,6 @@
 
           </div>
         </div>
-
         <!-- ULTIMAS NOTAS -->
         <div class="card my-4">
           <div class="card-header">
@@ -103,87 +101,38 @@
 
           </div>
         </div>
-
     </div>
     <div class="col-lg-5 col-xs-12">
         <!--SERVICIOS NOTA-->
         <div class="card my-4">
             <div class="card-header">
-                <h6>Nota Remisión</h6>
+                <h6>Venta Farmacia</h6>
             </div>
             <div class="card-body">
                 <div class="card-block">
 
-                    <p class="card-text">Agrega los servicios brindados al paciente<br></p>
+                    <p class="card-text">Agrega los productos<br></p>
                     <div class="row">
 
                         <div class="col-md-12 col-xs-12">
                             <div class="form-group">
-                                <label for="cbFoliador">Grupo</label>
                                 <input type="hidden" name ="IdFoliador" id="IdFoliador"/>
-                                <select name="cbFoliador" id="cbFoliador" class="form-control" onchange="CargarServiciosGrupo(this)" >
-                                    <option value="">Grupo</option>
-
-                                </select>
+                                <label for="txtCodigoProducto">Código</label>
+                                <input type="text" name ="txtCodigoProducto" id="txtCodigoProducto" class="form-control"/>
                             </div>
                         </div>
 
                     </div>
-                    <div class="row">
-
-                        <div class="col-md-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="cbServicio">Servicio</label>
-                                <select name="cbServicio" id="cbServicio" class="form-control" onchange="CargarProductosPorServicio(this)">
-                                    <option value="">Servicios</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="cbProducto">Producto</label>
-                                <select name="cbProducto" id="cbProducto" class="form-control"  >
-                                    <option value="">Productos</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row  match-height">
-                        <div class="col-md-5 col-xs-4   ">
-                            <div class="form-group">
-                                 <label for="SubtotalProducto">Total</label>
-                                 <div class="input-group">
-                                    <span class="input-group-addon">$</span>
-                                   <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly/>
-                                 </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label></label>
-                                <button type="button" class="btn btn-primary form-control icon-download5" id="btnAgregar">
-
-                                </button>
-                            </div>
 
 
-                        </div>
-
-
-                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-responsive my-0" id="tablaProductos">
                                     <thead>
                                         <tr>
                                             <th >#</th>
-                                            <th >Servicio</th>
                                             <th >Producto</th>
+                                            <th >Subproducto</th>
                                             <th >Subtotal</th>
                                             <th >Eliminar</th>
                                         </tr>
@@ -468,115 +417,132 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        CargarFoliador();
+
         CargarTipoPago();
 
-        $("#servicio").change(function(){
+        /*
+        Evento Enter para agregar el producto
+        */
+        $('#txtCodigoProducto').on('keypress', function (e) {
+         if(e.which === 13){
 
-          var servicio_id = $('#servicio').val();
+            //Disable textbox to prevent multiple submit
+            $(this).attr("disabled", "disabled");
 
-          if(servicio_id!='')
-          {
-
-              $.ajax({
-                  url:"<?php echo site_url();?>/NotaMedica_Controller/ConsultarProductosPorServicio",
-                  method:"POST",
-                  data:{servicio_id:servicio_id},
-                  success: function(data)
-                    {
-                        $('#producto').html(data);
-                        $('#total').val(0);
-                    }
-              });
-
-          }
-
-       });
-        // Lista Productos Evento: Change
-        //Carga Información del producto seleccionado
-        $('#cbProducto').change(function(){
-            var producto_id = $('#cbProducto').val();
-            if(producto_id!='')
-            {
-                $.ajax({
-                    url: "<?php echo site_url();?>/NotaMedica_Controller/ConsultarProductoPorId",
-                    method: "POST",
-                    data:{producto_id:producto_id},
+            //BUSCAR PRODUCTO POR Codigo
+            $.ajax({
+                    url:"<?php echo site_url();?>/Inventario_Controller/ConsultarExistenciaSubProducto_ajax",
+                    method:"POST",
+                    data:{CodigoSubProducto:$('#txtCodigoProducto').val()},
                     success: function(data)
-                        {
-                            var producto_detail = JSON.parse(data);
-                            $('#SubtotalProducto').val(producto_detail['CostoProducto']);
+                    {
 
-                        }
+                       var SubProducto = JSON.parse(data);
+
+                       if (SubProducto!== false && SubProducto !== '2')
+                       {
+
+                            //AGREGAR PRODUCTO A LA tabla
+                            var idServicio = SubProducto['IdServicio'];
+                            var idProducto =  SubProducto['IdProducto'];
+                            if ($('#IdFoliador').val()=='')
+                            {
+
+                              $.ajax({
+                                url: '<?=site_url()?>/NotaRemision_Controller/ConsultarFoliadorSubProducto_ajax',
+                                type: 'POST',
+                                data: {IdServicio: idServicio}
+                              })
+                              .done(function(data) {
+                                var foliador = JSON.parse(data);
+
+                                $('#IdFoliador').val(foliador['IdFoliador']);
+
+                              });
+
+                            }
+
+
+
+
+                            if (idProducto !="")
+                            {
+                              var descServicio =SubProducto['DescripcionServicio'];
+                              var lote= SubProducto['Lote'];
+                              var CodigoSubProducto = SubProducto['IdCodigoSubProducto'];
+                              var CantidadSubProducto = SubProducto['CantidadInventario'];
+                              var NombreSubProducto= SubProducto['NombreSubProducto'];
+
+                              var descProducto = SubProducto['DescripcionProducto'];
+                              var TotalFilas = $('#tablaProductos tbody tr').length;
+
+                              var precio =SubProducto['CostoProducto'];
+
+                              var numFila = 0;
+                              if(TotalFilas <1)
+                              {
+                                  numFila = 1;
+                              }
+                              else
+
+                              {
+                                  numFila = parseInt(document.getElementById('tablaProductos').rows[TotalFilas].cells[0].innerHTML);
+
+                                  numFila +=1;
+
+                              }
+
+
+
+                              var subtotal = precio;
+
+                               $('#tablaProductos').append(
+                                      '<tr id=row'+numFila+'>'+
+                                      '<td>'+numFila+'</td>'+
+                                      '<td>'+
+                                      '<input type="hidden" value="'+idServicio+'">'+
+                                      '<input type="hidden" name="IdProducto[]" value="'+idProducto+'">'+
+                                      '<input type="hidden" name="CodigoSubProducto[]" value="'+CodigoSubProducto+'">'+
+                                      '<input type="hidden" name="Lote[]" value="'+lote+'">'+
+                                      '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
+                                      '<input type="hidden" class="form-control" name="precio[]" value="'+subtotal+'">'+
+                                      '<input type="hidden" class="form-control" name="cantidad[]" value="1">'+
+                                      '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
+                                      '<input type="hidden" name="IdEmpleado[]" value="">'
+                                      +descProducto+'</td>'+
+                                      '<td>'+NombreSubProducto+'</td>'+
+                                      '<td>'+subtotal+'</td>'+
+                                      '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
+                                      //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
+                                      '</tr>'
+                                      );
+                                  ActualizarTotalNota(subtotal);
+                                  $("#txtCodigoProducto").val('');
+                                  $("#txtCodigoProducto").focus();
+
+
+                            }
+                       }
+                       else
+                       {
+
+                           alert('No existe el producto');
+                           $("#txtCodigoProducto").focus();
+                       }
+
+
+                    }
                 });
 
 
-            }
-        });
-
-        //Agregar nueva fila a la tabla productos
-        $('#btnAgregar').click(function(){
 
 
-
-            var idServicio = $("#cbServicio").val();
-            var idProducto =  $("#cbProducto").val();
-
-            if (idProducto !="")
-            {
-            var descServicio = $("#cbServicio option:selected").html();
-
-            var descProducto = $("#cbProducto option:selected").html();
-            var TotalFilas = $('#tablaProductos tbody tr').length;
-            var precio =$("#SubtotalProducto").val();
-
-
-            var numFila = 0;
-
-            if(TotalFilas <1)
-            {
-                numFila = 1;
-            }
-            else
-
-            {
-                numFila = parseInt(document.getElementById('tablaProductos').rows[TotalFilas].cells[0].innerHTML);
-                numFila +=1;
-            }
-
-            var subtotal = $("#SubtotalProducto").val();
-
-             $('#tablaProductos').append(
-                    '<tr id=row'+numFila+'>'+
-                    '<td>'+
-                        '<input type="hidden" value="'+idServicio+'">'+
-                        '<input type="hidden" name="IdProducto[]" value="'+idProducto+'">'+
-                        '<input type="hidden" name="CodigoSubProducto[]" value="">'+
-                        '<input type="hidden" name="Lote[]" value="">'+
-                        '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
-                        '<input type="hidden" class="form-control" name="precio[]" value="'+subtotal+'">'+
-                        '<input type="hidden" class="form-control" name="cantidad[]" value="1">'+
-                        '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
-                        '<input type="hidden" name="IdEmpleado[]" value="">'+
-                        +numFila+'</td>'+
-                    '<td>'+descServicio+'</td>'+
-                    '<td>'+descProducto+'</td>'+
-                    '<td>'+subtotal+'</td>'+
-                    '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
-                    //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
-                    '</tr>'
-                    );
-                ActualizarTotalNota(subtotal);
-
-                 $('#cbProducto').val('');
-                 $('#SubtotalProducto').val('');
-
-            }
-
-
-
-
-        });
+            //Enable the textbox again if needed.
+            $(this).removeAttr("disabled");
+            e.preventDefault();
+            return false;
+         }
+       });
     });
  //input autocomplete Nombre
     var optionsNombre = {
@@ -717,24 +683,6 @@
     }
 
 
-    function CargarServiciosGrupo(sel)
-    {
-         var IdFoliador = sel.value;
-
-        $.ajax({
-            url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarServiciosPorFoliador_ajax",
-            data: {IdFoliador: IdFoliador},
-            method: "POST",
-            success: function(data)
-                {
-                     $('#cbServicio').html(data);
-                     $('#IdFoliador').val(IdFoliador);
-
-                }
-        });
-
-    }
-
     function CargarProductosPorServicio(servicio)
     {
         var IdServicio = servicio.value;
@@ -752,8 +700,8 @@
         });
     }
 
-    function CargarTipoPago()
- {
+  function CargarTipoPago()
+  {
      $.ajax({
                   url:"<?php echo site_url();?>/NotaRemision_Controller/ConsultarTipoPago_ajax",
                   method:"POST",
