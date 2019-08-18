@@ -3,23 +3,22 @@
 <div id="invoice-template" class="card-block">
 		<!-- Invoice Company Details -->
 		<div id="invoice-company-details" class="row">
-			<div class="col-md-6 col-sm-12 text-xs-center text-md-left">
+			<div class="col-md-3 col-sm-12 text-xs-center text-md-left">
 				<img src="<?php echo base_url();?>app-assets/images/logo/SigueMED_Logo_B.png" alt="company logo" class=""/>
 				<ul class="px-0 list-unstyled">
-					<li class="text-bold-800">Clínica SiguéMED</li>
-					<li>Privada Profra. Ma. Concepción M. #215</li>
-					<li>La Concordia, Aguascalientes, AGS.</li>
-					<li>C.P. 20040</li>
-					
+					<li class="text-bold-800"><label id="ResponsableFolio"></label></li>
+					<li><label id="DireccionFolio"></label></li>
+
+
 				</ul>
 			</div>
-			<div class="col-md-6 col-sm-12 text-xs-center text-md-right">
+			<div class="col-md-9 col-sm-12 text-xs-center text-md-right">
 				<h2>Recibo</h2>
                                 <p class="pb-3">
                                     NOTA #<label id="NumeroRecibo"></label>
-                                   
+
                                 </p>
-                                
+
 				<ul class="px-0 list-unstyled">
 					<li>Total Recibo</li>
                                         <li class="lead text-bold-800">$ <label class="lead text-bold-800" id="TotalRecibo"></label></li>
@@ -44,7 +43,7 @@
 			<div class="col-md-6 col-sm-12 text-xs-center text-md-right">
                             <p><span class="text-muted">Fecha Recibo :</span> <label id ="FechaNotaRemision"></label></p>
                             <p><span class="text-muted">Estatus Recibo :</span> <label id="EstatusNotaRemision"></label></p>
-				
+
 			</div>
 		</div>
 		<!--/ Invoice Customer Details -->
@@ -65,7 +64,7 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					    
+
 					  </tbody>
 					</table>
 				</div>
@@ -79,13 +78,13 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Pago</th>
-                                                           
+
                                                             <th>Total Pago</th>
                                                         </tr>
-                                                        
+
                                                     </thead>
 							<tbody>
-								
+
 							</tbody>
 						</table>
 						</div>
@@ -100,8 +99,8 @@
 						  		<td class="text-bold-800">Total Nota</td>
                                                                 <td class="text-bold-800 text-xs-right">$ <lable id="TotalNotaRemision"></lable></td>
 						  	</tr>
-						  	
-						  	
+
+
 						  	<tr>
 						  		<td>Total Pagos</td>
                                                                 <td class="pink text-xs-right">(-) $ <label id="TotalPagado"></label></td>
@@ -113,14 +112,14 @@
 						  </tbody>
 						</table>
 					</div>
-                                        
+
                                         <div class="text-xs-center">
 						<p>Elaborada por:</p>
-						
+
                                                 <h6><label id="ElaboradaPor"></label></h6>
 						<p class="text-muted">Clínica SígueMED</p>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -147,11 +146,11 @@
     {
         var IdRecibo = <?php echo $IdNotaRemision;?>;
         CargarInformacionRecibo(IdRecibo);
-        
+
     }
-            
+
     );
-    
+
     function CargarInformacionRecibo(IdRecibo)
     {
        //CARGAR ENCABEZADO NOTA REMISION
@@ -160,15 +159,19 @@
                 method: "POST",
                 data:{IdNotaRemision:IdRecibo},
                 success: function(data)
-                    {     
+                    {
                         var NotaRemision = JSON.parse(data);
-                        $("#NumeroRecibo").html(NotaRemision['IdNotaRemision']);
+                        $("#NumeroRecibo").html(NotaRemision['Folio']);
                         $("#TotalRecibo").html(NotaRemision['TotalNotaRemision']);
                         $("#NombreCliente").html(NotaRemision['NombrePaciente']);
                         $("#emailCliente").html(NotaRemision['email']);
                         $("#TelefonoCliente").html(NotaRemision['NumCelular']);
                         $("#FechaNotaRemision").html(NotaRemision['FechaNotaRemision']);
                         $("#ElaboradaPor").html(NotaRemision['ElaboradaPor']);
+                        $("#ResponsableFolio").html(NotaRemision['ResponsableFolio']);
+                        $("#DireccionFolio").html(NotaRemision['DireccionFolio']);
+
+
                         $("#EstatusNotaRemision").html(NotaRemision['DescripcionEstatusNotaRemision']);
                         $("#TotalNotaRemision").html(NotaRemision['TotalNotaRemision']);
                         $("#TotalPagado").html(NotaRemision['TotalPagado']);
@@ -176,26 +179,26 @@
                         $("#BalanceNota").html(Balance);
                     }
             });
-            
+
             //CARGAR PRODUCTOS NOTA REMISION
             $.ajax({
                 url: "<?php echo site_url();?>/NotaRemision_Controller/ConsultarProductosNotaRemision_ajax",
                 method: "POST",
                 data:{IdNotaRemision:IdRecibo},
                 success: function(data)
-                    {     
+                    {
                         var DetalleNotaRemision = JSON.parse(data);
                         var NombreSubProducto="";
-                        
-                       
+
+
                        for (i=0; i<DetalleNotaRemision.length;i++)
                        {
                            if (DetalleNotaRemision[i]['NombreSubProducto'] !== null)
-                           
+
                            {
                                NombreSubProducto =DetalleNotaRemision[i]['NombreSubProducto'];
                            }
-                           
+
                            $("#table_DetalleNotaRemision").append(
                                    '<tr>'+
                                     '<th scope="row">'+(i+1)+'</th>'+
@@ -208,32 +211,32 @@
                                     '<td class="text-xs-right">'+DetalleNotaRemision[i]['Descuento']+' %</td>'+
                                     '<td class="text-xs-right">$ '+DetalleNotaRemision[i]['SubTotalDetalle']+'</td>'+
                                    '</tr>'
-                                   
+
                                    );
-                           
+
                        }
-                           
+
                     }
             });
-            
+
             //CARGAR PAGOS NOTA REMISION
             $.ajax({
                 url: "<?php echo site_url();?>/NotaRemision_Controller/ConsultarPagosNotaRemision_ajax",
                 method: "POST",
                 data:{IdNotaRemision:IdRecibo},
                 success: function(data)
-                    {     
+                    {
                         var PagosNotaRemision = JSON.parse(data);
-                       
-                        
-                       
+
+
+
                        for (i=0; i<PagosNotaRemision.length;i++)
                        {
-                           
-                           
+
+
                            $("#table_PagosNotaRemision").append(
                                    '<tr>'+
-                                    
+
                                     '<td>'+
                                         '<p>'+PagosNotaRemision[i]['FechaPago']+'</p>'+
                                         '<p class="text-muted">'+PagosNotaRemision[i]['DescripcionTipoPago']+'</p>'+
@@ -241,17 +244,16 @@
                                     '<td class="text-xs-right">$ '+PagosNotaRemision[i]['TotalPago']+'</td>'+
                                    '</tr>'
                                    );
-                           
+
                        }
-                           
+
                     }
             });
-            
-             
-            
+
+
+
     }
     function myFunction(IdNotaRemision) {
         window.open("<?php echo site_url('NotaRemision/CrearPDF/');?>"+IdNotaRemision);
       }
 </script>
-      

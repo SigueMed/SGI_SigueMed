@@ -37,15 +37,6 @@ class NotaRemision_Controller extends CI_Controller {
         public function Load_RegistrarNotaRemision()
         {
             $data['title'] = 'Registrar Nueva Nota de Remisión';
-            $data['VentaInventario']=0;
-
-
-            $data['ProductosNotaActionsEnabled']= false;
-            $data['Servicios'] = $this->Servicio_Model->ConsultarServicios();
-
-            $data['ResumenNotaRemisionActionsEnabled'] = true;
-            $data['ResumenNotaRemisionSubmitTitle'] = "Crear Nota";
-            $data['ResumenNotaRemisionSubmitAction'] = "crear";
 
             $this->load->view('templates/MainContainer',$data);
             $this->load->view('templates/HeaderContainer',$data);
@@ -63,15 +54,6 @@ class NotaRemision_Controller extends CI_Controller {
          public function Load_RegistrarNotaRemisionInventario()
         {
             $data['title'] = 'Registrar Venta Inventario';
-
-
-            $data['ProductosNotaActionsEnabled']= false;
-            $data['Servicios'] = $this->Servicio_Model->ConsultarServicios();
-            $data['VentaInventario']=TRUE;
-
-            $data['ResumenNotaRemisionActionsEnabled'] = true;
-            $data['ResumenNotaRemisionSubmitTitle'] = "Crear Nota";
-            $data['ResumenNotaRemisionSubmitAction'] = "crear";
 
             $this->load->view('templates/MainContainer',$data);
             $this->load->view('templates/HeaderContainer',$data);
@@ -136,9 +118,15 @@ class NotaRemision_Controller extends CI_Controller {
                         $EstatusNotaRemision = NR_NO_PAGADO;
                     }
 
+                    $IdFoliador = $this->input->post('IdFoliador');
+                    log_message('debug','CREAR NOTAR REMISION=>'.$IdFoliador);
+                    $this->load->model('Foliador_Model');
+                    $FolioNotaRemision = $this->Foliador_Model->ObtenerFolio($IdFoliador);
 
                     //CREAR NOTA DE REMISION
                     $NotaRemision = array(
+                        'Folio'=> $FolioNotaRemision,
+                        'IdFoliador'=>$IdFoliador,
                         'IdPaciente'=> $IdPaciente,
                         'FechaNotaRemision'=> mdate('%Y-%m-%d',$FechaNotaRemision),
                         'IdEmpleado' =>$IdEmpleado,
@@ -151,6 +139,8 @@ class NotaRemision_Controller extends CI_Controller {
                     );
 
                     $IdNuevaNotaRemision = $this->NotaRemision_Model->CrearNotaDeRemision($NotaRemision);
+
+                    $this->Foliador_Model->AplicarFolio($IdFoliador);
 
 
                     if($IdNuevaNotaRemision !=null)
@@ -587,9 +577,6 @@ class NotaRemision_Controller extends CI_Controller {
             $NombreArchivoPDF = 'NotaRemision_'.$IdNotaRemision.'.pdf';
 
             $this->createPDF($NombreArchivoPDF, $htmlContent);
-
-
-
         }
 
         public function CargarTemplateNotaRemision($IdNotaRemision)
@@ -619,6 +606,7 @@ class NotaRemision_Controller extends CI_Controller {
 
 
         }
+
         public function Load_ConsultaNotasRemision()
         {
             $data['title'] = 'Registrar Nueva Nota de Remisión';
@@ -629,6 +617,7 @@ class NotaRemision_Controller extends CI_Controller {
             $this->load->view('templates/FooterContainer');
 
         }
+
         public function ConsultarNotasDeRemision()
         {
             $FechaInicio = $this->input->post('FechaInicio');
@@ -690,6 +679,29 @@ class NotaRemision_Controller extends CI_Controller {
             echo json_encode(FALSE);
           }
 
+        }
+
+        public function Load_RegistrarVentaFarmacia()
+        {
+          $data['title'] = 'Registrar Venta Farmacia';
+
+          $this->load->view('templates/MainContainer',$data);
+          $this->load->view('templates/HeaderContainer',$data);
+          $this->load->view('NotaRemision/CardPuntoVenta_Farmacia',$data);
+          $this->load->view('templates/FooterContainer');
+          // code...
+        }
+
+        public function ConsultarFoliadorSubProducto_ajax()
+        {
+
+          $IdServicio = $this->input->post('IdServicio');
+          log_message('debug','FOLIADOR IdServicio='.$IdServicio);
+          $this->load->model('Foliador_Model');
+          $IdFoliador = $this->Foliador_Model->BuscarFoliadorServicio($this->session->userdata('IdClinica'),$IdServicio);
+
+          echo json_encode($IdFoliador);
+          // code...
         }
 
 
