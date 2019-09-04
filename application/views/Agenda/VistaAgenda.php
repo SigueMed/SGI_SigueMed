@@ -737,7 +737,7 @@
 
         //guardar nuevos eventos
         $('#btnGuardarCita').click(function(){
-		var idPaciente = $('#idPaciente').val();
+		            var idPaciente = $('#idPaciente').val();
                 var idServicio = $('#txtidServicio').val();
                 var FechaInicio = $("#FechaInicio").val();
                 var HoraInicio = $("#HoraInicio").val();
@@ -878,29 +878,20 @@
                         var date  = new Date();
 
                         var IdServicio = document.getElementById("getServicio").value;
-                        var DescServicio = $("#getServicio option:selected").html();;
+                        alert(1);
+                        alert(IdServicio);
+                        document.getElementById("txtidServicio").value = IdServicio;
+                        var DescServicio = $("#getServicio option:selected").html();
 
 
                         if(IdServicio !=='*')
                         {
-
-
-
                             //activar y desactivar botones
                              $('#btnGuardarCita').prop("disabled",true);
                              $('#btnModificar').prop("disabled",true);
                              $('#btnEliminar').prop("disabled",true);
 
                              limpiarFormulario();
-
-
-
-//                                        var e = document.getElementById("getServicio").value;
-//
-//                                        alert(e);
-
-                             //mostrarTitulo(value);
-
 
                            var month = date.getMonth()+1;
 
