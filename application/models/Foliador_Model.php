@@ -71,7 +71,7 @@ class Foliador_Model extends CI_Model{
     $NuevoFolio = $this->ObtenerFolio($IdFoliador);
 
     $this->db->set('ValorFolio',$NuevoFolio);
-    $this->db->where('IdFoliador1',$IdFoliador);
+    $this->db->where('IdFoliador',$IdFoliador);
     return $this->db->update($this->table);
     // code...
   }
