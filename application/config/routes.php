@@ -101,7 +101,7 @@ $route['SalidaCaja/AbrirPDFSalida/(.+)'] = 'templates/NewWindow/$1';
 $route['SalidaCaja/CargarPDFSalida/(.+)'] = 'SalidaCaja_Controller/CargarPDFSalida/$1';
 
 //CORTE CAJA
-$route['CorteCaja/ElaborarCorteCaja'] = 'CorteCaja_Controller/Load_ElaborarCorteCaja';
+$route['CorteCaja/ElaborarCorteCaja'] = 'CorteCaja_Controller/Load_IniciarCorteCaja';
 
 //CAJA
 $route['NotaRemision/ConsultarNotasRemision'] = 'NotaRemision_Controller/Load_ConsultaNotasRemision';
