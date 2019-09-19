@@ -276,8 +276,8 @@
                     </li>
                     <li class=" nav-item"><a href="#"><i class="icon-ios-albums-outline"></i><span data-i18n="nav.cards.main" class="menu-title">Administrar Caja</span></a>
                         <ul class="menu-content">
-                          <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a>
-                          </li>
+                          <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>
+                          <li><a href="'. site_url('CorteCaja/ConsultaCortesCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Consultar Cortes Caja</a></li>
                           <li><a href="'. site_url('NotaRemision/ConsultarNotasRemision').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Consultar Notas Remisión</a>
                           </li>
                           <li><a href="card-actions.html" data-i18n="nav.cards.card_actions" class="menu-item">Consultar Salidas</a>

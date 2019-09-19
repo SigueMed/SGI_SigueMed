@@ -29,7 +29,7 @@ class CorteCaja_Controller extends CI_Controller {
 
     }
 
-    
+
     public function Load_IniciarCorteCaja()
     {
 
@@ -44,18 +44,21 @@ class CorteCaja_Controller extends CI_Controller {
       // code...
     }
 
-    public function IniciarCorteCaja()
+    public function Load_RealizarCorteCajaCuenta($IdCuenta, $MontoEnCaja)
     {
 
       $data['title'] = 'Relizar Corte Caja';
 
+      $this->load->model('Cuenta_Model');
+      $Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
+      $data['IdCuenta']=$IdCuenta;
+      $data['Cuenta'] =$Cuenta;
+      $data['MontoEnCaja']=$MontoEnCaja;
+
       $this->load->view('templates/MainContainer',$data);
       $this->load->view('templates/HeaderContainer',$data);
       $this->load->view('CorteCaja/FormCorteCaja');
-      $this->load->view('CorteCaja/CardResumenCorteCaja');
-      $this->load->view('CorteCaja/CardCorteCaja');
-
-
+      $this->load->view('CorteCaja/CardCorteCaja', $data);
       $this->load->view('templates/FormFooter',$data);
       $this->load->view('templates/FooterContainer');
       // code...
@@ -73,11 +76,12 @@ class CorteCaja_Controller extends CI_Controller {
     public function ConsultarResumenEntradas()
     {
         $IdTurno = $this->session->userdata('IdTurno');
+        $IdCuenta = $this->input->post('IdCuenta');
 
         $IdTipoMovimientoCuenta = TMC_DEPOSITO;
         $IdClinica = $this->session->userdata('IdClinica');
 
-        $ResumenEntradas = $this->MovimientoCuenta_Model->ConsultarResumentMovimientosCuentaPorTipoPago($IdTipoMovimientoCuenta,$IdClinica);
+        $ResumenEntradas = $this->MovimientoCuenta_Model->ConsultarResumentMovimientosCuentaPorTipoPago($IdTipoMovimientoCuenta,$IdClinica,$IdCuenta);
 
         echo json_encode($ResumenEntradas);
     }
@@ -85,8 +89,9 @@ class CorteCaja_Controller extends CI_Controller {
     public function ConsultarBalanceCortePorTipoPago()
     {
         $IdTipoPago = $this->input->post('IdTipoPago');
+        $IdCuenta = $this->input->post('IdCuenta');
 
-        $TotalBalanceEfectivo = $this->MovimientoCuenta_Model->ConsultarBalanceCorte($IdTipoPago);
+        $TotalBalanceEfectivo = $this->MovimientoCuenta_Model->ConsultarBalanceCorte($IdTipoPago,$IdCuenta);
 
         echo json_encode($TotalBalanceEfectivo);
     }
@@ -94,8 +99,9 @@ class CorteCaja_Controller extends CI_Controller {
     public function ConsultarBalanceCorteCuentas()
     {
 
-        $IdClinica = $this->session->userdata('IdClinica');
-        $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdClinica);
+        $IdCuenta = $this->input->post('IdCuenta');
+
+        $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdCuenta);
 
         echo json_encode($BalanceCuentasCorte);
 
@@ -121,13 +127,19 @@ class CorteCaja_Controller extends CI_Controller {
         $TotalTransferencias =$this->input->post('TotalTransferencias');
         $TotalVales = $this->input->post('TotalTransferencias');
         $Comentarios = $this->input->post('ComentariosCorte');
+        $IdCuenta = $this->input->post('IdCuenta');
+        $TotalEntregado = $this->input->post('TotalEntregado');
+
+        $this->load->model('Cuenta_Model');
+
+        $Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
 
 
         if ($action =='RegistrarSalida')
         {
             try
             {
-//--------------------------------INICIAR TRANSACCIÓN
+              //--------------------------------INICIAR TRANSACCIÓN
                 $this->db->trans_start();
                 $dataCorteCaja = array(
                     "FechaCorte"=> mdate('%Y-%m-%d',now()),
@@ -140,6 +152,8 @@ class CorteCaja_Controller extends CI_Controller {
                     "TotalEnTC"=>$TotalTC,
                     "TotalTransferencias"=>$TotalTransferencias,
                     "TotalVales"=>$TotalVales,
+                    "TotalEntregado"=>$TotalEntregado,
+                    "IdCuenta" => $IdCuenta,
                     "Comentarios"=>$Comentarios
 
                 );
@@ -162,7 +176,20 @@ class CorteCaja_Controller extends CI_Controller {
                     $this->db->trans_rollback();
                     throw new Exception('Error al Crear Corte de Caja');
                 }
-//---------------FIN TRANSACCION
+                //---------------FIN TRANSACCION
+                $data['title'] = 'Corte Exitoso';
+                $data['swal']=true;
+                $data['swalMessage']="title:'Corte registrado con exito',
+                text: 'El corte de la cuenta ".$Cuenta->DescripcionCuenta." se realizo por un Total en efectivo de $".$TotalEfectivo." y se recibio en efectivo $".$TotalEntregado."',
+                type: 'success',
+                showConfirmButton: true";
+
+
+                $this->load->view('templates/MainContainer',$data);
+                $this->load->view('templates/HeaderContainer',$data);
+                $this->load->view('templates/FormFooter',$data);
+                $this->load->view('templates/FooterContainer');
+
 
 
             } catch (Exception $ex) {
@@ -173,13 +200,37 @@ class CorteCaja_Controller extends CI_Controller {
             }
 
         }
+        else {
+          echo "<script>window.location.href='".site_url()."/CorteCaja/ElaborarCorteCaja';</script>";
+        }
     }
 
     public function ConsultarRangosNotas_ajax()
     {
+        $
         $RangoNotas = $this->NotaRemision_Model->ConsultarRangosNotasCorte();
 
         echo json_encode($RangoNotas);
+    }
+
+    //------- CONSULTA CORTES DE Caja
+
+    public function Load_ConsultarCortesCaja()
+    {
+
+      $data['title'] = 'Consulta Cortes de Caja';
+      $this->load->view('templates/MainContainer',$data);
+      $this->load->view('templates/HeaderContainer',$data);
+
+      $this->load->view('CorteCaja/CardConsultaCortes', $data);
+
+      $this->load->view('templates/FooterContainer');
+    }
+
+    public function ConsultarCortesCaja_ajax()
+    {
+      $IdCuenta = $this->input->post('IdCuenta');
+
     }
 
 }

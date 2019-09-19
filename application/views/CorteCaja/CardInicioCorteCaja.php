@@ -24,8 +24,8 @@
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
-                            <label for="cbFoliador">Grupo Servicios:</label>
-                            <select name="cbFoliador" id="cbFoliador" class="form-control">
+                            <label for="cbCuentas">Cuenta:</label>
+                            <select name="cbCuentas" id="cbCuentas" class="form-control">
 
                             </select>
 
@@ -128,7 +128,7 @@
                         <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
                         <i class="icon-cross2"></i> Cerrar
                         </button>
-                         <button type="submit" class="btn btn-success mr-1" name="action" value="RegistrarSalida">
+                         <button type="button" class="btn btn-success mr-1" onclick="RealizarCorteCaja()" value="RegistrarSalida">
                         <i class="icon-check2"></i> Pagar
                         </button>
 
@@ -141,7 +141,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-  CargarFoliador();
+  CargarCuentas();
   $(document).on('change','.monto', function(e){
     e.preventDefault();
     var $this = $(this);
@@ -161,14 +161,14 @@ $(document).ready(function() {
   });
 });
 
-function CargarFoliador()
+function CargarCuentas()
 {
   $.ajax({
-      url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarFoliador_ajax",
+      url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarCuentas_ajax",
       method: "POST",
       success: function(data)
           {
-               $('#cbFoliador').html(data);
+               $('#cbCuentas').html(data);
           }
   });
 
@@ -177,6 +177,27 @@ function CargarFoliador()
 function LimpiarPantalla() {
   $("input:text.monto").val('0');
   $("#TotalEntradas").val('0');
+
+}
+
+function RealizarCorteCaja() {
+
+  var IdCuenta = $("#cbCuentas").val();
+  var MontoPago = $("#TotalEntradas").val();
+
+  if (IdCuenta !== null && IdCuenta != "")
+  {
+      window.location.href="<?=site_url()?>/CorteCaja/DetalleCorteCaja/"+IdCuenta+"/"+MontoPago;
+  }
+  else {
+    Swal.fire({
+        title:'No has indicado la cuenta del corte de caja',
+        type: 'error',
+        showConfirmButton: true
+    });
+  }
+
+
 
 }
 

@@ -61,18 +61,19 @@ class CargaCatalogos_Controller extends CI_Controller {
 
         }
     }
+
     public function CargarServiciosPorFoliador_ajax()
     {
       $IdFoliador = $this->input->post('IdFoliador');
-    $this->load->model('Servicio_Model');
-    $Servicios = $this->Servicio_Model->ConsultarServiciosPorFoliador($IdFoliador);
-    $output='<option value="">Selecciona un Servicio</option>';
+      $this->load->model('Servicio_Model');
+      $Servicios = $this->Servicio_Model->ConsultarServiciosPorFoliador($IdFoliador);
+      $output='<option value="">Selecciona un Servicio</option>';
 
-   foreach($Servicios as $servicio)
-   {
-       $output .= '<option value="'.$servicio['IdServicio'].'">'.$servicio['DescripcionServicio'].'</option>';
-   }
-   echo $output;
+       foreach($Servicios as $servicio)
+       {
+           $output .= '<option value="'.$servicio['IdServicio'].'">'.$servicio['DescripcionServicio'].'</option>';
+       }
+       echo $output;
 
       // code...
     }
@@ -109,6 +110,23 @@ class CargaCatalogos_Controller extends CI_Controller {
          $output .= '<option value="'.$Foliador['IdFoliador'].'">'.$Foliador['DescripcionFoliador'].'</option>';
      }
      echo $output;
+
+      // code...
+    }
+
+    public function CargarCuentas_ajax()
+    {
+      $this->load->model('Cuenta_Model');
+
+      $Cuentas = $this->Cuenta_Model->ConsultarCuentas();
+
+      $output='<option value="">Selecciona una Cuenta</option>';
+
+       foreach($Cuentas as $cuenta)
+       {
+           $output .= '<option value="'.$cuenta['IdCuenta'].'">'.$cuenta['DescripcionCuenta'].'</option>';
+       }
+       echo $output;
 
       // code...
     }
