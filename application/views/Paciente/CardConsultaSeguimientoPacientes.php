@@ -73,7 +73,8 @@
                                 <thead>
                                     <tr>
                                         <th colspan="7">Seguimiento</th>
-                                        <th colspan="6">Llamadas Seguimiento</th>
+                                        <th colspan="7">Llamadas Seguimiento</th>
+                                        <th rowspan ="2"></th>
                                     </tr>
                                     <tr>
                                         <th></th>
@@ -91,7 +92,7 @@
                                         <th>Fecha </th>
                                         <th>Tercera</th>
                                         <th>Fecha </th>
-                                        <th> </th>
+
 
 
                                     </tr>
@@ -474,7 +475,7 @@ function CargarSeguimientoPacientes(TipoConsulta)
           },
           "autoWidth":true,
           "columnDefs":[
-            {"targets": 13, "render":function(data,type,row,meta){
+            {"targets": 14, "render":function(data,type,row,meta){
               return '<a id="linkEditar" href="#" onclick="EditarSeguimiento('+data+',\''+row['NombrePaciente']+'\',\''+row['DescripcionServicio']+'\',\''+row['DescripcionSeguimiento']+'\')"><i class="icon-edit2"></i></a>'+
                     '<a id="linkEliminar" href="#" onclick="EliminarSeguimiento('+data+')"><i class="icon-trash2"></i></a>';
             }},
@@ -590,6 +591,18 @@ function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento,
          {
              m = '0'+m;
          }
+
+         if (NumeroSeguimiento >= 3)
+         {
+           document.getElementById('ModalLlamada_FechaSigLlamada').style.visibility = 'hidden';
+
+         }
+         else {
+           document.getElementById('ModalLlamada_FechaSigLlamada').style.visibility = 'visible';
+         }
+
+
+
         $("#ModalLlamada_FechaSigLlamada").val(fecha.getFullYear()+'-'+m+'-'+d);
         LimpiarModalLlamadas();
         CargarRespuestas();

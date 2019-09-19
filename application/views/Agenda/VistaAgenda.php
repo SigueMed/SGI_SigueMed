@@ -251,6 +251,7 @@
                                         var myDate  = new Date();
 
                                         var IdServicio = document.getElementById("getServicio").value;
+                                        document.getElementById("txtidServicio").value = IdServicio;
                                         var DescServicio = $("#getServicio option:selected").html();;
 
 
@@ -878,8 +879,6 @@
                         var date  = new Date();
 
                         var IdServicio = document.getElementById("getServicio").value;
-                        alert(1);
-                        alert(IdServicio);
                         document.getElementById("txtidServicio").value = IdServicio;
                         var DescServicio = $("#getServicio option:selected").html();
 
