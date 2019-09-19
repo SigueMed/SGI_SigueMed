@@ -142,6 +142,12 @@ class Seguimiento_Controller extends CI_Controller {
             $FechaSeguimiento = $this->input->post('ModalLlamada_FechaSigLlamada');
             $NumeroSeguimiento = $this->input->post('NumeroSeguimiento');
 
+            if ($NumeroSeguimiento >= 3)
+            {
+              $IdEstatusSegumiento  =3;
+
+            }
+
             $EstatusSeguimiento = array(
 
                 'FechaRespuesta_'.$NumeroSeguimiento=> $FechaLlamada,
