@@ -38,6 +38,8 @@
 <script src='<?php echo base_url();?>assets/fullcalendar/fullcalendar.min.js'></script>
 <script src='<?php echo base_url();?>assets/fullcalendar/locale/es.js'></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 
 
 <title>Agenda Citas</title>
@@ -73,36 +75,35 @@
 
                 });
 
-                $('#calendar').fullCalendar({
-                    aspectRatio: 2,
+        $('#calendar').fullCalendar({
+          aspectRatio: 2,
 					header: {
 						left: 'prev,next today',
 						center: 'title',
 						right: 'month, agendaWeek, agendaDay'
 					},
+
 					defaultDate: new Date(),
 					navLinks: true, // can click day/week names to navigate views
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
 					editable: true,
-                                        minTime: "07:00:00",
-                                        maxTime: "23:00:00",
-                                        allDaySlot: false,
+          minTime: "07:00:00",
+          maxTime: "23:00:00",
+          allDaySlot: false,
                                         //llama a data de la funcion getEvetos
 					events: {
-                                                url:"<?php echo site_url();?>/Agenda_Controler/getEventos",
-                                                type: 'POST',
-                                                data: {
-                                                    IdServicio: 1// $('#getServicio').val()
-                                                    }
+            url:"<?php echo site_url();?>/Agenda_Controler/getEventos",
+            type: 'POST',
+            data: {
+                IdServicio: 1// $('#getServicio').val()
+                }
+          },
+          defaultView:'agendaWeek',
+          handleWindowResize: 'true',
 
-
-                                                },
-                                        defaultView:'agendaWeek',
-                                        handleWindowResize: 'true',
-
-                                        //height:'parent',
-                                        scrollTime: new Date().getHours()+":00:00",
+          //height:'parent',
+          scrollTime: new Date().getHours()+":00:00",
 
                                                         ////$.parseJSON(data),
                                         //alert('prueba');
@@ -247,10 +248,17 @@
 				        });
 				    },
                                     dayClick: function(date, allDay, jsEvent, view, event){
+                                      var HoraInicio = date.format("HH:mm");
+                                      var DiaSemanaCita = moment(date).day();
+                                      var IdServicio = document.getElementById("getServicio").value;
+
+
+
+
 
                                         var myDate  = new Date();
 
-                                        var IdServicio = document.getElementById("getServicio").value;
+
                                         document.getElementById("txtidServicio").value = IdServicio;
                                         var DescServicio = $("#getServicio option:selected").html();;
 
@@ -268,41 +276,50 @@
                                         }
                                         else {
 
-                                            //activar y desactivar botones
-                                             $('#btnGuardarCita').prop("disabled",true);
-                                             $('#btnModificar').prop("disabled",true);
-                                             $('#btnEliminar').prop("disabled",true);
+                                              $.ajax({
+                                                url: '<?=site_url()?>/Agenda_Controler/ValidarHorarioCita_ajax',
+                                                type: 'POST',
+                                                data: {
+                                                  DiaSemana: DiaSemanaCita,
+                                                  HoraCita: HoraInicio,
+                                                  IdServicio: IdServicio
+                                                }
+                                              })
+                                              .done(function(data) {
 
-                                             limpiarFormulario();
+                                                var CitaValida = JSON.parse(data);
+
+                                                if (CitaValida == true)
+                                                {
+                                                  //activar y desactivar botones
+                                                   $('#btnGuardarCita').prop("disabled",true);
+                                                   $('#btnModificar').prop("disabled",true);
+                                                   $('#btnEliminar').prop("disabled",true);
+
+                                                   limpiarFormulario();
+
+                                                   $('#mtitulo').html(DescServicio);
+                                                   $('#FechaInicio').val(date.format("YYYY-MM-DD"));
+                                                   $('#HoraInicio').val(date.format("HH:mm"));
+
+                                                   var end = moment(date).add(0.5,"hour");
+                                                   $('#HoraFin').val(end.format("HH:mm"));
+                                                   CargarMedicosServicio();
+                                                   $('#modalEvento').modal('show');
+                                                }
+                                                else
+                                                {
 
 
-
-     //                                        var e = document.getElementById("getServicio").value;
-     //
-     //                                        alert(e);
-
-                                             //mostrarTitulo(value);
-
-                                             $('#mtitulo').html(DescServicio);
+                                                  Swal.fire({
+                                                      title:'El servicio no esta Disponible para el día y hora indicado',
+                                                      type: 'error',
+                                                      showConfirmButton: true
+                                                  });
+                                                }
 
 
-                                             $('#FechaInicio').val(date.format("YYYY-MM-DD"));
-                                             $('#HoraInicio').val(date.format("HH:mm"));
-
-                                             var end = moment(date).add(0.5,"hour");
-
-                                             $('#HoraFin').val(end.format("HH:mm"));
-
-
-
-
-                                             CargarMedicosServicio();
-
-
-                                             $('#modalEvento').modal('show');
-
-
-
+                                              });
 
 
                                              }

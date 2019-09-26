@@ -262,11 +262,9 @@
 
               echo '<li class=" nav-item"><a href="#"><i class="icon-lecturer"></i><span data-i18n="nav.project.main" class="menu-title">Recepción</span></a>
                         <ul class="menu-content">
-                            <li><a href="'.site_url('NotaRemision/CrearNota').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobrar Servicio</a>
+                            <li><a href="'.site_url('NotaRemision/CrearNota').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Clínica</a>
                             </li>
-                            <li><a href="'.site_url('NotaRemision/RegistrarVentaFarmacia').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Venta Farmacia</a>
-                            </li>
-                            <li><a href="'.site_url('NotaRemision/CrearNotaInventario').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobrar Venta Inventario</a>
+                            <li><a href="'.site_url('NotaRemision/RegistrarVentaFarmacia').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Farmacia</a>
                             </li>
                             <li><a href="'.site_url('SalidaCaja/PagarServicioMedico').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Pagar Servicios Médicos</a>
                             </li>
