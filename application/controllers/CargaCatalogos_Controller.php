@@ -65,8 +65,9 @@ class CargaCatalogos_Controller extends CI_Controller {
     public function CargarServiciosPorFoliador_ajax()
     {
       $IdFoliador = $this->input->post('IdFoliador');
+      $Inventario = $this->input->post('Inventario');
       $this->load->model('Servicio_Model');
-      $Servicios = $this->Servicio_Model->ConsultarServiciosPorFoliador($IdFoliador);
+      $Servicios = $this->Servicio_Model->ConsultarServiciosPorFoliador($IdFoliador,$Inventario);
       $output='<option value="">Selecciona un Servicio</option>';
 
        foreach($Servicios as $servicio)
@@ -100,8 +101,9 @@ class CargaCatalogos_Controller extends CI_Controller {
     public function CargarFoliador_ajax()
     {
       $this->load->model('Foliador_Model');
+      $Inventario = $this->input->post('ManejoInventario');
 
-      $Foliadores = $this->Foliador_Model->ConsultarFoliadoresClinica($this->session->userdata('IdClinica'));
+      $Foliadores = $this->Foliador_Model->ConsultarFoliadoresClinica($this->session->userdata('IdClinica'),$Inventario);
 
       $output='<option value="">Selecciona un Grupo</option>';
 

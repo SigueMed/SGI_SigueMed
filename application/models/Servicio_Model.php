@@ -93,12 +93,15 @@ class Servicio_Model extends CI_Model {
         return $query->result();
     }
 
-    public function ConsultarServiciosPorFoliador($IdFoliador)
+    public function ConsultarServiciosPorFoliador($IdFoliador,$Inventario = FALSE)
     {
       $this->db->select($this->table.'.*');
       $this->db->from($this->table);
       $this->db->join('folioservicio f',$this->table.'.IdServicio = f.IdServicio and f.IdClinica = '.$this->session->userdata('IdClinica'));
       $this->db->where('IdFoliador',$IdFoliador);
+
+      $this->db->where('ManejoInventario',$Inventario);
+
 
       $query = $this->db->get();
 

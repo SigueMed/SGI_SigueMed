@@ -13,26 +13,26 @@
                                     <li><a data-action="close"><i class="icon-cross2"></i></a></li>
                             </ul>
                     </div>
-                    
+
 
                 </div>
                 <!--CARD BODY-->
                 <div class="card-body collapse in">
                     <div class="card-block">
                         <!--FORM BODY-->
-                        <div class="form-body">  
+                        <div class="form-body">
                             <div class="row">
-                                
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Proveedor">Proveedores</label>
                                         <select name="proveedor" id="proveedor" class="form-control" onchange="CargarProveedorID()" required="required">
                                             <option value="">Proveedores</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
-                            
+
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -44,7 +44,7 @@
                                             <i class="icon-head"></i>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -70,7 +70,7 @@
                                             <i class="icon-phone"></i>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -84,16 +84,16 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
                             </div>
                             <h4 class="form-section"><i class="icon-paper"></i> Factura</h4>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                       
+
                                         <label for="NumeroFactura">No. Factura:</label>
                                         <input type="text" id="NumeroFactura" class="form-control" placeholder="No. Factura" name="NumeroFactura" required="required">
-                            
+
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -110,28 +110,28 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                       
+
                                        <label for="TotalFactura">Total Factura:</label>
                                             <div class="input-group">
                                                     <span class="input-group-addon">$</span>
                                                     <input type="text" id="TotalFactura" class="form-control square" placeholder="Total Factura" aria-label="Total Factura" name="TotalFactura">
-                                                    
+
                                             </div>
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
-                            
+
                             <h4 class="form-section"><i class="icon-drawer"></i> Productos</h4>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Servicios">Servicios</label>
                                         <select name="Servicios" id="Servicios" class="form-control" onchange="CargarCatalogoProductosInventario()">
                                             <option value="">Servicios</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -140,12 +140,12 @@
                                         <label for="Productos">Producto:</label>
                                         <select name="Productos" id="Productos" class="form-control" onchange="$('#CodigoSubProducto').focus()">
                                             <option value="">Productos</option>
-                                            
+
                                         </select>
-                                        
+
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
@@ -157,7 +157,7 @@
                                             <i class="icon-barcode"></i>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -175,7 +175,7 @@
                                     <div class="form-group">
                                         <label for="LoteSubProducto">No. Lote:</label>
                                         <input type="text" id="LoteSubProducto" class="form-control" placeholder="No. Lote" name="LoteSubProducto">
-                                        
+
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -204,7 +204,7 @@
                                             <div class="input-group">
                                                     <span class="input-group-addon">$</span>
                                                     <input type="text" id="CostoSubProducto" class="form-control square" placeholder="Costo" aria-label="Costo" name="CostoSubProducto">
-                                                    
+
                                             </div>
                                         </div>
                                     </div>
@@ -214,10 +214,10 @@
                                         </div>
 
                                     </div>
-                                    
+
                             </div>
-                            
-                                 
+
+
                                 <table class="table table-responsive table-bordered table-striped" id="tablaSubProductos">
                                     <thead>
                                         <th>#</th>
@@ -231,12 +231,12 @@
                                         <th>Eliminar</th>
                                     </thead>
                                     <tbody>
-                                        
+
                                     </tbody>
-                                    
+
                                 </table>
-                                
-                            
+
+
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-warning mr-1" name="action" value="cancelar">
@@ -245,15 +245,15 @@
                             <button type="submit" class="btn btn-primary mr-1" name="action" value='GuardarEntrada'>
                                 <i class="icon-check2"></i>Guardar Entrada
                             </button>
-                            
-                                
-                                
+
+
+
                         </div>
-                                
-                            
-                            
-                          
-                            
+
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -265,21 +265,21 @@
         CargarProveedores();
         CargarServiciosInventario();
         CargarCatalogoProductosInventario();
-        
+
         //Agregar nueva fila a la tabla productos
         $('#btnAgregarSubProducto').click(function(){
- 
+
             var idProducto =  $("#Productos").val();
             var descProducto = $("#Productos option:selected").html();
             var numFila = $('#tablaSubProductos tbody tr').length+1;
             var CodigoBarras = $("#CodigoSubProducto").val();
             var DescripcionSubProducto = $("#DescripcionSubProducto").val();
-            
+
             var CantidadSubProducto = $("#CantidadSubProducto").val();
             var CostoSubProducto = $("#CostoSubProducto").val();
             var FechaCaducidad = $("#CaducidadSubProducto").val();
             var LoteSubProducto = $("#LoteSubProducto").val();
-            
+
             if(CantidadSubProducto!=="" && parseInt(CantidadSubProducto) >0)
             {
                 $('#tablaSubProductos').append(
@@ -295,23 +295,23 @@
                     '<td><button type="button" name="removeSubProducto" class="btn mr-1 mb-1 btn-danger btn-sm removeSubProducto" data-row="row'+numFila+'"><i class="icon-ios-trash"></i></button></td>'+
                     '</tr>'
                     );
-            
+
             LimpiarControles();
             $("#CodigoSubProducto").focus();
-                
-            }     
+
+            }
         });
         //Borrar filas de la tabla productos
         $(document).on('click', '.removeSubProducto', function(){
             var delete_row = $(this).data("row");
-            
-           
+
+
             $('#' + delete_row).remove();
-            
-            
+
+
         });
-        
-        
+
+
     });
     function CargarProveedores()
     {
@@ -329,7 +329,7 @@
         var IdProveedor = $('#proveedor').val();
         if (IdProveedor !== "")
         {
-   
+
             $.ajax({
                 url:"<?php echo site_url();?>/Inventario_Controller/ConsultarProveedorPorId",
                 method:"POST",
@@ -347,7 +347,7 @@
                 }
             });
         }
-        
+
     }
     function CargarCatalogoProductosInventario()
     {
@@ -364,7 +364,7 @@
                     }
               });
     }
-    
+
     function LimpiarControles()
     {
         $("#CodigoSubProducto").val("");
@@ -375,7 +375,7 @@
         $("#CaducidadSubProducto").val(0);
         $("#CantidadSubProducto").val("");
     }
-    
+
     function CargarSubProducto()
     {
         $.ajax({
@@ -388,9 +388,10 @@
 
                    if (SubProducto!== false)
                    {
- 
+
                         $('#DescripcionSubProducto').val(SubProducto['NombreSubProducto']);
                         $('#DescripcionSubProducto').prop('readonly',true);
+                        $('#Productos').val(SubProducto['IdProducto']);
 
                         $('#LoteSubProducto').focus();
                    }
@@ -404,26 +405,26 @@
 
                 }
             });
-        
+
     }
-    
+
     function CargarServiciosInventario()
     {
-        
+
          $.ajax({
                 url:"<?php echo site_url();?>/Inventario_Controller/ConsultarServiciosInventario_ajax",
                 method:"POST",
-                
+
                 success: function(data)
                 {
-                    
+
                     $('#Servicios').html(data);
                 }
             });
-        
-        
+
+
     }
-    
+
     function runScript(e)
     {
         if (e.keyCode == 13) {
@@ -432,5 +433,5 @@
         return false;
     }
     }
-    
+
 </script>
