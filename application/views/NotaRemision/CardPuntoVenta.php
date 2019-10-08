@@ -118,7 +118,7 @@
                     <p class="card-text">Agrega los servicios brindados al paciente<br></p>
                     <div class="row">
 
-                        <div class="col-md-12 col-xs-12">
+                        <div class="col-md-10 col-xs-10">
                             <div class="form-group">
                                 <label for="cbFoliador">Grupo</label>
                                 <input type="hidden" name ="IdFoliador" id="IdFoliador"/>
@@ -127,6 +127,13 @@
 
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                          <div class="form-group">
+                            <button type="button" name="btnLimpiar" class="btn" onclick="location.reload()"><i class="icon-reload"></i></button>
+
+                          </div>
+
                         </div>
 
                     </div>
@@ -141,6 +148,7 @@
                                 </select>
                             </div>
                         </div>
+
 
                     </div>
                     <div class="row">
@@ -161,6 +169,8 @@
                                     <span class="input-group-addon">$</span>
                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly/>
                                  </div>
+                                 <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
+                                 <input type="hidden" name="Lote" id="Lote">
                             </div>
 
                         </div>
@@ -702,6 +712,9 @@
     {
       $.ajax({
           url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarFoliador_ajax",
+          data:{
+            ManejoInventario:0
+          },
           method: "POST",
           success: function(data)
               {
@@ -718,7 +731,10 @@
 
         $.ajax({
             url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarServiciosPorFoliador_ajax",
-            data: {IdFoliador: IdFoliador},
+            data: {
+              IdFoliador: IdFoliador,
+              Inventario: false
+            },
             method: "POST",
             success: function(data)
                 {

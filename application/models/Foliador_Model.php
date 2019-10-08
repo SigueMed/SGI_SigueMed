@@ -10,13 +10,14 @@ class Foliador_Model extends CI_Model{
     //Codeigniter : Write Less Do More
   }
 
-  public function ConsultarFoliadoresClinica($IdClinica)
+  public function ConsultarFoliadoresClinica($IdClinica, $Inventario)
   {
 
     $this->db->select('DISTINCT ('.$this->table.'.IdFoliador), DescripcionFoliador');
     $this->db->from($this->table);
     $this->db->join('folioservicio',$this->table.'.IdFoliador = folioservicio.IdFoliador');
     $this->db->where('IdClinica',$IdClinica);
+    $this->db->where('ManejoInventario',$Inventario);
 
     $query = $this->db->get();
 
