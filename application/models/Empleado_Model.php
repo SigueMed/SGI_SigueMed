@@ -12,34 +12,36 @@
  * @author SigueMED
  */
 class Empleado_Model extends CI_Model {
-    
+
     private $table;
-    
+
     public function __construct() {
         parent::__construct();
         $this->table = "empleado";
         $this->load->database();
-        
-        
+
+
     }
-    
+
     public function ValidarUsuarioContrasena($Usuario=FALSE, $Contrasena=FALSE)
     {
-       
+
         $this->db->select($this->table.'.*, DescripcionPerfil, perfil.IdPerfil');
         $this->db->from($this->table.',perfil');
         $this->db->where ($this->table.'.IdPerfil = perfil.IdPerfil');
         $this->db->where ('usuario', $Usuario);
         $this->db->where ('password', $Contrasena);
+        $this->db->where('usuario IS NOT NULL');
+        $this->db->where('Habilitado',1);
         $this->db->limit(1);
- 
+
         $query = $this->db->get();
-        
-        return $query->row();                
+
+        return $query->row();
     }
     public function ConsultarMedicosPorServicio($IdServicio,$IdClinica = FALSE)
     {
-        
+
         $this->db->select($this->table.'.*');
         $this->db->select('CONCAT(NombreEmpleado," ",ApellidosEmpleado) as Nombre');
         $this->db->from($this->table);
@@ -50,21 +52,21 @@ class Empleado_Model extends CI_Model {
         {
             $this->db->join('empleadoclinica',$this->table.'.IdEmpleado=empleadoclinica.IdEmpleado');
             $this->db->where('IdClinica',$IdClinica);
-        }        
-        
+        }
+
         $query = $this->db->get();
-        
+
         return $query->result_array();
-               
+
     }
-    
+
     public function ConsultarEmpleadoPorId($IdEmpleado)
     {
         $this->db->select($this->table.'.*');
         $this->db->from($this->table);
         $this->db->where('IdEmpleado',$IdEmpleado);
         $query = $this->db->get();
-        
+
         return $query->row();
     }
     //put your code here

@@ -135,7 +135,7 @@ class Agenda_Controler extends CI_Controller
         $Citas = $this->CitaServicio_Model->ConsultarCitasPorDia($FechaInicio,$FechaFin,$EstatusCita,$IdEmpleado);
 
         echo json_encode($Citas);
-        
+
 
     }
 
@@ -378,6 +378,20 @@ class Agenda_Controler extends CI_Controller
             $TotalCitas = $this->CitaServicio_Model->ConsultasTotalCitasDia();
 
             echo json_encode($TotalCitas);
+        }
+
+        public function ValidarHorarioCita_ajax()
+        {
+          $DiaSemana = $this->input->post('DiaSemana');
+          $HoraCita = $this->input->post('HoraCita');
+          $IdServicio = $this->input->post('IdServicio');
+
+          $this->load->model('HorarioServicio_Model');
+
+          $CitaValida = $this->HorarioServicio_Model->ValidarHorarioCita($IdServicio,$DiaSemana,$HoraCita);
+
+          echo json_encode($CitaValida);
+          // code...
         }
 
 }
