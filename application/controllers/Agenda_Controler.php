@@ -85,6 +85,8 @@ class Agenda_Controler extends CI_Controller
             $param['Comentarios'] = $this->input->post('Comentarios');
             $param['IdClinica'] = $this->session->userdata('IdClinica');
 
+            $param['TituloCita']=$this->input->post('TituloCita');
+
 
 
             $r = $this->CitaServicio_Model->agregarEvento($param);
@@ -317,6 +319,7 @@ class Agenda_Controler extends CI_Controller
 
                 $param['IdEmpleado'] = $this->input->post('IdEmpleado');
                 $param['Comentarios'] = $this->input->post('Comentarios');
+                $param['TituloCita'] = $this->input->post('TituloCita');
 
                 $Cita = $this->CitaServicio_Model->ConsultarCitaPorId($this->input->post('IdCitaServicio'));
 
