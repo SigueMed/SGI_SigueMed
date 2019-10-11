@@ -31,13 +31,13 @@ class CitaServicio_Model extends CI_Model
     {
         $this->load->helper("date");
 
-        $this->db->select($this->table.'.*, DescripcionServicio, CONCAT(Nombre, " ", Apellidos) as NombrePaciente,NumCelular, DescripcionEstatusCita');
+        $this->db->select($this->table.'.*, DescripcionServicio, CASE WHEN Nombre IS NULL THEN TituloCita ELSE CONCAT(Nombre, " ", Apellidos) END as NombrePaciente,NumCelular, DescripcionEstatusCita');
         $this->db->select('CONCAT(e.NombreEmpleado," ",e.ApellidosEmpleado) as NombreElaboradaPor');
         $this->db->select('CONCAT(em.NombreEmpleado," ",em.ApellidosEmpleado) as NombreModificadaPor');
         $this->db->from($this->table);
         // JOIN
         $this->db->join('servicio', $this->table.'.IdServicio = servicio.IdServicio');
-        $this->db->join('paciente',$this->table.'.IdPaciente = paciente.IdPaciente');
+        $this->db->join('paciente',$this->table.'.IdPaciente = paciente.IdPaciente','left');
         $this->db->join('catalogoestatuscita', $this->table.'.IdStatusCita = catalogoestatuscita.IdStatusCita');
         $this->db->join('empleado e',$this->table.'.ElaboradaPor = e.IdEmpleado','left');
         $this->db->join('empleado em',$this->table.'.ModificadoPor = em.IdEmpleado','left');
@@ -96,7 +96,7 @@ class CitaServicio_Model extends CI_Model
         log_message("debug",$mes);
         log_message("debug",$anio);
 
-        $this->db->select('IdCitaServicio as id, paciente.IdPaciente as idpac, DescripcionServicio as descripcion, CONCAT(Nombre," ", Apellidos) as title, paciente.NumCelular as descripcioncel,'
+        $this->db->select('IdCitaServicio as id, paciente.IdPaciente as idpac, DescripcionServicio as descripcion, CASE WHEN Nombre IS NULL THEN TituloCita ELSE CONCAT(Nombre, " ", Apellidos) END as title, paciente.NumCelular as descripcioncel,'
                 . 'DATE_FORMAT(FechaInicio, "%Y-%m-%d %H:%i:%s") as start');
          $this->db->select('DATE_FORMAT(FechaFin, "%Y-%m-%d %H:%i:%s") as end', FALSE);
          $this->db->select('IdStatusCita');
@@ -107,7 +107,7 @@ class CitaServicio_Model extends CI_Model
         $this->db->from($this->table);
         // JOIN
         $this->db->join('servicio','servicio.IdServicio='.$this->table.'.IdServicio');
-        $this->db->join('paciente','paciente.IdPaciente='.$this->table.'.IdPaciente');
+        $this->db->join('paciente','paciente.IdPaciente='.$this->table.'.IdPaciente','left');
 
 
         $this->db->where('MONTH(FechaInicio) >='.$mes);
@@ -152,7 +152,7 @@ class CitaServicio_Model extends CI_Model
         $this->db->from($this->table);
         //JOIN
         $this->db->join('servicio',$this->table.'.IdServicio = servicio.IdServicio');
-        $this->db->join('empleado doctor',$this->table.'.IdEmpleado = doctor.IdEmpleado');
+        $this->db->join('empleado doctor',$this->table.'.IdEmpleado = doctor.IdEmpleado','left');
 
         //CONDICION
         $this->db->where('IdCitaServicio', $IdCita);
@@ -221,6 +221,7 @@ class CitaServicio_Model extends CI_Model
             'IdEmpleado'=> $param['IdEmpleado'],
             'Comentarios'=>$param['Comentarios'],
             'IdClinica'=> $param['IdClinica'],
+            'TituloCita'=>$param['TituloCita'],
             'ElaboradaPor'=>$this->session->userdata('IdEmpleado')
            );
 
@@ -244,7 +245,8 @@ class CitaServicio_Model extends CI_Model
                     'IdEmpleado'=> $param['IdEmpleado'],
                     'FechaInicio'=>$param['FechaInicio'],
                     'FechaFin'=>$param['FechaFin'],
-                    'Comentarios'=>$param['Comentarios']
+                    'Comentarios'=>$param['Comentarios'],
+                    'TituloCita'=>$param['TituloCita']
 
                     );
 

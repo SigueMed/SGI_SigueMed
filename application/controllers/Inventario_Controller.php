@@ -19,7 +19,7 @@ class Inventario_Controller extends CI_Controller {
 
         $this->load->helper('url_helper');
         $this->load->helper('date');
-        
+
         //Load Models
         $this->load->model('Proveedor_Model');
          $this->load->model('CatalogoProductos_Model');
@@ -28,11 +28,11 @@ class Inventario_Controller extends CI_Controller {
          $this->load->model('MovimientoInventario_Model');
          $this->load->model('LoteSubProducto_Model');
          $this->load->model('Servicio_Model');
-         
-         
-        
+
+
+
     }
-    
+
     public function Load_RegistrarEntradaInventario()
     {
         $data['title'] = 'Registrar Entrada al Inventario';
@@ -40,11 +40,11 @@ class Inventario_Controller extends CI_Controller {
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Inventario/FormEntradaInventario');
         $this->load->view('Inventario/CardEntradaInventario');
-        $this->load->view('templates/FormFooter',$data); 
+        $this->load->view('templates/FormFooter',$data);
         $this->load->view('templates/FooterContainer');
-        
+
     }
-    
+
     /*
      * RegistrarEntradaInventario
      * Descripción: Función para crear una entrada al inventario a través de una factura
@@ -52,7 +52,7 @@ class Inventario_Controller extends CI_Controller {
      */
     public function RegistrarEntradaInventario()
     {
-        
+
         $action = $this->input->post('action');
         try
         {
@@ -112,7 +112,7 @@ class Inventario_Controller extends CI_Controller {
                                 $this->LoteSubProducto_Model->RegistrarNuevoLote($NuevoLote);
                             }
 
-                            $Fecha = now();                        
+                            $Fecha = now();
 
                             $MovimientoInventario=array(
                                 'IdTipoMovimientoInventario'=>1,
@@ -123,40 +123,60 @@ class Inventario_Controller extends CI_Controller {
                                 'IdClinica'=>$this->session->userdata('IdClinica'),
                                 'IdFacturaEntradaInventario'=>$IdFacturaEntradaInventario
                             );
-                            //Crear el movimiento de entrada 
+                            //Crear el movimiento de entrada
                             $this->MovimientoInventario_Model->RegistrarEntrada($MovimientoInventario);
                         }
                     if ($this->db->trans_status() !== FALSE)
                     {
                         $this->db->trans_commit();
-                        echo '<script> alert("Entrada al inventario registrada exitosamente.");</script>';
-                        redirect(site_url('Inventario/RegistrarEntrada'));
+                        $data['title']="Entrada Inventario";
+                        $data['swal']=true;
+                        $data['swalMessage']="title:'La entrada ha sido registrada',
+                        type: 'success',
+                        showConfirmButton: true,
+                        confirmButtonText:'<i class=\"icon-box\"></i> Consutar Inventario',
+                        showCancelButton: true,
+                        cancelButtonText: '<i class=\"icon-square-plus\"></i> Nueva Entrada'";
+
+                        $data['swalAction'] = ".then((result)=> {
+                          if (result.value) {
+                            window.location.href ='".site_url("Inventario/ConsultarInventario")."';
+                          }
+                          else {
+                            window.location.href ='".site_url("Inventario/RegistrarEntrada")."';
+                          }
+                        });";
+                        $this->load->view('templates/MainContainer',$data);
+                        $this->load->view('templates/HeaderContainer',$data);
+                        $this->load->view('templates/FormFooter',$data);
+                        $this->load->view('templates/FooterContainer');
+
                     }
                 }
                 else // Error al crear la factura
                 {
                      throw new Exception($this->db->error());
-                    
+
                 }
 
 
             }
-            
-        } 
-        catch (Exception $ex) 
+
+        }
+        catch (Exception $ex)
         {
             log_message("error", $ex->getMessage());
             $this->db->trans_rollback();
             echo '<script> alert("Error al Crear la factura");</script>';
 
         }
-        
-        
-        
-        
+
+
+
+
     }
-    
-    
+
+
     /*
      * DESCRIPCION: Consulta de Proveedores habilitados, llamada por metodo ajax
      * RETURN: Devuelve a través de un echo la lista de valores de los proveedores
@@ -164,85 +184,85 @@ class Inventario_Controller extends CI_Controller {
     public function ConsultarProveedores_ajax()
     {
         $Proveedores = $this->Proveedor_Model->ConsultarProveedores();
-        
-        
+
+
         $output='<option value="">Selecciona un Proveedor</option>';
         foreach($Proveedores as $proveedor)
         {
             $output .= '<option value="'.$proveedor['IdProveedor'].'">'.$proveedor['NombreProveedor'].'</option>';
         }
         echo $output;
-        
-        
+
+
     }
-    
+
     public function ConsultarProveedorPorId()
     {
         if ($this->input->post('IdProveedor')!= null)
         {
-            
+
             $Proveedor = $this->Proveedor_Model->ConsultarProveedorPorId($this->input->post('IdProveedor'));
-            
+
             if ($Proveedor != FALSE)
             {
-                echo json_encode($Proveedor); 
+                echo json_encode($Proveedor);
             }
-            else 
+            else
             {
                 echo 2;
-     
+
             }
-            
+
         }
     }
     public function CargarCatalogoProductos_ajax()
     {
         $IdServicio = $this->input->post('IdServicio');
         $Productos=  $this->CatalogoProductos_Model->ConsultarProductosPorServicio($IdServicio);
-            
+
             $output='<option value="">Selecciona un Producto</option>';
             foreach($Productos as $producto)
             {
                 $output .= '<option value="'.$producto['IdProducto'].'">'.$producto['DescripcionProducto'].'</option>';
             }
             echo $output;
-        
+
     }
-    
+
     public function ConsultarSubProducto_ajax()
     {
         if ($this->input->post('CodigoSubProducto')!= null)
         {
-            
+
             $SubProducto = $this->SubProducto_Model->ConsultarSubProducto($this->input->post('CodigoSubProducto'));
-            
+
             echo json_encode($SubProducto);
-            
+
         }
         else
         {
             echo 2;
         }
-        
+
     }
-    
+
     /*
-     * DESCRIPCION: Función para mostrar la consulta del inventario 
-     * RETURN: 
+     * DESCRIPCION: Función para mostrar la consulta del inventario
+     * RETURN:
      */
     public function ConsultarInventario()
     {
-        
+
         $data['ProductosInventario'] = $this->CatalogoProductos_Model->ConsultarProductosInventario($this->session->userdata('IdClinica'));
         $data['title']= "Consulta Inventario";
         $this->load->view('templates/MainContainer',$data);
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Inventario/ConsultaInventario',$data);
         $this->load->view('templates/FooterContainer');
-        
-        
+
+
     }
-    
+
     public function ConsultarDetalleProducto($IdProducto)
     {
         try
@@ -261,23 +281,23 @@ class Inventario_Controller extends CI_Controller {
             $this->load->view('Inventario/CardSubProductosProducto',$data);
             $this->load->view('Inventario/CardMovimientosProducto',$data);
             $this->load->view('templates/FooterContainer');
-            
+
         } catch (Exception $ex) {
 
         }
-        
-        
-        
+
+
+
     }
-    
+
     public function ConsultarExistenciaSubProducto_ajax()
     {
          $IdCodigoSubProducto = $this->input->post('CodigoSubProducto');
-         
+
         if ($IdCodigoSubProducto !== "")
         {
-           
-        
+
+
             $IdClinica = $this->session->userdata('IdClinica');
 
             $SubProducto = $this->SubProducto_Model->ConsultarExistenciaPorCaducidadSubProducto($IdCodigoSubProducto,$IdClinica);
@@ -288,15 +308,15 @@ class Inventario_Controller extends CI_Controller {
         {
             echo json_encode('2');
         }
-        
-        
-        
+
+
+
     }
-    
+
     public function ConsultarServiciosInventario_ajax()
     {
         $ServiciosInventario = $this->Servicio_Model->ConsultarServicios(TRUE);
-        
+
         $output='<option value="">Selecciona un Servicio</option>';
             foreach($ServiciosInventario as $servicio)
             {

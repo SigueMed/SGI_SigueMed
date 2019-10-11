@@ -18,7 +18,7 @@ class ExistenciaInventario_Model extends CI_Model {
         $this->table="existenciainventario";
         $this->load->database();
     }
-    
+
     public function ConsultarExistencias($IdClinica,$IdCodigoSubProducto,$Lote)
     {
         $this->db->select('CantidadInventario');
@@ -27,26 +27,28 @@ class ExistenciaInventario_Model extends CI_Model {
         $this->db->where('IdCodigoSubProducto',$IdCodigoSubProducto);
         $this->db->where('Lote',$Lote);
         $query = $this->db->get();
-        
+
         if ($query->num_rows()>=1)
         {
-            return $query->row();
+            $result = $query->row();
+
+            return $result->CantidadInventario;
         }
         return false;
     }
-    
+
     public function ActualizarExistencia($ExistenciaInventario)
     {
         $this->db->set('CantidadInventario',$ExistenciaInventario['CantidadInventario']);
-        
+
         $this->db->where('IdClinica',$ExistenciaInventario['IdClinica']);
         $this->db->where('IdCodigoSubProducto',$ExistenciaInventario['IdCodigoSubProducto']);
         $this->db->where('Lote',$ExistenciaInventario['Lote']);
-        
+
         return $this->db->update($this->table);
-        
+
     }
-    
+
     /*
      * DESCRIPCION: Consultar la existencia de un producto por IdProducto
      * SALIDA: Fila con el resultado de la CantidadProducto
@@ -60,13 +62,13 @@ class ExistenciaInventario_Model extends CI_Model {
         $this->db->join('subproducto',$this->table.'.IdCodigoSubProducto = subproducto.IdCodigoSubProducto');
         $this->db->join('catalogoproductos',$this->table.'.IdProducto = '.$IdProducto);
         $this->db->grou_by('IdProducto');
-        
+
         $query = $this->db->get();
-        
+
         return $query->row();
-        
+
     }
-    
+
     public function RegistrarNuevaExistencia($ExistenciaInventario)
     {
         return $this->db->insert($this->table,$ExistenciaInventario);

@@ -18,20 +18,25 @@ class MovimientoInventario_Model extends CI_Model {
         $this->load->database();
         $this->table="movimientosinventario";
         $this->load->model("ExistenciaInventario_Model");
-        
+
     }
-    
+
     public function RegistrarEntrada($MovimientoInventario)
     {
         $result = $this->db->insert($this->table,$MovimientoInventario);
-       
-        
+
+
         if($result >=1)
         {
             $cantidadExistencia = $this->ExistenciaInventario_Model->ConsultarExistencias($MovimientoInventario['IdClinica'],$MovimientoInventario['IdCodigoSubProducto'],$MovimientoInventario['Lote']);
+
+            log_message('debug','Cantidad Existencia=>'.$cantidadExistencia);
+
             if($cantidadExistencia!==FALSE)
             {
                 $cantidadExistencia = $cantidadExistencia+$MovimientoInventario['CantidadMovimiento'];
+                log_message('debug','Movimiento Inventario=>'.$MovimientoInventario['CantidadMovimiento']);
+                log_message('debug','Cantidad Existencia Actualizada=>'.$cantidadExistencia);
                 $ExistenciaInventario = array(
                     'IdClinica'=> $MovimientoInventario['IdClinica'],
                     'IdCodigoSubProducto' => $MovimientoInventario['IdCodigoSubProducto'],
@@ -43,8 +48,8 @@ class MovimientoInventario_Model extends CI_Model {
                 {
                     return true;
                 }
-                
-                
+
+
             }
             else
             {
@@ -64,22 +69,22 @@ class MovimientoInventario_Model extends CI_Model {
         }
         return false;
     }
-    
+
     public function ConsultarMovimientosProducto($IdProducto,$IdClinica)
     {
       $query=$this->db->query('call Inventario_ConsultaDetalleMovimientosPorProducto('.$IdProducto.','.$IdClinica.')');
-      
+
       return $query->result_array();
-        
-       
+
+
     }
-    
+
     public function RegistrarSalidaInventario($IdCodigoSubproducto, $Lote, $CantidadSalida, $IdClinica)
     {
         $Fecha = now();
-       
+
         $cantidadExistencia = $this->ExistenciaInventario_Model->ConsultarExistencias($IdClinica,$IdCodigoSubproducto,$Lote);
-        
+
         if (intval($CantidadSalida)<= intval($cantidadExistencia->CantidadInventario))
         {
             $SalidaInventario = array(
@@ -91,17 +96,17 @@ class MovimientoInventario_Model extends CI_Model {
                 'IdClinica'=> $IdClinica
             );
             $result = $this->db->insert($this->table,$SalidaInventario);
-            
-                 
-        
+
+
+
             if($result >=1)
             {
-                
+
                 $CantidadInventario =  intval($cantidadExistencia->CantidadInventario) - intval($CantidadSalida);
                 echo '<script>alert("'.$CantidadInventario.','.$cantidadExistencia.'-'.$CantidadSalida.');</script>';
-                
-                
-                
+
+
+
                 $ExistenciaInventario = array(
                     'IdClinica'=> $IdClinica,
                     'IdCodigoSubProducto' =>$IdCodigoSubproducto,
@@ -124,8 +129,8 @@ class MovimientoInventario_Model extends CI_Model {
         {
             throw new Exception("INVENTARIO:No se puede registrar una salida mayor a la existencia");
         }
-        
-        
+
+
     }
     //put your code here
 }
