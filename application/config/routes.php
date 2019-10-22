@@ -116,4 +116,6 @@ $route['Dashboard/Main'] = 'Dashboard_Controller/Load_Dashboard';
 //CATALOGOS
 
 $route['Catalogos/AltaProductos'] = 'CatalogoProductos_Controller/Load_AltaProductos';
+$route['Catalogos/ActualizacionPrecios'] = 'CatalogoProductos_Controller/Load_PreciosProductos';
+
 $route['Catalogos/ConsultaProductos'] = 'CatalogoProductos_Controller/Load_CatalogoProductos';

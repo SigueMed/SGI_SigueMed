@@ -314,6 +314,8 @@
                 {
                     echo '<li><a href="'. site_url('/Catalogos/AltaProductos').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Productos </a>
                         </li>';
+                    echo '<li><a href="'. site_url('/Catalogos/ActualizacionPrecios').'" data-i18n="nav.cards.card_statistics" class="menu-item">Actualización Precios </a>
+                        </li>';
                 }
                         echo '<li><a href="'. site_url('/Catalogos/ConsultaProductos').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Productos</a>
                         </li>

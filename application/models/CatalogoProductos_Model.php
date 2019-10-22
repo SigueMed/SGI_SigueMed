@@ -114,4 +114,10 @@ class CatalogoProductos_Model extends CI_Model{
         return $this->db->update($this->table,$Producto);
 
     }
+
+    public function ActualizarPrecios_Batch($NuevosPrecios)
+    {
+      return $this->db->update_batch($this->table,$NuevosPrecios,'IdProducto');
+      // code...
+    }
 }
