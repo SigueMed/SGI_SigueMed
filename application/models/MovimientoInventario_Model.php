@@ -85,7 +85,7 @@ class MovimientoInventario_Model extends CI_Model {
 
         $cantidadExistencia = $this->ExistenciaInventario_Model->ConsultarExistencias($IdClinica,$IdCodigoSubproducto,$Lote);
 
-        if (intval($CantidadSalida)<= intval($cantidadExistencia->CantidadInventario))
+        if (intval($CantidadSalida)<= intval($cantidadExistencia))
         {
             $SalidaInventario = array(
                 'IdCodigoSubproducto'=>$IdCodigoSubproducto,
@@ -102,7 +102,7 @@ class MovimientoInventario_Model extends CI_Model {
             if($result >=1)
             {
 
-                $CantidadInventario =  intval($cantidadExistencia->CantidadInventario) - intval($CantidadSalida);
+                $CantidadInventario =  intval($cantidadExistencia) - intval($CantidadSalida);
                 echo '<script>alert("'.$CantidadInventario.','.$cantidadExistencia.'-'.$CantidadSalida.');</script>';
 
 

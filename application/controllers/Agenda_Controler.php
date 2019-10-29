@@ -75,6 +75,7 @@ class Agenda_Controler extends CI_Controller
     {
         try
         {
+            log_message('debug','[citaservicio.agregarevento] Generar evento=>Paciente:'.$this->input->post('IdPaciente').'=>Fecha:'.$this->input->post('FechaInicio').'=>Servicio:'.$this->input->post('IdServicio'));
             $param['IdPaciente'] = $this->input->post('IdPaciente');
             $param['IdServicio'] = $this->input->post('IdServicio');
             $param['FechaInicio'] = $this->input->post('FechaInicio');
@@ -87,19 +88,33 @@ class Agenda_Controler extends CI_Controller
 
             $param['TituloCita']=$this->input->post('TituloCita');
 
-
+            $this->db->trans_begin();
 
             $r = $this->CitaServicio_Model->agregarEvento($param);
+
+            if($this->db->trans_status()===FALSE)
+            {
+                $this->db->trans_rollback();
+                throw new Exception('No se ha agregado el evento');
+                echo "0";
+            }
+            else
+            {
+                $this->db->trans_commit();
+                echo $r;
+            }
+
             if ($r<1)
             {
-                throw new Exception('No se ha agregado el evento');
+
+                echo "0";
 
             }
-            echo $r;
+
 
         } catch (Exception $ex) {
 
-            echo 0;
+            echo "0";
             log_message('error', '[Agenda_Controller.agregarEvento] Error:'.$ex->getMessage());
         }
 

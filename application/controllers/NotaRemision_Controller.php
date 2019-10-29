@@ -311,9 +311,30 @@ class NotaRemision_Controller extends CI_Controller {
                         $data['title'] = 'Nota de Remisión';
                         $data['IdNotaRemision']= $IdNuevaNotaRemision->IdUltimaNotaRemision;
 
+                        $data['title']='Registrar Nuevo Paciente';
 
+                        $data['swal']=true;
+                        $data['swalMessage']="title:'Nota registrada',
+                        text: 'La Nota No. ".$FolioNotaRemision." ha sido registrada exitosamente',
+                        type: 'success',
+                        showConfirmButton: true,
+                        confirmButtonText:'<i class=\"icon-file-o\"></i> Nueva Nota',
+                        showCancelButton: true,
+                        cancelButtonText: '<i class=\"icon-calendar3\"></i> Agenda'";
 
-                        redirect (site_url().'/NotaRemision/CargarNotaRemision/'.$IdNuevaNotaRemision->IdUltimaNotaRemision);
+                        $data['swalAction'] = ".then((result)=> {
+                          if (result.value) {
+                            window.location.href ='".site_url("NotaRemision/CrearNota")."';
+                          }
+                          else {
+                            window.location.href ='".site_url("Agenda/VistaAgenda")."';
+                          }
+                        });";
+                        $this->load->view('templates/MainContainer',$data);
+                        $this->load->view('templates/HeaderContainer',$data);
+                        $this->load->view('templates/FormFooter',$data);
+                        $this->load->view('templates/FooterContainer');
+
 
 
 

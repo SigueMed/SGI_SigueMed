@@ -525,7 +525,7 @@
 
 
                   </div>
-                  
+
 
               <div class="modal-footer">
 
@@ -945,7 +945,7 @@
 
                     alert("Seleccione un Médico");
                 }else{
-
+                  
 		$.post("<?php echo site_url();?>/Agenda_Controler/agregarEvento",
 		{
 			IdPaciente: idPaciente,
@@ -957,10 +957,16 @@
                         Comentarios:Comentarios
 		},
 		function(data){
-
-			if (data == 1) {
+      alert(data);
+			if (data != "0") {
+        Swal.fire({
+            title:'Nueva cita registrada',
+            text:'No. de cita: '+data,
+            type: 'success',
+            showConfirmButton: true
+        });
 				//$('#btnCerrarModal').click();
-                                alert('La informacion se ha guardado');
+
                                 $('#modalEvento').modal('hide');
 
                                 RefreshFullCalendar(idServicio);

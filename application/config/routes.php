@@ -66,8 +66,6 @@ $route['NotaMedica/ElaborarNota/(.+)'] = 'NotaMedica_Controller/Load_ElaborarNot
 $route['Usuario/CerrarSesion'] = 'Login_Controller/CerrarSesion';
 $route['Clinica/SeleccionarClinica'] = 'Clinica_Controller/Cargar_SeleccionarClinica';
 
-//Nota Remision
-$route['NotaRemision/CrearNota/(.+)'] = 'NotaRemision_Controller/CrearNotaRemision/$1';
 
 //Expediente Clinico
 $route['ExpedienteClinico/ConsultarExpediente'] = 'ExpedienteClinico_Controller/ConsultarExpedientePacientes';

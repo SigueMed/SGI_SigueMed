@@ -441,6 +441,17 @@
 
                        if (SubProducto!== false && SubProducto !== '2')
                        {
+                          if (SubProducto['CantidadInventario']<=0)
+                          {
+                            Swal.fire({
+                              title:'Sin Existencias',
+                              text:'El producto '+SubProducto['NombreSubProducto']+' no tiene existencias en el inventario',
+                              type:'error'
+                            });
+
+                          }
+                          else {
+
 
                             //AGREGAR PRODUCTO A LA tabla
                             var idServicio = SubProducto['IdServicio'];
@@ -464,6 +475,8 @@
 
                             if (idProducto !="")
                             {
+
+
                               var descServicio =SubProducto['DescripcionServicio'];
                               var lote= SubProducto['Lote'];
                               var CodigoSubProducto = SubProducto['IdCodigoSubProducto'];
@@ -519,6 +532,7 @@
 
 
                             }
+                          }
                        }
                        else
                        {

@@ -85,16 +85,15 @@ class CitaServicio_Model extends CI_Model
         $this->load->helper("date");
 
         $Fecha = date("Y/m/d");
-        log_message("error", "$Fecha");
+
 
 
         $FechaConsulta = date("Y/m/d",strtotime($Fecha."- 1 month"));
-        log_message("error", "$FechaConsulta");
+
         $mes = mdate('%m',strtotime($FechaConsulta));
         $anio = mdate('%Y',strtotime($FechaConsulta));
 
-        log_message("debug",$mes);
-        log_message("debug",$anio);
+
 
         $this->db->select('IdCitaServicio as id, paciente.IdPaciente as idpac, DescripcionServicio as descripcion, CASE WHEN Nombre IS NULL THEN TituloCita ELSE CONCAT(Nombre, " ", Apellidos) END as title, paciente.NumCelular as descripcioncel,'
                 . 'DATE_FORMAT(FechaInicio, "%Y-%m-%d %H:%i:%s") as start');
@@ -227,8 +226,8 @@ class CitaServicio_Model extends CI_Model
 
         log_message('debug', '[CitaServicio.agergarEvento] Guardando Evento IdPaciente:'.$param['IdPaciente']);
         $query =  $this->db->insert($this->table, $campos);
-        log_message('debug', '[CitaServicio.agergarEvento] Resultado Evento:'.$query);
-        return $query;
+        log_message('debug', '[CitaServicio.agergarEvento] Resultado Evento:'.$this->db->insert_id());
+        return $this->db->insert_id();
 
     }
 
