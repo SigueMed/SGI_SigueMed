@@ -1,4 +1,17 @@
 
+<style>
+
+    td.details-control {
+        background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_open.png');?>) no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_close.png');?>) no-repeat center center;
+    }
+    th { font-size: 14px; }
+    td { font-size: 13px; }
+</style>
+
 <div class="row match-height">
         <div class="col-md-12">
             <div class="card">
@@ -109,6 +122,23 @@
 $(document).ready(function() {
   CargarCuentas();
 
+  $('#tblCortesCaja tbody').on('click', 'td.details-control', function () {
+      var tr = $(this).closest('tr');
+      var t = $("#tblCortesCaja").DataTable();
+      var row = t.row( tr );
+
+      if ( row.child.isShown() ) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+      }
+      else {
+          // Open this row
+          row.child( LoadRowDetail(row.data()) ).show();
+          tr.addClass('shown');
+      }
+  } );
+
 });
 function CargarCuentas()
 {
@@ -126,6 +156,8 @@ function CargarCuentas()
 function ConsultarCortesPorCuenta() {
 
   var IdCuenta = $("#cbCuentas").val();
+
+  alert(IdCuenta);
 
   var t = $('#tblCortesCaja').DataTable({
       "ajax":{
@@ -146,6 +178,7 @@ function ConsultarCortesPorCuenta() {
         "autoWidth":true,
         "columnDefs":[
 
+
         ],
         "columns": [
               {
@@ -154,11 +187,26 @@ function ConsultarCortesPorCuenta() {
                   "data":           null,
                   "defaultContent": ''
               },
-              { "data":},
-              { "data": "IdSeguimientoMedico" }
+              { "data": "IdCorteCaja"},
+              { "data": "DescripcionCuenta" },
+              { "data": "FechaCorte" },
+              { "data": "DescripcionTurno" },
+              { "data": "TotalCorte" },
+              { "data": "TotalEnEfectivo" },
+              { "data": "TotalEnTC" },
+              { "data": "TotalTransferencias" },
+              { "data": "TotalEntregado" },
+              { "data": "TotalEntregado" }
+
               ]
 
       });
 
+}
+function LoadRowDetail ( d ) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        
+    '</table>';
 }
 </script>

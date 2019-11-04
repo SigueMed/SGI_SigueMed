@@ -214,43 +214,56 @@ class NotaRemision_Controller extends CI_Controller {
                         if($TotalPagado>0)
                         {
                             //REGISTRAR PAGO NOTA MEDICA
-                            $PorcentajePagado = $TotalPagado/ $TotalNota;
 
-                            $PagoNotaRemision = array(
-                                'IdNotaRemision'=> $IdNuevaNotaRemision->IdUltimaNotaRemision,
-                                'FechaPago'=> mdate('%Y-%m-%d',$FechaNotaRemision),
-                                'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
-                                'PorcentajeNotaRemision'=>$PorcentajePagado,
-                                'TotalPago'=>$TotalPagado,
-                                'IdTipoPago'=>$this->input->post('cb_FormaPago')
-                            );
+                            $IdFormaPagos = $this->input->post('FormasPago');
+                            $Vauchers = $this->input->post('Vauchers');
+                            $MontosPago = $this->input->post('MontosPago');
 
-                            $IdNuevoPagoNotaRemision = $this->PagoNotaRemision_Model->RegistrarPagoNotaRemision($PagoNotaRemision);
+                            for ($i=0; $i < sizeof($IdFormaPagos) ; $i++) {
 
-                           if($IdNuevoPagoNotaRemision ===FALSE)
-                           {
-                                throw new Exception('Error al registrar pago');
-                           }
-                            //REGISTRAR MOVIMIENTOS A LAS CUENTAS
-                            $MovimientosACuenta = $this->NotaRemision_Model->ConsultarMovimientosCuentaNota($IdNuevaNotaRemision->IdUltimaNotaRemision);
+                              $PorcentajePagado = $MontosPago[$i]/ $TotalNota;
 
-                            foreach ($MovimientosACuenta as $movimiento)
-                            {
-                                $TotalMovimientoCuenta = $PorcentajePagado * $movimiento['TotalCuenta'];
-                                $NuevoMovimientoCuenta = array(
-                                    'IdCuenta'=> $movimiento['IdCuenta'],
-                                    'FechaMovimientoCuenta'=> mdate('%Y-%m-%d',now()),
-                                    'IdPagoNotaRemision'=>$IdNuevoPagoNotaRemision->IdPagoNotaRemision,
-                                    'IdTipoMovimientoCuenta'=> 1,
-                                    'TotalMovimiento' => $TotalMovimientoCuenta,
-                                    'IdEstatusMovimientoCuenta'=> MC_PENDIENTEPAGO,
-                                    'IdTipoPago'=>$this->input->post('cb_FormaPago'),
-                                    'IdClinica'=>$this->session->userdata('IdClinica')
+                              $PagoNotaRemision = array(
+                                  'IdNotaRemision'=> $IdNuevaNotaRemision->IdUltimaNotaRemision,
+                                  'FechaPago'=> mdate('%Y-%m-%d',$FechaNotaRemision),
+                                  'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
+                                  'PorcentajeNotaRemision'=>$PorcentajePagado,
+                                  'TotalPago'=>$MontosPago[$i],
+                                  'IdTipoPago'=>$IdFormaPagos[$i],
+                                  'Vaucher'=> $Vauchers[$i]
+                              );
 
-                                );
+                              $IdNuevoPagoNotaRemision = $this->PagoNotaRemision_Model->RegistrarPagoNotaRemision($PagoNotaRemision);
 
-                                $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+                              if($IdNuevoPagoNotaRemision ===FALSE)
+                              {
+                                   throw new Exception('Error al registrar pago');
+                              }
+
+                              //REGISTRAR MOVIMIENTOS A LAS CUENTAS
+                              $MovimientosACuenta = $this->NotaRemision_Model->ConsultarMovimientosCuentaNota($IdNuevaNotaRemision->IdUltimaNotaRemision);
+
+                              foreach ($MovimientosACuenta as $movimiento)
+                              {
+                                  $TotalMovimientoCuenta = $PorcentajePagado * $movimiento['TotalCuenta'];
+                                  $NuevoMovimientoCuenta = array(
+                                      'IdCuenta'=> $movimiento['IdCuenta'],
+                                      'FechaMovimientoCuenta'=> mdate('%Y-%m-%d',now()),
+                                      'IdPagoNotaRemision'=>$IdNuevoPagoNotaRemision->IdPagoNotaRemision,
+                                      'IdTipoMovimientoCuenta'=> 1,
+                                      'TotalMovimiento' => $TotalMovimientoCuenta,
+                                      'IdEstatusMovimientoCuenta'=> MC_PENDIENTEPAGO,
+                                      'IdTipoPago'=>$IdFormaPagos[$i],
+                                      'IdClinica'=>$this->session->userdata('IdClinica')
+
+                                  );
+  
+                                  $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+                              }
+
                             }
+
+
 
                         }
 

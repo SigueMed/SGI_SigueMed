@@ -230,6 +230,9 @@ class CorteCaja_Controller extends CI_Controller {
     public function ConsultarCortesCaja_ajax()
     {
       $IdCuenta = $this->input->post('IdCuenta');
+      $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta);
+
+      echo json_encode($CortesCaja);
 
     }
 

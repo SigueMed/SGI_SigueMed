@@ -10,10 +10,10 @@
          width: 100%;
     }
     .table th {
-        font-size: 13px;
+        font-size: 14px;
         padding: 7px;}
     .table td {
-        font-size:12px;
+        font-size:13px;
 
         padding: 7px;}
     td.block
@@ -106,7 +106,7 @@
         </div>
 
     </div>
-    <div class="col-lg-5 col-xs-12">
+    <div class="col-lg-8 col-xs-12">
         <!--SERVICIOS NOTA-->
         <div class="card my-4">
             <div class="card-header">
@@ -213,87 +213,115 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-xs-12">
-        <!--RESUMEN NOTA-->
+
         <div class="card my-0">
             <div class="card-header">
                 <h6>Resumen</h6>
             </div>
             <div class="card-body">
                 <div class="card-block">
+                  <div class="row">
+                    <div class="col-md-3">
+
+                    </div>
+                  </div>
                     <div class="row" align="right">
                         <div class="col-md-3">
+                          <div class="form-group">
+                               <label for="TotalNota">Total</label>
+                               <div class="input-group">
+                                  <span class="input-group-addon">$</span>
+                                 <input type="text" id="TotalNota" name="TotalNota" class="form-control" placeholder="Total" readonly/>
+                               </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label for="TotalAdeudo">Total Adeudos</label>
+                              <div class="input-group">
+                                 <span class="input-group-addon">$</span>
+                                <input type="text" id="TotalAdeudo" name="TotalAdeudo" class="form-control" placeholder="Total" readonly/>
+                              </div>
+                          </div>
 
                         </div>
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                 <label for="TotalNota">Total</label>
-                                 <div class="input-group">
-                                    <span class="input-group-addon">$</span>
-                                   <input type="text" id="TotalNota" name="TotalNota" class="form-control" placeholder="Total" readonly/>
-                                 </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label for="resumenSaldoPendiente">Saldo Pendiente</label>
+                              <div class="input-group">
+                                 <span class="input-group-addon">$</span>
+                                 <input type="text" id="resumenSaldoPendiente" name="resumenSaldoPendiente" class="form-control" placeholder="Total" readonly />
+                              </div>
+                          </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                          <div class="form-group">
+                              <label for="cb_FormaPago">Forma de Pago:</label>
+                              <select id="cb_FormaPago" name="cb_FormaPago" class="form-control" required>
+
+                              </select>
+
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form.group">
+                          <label for=""># Vaucher</label>
+                          <input type="text" class="form-control" name="txtVaucher" id="txtVaucher" placeholder="# Vaucher">
+
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="montoPago">Monto Pago</label>
+                            <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                              <input type="text" id="montoPago" name="montoPago" class="form-control" placeholder="Monto" />
                             </div>
+                        </div>
+
+                      </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label for=""></label>
+                            <button type="button" class="form-control btn" name="button" id="btnAgregarPago">+</button>
+                          </div>
+
                         </div>
 
                     </div>
-                    <div class="row" align="right">
-                        <div class="col-md-3">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <table class="table table-responsive" id="tblPagos">
+                          <th>#</th>
+                          <th>Forma</th>
+                          <th>Vaucher</th>
+                          <th>Monto</th>
+                          <th>Eliminar</th>
+                        </table>
 
-                        </div>
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                <label for="TotalAdeudo">Total Adeudos</label>
-                                <div class="input-group">
-                                   <span class="input-group-addon">$</span>
-                                  <input type="text" id="TotalAdeudo" name="TotalAdeudo" class="form-control" placeholder="Total" readonly/>
-                                </div>
-                            </div>
-                        </div>
+                      </div>
                     </div>
-                     <div class="row" align="right">
-                            <div class ="col-md-3">
-
-                            </div>
-                             <div class="col-md-9">
-                                 <div class="form-group">
-                                     <label for="resumenTotalPago">Total a Pagar</label>
-                                     <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                       <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" />
-                                     </div>
-                                 </div>
-                             </div>
-                        </div>
-                        <div class="row" align="right">
-                            <div class ="col-md-3">
-
-
-                            </div>
-                             <div class="col-md-9">
-                                 <div class="form-group">
-                                     <label for="resumenSaldoPendiente">Saldo Pendiente</label>
-                                     <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="resumenSaldoPendiente" name="resumenSaldoPendiente" class="form-control" placeholder="Total" readonly />
-                                     </div>
-                                 </div>
-                             </div>
-                        </div>
                     <div class="row" align ="right">
-
-                             <div class="col-md-12">
-                                 <div class="form-group">
-                                     <label for="cb_FormaPago">Forma de Pago:</label>
-                                     <select id="cb_FormaPago" name="cb_FormaPago" class="form-control" required>
-
-                                     </select>
-
-                                 </div>
-                             </div>
-
-
+                      <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="resumenTotalPago">Total a Pagar</label>
+                            <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" />
+                            </div>
                         </div>
+
+                      </div>
+
+                    </div>
+
+
                         <div class="row" align="right">
                             <div class ="col-md-9">
                                 <div class="form-group">
@@ -321,7 +349,7 @@
                               <i class="icon-cross2"></i> Cerrar
                             </button>
 
-                            <button type="submit" class="btn btn-success" name="action" value='crear'>
+                            <button type="submit" class="btn btn-success" id="btnPagar" name="action" value='crear'>
                               <i class="icon-check2"></i> Pagar
                             </button>
                           </div>
@@ -330,7 +358,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
 
 </div>
 </form>
@@ -473,6 +501,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
+        $("#btnPagar").attr("disabled","disabled");
         CargarFoliador();
         CargarTipoPago();
 
@@ -549,10 +578,13 @@
                 numFila +=1;
             }
 
+
+
             var subtotal = $("#SubtotalProducto").val();
 
              $('#tablaProductos').append(
                     '<tr id=row'+numFila+'>'+
+                    '<td>'+numFila+'</td>'+
                     '<td>'+
                         '<input type="hidden" value="'+idServicio+'">'+
                         '<input type="hidden" name="IdProducto[]" value="'+idProducto+'">'+
@@ -563,8 +595,7 @@
                         '<input type="hidden" class="form-control" name="cantidad[]" value="1">'+
                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
                         '<input type="hidden" name="IdEmpleado[]" value="">'+
-                        +numFila+'</td>'+
-                    '<td>'+descServicio+'</td>'+
+                        descServicio+'</td>'+
                     '<td>'+descProducto+'</td>'+
                     '<td>'+subtotal+'</td>'+
                     '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
@@ -572,11 +603,74 @@
                     '</tr>'
                     );
                 ActualizarTotalNota(subtotal);
+                CalcularTotalesNotaRemision();
 
                  $('#cbProducto').val('');
                  $('#SubtotalProducto').val('');
 
             }
+
+
+
+
+        });
+
+        $("#btnAgregarPago").click(function()
+        {
+          var txtFormaPago = $("#cb_FormaPago option:selected").html();
+          var idFormaPago = $("#cb_FormaPago").val();
+
+          var txtVaucher = $("#txtVaucher").val();
+          var montoPago = $("#montoPago").val();
+
+          var saldoPendiente = parseInt($("#resumenSaldoPendiente").val());
+          var TotalAPagar = parseInt($("#resumenTotalPago").val());
+
+          if (isNaN(TotalAPagar))
+          {
+            TotalAPagar=0;
+          }
+
+
+          var TotalFilasPagos = $('#tblPagos tbody tr').length;
+
+          var numFilaPago = 0;
+
+          if(TotalFilasPagos <=1)
+          {
+              numFilaPago = 1;
+          }
+          else
+
+          {
+
+              numFilaPago = parseInt(document.getElementById('tblPagos').rows[TotalFilasPagos-1].cells[0].innerHTML);
+              numFilaPago +=1;
+          }
+
+
+
+           $('#tblPagos').append(
+                  '<tr id=rowPago'+numFilaPago+'>'+
+                  '<td>'+numFilaPago+'</td>'+
+                  '<td>'+
+                    '<input type="hidden" name="FormasPago[]" value="'+idFormaPago+'">'+
+                    '<input type="hidden" name="Vauchers[]" value="'+txtVaucher+'">'+
+                    '<input type ="hidden" name="MontosPago[]" value="'+montoPago+'">'+
+                  txtFormaPago+'</td>'+
+                  '<td>'+txtVaucher+'</td>'+
+                  '<td>$'+montoPago+'</td>'+
+                  '<td data-row="rowPago'+numFilaPago+'"><button type="button" class="btn btn-sm btn-danger" onclick="EliminarPago('+numFilaPago+')" data-row="row'+numFilaPago+'"><i class="icon-trash"></i></button></td>'
+                  );
+
+
+            TotalAPagar += parseInt(montoPago);
+
+            $("#montoPago").val('');
+
+            $("#resumenTotalPago").val(TotalAPagar);
+
+            CalcularTotalesNotaRemision()
 
 
 
@@ -622,6 +716,7 @@
                 }
 
                 $("#idPaciente").val(value);
+                $("#btnPagar").removeAttr('disabled');
                 $("#lblNombrePaciente").html(NombrePaciente);
                 $("#lblSexo").html(sexo);
                 $("#lblFechaNacimiento").html(FechaNacimiento.toDateString("es-ES","dd/M/YYYY"));
@@ -686,8 +781,8 @@
             TotalAdeudo = parseFloat($("#TotalAdeudo").val());
         }
 
-        var TotalAPagar = TotalNota + TotalAdeudo;
-        $("#resumenTotalPago").val(TotalAPagar);
+        // var TotalAPagar = TotalNota + TotalAdeudo;
+        // $("#resumenTotalPago").val(TotalAPagar);
 
     }
 
@@ -703,6 +798,30 @@
         Subtotal = Subtotal*-1;
 
         ActualizarTotalNota(Subtotal);
+        CalcularTotalesNotaRemision();
+
+
+    }
+    function EliminarPago(index)
+    {
+
+        var Row = document.getElementById('rowPago'+index);
+        var Cell = Row.getElementsByTagName('td');
+
+
+
+
+        var montoPago = parseFloat(Cell[3].innerText.substring(1,Cell[3].innerText.length));
+
+
+
+
+        document.getElementById("tblPagos").deleteRow(Row.rowIndex);
+
+        var TotalAPagar = parseInt($("#resumenTotalPago").val());
+
+        TotalAPagar -= montoPago;
+        $("#resumenTotalPago").val(TotalAPagar);
         CalcularTotalesNotaRemision();
 
 

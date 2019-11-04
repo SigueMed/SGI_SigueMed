@@ -59,7 +59,7 @@
                 <div class="col-md-6 col-xs-12">
                   <fieldset class="form-group">
                     <label for="txtTelefonoPaciente">Teléfono</label>
-                    <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente" placeholder="Teléfono">
+                    <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente" placeholder="Teléfono" required>
                   </fieldset>
                 </div>
                 <div class="col-md-6  col-xs-12">
@@ -80,5 +80,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>

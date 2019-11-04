@@ -494,7 +494,7 @@
 	               </div>
                         <div class="form-group col-md-5">
 	                  <label>Telefono</label>
-                          <input type="text" class="form-control" id="txtTelefono" readonly="readonly" placeholder="Seleccionar Paciente"/>
+                          <input type="text" class="form-control" id="txtTelefono" readonly="readonly" placeholder="telefóno Paciente" required/>
 	               </div>
                         <div class="form-group col-md-2">
                             <label>-</label>
@@ -564,7 +564,7 @@
                     </div>
                     <div class="form-group col-md-5">
 	                  <label>Telefono</label>
-                          <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente">
+                          <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente" required>
                     </div>
                     <div class="form-group col-md-2">
                             <label>-</label>
@@ -945,7 +945,7 @@
 
                     alert("Seleccione un Médico");
                 }else{
-                  
+
 		$.post("<?php echo site_url();?>/Agenda_Controler/agregarEvento",
 		{
 			IdPaciente: idPaciente,
@@ -957,7 +957,7 @@
                         Comentarios:Comentarios
 		},
 		function(data){
-      alert(data);
+    
 			if (data != "0") {
         Swal.fire({
             title:'Nueva cita registrada',
