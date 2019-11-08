@@ -151,6 +151,20 @@ class CatalogoProductos_Controller extends CI_Controller {
 
         echo $output;
     }
+    public function ConsultarTipoProductos_ajax()
+    {
+        $this->load->model('CatalogoTipoProducto_Model');
+        $TiposProducto = $this->CatalogoTipoProducto_Model->ConsultarCatalogoTipoProducto();
+
+        $output = "<option value=''>Selecciona un Tipo Producto</option>";
+        foreach($TiposProducto as $tipoProducto)
+        {
+            $output.='<option value="'.$tipoProducto['IdTipoProducto'].'">'.$tipoProducto['DescripcionTipoProducto'].'</option>';
+
+        }
+
+        echo $output;
+    }
 
     public function ConsultarProductosServicio()
     {
@@ -191,12 +205,14 @@ class CatalogoProductos_Controller extends CI_Controller {
             $DescripcionProducto = $this->input->post('Modal_Descripcion');
             $CostoProducto = $this->input->post('Modal_CostoProducto');
             $Habilitado = $this->input->post('Modal_chkHabilitado');
+            $TipoProducto = $this->input->post('cbTipoProducto');
 
             $DatosProducto = array(
 
                 'DescripcionProducto'=> $DescripcionProducto,
                 'CostoProducto' => $CostoProducto,
-                'Habilitado'=> $Habilitado
+                'Habilitado'=> $Habilitado,
+                'IdTipoProducto'=>$TipoProducto
             );
 
             $result = $this->CatalogoProductos_Model->ActualizarProducto($IdProducto,$DatosProducto);

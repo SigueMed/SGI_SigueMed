@@ -157,7 +157,7 @@ function ConsultarCortesPorCuenta() {
 
   var IdCuenta = $("#cbCuentas").val();
 
-  alert(IdCuenta);
+
 
   var t = $('#tblCortesCaja').DataTable({
       "ajax":{
@@ -177,6 +177,13 @@ function ConsultarCortesPorCuenta() {
         },
         "autoWidth":true,
         "columnDefs":[
+          {
+            "targets": 10, "data": "TotalEntregado", "render":function(data,type,row,meta)
+            {
+              return data-row['TotalEnEfectivo'];
+              // return parseFloat(row['TotalEnEfectivo'])-parseFloat(data);
+            }
+          }
 
 
         ],
@@ -195,8 +202,8 @@ function ConsultarCortesPorCuenta() {
               { "data": "TotalEnEfectivo" },
               { "data": "TotalEnTC" },
               { "data": "TotalTransferencias" },
-              { "data": "TotalEntregado" },
               { "data": "TotalEntregado" }
+
 
               ]
 
@@ -206,7 +213,7 @@ function ConsultarCortesPorCuenta() {
 function LoadRowDetail ( d ) {
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-        
+
     '</table>';
 }
 </script>
