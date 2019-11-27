@@ -165,6 +165,9 @@ function CargarCuentas()
 {
   $.ajax({
       url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarCuentas_ajax",
+      data:{
+        CuentasCorte:1
+      },
       method: "POST",
       success: function(data)
           {

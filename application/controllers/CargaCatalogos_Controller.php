@@ -120,7 +120,17 @@ class CargaCatalogos_Controller extends CI_Controller {
     {
       $this->load->model('Cuenta_Model');
 
-      $Cuentas = $this->Cuenta_Model->ConsultarCuentas();
+      $CuentasCorte = $this->input->post('CuentasCorte');
+
+      if (isset($CuentasCorte))
+      {
+        $Cuentas = $this->Cuenta_Model->ConsultarCuentas($CuentasCorte);
+
+      }
+      else {
+        $Cuentas = $this->Cuenta_Model->ConsultarCuentas();
+      }
+
 
       $output='<option value="">Selecciona una Cuenta</option>';
 

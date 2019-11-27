@@ -313,7 +313,7 @@
                             <label for="resumenTotalPago">Total a Pagar</label>
                             <div class="input-group">
                                <span class="input-group-addon">$</span>
-                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" />
+                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" required/>
                             </div>
                         </div>
 
@@ -626,51 +626,60 @@
           var saldoPendiente = parseInt($("#resumenSaldoPendiente").val());
           var TotalAPagar = parseInt($("#resumenTotalPago").val());
 
-          if (isNaN(TotalAPagar))
+          if (montoPago =="" || montoPago==null)
           {
-            TotalAPagar=0;
+            Swal.fire("Monto Invalido","Debes de indicar el monto del pago","error");
+          }
+          else {
+
+            if (isNaN(TotalAPagar))
+            {
+              TotalAPagar=0;
+            }
+
+
+            var TotalFilasPagos = $('#tblPagos tbody tr').length;
+
+            var numFilaPago = 0;
+
+            if(TotalFilasPagos <=1)
+            {
+                numFilaPago = 1;
+            }
+            else
+
+            {
+
+                numFilaPago = parseInt(document.getElementById('tblPagos').rows[TotalFilasPagos-1].cells[0].innerHTML);
+                numFilaPago +=1;
+            }
+
+
+
+             $('#tblPagos').append(
+                    '<tr id=rowPago'+numFilaPago+'>'+
+                    '<td>'+numFilaPago+'</td>'+
+                    '<td>'+
+                      '<input type="hidden" name="FormasPago[]" value="'+idFormaPago+'">'+
+                      '<input type="hidden" name="Vauchers[]" value="'+txtVaucher+'">'+
+                      '<input type ="hidden" name="MontosPago[]" value="'+montoPago+'">'+
+                    txtFormaPago+'</td>'+
+                    '<td>'+txtVaucher+'</td>'+
+                    '<td>$'+montoPago+'</td>'+
+                    '<td data-row="rowPago'+numFilaPago+'"><button type="button" class="btn btn-sm btn-danger" onclick="EliminarPago('+numFilaPago+')" data-row="row'+numFilaPago+'"><i class="icon-trash"></i></button></td>'
+                    );
+
+
+              TotalAPagar += parseInt(montoPago);
+
+              $("#montoPago").val('');
+
+              $("#resumenTotalPago").val(TotalAPagar);
+
+              CalcularTotalesNotaRemision()
+
           }
 
-
-          var TotalFilasPagos = $('#tblPagos tbody tr').length;
-
-          var numFilaPago = 0;
-
-          if(TotalFilasPagos <=1)
-          {
-              numFilaPago = 1;
-          }
-          else
-
-          {
-
-              numFilaPago = parseInt(document.getElementById('tblPagos').rows[TotalFilasPagos-1].cells[0].innerHTML);
-              numFilaPago +=1;
-          }
-
-
-
-           $('#tblPagos').append(
-                  '<tr id=rowPago'+numFilaPago+'>'+
-                  '<td>'+numFilaPago+'</td>'+
-                  '<td>'+
-                    '<input type="hidden" name="FormasPago[]" value="'+idFormaPago+'">'+
-                    '<input type="hidden" name="Vauchers[]" value="'+txtVaucher+'">'+
-                    '<input type ="hidden" name="MontosPago[]" value="'+montoPago+'">'+
-                  txtFormaPago+'</td>'+
-                  '<td>'+txtVaucher+'</td>'+
-                  '<td>$'+montoPago+'</td>'+
-                  '<td data-row="rowPago'+numFilaPago+'"><button type="button" class="btn btn-sm btn-danger" onclick="EliminarPago('+numFilaPago+')" data-row="row'+numFilaPago+'"><i class="icon-trash"></i></button></td>'
-                  );
-
-
-            TotalAPagar += parseInt(montoPago);
-
-            $("#montoPago").val('');
-
-            $("#resumenTotalPago").val(TotalAPagar);
-
-            CalcularTotalesNotaRemision()
 
 
 
@@ -747,6 +756,7 @@
 
                 $("#idPaciente").val(value);
                 $("#lblNombrePaciente").html(NombrePaciente);
+                $("#btnPagar").removeAttr('disabled');
                 $("#lblSexo").html(sexo);
                 $("#lblFechaNacimiento").html(FechaNacimiento.toLocaleDateString());
 

@@ -207,6 +207,11 @@ class CatalogoProductos_Controller extends CI_Controller {
             $Habilitado = $this->input->post('Modal_chkHabilitado');
             $TipoProducto = $this->input->post('cbTipoProducto');
 
+            if ($TipoProducto=='')
+            {
+              $TipoProducto=null;
+            }
+
             $DatosProducto = array(
 
                 'DescripcionProducto'=> $DescripcionProducto,
