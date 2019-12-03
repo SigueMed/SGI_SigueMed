@@ -143,19 +143,24 @@ $(document).ready(function() {
 
   CargarCuentas();
   $(document).on('change','.monto', function(e){
-    e.preventDefault();
-    var $this = $(this);
-    var data = $this.serialize();
-    var monto = parseFloat($this.data('valor'));
-    var cantidad = parseFloat($(this).val());
-    var total = parseFloat($("#TotalEntradas").val());
 
-    if (!isNaN(cantidad))
-    {
-      var NuevoTotal = total + (monto*cantidad);
+    var total = 0;
+    $(".monto").each(function(){
+      var $this = $(this);
 
-      $("#TotalEntradas").val(NuevoTotal);
-    }
+      var monto = parseFloat($this.data('valor'));
+      var cantidad = parseFloat($(this).val());
+
+
+      if (!isNaN(cantidad))
+      {
+        total += (monto*cantidad);
+
+        $("#TotalEntradas").val(total);
+      }
+    });
+
+
 
 
   });

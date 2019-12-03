@@ -85,7 +85,7 @@ class CatalogoProductos_Model extends CI_Model{
 
     }
 
-    public function ConsultarResumenProductosServicio()
+    public function ConsultarResumenProductosServicio($IdCorteCaja)
     {
         $this->db->select('DescripcionServicio, DescripcionProducto, SUM(Cantidad) as TotalProducto');
         $this->db->from($this->table);
@@ -93,7 +93,7 @@ class CatalogoProductos_Model extends CI_Model{
         $this->db->join('detallenotaremision dn',$this->table.'.IdProducto = dn.IdProducto');
         $this->db->join('notaremision nr','nr.IdNotaRemision = dn.IdNotaRemision');
         $this->db->group_by('DescripcionServicio, DescripcionProducto');
-        $this->db->where('nr.IdCorteCaja',NULL);
+        $this->db->where('nr.IdCorteCaja',$IdCorteCaja);
         $this->db->where('nr.IdEstatusNotaRemision <> 2');
         $this->db->order_by('DescripcionServicio','ASC');
         $this->db->order_by('DescripcionProducto','ASC');

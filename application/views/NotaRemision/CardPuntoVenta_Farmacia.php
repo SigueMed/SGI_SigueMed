@@ -250,7 +250,7 @@
                             <label for="resumenTotalPago">Total a Pagar</label>
                             <div class="input-group">
                                <span class="input-group-addon">$</span>
-                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" />
+                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" required/>
                             </div>
                         </div>
 
@@ -945,6 +945,8 @@
           else {
             $("#lblSexo").html('MASCULINO');
           }
+
+          $("#btnPagar").removeAttr('disabled');
 
 
           $("#Modal_NuevoPaciente").modal('hide');

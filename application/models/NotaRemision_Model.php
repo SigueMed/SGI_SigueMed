@@ -94,8 +94,10 @@ class NotaRemision_Model extends CI_Model {
         $this->db->select($this->table.'.*, (TotalNotaRemision - TotalPagado) as TotalAdeudo');
         $this->db->from ($this->table);
         $this->db->where('IdPaciente',$IdPaciente);
+        $this->db->group_start();
         $this->db->where('IdEstatusNotaRemision',NR_NO_PAGADO);
         $this->db->or_where('IdEstatusNotaRemision', NR_PAGO_PARCIAL);
+        $this->db->group_end();
         $this->db->order_by('IdNotaRemision', 'asc');
 
         $query = $this->db->get();
@@ -139,7 +141,7 @@ class NotaRemision_Model extends CI_Model {
     public function AsignarCorteNotasRemision($IdCorteCaja)
     {
         $this->db->set('IdCorteCaja',$IdCorteCaja);
-        $this->db->where('IdCorteCaja', NULL);
+        $this->db->where('IdNotaRemision IN (SELECT IdNotaRemision FROM movimientocuenta where IdCorteCaja ='.$IdCorteCaja.')');
         return $this->db->update($this->table);
 
     }
@@ -153,5 +155,15 @@ class NotaRemision_Model extends CI_Model {
         $query = $this->db->get();
 
         return $query->row();
+    }
+
+    public function CancelarNotaRemision($IdNotaRemision,$ComentariosCancelacion)
+    {
+      $this->db->set('IdEstatusNotaRemision',2);
+      $this->db->set('ComentariosCancelacion',$ComentariosCancelacion);
+      $this->db->where('IdNotaRemision',$IdNotaRemision);
+
+      return $this->db->update($this->table);
+      // code...
     }
 }

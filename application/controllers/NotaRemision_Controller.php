@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -90,6 +90,8 @@ class NotaRemision_Controller extends CI_Controller {
                     $TotalNota = $this->input->post('TotalNota');
                     $TotalPagadoNota = $this->input->post('resumenTotalPago');
 
+                    log_message('debug','TotalPagadoNota'.$TotalPagadoNota);
+
 
 
                     if ($this->input->post('RequiereFactura')==1)
@@ -103,6 +105,7 @@ class NotaRemision_Controller extends CI_Controller {
 
 
                     $TotalPagado = $this->PagarAdeudosAnteriores($IdPaciente,$TotalPagadoNota);
+                    log_message('debug','PagarAdeudosAnteriores->TotalPagado'.$TotalPagado);
 
                     //DETERMINAR ESTATUS DE NOTA
                     if ($TotalPagado >= $TotalNota)
@@ -257,19 +260,13 @@ class NotaRemision_Controller extends CI_Controller {
                                       'IdClinica'=>$this->session->userdata('IdClinica')
 
                                   );
-  
+
                                   $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
                               }
 
                             }
 
-
-
                         }
-
-
-
-
 
                         //CAMBIAR ESTATUS NOTAS MEDICAS A PAGADAS
                         $NotasMedicasAbiertas = $this->input->post('chkNotasAtendidas');
@@ -738,5 +735,115 @@ class NotaRemision_Controller extends CI_Controller {
           // code...
         }
 
+        public function CancelarNotaRemision_ajax()
+        {
+          $IdNotaRemision = $this->input->post('IdNotaRemision');
+          $ComentariosCancelacion = $this->input->post('ComentariosCancelacion');
 
+          $this->db->trans_start();
+
+          $this->NotaRemision_Model->CancelarNotaRemision($IdNotaRemision,$ComentariosCancelacion);
+          $this->MovimientoCuenta_Model->CancelarMovimientosCuentaNotaRemision($IdNotaRemision);
+
+          $transStatus = $this->db->trans_complete();
+
+          if ($transStatus == true)
+          {
+              $this->db->trans_commit();
+          }
+          else
+          {
+              $this->db->trans_rollback();
+          }
+
+          // code...
+        }
+
+        public function AgregarPagoNotaRemision_ajax()
+        {
+
+          $IdNotaRemision = $this->input->post('IdNotaRemision');
+          $NotaRemision = $this->NotaRemision_Model->ConsultarNotaRemision($IdNotaRemision);
+          $TotalPago = $this->input->post('TotalPago');
+          $IdFormaPago = $this->input->post('FormaPago');
+          $Vaucher = $this->input->post('Vaucher');
+
+
+          $this->db->trans_start();
+
+
+          $PorcentajePagado = $TotalPago/ $NotaRemision->TotalNotaRemision;
+
+          $TotalPagado = $NotaRemision->TotalPagado + $TotalPago;
+          $TotalAdeudo = $NotaRemision->TotalNotaRemision - $TotalPagado;
+
+
+          if ($TotalAdeudo > 0)
+          {
+              $EstatusNota = NR_PAGO_PARCIAL;
+          }
+          else
+          {
+              $EstatusNota = NR_PAGADO;
+          }
+
+          $PagoNotaRemision = array(
+              'IdNotaRemision'=> $IdNotaRemision,
+              'FechaPago'=> mdate('%Y-%m-%d',now()),
+              'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
+              'PorcentajeNotaRemision'=>$PorcentajePagado,
+              'TotalPago'=>$TotalPago,
+              'IdTipoPago'=>$IdFormaPago,
+              'Vaucher'=> $Vaucher
+          );
+
+          $IdNuevoPagoNotaRemision = $this->PagoNotaRemision_Model->RegistrarPagoNotaRemision($PagoNotaRemision);
+
+          if($IdNuevoPagoNotaRemision ===FALSE)
+          {
+               throw new Exception('Error al registrar pago');
+          }
+
+          //REGISTRAR MOVIMIENTOS A LAS CUENTAS
+          $MovimientosACuenta = $this->NotaRemision_Model->ConsultarMovimientosCuentaNota($IdNotaRemision);
+
+          foreach ($MovimientosACuenta as $movimiento)
+          {
+              $TotalMovimientoCuenta = $PorcentajePagado * $movimiento['TotalCuenta'];
+              $NuevoMovimientoCuenta = array(
+                  'IdCuenta'=> $movimiento['IdCuenta'],
+                  'FechaMovimientoCuenta'=> mdate('%Y-%m-%d',now()),
+                  'IdPagoNotaRemision'=>$IdNuevoPagoNotaRemision->IdPagoNotaRemision,
+                  'IdTipoMovimientoCuenta'=> 1,
+                  'TotalMovimiento' => $TotalMovimientoCuenta,
+                  'IdEstatusMovimientoCuenta'=> MC_PENDIENTEPAGO,
+                  'IdTipoPago'=>$IdFormaPago,
+                  'IdClinica'=>$this->session->userdata('IdClinica')
+
+              );
+
+              $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+          }
+
+
+
+          $ActualizarNotaArray = array(
+              'IdEstatusNotaRemision'=>$EstatusNota,
+              'TotalPagado' => $TotalPagado
+          );
+          $this->NotaRemision_Model->ActualizarNotaRemision($IdNotaRemision,$ActualizarNotaArray);
+
+
+        $transStatus = $this->db->trans_complete();
+
+        if ($transStatus == true)
+        {
+            $this->db->trans_commit();
+        }
+        else
+        {
+            $this->db->trans_rollback();
+        }
+
+    }
 }

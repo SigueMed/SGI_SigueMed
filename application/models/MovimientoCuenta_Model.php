@@ -123,6 +123,7 @@ class MovimientoCuenta_Model extends CI_Model {
         $this->db->where('IdCuenta',$IdCuenta);
 
         $this->db->where('IdTipoMovimientoCuenta',$IdTipoMovimientoCuenta);
+        $this->db->where('IdEstatusMovimientoCuenta <>',3);
 
         $query = $this->db->get();
 
@@ -138,6 +139,7 @@ class MovimientoCuenta_Model extends CI_Model {
         $this->db->where('IdCuenta',$IdCuenta);
         $this->db->where('IdCorteCaja is NULL');
         $this->db->where('IdTipoMovimientoCuenta',1);
+        $this->db->where('IdEstatusMovimientoCuenta <>',3);
         $this->db->where('IdTipoPago', $IdTipoPago);
         $this->db->where('IdClinica', $this->session->userdata('IdClinica'));
 
@@ -147,8 +149,10 @@ class MovimientoCuenta_Model extends CI_Model {
 
         $this->db->select_sum('TotalMovimiento', 'TotalSalidas');
         $this->db->from($this->table);
+        $this->db->where('IdCuenta',$IdCuenta);
         $this->db->where('IdCorteCaja is NULL');
         $this->db->where('IdTipoMovimientoCuenta',2);
+        $this->db->where('IdEstatusMovimientoCuenta <>',3);
         $this->db->where('IdTipoPago', $IdTipoPago);
         $this->db->where('IdClinica', $this->session->userdata('IdClinica'));
 
@@ -162,10 +166,19 @@ class MovimientoCuenta_Model extends CI_Model {
 
     }
 
-    public function ConsultarBalanceCuentaCorte($IdCuenta)
+    public function ConsultarBalanceCuentaCorte($IdCuenta, $IdCorteCaja=FALSE)
     {
-        $IdClinica = $this->session->userdata('IdClinica');
+      $IdClinica = $this->session->userdata('IdClinica');
+      if ($IdCorteCaja == FALSE)
+      {
         $query = $this->db->query('call CorteCaja_BalanceCuentasCorte('.$IdClinica.','.$IdCuenta.')');
+      }
+      else {
+
+        $query = $this->db->query('call CorteCaja_BalanceCuentasCortePorId('.$IdCorteCaja.')');
+      }
+
+
 
         $result =  $query->result_array();
 
@@ -176,11 +189,48 @@ class MovimientoCuenta_Model extends CI_Model {
 
     }
 
-    public function AsignarCorteMovimientosCuentas($IdCorteCaja)
+
+    public function AsignarCorteMovimientosCuentas($IdCorteCaja,$IdCuenta)
     {
         $this->db->set('IdCorteCaja',$IdCorteCaja);
         $this->db->where('IdCorteCaja', NULL);
+        $this->db->where('IdCuenta',$IdCuenta);
         return $this->db->update($this->table);
+    }
+
+    public function ConsultarDetalleMovimientosCuentaPorCorte($IdCorteCaja)
+    {
+
+      $this->db->select($this->table.'.*');
+      $this->db->select('nr.IdNotaRemision, Folio, FechaNotaRemision');
+      $this->db->select('CONCAT(NombreEmpleado," ",ApellidosEmpleado) as Empleado');
+      $this->db->select('CONCAT(Nombre," ",Apellidos) as Paciente');
+      $this->db->select('DescripcionTipoMovimientoCuenta');
+      $this->db->select('DescripcionTipoPago');
+      $this->db->select('DescripcionCuenta');
+      $this->db->from($this->table);
+      $this->db->join('pagonotaremision pnr',$this->table.'.IdPagoNotaRemision = pnr.IdPagoNotaRemision');
+      $this->db->join('notaremision nr','pnr.IdNotaRemision = nr.IdNotaRemision');
+      $this->db->join('empleado e','nr.IdEmpleado = e.IdEmpleado');
+      $this->db->join('paciente p','p.IdPaciente = nr.IdPaciente');
+      $this->db->join('catalogotipomovimientocuenta ctm',$this->table.'.IdTipoMovimientoCuenta = ctm.IdTipoMovimientoCuenta');
+      $this->db->join('catalogotipopago ctp','ctp.IdTipoPago ='.$this->table.'.IdTipoPago');
+      $this->db->join('cuenta c','c.IdCuenta = '.$this->table.'.IdCuenta');
+      $this->db->where($this->table.'.IdCorteCaja',$IdCorteCaja);
+
+      $query = $this->db->get();
+
+      return $query->result_array();
+      // code...
+    }
+
+    public function CancelarMovimientosCuentaNotaRemision($IdNotaRemision)
+    {
+      $this->db->set('IdEstatusMovimientoCuenta',3);
+      $Condition = 'IdPagoNotaRemision IN (SELECT IdPagoNotaRemision FROM pagonotaremision WHERE IdNotaRemision='.$IdNotaRemision.')';
+      $this->db->where($Condition);
+      return $this->db->update($this->table);
+      // code...
     }
     //put your code here
 }

@@ -64,12 +64,36 @@ class CorteCaja_Controller extends CI_Controller {
       // code...
     }
 
+    public function  Load_ConsultarDetalleCorteCaja($IdCorteCaja) {
+
+      $data['title']='Consultar Detalle Corte No. '.$IdCorteCaja;
+      $data['CorteCaja'] = $this->CorteCaja_Model->ConsultarCorteCajaPorId($IdCorteCaja);
+
+      $this->load->view('templates/MainContainer',$data);
+      $this->load->view('templates/HeaderContainer',$data);
+
+      $this->load->view('CorteCaja/CardResumenCorteCaja', $data);
+      $this->load->view('templates/FormFooter',$data);
+      $this->load->view('templates/FooterContainer');
+      // code...
+    }
+
     public function ConsultarResumenMovimientosCuenta()
     {
 
         $MovimientosCuenta = $this->MovimientoCuenta_Model->ConsultarResumenMovimientosCuentaSinCorte();
 
         echo  json_encode($MovimientosCuenta);
+    }
+
+    public function ConsultarDetalleMovimientosCuentaPorCorte_ajax()
+    {
+
+      $IdCorteCaja = $this->input->post('IdCorteCaja');
+      $DetalleMovimientos = $this->MovimientoCuenta_Model->ConsultarDetalleMovimientosCuentaPorCorte($IdCorteCaja);
+
+      echo json_encode($DetalleMovimientos);
+      // code...
     }
 
 
@@ -100,8 +124,18 @@ class CorteCaja_Controller extends CI_Controller {
     {
 
         $IdCuenta = $this->input->post('IdCuenta');
+        $IdCorteCaja = $this->input->post('IdCorteCaja');
 
-        $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdCuenta);
+        if (isset($IdCorteCaja))
+        {
+            $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte(FALSE,$IdCorteCaja);
+        }
+        else {
+
+          $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdCuenta);
+        }
+
+
 
         echo json_encode($BalanceCuentasCorte);
 
@@ -110,7 +144,8 @@ class CorteCaja_Controller extends CI_Controller {
 
     public function ConsultarResumenProducto_ajax()
     {
-        $ResumenProductos = $this->CatalogoProductos_Model->ConsultarResumenProductosServicio();
+        $IdCorteCaja = $this->input->post('IdCorteCaja');
+        $ResumenProductos = $this->CatalogoProductos_Model->ConsultarResumenProductosServicio($IdCorteCaja);
 
         echo json_encode($ResumenProductos);
 
@@ -154,16 +189,17 @@ class CorteCaja_Controller extends CI_Controller {
                     "TotalVales"=>$TotalVales,
                     "TotalEntregado"=>$TotalEntregado,
                     "IdCuenta" => $IdCuenta,
-                    "Comentarios"=>$Comentarios
+                    "Comentarios"=>$Comentarios,
+                    "IdClinica"=>$this->session->userdata('IdClinica')
 
                 );
                 $IdCorteCaja = $this->CorteCaja_Model->CrearCorteCaja($dataCorteCaja);
 
                 //Actualizar Notas Remision
-                $this->NotaRemision_Model->AsignarCorteNotasRemision($IdCorteCaja);
+                //$this->NotaRemision_Model->AsignarCorteNotasRemision($IdCorteCaja);
 
                 //Actualizar Movimientos de Cuentas
-                $this->MovimientoCuenta_Model->AsignarCorteMovimientosCuentas($IdCorteCaja);
+                $this->MovimientoCuenta_Model->AsignarCorteMovimientosCuentas($IdCorteCaja,$IdCuenta);
 
                 $transStatus = $this->db->trans_complete();
 
@@ -230,7 +266,24 @@ class CorteCaja_Controller extends CI_Controller {
     public function ConsultarCortesCaja_ajax()
     {
       $IdCuenta = $this->input->post('IdCuenta');
-      $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta);
+      $FechaInicial = $this->input->post('FechaInicial');
+      $FechaFinal = $this->input->post('FechaFinal');
+
+      if (isset($FechaInicial))
+      {
+        if(isset($FechaFinal))
+        {
+          $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta,$FechaInicial,$FechaFinal);
+        }
+        else {
+          $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta,$FechaInicial);
+        }
+
+      }
+      else {
+        $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta);
+      }
+
 
       echo json_encode($CortesCaja);
 

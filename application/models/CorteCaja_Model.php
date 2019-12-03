@@ -39,6 +39,9 @@ public function ConsultarCortesCaja($IdCuenta,$FechaInicial = FALSE, $FechaFinal
   $this->db->join('empleado e',$this->table.'.IdEmpleado= e.IdEmpleado');
   $this->db->join('cuenta c', $this->table.'.IdCuenta = c.IdCuenta');
   $this->db->join('catalogoturno ct',$this->table.'.IdTurno = ct.IdTurno');
+
+  $this->db->where('IdClinica',$this->session->userdata('IdClinica'));
+
   if ($IdCuenta !== FALSE && $IdCuenta !="")
   {
     $this->db->where($this->table.'.IdCuenta',$IdCuenta);
@@ -59,6 +62,22 @@ public function ConsultarCortesCaja($IdCuenta,$FechaInicial = FALSE, $FechaFinal
 
   return $query->result_array();
 
+  // code...
+}
+
+public function ConsultarCorteCajaPorId($IdCorteCaja)
+{
+  $this->db->select($this->table.'.*');
+  $this->db->select('CONCAT(NombreEmpleado," ",ApellidosEmpleado) as Responsable');
+  $this->db->select('DescripcionTurno');
+  $this->db->from($this->table);
+  $this->db->join('empleado e',$this->table.'.IdEmpleado = e.IdEmpleado');
+  $this->db->join('catalogoturno ct',$this->table.'.IdTurno = ct.IdTurno');
+  $this->db->join('cuenta c',$this->table.'.IdCuenta = c.IdCuenta');
+  $this->db->where('IdCorteCaja',$IdCorteCaja);
+
+  $query = $this->db->get();
+  return $query->row();
   // code...
 }
 //put your code here

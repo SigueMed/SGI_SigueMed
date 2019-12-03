@@ -313,7 +313,7 @@
                             <label for="resumenTotalPago">Total a Pagar</label>
                             <div class="input-group">
                                <span class="input-group-addon">$</span>
-                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" required/>
+                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" required readonly/>
                             </div>
                         </div>
 
@@ -931,7 +931,7 @@
                             $("#lblTotalAdeudos").html(0);
                             $("#TotalAdeudo").val(0);
                         }
-
+                        CalcularTotalesNotaRemision();
 
                     }
                 });
@@ -963,6 +963,7 @@
      totalPendiente = parseFloat(totalNota) + parseFloat(totalAdeudos) - parseFloat(totalPagar);
 
      $("#resumenSaldoPendiente").val(totalPendiente);
+
  }
 
  $("#resumenTotalPago").on('change keyup',function(){
@@ -1028,7 +1029,7 @@
           else {
             $("#lblSexo").html('MASCULINO');
           }
-
+          $("#btnPagar").removeAttr('disabled');
 
           $("#Modal_NuevoPaciente").modal('hide');
         }

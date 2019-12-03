@@ -225,7 +225,7 @@
         CargarBalanceCorteCaja();
         CargarBalanceCuentas();
         CargarResumenTipoPago();
-        CargarRangoNotas();
+
     });
     function CargarBalanceCorteCaja()
     {
@@ -241,6 +241,7 @@
               {
 
                   var BalanceEfectivo = JSON.parse(data);
+                
                   var TotalEntregado = <?=$MontoEnCaja?>;
                   var DiferenciaCajaCorte = TotalEntregado - BalanceEfectivo;
 

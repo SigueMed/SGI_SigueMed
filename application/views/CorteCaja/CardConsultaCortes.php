@@ -42,13 +42,13 @@
                             </div>
                             <div class="row">
                               <div class="form-group col-md-7 col-xs-12">
-                                <button type="button" class="btn btn-secondary" id="btnTodos"onclick="ConsultarCortes(1)">
+                                <button type="button" class="btn btn-secondary" id="btnTodos"onclick="ConsultarCortesPorCuenta()">
                                     <i class="icon-spinner11"></i> Todos
                                 </button>
-                                  <button type="button" class="btn btn-secondary" id="btnHoy"onclick="ConsultarCortes(2)">
+                                  <button type="button" class="btn btn-secondary" id="btnHoy"onclick="ConsultarCortesPorCuenta(1)">
                                       <i class="icon-calendar3"></i> Hoy
                                   </button>
-                                  <button type="button" class="btn btn-secondary" id="btnMes" onclick="ConsultarCortes(3)">
+                                  <button type="button" class="btn btn-secondary" id="btnMes" onclick="ConsultarCortesPorCuenta(2)">
                                       <i class="icon-close-round"></i> Mes
                                   </button>
 
@@ -69,6 +69,7 @@
                                         <th>Total Transferencias</th>
                                         <th>Total Entregado</th>
                                         <th>Diferencia</th>
+                                        <th>Acciones</th>
 
 
                                     </tr>
@@ -153,16 +154,71 @@ function CargarCuentas()
 
 }
 
-function ConsultarCortesPorCuenta() {
+function ConsultarCortesPorCuenta(escenarioConsulta) {
 
   var IdCuenta = $("#cbCuentas").val();
 
 
+  switch (escenarioConsulta) {
+    case 1:
+      var hoy  = new Date();
+
+      var mesInicio = hoy.getMonth()+1;
+      if (mesInicio<10)
+      {
+          mesInicio = '0'+mesInicio;
+      }
+
+      var FechaInicio = hoy.getFullYear()+'/'+mesInicio+'/'+hoy.getDate();
+      var FechaFin = hoy.getFullYear()+'/'+mesInicio+'/'+hoy.getDate();
+      var datos = {
+        IdCuenta:IdCuenta,
+        FechaInicial: FechaInicio
+      };
+
+      break;
+    case 2:
+    var hoy  = new Date();
+    var Fin = new Date();
+    Fin.setMonth(Fin.getMonth()+3);
+
+    var mesInicio = hoy.getMonth()+1;
+    if (mesInicio<10)
+    {
+        mesInicio = '0'+mesInicio;
+    }
+
+    var mesFin = Fin.getMonth()+1;
+    if(mesFin <10)
+    {
+        mesFin ='0'+mesFin;
+    }
+
+    var FechaInicio = hoy.getFullYear()+'/'+mesInicio+'/01';
+    var FechaFin = hoy.getFullYear()+'/'+mesInicio+'/31';
+      var datos = {
+        IdCuenta:IdCuenta,
+        FechaInicial: FechaInicio,
+        FechaFinal: FechaFin
+      };
+
+      break;
+    default:
+      var datos = {
+        IdCuenta:IdCuenta
+      };
+
+  }
+
+
 
   var t = $('#tblCortesCaja').DataTable({
+    "drawCallback": function( settings ) {
+            $('[data-toggle="tooltip"]').tooltip();
+          },
       "ajax":{
           url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarCortesCaja_ajax",
-          data:{IdCuenta:IdCuenta},
+          data:datos,
           method:"POST",
           dataSrc: ""
       },
@@ -182,6 +238,13 @@ function ConsultarCortesPorCuenta() {
             {
               return data-row['TotalEnEfectivo'];
               // return parseFloat(row['TotalEnEfectivo'])-parseFloat(data);
+            }
+          },
+          {
+            "targets": 11, "data": "IdCorteCaja", "render":function(data,type,row,meta)
+            {
+              var url = '<?php echo site_url();?>/CorteCaja/ConsultarDetalleCorte/'+data;
+              return'<a href="'+url+'"><i class="icon-book" data-toggle="tooltip" data-placement="top" id="VerDetalle" title="Ver Detalle"></i></a>'
             }
           }
 
