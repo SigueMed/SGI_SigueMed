@@ -555,6 +555,8 @@
 
             var idServicio = $("#cbServicio").val();
             var idProducto =  $("#cbProducto").val();
+            var EsProveedor = $("#cbProducto").find(":selected").data('proveedor');
+            var PrecioProveedor = $("#cbProducto").find(":selected").data('precioproveedor');
 
             if (idProducto !="")
             {
@@ -593,6 +595,9 @@
                         '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
                         '<input type="hidden" class="form-control" name="precio[]" value="'+subtotal+'">'+
                         '<input type="hidden" class="form-control" name="cantidad[]" value="1">'+
+                        '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
+                        '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
+                        '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
                         '<input type="hidden" name="IdEmpleado[]" value="">'+
                         descServicio+'</td>'+

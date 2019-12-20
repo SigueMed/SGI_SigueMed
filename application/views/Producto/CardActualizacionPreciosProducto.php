@@ -44,6 +44,7 @@
                                         <th>Id</th>
                                         <th>Descripción Producto</th>
                                         <th>Costo</th>
+																				<th>C. Proveedor</th>
                                         <th>Habilitado</th>
 
 
@@ -75,15 +76,13 @@ $(document).ready(function() {
         var table = $("#tblCatalogoProductos").DataTable();
 
         var data = table.$('input').serialize();
-        
+
         var url = $this.data('url');
         $.post(url, data).then(function(res){
             if (res.error) {
                 Swal.fire('Error', res.message, 'error');
             } else {
-                Swal.fire('Éxito', 'Precios Actualizados', 'success').then(function() {
-                    location.reload();
-                });
+                Swal.fire('Éxito', 'Precios Actualizados', 'success');
             }
         }).fail(function(){
             Swal.fire('Error', 'Error al conectarse con el servidor', 'error');
@@ -112,6 +111,7 @@ function CargarServicios()
 function ConsultarProductosServicio()
 {
     var IdServicio = $("#cbServicio").val();
+		var EsProveedor = $("#cbServicio").find(":selected").data('proveedor');
 
     if (IdServicio != "*")
     {
@@ -136,7 +136,7 @@ function ConsultarProductosServicio()
          },
          "columnDefs":[
            {
-            "type": 'currency',"targets":2, "render": function(data,type,row,meta)
+            "targets":2, "render": function(data,type,row,meta)
 
                    {
 
@@ -145,8 +145,21 @@ function ConsultarProductosServicio()
 
                    }
            },
+					 {
+						 "targets":3, "data":"PrecioProveedor", "render":function(data,type,row,meta)
+						 {
+							 if (EsProveedor)
+							 {
+								 return "<input type='text' name='PreciosProveedor[]' value ='"+data+"'>";
+							 }
+							else {
+								return "<input type='text' name='PreciosProveedor[]' value ='0' disabled>";
+							}
 
-                       {"targets":3, "render": function(data,type,row,meta)
+						 }
+					 },
+
+                       {"targets":4, "render": function(data,type,row,meta)
 
                    {
                        if (data=='1')
@@ -168,6 +181,7 @@ function ConsultarProductosServicio()
                { "data": "IdProducto" },
                { "data": "DescripcionProducto" },
                { "data": "CostoProducto"},
+							 {"data":"PrecioProveedor"},
                { "data": "Habilitado"}
 
                ]

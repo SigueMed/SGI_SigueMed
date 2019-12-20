@@ -97,10 +97,12 @@ class MovimientoCuenta_Model extends CI_Model {
 
     public function ConsultarResumentMovimientosCuentaPorTipoPago($IdTipoMovimientoCuenta, $IdClinica, $IdCuenta, $IdCorte=FALSE, $FechaInicio=FALSE, $FechaFin=FALSE)
     {
+
+
         $this->db->select_sum('TotalMovimiento','TotalTipoPago');
-        $this->db->select('DescripcionTipoPago');
+        $this->db->select('IdTipoPago');
         $this->db->from($this->table);
-        $this->db->join('catalogotipopago',$this->table.'.IdTipoPago = catalogotipopago.IdTipoPago');
+
         if ($IdCorte==FALSE)
         {
             $this->db->where('IdCorteCaja is NULL');
@@ -110,7 +112,7 @@ class MovimientoCuenta_Model extends CI_Model {
         {
             $this->db->where('IdCorteCaja',$IdCorte);
         }
-        $this->db->group_by('DescripcionTipoPago');
+        $this->db->group_by('IdTipoPago');
 
         if ($FechaInicio!== FALSE)
         {
@@ -124,6 +126,14 @@ class MovimientoCuenta_Model extends CI_Model {
 
         $this->db->where('IdTipoMovimientoCuenta',$IdTipoMovimientoCuenta);
         $this->db->where('IdEstatusMovimientoCuenta <>',3);
+
+        $subquery = $this->db->get_compiled_select();
+
+        $this->db->reset_query();
+
+        $this->db->select('ctp.IdTipoPago,DescripcionTipoPago, TotalTipoPago');
+        $this->db->from ('catalogotipopago ctp');
+        $this->db->join("($subquery) t", "ctp.IdTipoPago = t.IdTipoPago","left");
 
         $query = $this->db->get();
 
@@ -195,6 +205,7 @@ class MovimientoCuenta_Model extends CI_Model {
         $this->db->set('IdCorteCaja',$IdCorteCaja);
         $this->db->where('IdCorteCaja', NULL);
         $this->db->where('IdCuenta',$IdCuenta);
+        $this->db->where('IdClinica', $this->session->userdata('IdClinica'));
         return $this->db->update($this->table);
     }
 
@@ -216,7 +227,37 @@ class MovimientoCuenta_Model extends CI_Model {
       $this->db->join('catalogotipomovimientocuenta ctm',$this->table.'.IdTipoMovimientoCuenta = ctm.IdTipoMovimientoCuenta');
       $this->db->join('catalogotipopago ctp','ctp.IdTipoPago ='.$this->table.'.IdTipoPago');
       $this->db->join('cuenta c','c.IdCuenta = '.$this->table.'.IdCuenta');
+
       $this->db->where($this->table.'.IdCorteCaja',$IdCorteCaja);
+
+      $query = $this->db->get();
+
+      return $query->result_array();
+      // code...
+    }
+
+    public function ConsultarDetalleMovimientosCuentaSinCorte($IdCuenta)
+    {
+
+      $this->db->select($this->table.'.*');
+      $this->db->select('nr.IdNotaRemision, Folio, FechaNotaRemision');
+      $this->db->select('CONCAT(NombreEmpleado," ",ApellidosEmpleado) as Empleado');
+      $this->db->select('CONCAT(Nombre," ",Apellidos) as Paciente');
+      $this->db->select('DescripcionTipoMovimientoCuenta');
+      $this->db->select('DescripcionTipoPago');
+      $this->db->select('DescripcionCuenta');
+      $this->db->from($this->table);
+      $this->db->join('pagonotaremision pnr',$this->table.'.IdPagoNotaRemision = pnr.IdPagoNotaRemision');
+      $this->db->join('notaremision nr','pnr.IdNotaRemision = nr.IdNotaRemision');
+      $this->db->join('empleado e','nr.IdEmpleado = e.IdEmpleado');
+      $this->db->join('paciente p','p.IdPaciente = nr.IdPaciente');
+      $this->db->join('catalogotipomovimientocuenta ctm',$this->table.'.IdTipoMovimientoCuenta = ctm.IdTipoMovimientoCuenta');
+      $this->db->join('catalogotipopago ctp','ctp.IdTipoPago ='.$this->table.'.IdTipoPago');
+      $this->db->join('cuenta c','c.IdCuenta = '.$this->table.'.IdCuenta');
+
+      $this->db->where($this->table.'.IdCorteCaja',NULL);
+      $this->db->where($this->table.'.IdCuenta',$IdCuenta);
+
 
       $query = $this->db->get();
 

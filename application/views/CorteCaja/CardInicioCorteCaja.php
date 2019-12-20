@@ -1,3 +1,4 @@
+<form>
 <div class="row match-height">
     <div class="col-md-7">
         <div class="card">
@@ -33,92 +34,24 @@
 
                         </div>
                       </div>
-                      <h4 class="form-section"><i class="icon-money"></i> Billetes</h4>
-                      <div class="row">
-                        <div class="col-md-2">
-                          <div class="form-group">
-                            <label for="">500</label>
-                            <input type="text" name="txt500" value="0" class="form-control monto" data-valor="500">
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="form-group">
-                            <label for="">200</label>
-                            <input type="text" name="txt200" value="0" class="form-control monto" data-valor="200">
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="form-group">
-                            <label for="">100</label>
-                            <input type="text" name="txt100" value="0" class="form-control monto" data-valor="100">
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="form-group">
-                            <label for="">50</label>
-                            <input type="text" name="txt50" value="0" class="form-control monto" data-valor="50">
-                          </div>
-                        </div>
-                        <div class="col-md-2">
-                          <div class="form-group">
-                            <label for="">20</label>
-                            <input type="text" name="txt20" value="0" class="form-control monto" data-valor="20">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <h4 class="form-section"><i class="icon-moneypig"></i> Monedas</h4>
-                    <div class="row">
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label for="">10</label>
-                          <input type="text" name="txt10" value="0" class="form-control monto" data-valor="10">
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label for="">5</label>
-                          <input type="text" name="txt5" value="0" class="form-control monto" data-valor="5">
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label for="">2</label>
-                          <input type="text" name="txt2" value="0" class="form-control monto" data-valor="2">
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label for="">1</label>
-                          <input type="text" name="txt1" value="0" class="form-control monto" data-valor="1">
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="form-group">
-                          <label for="">0.50</label>
-                          <input type="text" name="txt05" value="0" class="form-control monto" data-valor="0.5">
-                        </div>
-                      </div>
-                    </div>
+
                     <h4 class="form-section"><i class="icon-calculator"></i> Total</h4>
                     <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="">Total en Caja</label>
-                          <div class="input-group">
-                              <span class="input-group-addon">$</span>
-                              <input type="text" id="TotalEntradas" name="TotalEntradas"  value ="0" class="form-control" readonly />
-                           </div>
-                        </div>
+
+                      <div class="col-md-6">
+                        <table id="tblTotalFormasPago">
+                          <thead>
+                            <th>Forma Pago</th>
+                            <th>Total</th>
+                          </thead>
+                          <tbody>
+
+                          </tbody>
+                        </table>
 
                       </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                          <button type="button" class="btn btn-secondary" name="button" onclick="LimpiarPantalla()"><i class="icon-repeat"></i></button>
 
-                        </div>
 
-                      </div>
 
                     </div>
                   </div>
@@ -128,7 +61,7 @@
                         <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
                         <i class="icon-cross2"></i> Cerrar
                         </button>
-                         <button type="button" class="btn btn-success mr-1" onclick="RealizarCorteCaja()" value="RegistrarSalida">
+                         <button type="submit" class="btn btn-success mr-1" name="action" value="RealizarCorteCaja">
                         <i class="icon-check2"></i> Pagar
                         </button>
 
@@ -142,28 +75,9 @@
 $(document).ready(function() {
 
   CargarCuentas();
-  $(document).on('change','.monto', function(e){
-
-    var total = 0;
-    $(".monto").each(function(){
-      var $this = $(this);
-
-      var monto = parseFloat($this.data('valor'));
-      var cantidad = parseFloat($(this).val());
+  CargarTablaFormasPago();
 
 
-      if (!isNaN(cantidad))
-      {
-        total += (monto*cantidad);
-
-        $("#TotalEntradas").val(total);
-      }
-    });
-
-
-
-
-  });
 });
 
 function CargarCuentas()
@@ -182,31 +96,44 @@ function CargarCuentas()
 
 }
 
-function LimpiarPantalla() {
-  $("input:text.monto").val('0');
-  $("#TotalEntradas").val('0');
+function CargarTablaFormasPago()
+{
+  $.ajax({
+    url: '<?=site_url()?>/CargaCatalogos_Controller/ConsultarTiposPago_ajax',
+    type: 'POST',
+  })
+  .done(function(data) {
+
+    var TiposPago = JSON.parse(data);
+
+
+      for(i=0;i<TiposPago.length;i++)
+      {
+        $("#tblTotalFormasPago").append(
+          '<tr>'+
+            '<td>'+TiposPago[i]['DescripcionTipoPago']+'</td>'+
+            '<td>'+
+              '<div class="input-group">'+
+                '<span class="input-group-addon">$</span>'+
+                '<input type="text" id="TipoPago-'+TiposPago[i]['IdTipoPago']+'" name="TipoPago-'+TiposPago[i]['IdTipoPago']+'"  value ="0" class="form-control"/>'+
+              '</div>'+
+            '</td>'+
+          '</tr>'
+        );
+
+
+      }
+
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
 
 }
 
-function RealizarCorteCaja() {
 
-  var IdCuenta = $("#cbCuentas").val();
-  var MontoPago = $("#TotalEntradas").val();
-
-  if (IdCuenta !== null && IdCuenta != "")
-  {
-      window.location.href="<?=site_url()?>/CorteCaja/DetalleCorteCaja/"+IdCuenta+"/"+MontoPago;
-  }
-  else {
-    Swal.fire({
-        title:'No has indicado la cuenta del corte de caja',
-        type: 'error',
-        showConfirmButton: true
-    });
-  }
-
-
-
-}
 
 </script>

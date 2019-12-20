@@ -24,7 +24,7 @@
                     <div class="form-body">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
 
                                 <!--TABLA MOVIMIENTOS CUENTA-->
                                 <div class="table-responsive table-striped table table-bordered">
@@ -44,26 +44,68 @@
                                 </div>
 
                             </div>
-                             <div class="col-md-6">
 
-                                <!--TABLA MOVIMIENTOS CUENTA-->
-                                <div class="table-responsive table-striped table table-bordered">
-                                    <table class="table" id="tblResumenTipoPago">
-                                        <thead class="thead-inverse">
-                                            <tr>
-                                                <th>Forma de Pago</th>
-                                                <th>Total Pagos</th>
-
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
                         </div>
+                        <div class="row">
+                          <div class="col-md-8">
+
+                             <!--TABLA MOVIMIENTOS CUENTA-->
+                             <div class="table-responsive table-striped table table-bordered">
+                                 <table class="table" id="tblResumenTipoPago">
+                                     <thead class="thead-inverse">
+                                         <tr>
+                                             <th>Forma de Pago</th>
+                                             <th>Total Pagos</th>
+                                             <th>Total Entregado</th>
+                                             <th>Diferencia</th>
+                                           </tr>
+                                     </thead>
+                                     <tbody>
+                                     </tbody>
+                                 </table>
+                             </div>
+
+                         </div>
+                       </div>
+
+                       <div class="row">
+                         <div class="col-md-2">
+                           <div class="form-group">
+                             <label for="TotalEntradas">Total Entradas</label>
+                             <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                               <input type="text" id="TotalEntradas" name="TotalEntradas"  value ="0" class="form-control"/>
+                             </div>
+
+                           </div>
+
+
+                         </div>
+                         <div class="col-md-2">
+                           <div class="form-group">
+                             <label for="TotalSalidas">Total Salidas</label>
+                             <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                               <input type="text" id="TotalSalidas" name="TotalSalidas"  value ="0" class="form-control"/>
+                             </div>
+
+                           </div>
+
+
+                         </div>
+                         <div class="col-md-2">
+                           <div class="form-group">
+                             <label for="BalanceCorte">Balance Corte</label>
+                             <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                               <input type="text" id="BalanceCorte" name="BalanceCorte"  value ="0" class="form-control"/>
+                             </div>
+
+                           </div>
+
+
+                         </div>
+                       </div>
 
                         <div class="row">
                             <div class="col-md-4">
@@ -100,91 +142,8 @@
                                 </div>
                             </div>
                         </div>
-                         <h4 class="form-section"><i class="icon-clipboard4"></i> Balance Corte</h4>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="TotalEntradas">Total Entradas:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="TotalEntradas" name="TotalEntradas" class="form-control" readonly />
-                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="TotalSalidas">Total Salidas:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="TotalSalidas" name="TotalSalidas" class="form-control" placeholder="Total Salidas" readonly />
-                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="TotalCorte">Balance Corte:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="BalanceCorte" name="BalanceCorte" class="form-control" placeholder="Total Balance" readonly />
-                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="form-group">
-                                <label for="TotalEntregado">Total Entregado:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">$</span>
-                                    <input type="text" id="TotalEntregado" name="TotalEntregado" class="form-control" readonly value="<?=$MontoEnCaja?>" />
-                                 </div>
-
-                              </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="TotalCorteEfectivo">Total en Efectivo:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="TotalCorteEfectivo" name="TotalCorteEfectivo" class="form-control" readonly />
-                                        <input type="hidden" id="val_TotalCorteEfectivo" name="val_TotalCorteEfectivo"/>
-                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="TotalTarjetaCredito">Total Tarjeta de Crédito:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="TotalTarjetaCredito" name="TotalTarjetaCredito" class="form-control" placeholder="Total T.C." readonly />
-                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="TotalTransferencias">Total Transferencias:</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">$</span>
-                                        <input type="text" id="TotalTransferencias" name="TotalTransferencias" class="form-control" placeholder="Total Transferencias" readonly />
-                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="form-group">
-                                <label for="TotalEntregado">Diferencia:</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">$</span>
-                                    <input type="text" id="TotalDiferencia" name="TotalDiferencia" class="form-control" readonly value="<?=$MontoEnCaja?>" />
-                                 </div>
-
-                              </div>
-
-                            </div>
 
 
-                        </div>
 
                         <div class="row">
                             <div class="col-md-12">
@@ -219,74 +178,74 @@
         </div>
     </div>
 </div>
+<div class="row match-height">
+        <div class="col-md-12">
+            <div class="card">
+                <!--CARD HEADER-->
+                <div class="card-header">
+                    <h4 class="card-title" id="basic-layout-form"><i class="icon-book"></i>Detalle Notas Remisión</h4>
+                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                                    <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                                    <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                                    <li><a data-action="close"><i class="icon-cross2"></i></a></li>
+                            </ul>
+                    </div>
+
+
+                </div>
+                 <div class="card-body collapse in">
+                    <div class="card-block">
+                        <!--FORM BODY-->
+                        <div class="form-body">
+                          <div class="row">
+                              <div class="col-md-12">
+
+                                  <!--TABLA MOVIMIENTOS CUENTA-->
+                                  <div class="table-responsive table-striped table table-bordered">
+                                      <table class="table" id="tblDetalleMovimientosCuentaCorte">
+                                          <thead class="thead-inverse">
+                                              <tr>
+                                                <th>Nota Remisión</th>
+                                                <th>Fecha Nota</th>
+                                                <th>Paciente</th>
+                                                <th>Tipo Movimiento</th>
+                                                <th>Cuenta</th>
+
+                                                <th>Total Movimiento</th>
+                                                <th>Forma Pago</th>
+
+                                                <th>Id Salida</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                          </tbody>
+                                      </table>
+                                  </div>
+
+                              </div>
+
+                          </div>
+
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+
+</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        CargarBalanceCorteCaja();
+
         CargarBalanceCuentas();
         CargarResumenTipoPago();
+        CargarDetalleNotasCorte()
 
     });
-    function CargarBalanceCorteCaja()
-    {
-        $.ajax({
-            url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarBalanceCortePorTipoPago",
-            data:{
-                IdTipoPago:1,
-                IdCuenta: <?=$IdCuenta?>
-            },
 
-            method:"POST",
-            success: function(data)
-              {
-
-                  var BalanceEfectivo = JSON.parse(data);
-                
-                  var TotalEntregado = <?=$MontoEnCaja?>;
-                  var DiferenciaCajaCorte = TotalEntregado - BalanceEfectivo;
-
-                  $('#TotalCorteEfectivo').val(BalanceEfectivo);
-                  $('#TotalDiferencia').val(DiferenciaCajaCorte);
-                  $('#val_TotalCorteEfectivo').val(BalanceEfectivo);
-
-
-              }
-          });
-          $.ajax({
-            url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarBalanceCortePorTipoPago",
-            data:{
-                IdTipoPago:2,
-                IdCuenta: <?=$IdCuenta?>
-            },
-
-            method:"POST",
-            success: function(data)
-              {
-
-                  var BalanceCaja = JSON.parse(data);
-
-                  $('#TotalTarjetaCredito').val(BalanceCaja);
-
-              }
-          });
-          $.ajax({
-            url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarBalanceCortePorTipoPago",
-            data:{
-                IdTipoPago:3,
-                IdCuenta: <?=$IdCuenta?>
-            },
-
-            method:"POST",
-            success: function(data)
-              {
-
-                  var BalanceCaja = JSON.parse(data);
-
-                  $('#TotalTransferencias').val(BalanceCaja);
-
-              }
-          });
-    }
 
     function CargarBalanceCuentas()
     {
@@ -345,16 +304,37 @@
               {
 
                   var ResumenTipoPago = JSON.parse(data);
+                  var MontosPago = <?=json_encode($MontosTipoPago)?>;
 
                   $("#tblResumenTipoPago tbody tr").remove();
 
                   for (i=0; i<ResumenTipoPago.length;i++)
                   {
 
+                    var ValorPago = MontosPago.find(o=>o.IdTipoPago===ResumenTipoPago[i]['IdTipoPago']);
+
+
+                    var TotalCorte = ResumenTipoPago[i]['TotalTipoPago'];
+
+                    if (TotalCorte == null)
+                    {
+                      TotalCorte=0;
+                    }
+
+                    var Diferencia = ValorPago['Monto']-TotalCorte;
+
+
+
                       $('#tblResumenTipoPago').append(
                           '<tr>'+
                           '<td>'+ResumenTipoPago[i]['DescripcionTipoPago']+'</td>'+
-                          '<td>$'+ResumenTipoPago[i]['TotalTipoPago']+'</td>'+
+                          '<td>$'+TotalCorte+'</td>'+
+                          '<td>$'+ValorPago['Monto']+'</td>'+
+                          '<td>'+
+                            '<input type="hidden" name="IdTiposPago[]" value="'+ResumenTipoPago[i]['IdTipoPago']+'">'+
+                            '<input type="hidden" name="TotalesCorte[]" value="'+TotalCorte+'">'+
+                            '<input type="hidden" name="TotalesEntregado[]" value="'+ValorPago['Monto']+'">'+
+                          '$'+Diferencia+'</td>'+
                           '</tr>'
                       );
                   }
@@ -379,6 +359,71 @@
         $("#TotalCorteEfectivo").val(Efectivo);
 
     }
+function CargarDetalleNotasCorte() {
 
+  var IdCuenta = $("#IdCuenta").val();
+
+  var t = $('#tblDetalleMovimientosCuentaCorte').DataTable({
+    "drawCallback": function( settings ) {
+            $('[data-toggle="tooltip"]').tooltip();
+          },
+      "ajax":{
+          url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarDetalleMovimientosCuentaSinCorte_ajax",
+          data:{IdCuenta: IdCuenta},
+          method:"POST",
+          dataSrc: ""
+      },
+
+       "destroy":true,
+       "language": {
+            "lengthMenu": "Mostrando _MENU_ registros por pag.",
+            "zeroRecords": "Sin Datos - disculpa",
+            "info": "Motrando pag. _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros disponibles",
+            "infoFiltered": "(filtrado de _MAX_ total)"
+        },
+        "autoWidth":true,
+        "columnDefs":[
+          {
+            "targets":0,"data":"IdNotaRemision","render":function(data,type,meta,row)
+            {
+                return "<a href='<?=site_url()?>/NotaRemision/CargarNotaRemision/"+data+"''>"+data+"</a>";
+            }
+          }
+
+        ],
+        "columns": [
+              // {
+              //     "className":      'details-control',
+              //     "orderable":      false,
+              //     "data":           null,
+              //     "defaultContent": ''
+              // },
+              // <th>Nota Remisión</th>
+              // <th>Fecha Nota</th>
+              // <th>Paciente</th>
+              // <th>Tipo Movimiento</th>
+              // <th>Cuenta</th>
+              //
+              // <th>Total Movimiento</th>
+              // <th>Forma Pago</th>
+              //
+              // <th>Id Salida</th>
+              { "data": "IdNotaRemision"},
+              { "data": "FechaNotaRemision" },
+              { "data": "Paciente" },
+              { "data": "DescripcionTipoMovimientoCuenta" },
+              { "data": "DescripcionCuenta" },
+              { "data": "TotalMovimiento" },
+              { "data": "DescripcionTipoPago" },
+              { "data": "IdSalidaCaja" }
+
+
+              ]
+
+      });
+
+
+}
 
 </script>

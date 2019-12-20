@@ -30,7 +30,7 @@ class CatalogoProductos_Model extends CI_Model{
 
     public function ConsultarProductosPorServicio($IdServicio)
     {
-        $this->db->select($this->table.'.*, DescripcionServicio');
+        $this->db->select($this->table.'.*, DescripcionServicio,s.Proveedor');
         $this->db->select('DescripcionTipoProducto, RequiereReceta');
         $this->db->from($this->table);
         $this->db->join('servicio s','s.IdServicio ='.$this->table.'.IdServicio');

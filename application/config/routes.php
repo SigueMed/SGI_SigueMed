@@ -100,7 +100,7 @@ $route['SalidaCaja/CargarPDFSalida/(.+)'] = 'SalidaCaja_Controller/CargarPDFSali
 
 //CORTE CAJA
 $route['CorteCaja/ElaborarCorteCaja'] = 'CorteCaja_Controller/Load_IniciarCorteCaja';
-$route['CorteCaja/DetalleCorteCaja/(.+)/(.+)'] = 'CorteCaja_Controller/Load_RealizarCorteCajaCuenta/$1/$2';
+$route['CorteCaja/DetalleCorteCaja'] = 'CorteCaja_Controller/Load_RealizarCorteCajaCuenta';
 $route['CorteCaja/ConsultaCortesCaja'] = 'CorteCaja_Controller/Load_ConsultarCortesCaja';
 $route['CorteCaja/ConsultarDetalleCorte/(.+)'] = 'CorteCaja_Controller/Load_ConsultarDetalleCorteCaja/$1';
 

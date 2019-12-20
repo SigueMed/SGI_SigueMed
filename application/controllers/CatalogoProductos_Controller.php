@@ -68,7 +68,8 @@ class CatalogoProductos_Controller extends CI_Controller {
                     'IdServicio'=>$this->input->post('cbServicioProducto'),
                     'DescripcionProducto' => $this->input->post('DescripcionProducto'),
                     'CostoProducto'=>$this->input->post('CostoProducto'),
-                    'Habilitado'=>1
+                    'Habilitado'=>1,
+                    'PrecioProveedor'=>$this->input->post('PrecioProveedor')
                 );
 
                 if (sizeof($Cuentas)>0)
@@ -131,7 +132,7 @@ class CatalogoProductos_Controller extends CI_Controller {
         $output = "<option value=''>Selecciona un servicio</option>";
         foreach($Servicios as $servicio)
         {
-            $output.='<option value="'.$servicio['IdServicio'].'">'.$servicio['DescripcionServicio'].'</option>';
+            $output.='<option value="'.$servicio['IdServicio'].'" data-proveedor="'.$servicio['Proveedor'].'">'.$servicio['DescripcionServicio'].'</option>';
 
         }
 
@@ -287,6 +288,7 @@ public function ActualizarPreciosProductos()
 {
   $Productos = $this->input->post('Productos');
   $Precios = $this->input->post('Precios');
+  $PreciosProveedor = $this->input->post('PreciosProveedor');
 
   if(isset($Productos))
   {
@@ -294,7 +296,8 @@ public function ActualizarPreciosProductos()
       {
           $PreciosActualizados[]= array(
               'IdProducto'=>$Productos[$i],
-              'CostoProducto'=>$Precios[$i]
+              'CostoProducto'=>$Precios[$i],
+              'PrecioProveedor'=>$PreciosProveedor[$i]
           );
       }
       $this->CatalogoProductos_Model->ActualizarPrecios_Batch($PreciosActualizados);

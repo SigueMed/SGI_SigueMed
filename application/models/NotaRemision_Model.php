@@ -166,4 +166,13 @@ class NotaRemision_Model extends CI_Model {
       return $this->db->update($this->table);
       // code...
     }
+
+    public function ConsultarNotasCorteCuenta($IdCuenta)
+    {
+
+      
+
+
+      // code...
+    }
 }

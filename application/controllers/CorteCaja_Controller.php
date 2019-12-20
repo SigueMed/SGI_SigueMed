@@ -37,30 +37,60 @@ class CorteCaja_Controller extends CI_Controller {
 
       $this->load->view('templates/MainContainer',$data);
       $this->load->view('templates/HeaderContainer',$data);
+      $this->load->view('CorteCaja/FormInicioCorteCaja');
       $this->load->view('CorteCaja/CardInicioCorteCaja');
-
+      $this->load->view('templates/FormFooter');
       $this->load->view('templates/FooterContainer');
 
       // code...
     }
 
-    public function Load_RealizarCorteCajaCuenta($IdCuenta, $MontoEnCaja)
+    public function Load_RealizarCorteCajaCuenta()
     {
+      $action = $this->input->post('action');
+      if ($action="RealizarCorteCaja")
+      {
 
-      $data['title'] = 'Relizar Corte Caja';
+        $data['title'] = 'Relizar Corte Caja';
 
-      $this->load->model('Cuenta_Model');
-      $Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
-      $data['IdCuenta']=$IdCuenta;
-      $data['Cuenta'] =$Cuenta;
-      $data['MontoEnCaja']=$MontoEnCaja;
+        $this->load->model('Cuenta_Model');
+        $IdCuenta = $this->input->post('cbCuentas');
+        log_message('debug','[CORTECAJA] IdCuenta='.$IdCuenta);
+        $Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
+        log_message('debug','[CORTECAJA] DescrpcionCuenta='.$Cuenta->DescripcionCuenta);
+        $this->load->model('CatalogoTipoPago_Model');
+        $TiposPago = $this->CatalogoTipoPago_Model->ConsultarTipoPago();
 
-      $this->load->view('templates/MainContainer',$data);
-      $this->load->view('templates/HeaderContainer',$data);
-      $this->load->view('CorteCaja/FormCorteCaja');
-      $this->load->view('CorteCaja/CardCorteCaja', $data);
-      $this->load->view('templates/FormFooter',$data);
-      $this->load->view('templates/FooterContainer');
+        foreach ($TiposPago as $tipoPago) {
+            $MontosTipoPago[] = array(
+              'IdTipoPago'=> $tipoPago['IdTipoPago'],
+              'Monto'=>$this->input->post('TipoPago-'.$tipoPago['IdTipoPago'])
+
+            );
+            log_message('debug','[CORTECAJA] TipoPago-'.$tipoPago['IdTipoPago'].'='.$this->input->post('TipoPago-'.$tipoPago['IdTipoPago']));
+
+        }
+
+        // foreach ($TiposPago as $tipoPago) {
+        //   log_message('debug','[CORTECAJA] IdTipoPago='.$MontosTipoPago['IdTipoPago'].' Monto='.$MontosTipoPago['Monto']);
+        // }
+        //log_message('debug',$MontosTipoPago);
+
+        $data['MontosTipoPago']=$MontosTipoPago;
+        $data['IdCuenta']=$IdCuenta;
+        $data['Cuenta'] =$Cuenta;
+
+
+
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+        $this->load->view('CorteCaja/FormCorteCaja',$data);
+        $this->load->view('CorteCaja/CardCorteCaja', $data);
+        $this->load->view('templates/FormFooter',$data);
+        $this->load->view('templates/FooterContainer');
+
+      }
+
       // code...
     }
 
@@ -91,6 +121,28 @@ class CorteCaja_Controller extends CI_Controller {
 
       $IdCorteCaja = $this->input->post('IdCorteCaja');
       $DetalleMovimientos = $this->MovimientoCuenta_Model->ConsultarDetalleMovimientosCuentaPorCorte($IdCorteCaja);
+
+      echo json_encode($DetalleMovimientos);
+      // code...
+    }
+
+    public function ConsultarDetalleTipoPago_ajax()
+    {
+
+      $this->load->model('DetallePagosCorteCaja_Model');
+      $IdCorteCaja = $this->input->post('IdCorteCaja');
+
+      $DetalleTipoPago = $this->DetallePagosCorteCaja_Model->ConsultarDetallesPagoCorte($IdCorteCaja);
+
+      echo json_encode($DetalleTipoPago);
+      // code...
+    }
+
+    public function ConsultarDetalleMovimientosCuentaSinCorte_ajax()
+    {
+
+      $IdCuenta = $this->input->post('IdCuenta');
+      $DetalleMovimientos = $this->MovimientoCuenta_Model->ConsultarDetalleMovimientosCuentaSinCorte($IdCuenta);
 
       echo json_encode($DetalleMovimientos);
       // code...
@@ -195,8 +247,29 @@ class CorteCaja_Controller extends CI_Controller {
                 );
                 $IdCorteCaja = $this->CorteCaja_Model->CrearCorteCaja($dataCorteCaja);
 
+                $IdTiposPago = $this->input->post('IdTiposPago');
+                $TotalesCorte = $this->input->post('TotalesCorte');
+                $TotalesEntregado = $this->input->post('TotalesEntregado');
+                $this->load->model('DetallePagosCorteCaja_Model');
+                for($i=0;$i<sizeof($IdTiposPago);$i++)
+                {
+
+                  if ($TotalesCorte[$i]>0 || $TotalesEntregado[$i]>0 )
+                  {
+                    $PagoCorte = array(
+                      "IdCorteCaja"=>$IdCorteCaja,
+                      "IdTipoPago"=>$IdTiposPago[$i],
+                      "TotalCorteCaja"=>$TotalesCorte[$i],
+                      "TotalEntregado" =>$TotalesEntregado[$i]
+                    );
+
+                    $this->DetallePagosCorteCaja_Model->AgregarPagoCorteCaja($PagoCorte);
+                  }
+
+                }
+
                 //Actualizar Notas Remision
-                //$this->NotaRemision_Model->AsignarCorteNotasRemision($IdCorteCaja);
+                $this->NotaRemision_Model->AsignarCorteNotasRemision($IdCorteCaja);
 
                 //Actualizar Movimientos de Cuentas
                 $this->MovimientoCuenta_Model->AsignarCorteMovimientosCuentas($IdCorteCaja,$IdCuenta);

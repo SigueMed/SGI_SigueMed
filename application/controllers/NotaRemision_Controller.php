@@ -103,24 +103,6 @@ class NotaRemision_Controller extends CI_Controller {
                         $RequiereFactura = FALSE;
                     }
 
-
-                    $TotalPagado = $this->PagarAdeudosAnteriores($IdPaciente,$TotalPagadoNota);
-                    log_message('debug','PagarAdeudosAnteriores->TotalPagado'.$TotalPagado);
-
-                    //DETERMINAR ESTATUS DE NOTA
-                    if ($TotalPagado >= $TotalNota)
-                    {
-                        $EstatusNotaRemision = NR_PAGADO;
-                    }
-                    else if($TotalPagado < $TotalNota && $TotalPagado >0)
-                    {
-                        $EstatusNotaRemision = NR_PAGO_PARCIAL;
-                    }
-                    else if ($TotalPagado <= 0)
-                    {
-                        $EstatusNotaRemision = NR_NO_PAGADO;
-                    }
-
                     $IdFoliador = $this->input->post('IdFoliador');
                     log_message('debug','CREAR NOTAR REMISION=>'.$IdFoliador);
                     $this->load->model('Foliador_Model');
@@ -135,8 +117,8 @@ class NotaRemision_Controller extends CI_Controller {
                         'IdEmpleado' =>$IdEmpleado,
                         'IdTurno'=> $IdTurno,
                         'TotalNotaRemision'=>$TotalNota,
-                        'TotalPagado'=> $TotalPagado,
-                        'IdEstatusNotaRemision'=>$EstatusNotaRemision,
+                        'TotalPagado'=>0,
+                        'IdEstatusNotaRemision'=>1,
                         'RequiereFactura'=>$RequiereFactura,
                         'IdClinica'=>$this->session->userdata('IdClinica')
                     );
@@ -158,11 +140,10 @@ class NotaRemision_Controller extends CI_Controller {
                         $Lote = $this->input->post('Lote');
                         $DescuentoProductos = $this->input->post('descuento');
                         $SubTotal = $this->input->post('subtotal');
+                        $EsProveedor = $this->input->post('proveedor');
+                        $PreciosProveedor = $this->input->post('preciosproveedor');
                         //$IdEmpleado = $this->input->post('IdEmpleado');
-
-
-
-                        if (isset($IdProductos))
+                    if (isset($IdProductos))
                         {
 
                            for ($i=0;$i<sizeof($IdProductos); $i++)
@@ -186,6 +167,14 @@ class NotaRemision_Controller extends CI_Controller {
                                    $strLote = null;
                                }
 
+                               if ($EsProveedor[$i])
+                               {
+                                 $PrecioProveedor = $PreciosProveedor[$i];
+                               }
+                               else {
+                                 $PrecioProveedor = 0;
+                               }
+
                                $DetalleNotaRemision = array(
                                    'IdNotaRemision'=>$IdNuevaNotaRemision->IdUltimaNotaRemision,
                                    'IdProducto'=>$IdProductos[$i],
@@ -194,7 +183,8 @@ class NotaRemision_Controller extends CI_Controller {
                                    'Descuento'=>$DescuentoProductos[$i],
                                    'IdCodigoSubProducto'=>$strCodigoSubProducto,
                                    'Lote'=>$strLote,
-                                   'SubTotalDetalle'=>$SubTotal[$i]
+                                   'SubTotalDetalle'=>$SubTotal[$i],
+                                   'PrecioProveedor'=> $PrecioProveedor
                                );
 
                                 $this->DetalleNotaRemision_Model->AgregarDetalleNotaRemision($DetalleNotaRemision);
@@ -212,63 +202,102 @@ class NotaRemision_Controller extends CI_Controller {
 
                         }
 
-
-
-                        if($TotalPagado>0)
-                        {
-                            //REGISTRAR PAGO NOTA MEDICA
+                          //REGISTRAR PAGO NOTA MEDICA
+                          $TotalPagado = 0;
+                          if ($TotalPagadoNota>0)
+                          {
 
                             $IdFormaPagos = $this->input->post('FormasPago');
                             $Vauchers = $this->input->post('Vauchers');
                             $MontosPago = $this->input->post('MontosPago');
 
+
+
                             for ($i=0; $i < sizeof($IdFormaPagos) ; $i++) {
 
-                              $PorcentajePagado = $MontosPago[$i]/ $TotalNota;
+                              $TotalDespuesAdeudo = $this->PagarAdeudosAnteriores($IdPaciente,$MontosPago[$i],$IdFormaPagos[$i]);
+                              log_message('debug','PagarAdeudosAnteriores->TotalPagado'.$TotalPagado);
 
-                              $PagoNotaRemision = array(
-                                  'IdNotaRemision'=> $IdNuevaNotaRemision->IdUltimaNotaRemision,
-                                  'FechaPago'=> mdate('%Y-%m-%d',$FechaNotaRemision),
-                                  'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
-                                  'PorcentajeNotaRemision'=>$PorcentajePagado,
-                                  'TotalPago'=>$MontosPago[$i],
-                                  'IdTipoPago'=>$IdFormaPagos[$i],
-                                  'Vaucher'=> $Vauchers[$i]
-                              );
-
-                              $IdNuevoPagoNotaRemision = $this->PagoNotaRemision_Model->RegistrarPagoNotaRemision($PagoNotaRemision);
-
-                              if($IdNuevoPagoNotaRemision ===FALSE)
+                              if($TotalDespuesAdeudo>0)
                               {
-                                   throw new Exception('Error al registrar pago');
+                                $PorcentajePagado = $TotalDespuesAdeudo/ $TotalNota;
+
+                                $TotalPagado += $TotalDespuesAdeudo;
+
+                                $PagoNotaRemision = array(
+                                    'IdNotaRemision'=> $IdNuevaNotaRemision->IdUltimaNotaRemision,
+                                    'FechaPago'=> mdate('%Y-%m-%d',$FechaNotaRemision),
+                                    'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
+                                    'PorcentajeNotaRemision'=>$PorcentajePagado,
+                                    'TotalPago'=>$TotalDespuesAdeudo,
+                                    'IdTipoPago'=>$IdFormaPagos[$i],
+                                    'Vaucher'=> $Vauchers[$i]
+                                );
+
+                                $IdNuevoPagoNotaRemision = $this->PagoNotaRemision_Model->RegistrarPagoNotaRemision($PagoNotaRemision);
+
+                                if($IdNuevoPagoNotaRemision ===FALSE)
+                                {
+                                     throw new Exception('Error al registrar pago');
+                                }
+
+                                $PorcentajePagado = $TotalDespuesAdeudo / $TotalPagadoNota;
+
+                                //REGISTRAR MOVIMIENTOS A LAS CUENTAS
+                                $MovimientosACuenta = $this->NotaRemision_Model->ConsultarMovimientosCuentaNota($IdNuevaNotaRemision->IdUltimaNotaRemision);
+
+                                foreach ($MovimientosACuenta as $movimiento)
+                                {
+                                    $TotalMovimientoCuenta = $PorcentajePagado * $movimiento['TotalCuenta'];
+                                    $NuevoMovimientoCuenta = array(
+                                        'IdCuenta'=> $movimiento['IdCuenta'],
+                                        'FechaMovimientoCuenta'=> mdate('%Y-%m-%d',now()),
+                                        'IdPagoNotaRemision'=>$IdNuevoPagoNotaRemision->IdPagoNotaRemision,
+                                        'IdTipoMovimientoCuenta'=> 1,
+                                        'TotalMovimiento' => $TotalMovimientoCuenta,
+                                        'IdEstatusMovimientoCuenta'=> MC_PENDIENTEPAGO,
+                                        'IdTipoPago'=>$IdFormaPagos[$i],
+                                        'IdClinica'=>$this->session->userdata('IdClinica')
+
+                                    );
+
+                                    $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+                                }
+
                               }
 
-                              //REGISTRAR MOVIMIENTOS A LAS CUENTAS
-                              $MovimientosACuenta = $this->NotaRemision_Model->ConsultarMovimientosCuentaNota($IdNuevaNotaRemision->IdUltimaNotaRemision);
 
-                              foreach ($MovimientosACuenta as $movimiento)
-                              {
-                                  $TotalMovimientoCuenta = $PorcentajePagado * $movimiento['TotalCuenta'];
-                                  $NuevoMovimientoCuenta = array(
-                                      'IdCuenta'=> $movimiento['IdCuenta'],
-                                      'FechaMovimientoCuenta'=> mdate('%Y-%m-%d',now()),
-                                      'IdPagoNotaRemision'=>$IdNuevoPagoNotaRemision->IdPagoNotaRemision,
-                                      'IdTipoMovimientoCuenta'=> 1,
-                                      'TotalMovimiento' => $TotalMovimientoCuenta,
-                                      'IdEstatusMovimientoCuenta'=> MC_PENDIENTEPAGO,
-                                      'IdTipoPago'=>$IdFormaPagos[$i],
-                                      'IdClinica'=>$this->session->userdata('IdClinica')
 
-                                  );
 
-                                  $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+
                               }
 
-                            }
+                          }
 
-                        }
+                          //DETERMINAR ESTATUS DE NOTA
+                          if ($TotalPagado >= $TotalNota)
+                          {
+                              $EstatusNotaRemision = NR_PAGADO;
+                          }
+                          else if($TotalPagado < $TotalNota && $TotalPagado >0)
+                          {
+                              $EstatusNotaRemision = NR_PAGO_PARCIAL;
+                          }
+                          else if ($TotalPagado <= 0)
+                          {
+                              $EstatusNotaRemision = NR_NO_PAGADO;
+                          }
 
-                        //CAMBIAR ESTATUS NOTAS MEDICAS A PAGADAS
+                          $EstatusNotaRemision = array(
+
+                              'TotalPagado'=> $TotalPagado,
+                              'IdEstatusNotaRemision'=>$EstatusNotaRemision
+
+                          );
+
+                          $this->NotaRemision_Model->ActualizarNotaRemision($IdNuevaNotaRemision->IdUltimaNotaRemision,$EstatusNotaRemision);
+
+                          //CAMBIAR ESTATUS NOTAS MEDICAS A PAGADAS
                         $NotasMedicasAbiertas = $this->input->post('chkNotasAtendidas');
 
                         if (!empty($NotasMedicasAbiertas))
@@ -369,7 +398,7 @@ class NotaRemision_Controller extends CI_Controller {
 
         }
 
-        public function PagarAdeudosAnteriores($IdPaciente, $TotalPagado)
+        public function PagarAdeudosAnteriores($IdPaciente, $TotalPagado, $TipoPago)
         {
             //PAGAR ADEUDOS ANTERIORES
             $TotalAdeudosPaciente = $this->NotaRemision_Model->ConsultarDetalleAdeudoPaciente($IdPaciente);
@@ -382,7 +411,7 @@ class NotaRemision_Controller extends CI_Controller {
                 }
 
                 $TotalAdeudo = $adeudo['TotalAdeudo'];
-                if ($TotalPagado > $TotalAdeudo)
+                if ($TotalPagado >= $TotalAdeudo)
                 {
 
                     $TotalPagoAdeudo = $TotalAdeudo;
@@ -393,7 +422,7 @@ class NotaRemision_Controller extends CI_Controller {
                 else
                 {
 
-                    $TotalPagoAdeudo = $TotalAdeudo - $TotalPagado;
+                    $TotalPagoAdeudo = $TotalPagado;
                     $EstatusAdeudo = NR_PAGO_PARCIAL;
                     $TotalPagado = 0;
 
@@ -405,11 +434,11 @@ class NotaRemision_Controller extends CI_Controller {
                     'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
                     'PorcentajeNotaRemision'=>$ProcentajePagadoAdeudo,
                     'TotalPago'=>$TotalPagoAdeudo,
-                    'IdTipoPago'=>$this->input->post('cb_FormaPago')
+                    'IdTipoPago'=>$TipoPago
                 );
                 $IdNuevoPagoNotaRemision = $this->PagoNotaRemision_Model->RegistrarPagoNotaRemision($PagoAdeudo);
 
-                $TotalPagadoNota = $adeudo['TotalPagado'] + $TotalAdeudo;
+                $TotalPagadoNota = $adeudo['TotalPagado'] + $TotalPagoAdeudo;
 
 
                 $ActualizarNotaArray = array(

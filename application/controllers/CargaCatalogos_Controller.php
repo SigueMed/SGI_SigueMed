@@ -90,7 +90,7 @@ class CargaCatalogos_Controller extends CI_Controller {
 
         foreach($Productos as $producto)
         {
-            $output .= '<option value="'.$producto['IdProducto'].'">'.$producto['DescripcionProducto'].'</option>';
+            $output .= '<option value="'.$producto['IdProducto'].'" data-proveedor="'.$producto['Proveedor'].'" data-precioproveedor = "'.$producto['PrecioProveedor'].'">'.$producto['DescripcionProducto'].'</option>';
         }
         echo $output;
 
@@ -140,6 +140,17 @@ class CargaCatalogos_Controller extends CI_Controller {
        }
        echo $output;
 
+      // code...
+    }
+
+    public function ConsultarTiposPago_ajax()
+    {
+
+      $this->load->model('CatalogoTipoPago_Model');
+
+      $result = $this->CatalogoTipoPago_Model->ConsultarTipoPago();
+
+      echo json_encode($result);
       // code...
     }
     //put your code here

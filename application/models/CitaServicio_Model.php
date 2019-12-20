@@ -109,8 +109,10 @@ class CitaServicio_Model extends CI_Model
         $this->db->join('paciente','paciente.IdPaciente='.$this->table.'.IdPaciente','left');
 
 
-        $this->db->where('MONTH(FechaInicio) >='.$mes);
-        $this->db->where('YEAR(FechaInicio)>='.$anio);
+        // $this->db->where('MONTH(FechaInicio) >='.$mes);
+        // $this->db->where('YEAR(FechaInicio)>='.$anio);
+
+        $this->db->where('FechaInicio >=',mdate('%Y-%m-%d',strtotime($FechaConsulta)));
 
         if ($IdServicio !== FALSE)
         {

@@ -13,7 +13,7 @@
                                     <li><a data-action="close"><i class="icon-cross2"></i></a></li>
                             </ul>
                     </div>
-                    
+
 
                 </div>
                 <!--CARD BODY-->
@@ -21,7 +21,7 @@
                     <div class="card-block">
                         <!--FORM BODY-->
                         <div class="form-body">
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -38,18 +38,32 @@
                                                     <input type="text" name="DescripcionProducto" id="DescripcionProducto" class="form-control" placeholder="Descripción Producto"/>
                                             </div>
                                     </div>
-                                    <div class="col-md-4">
-                                            <div class="form-group">
-                                                    <label for="CostoProducto">Precio Publico</label>
-                                                    <div class="input-group">
-                                                    <span class="input-group-addon">$</span>
-                                                    <input type="text" id="CostoProducto" class="form-control square" placeholder="Costo" aria-label="Costo" name="CostoProducto">
-                                                    
-                                            </div>
-                                            </div>
-                                    </div>
+
                             </div>
-                            
+                            <div class="row">
+                              <div class="col-md-4">
+                                      <div class="form-group">
+                                              <label for="CostoProducto">Precio Publico</label>
+                                              <div class="input-group">
+                                              <span class="input-group-addon">$</span>
+                                              <input type="text" id="CostoProducto" class="form-control square" placeholder="Costo" aria-label="Costo" name="CostoProducto">
+
+                                      </div>
+                                      </div>
+                              </div>
+                              <div class="col-md-4">
+                                      <div class="form-group">
+                                              <label for="PrecioProveedor">Precio Proveedor</label>
+                                              <div class="input-group">
+                                              <span class="input-group-addon">$</span>
+                                              <input type="text" id="PrecioProveedor" class="form-control square" placeholder="Costo" aria-label="Costo" name="PrecioProveedor" disabled>
+
+                                      </div>
+                                      </div>
+                              </div>
+
+                            </div>
+
                         </div>
                         <!-- FORM ACTIONS-->
                         <div class="form-actions">
@@ -64,16 +78,16 @@
                                         echo '<button type="submit" class="btn btn-danger mr-1" name="action" value="'.$ProductoCancelAction.'">';
                                         echo '<i class="icon-cross2"></i>'.$ProductoCancelTitle;
                                         echo '</button>';
-                                        
+
                                     }
-                                    
+
                                     echo '<button type="submit" class="btn btn-success" name="action" value='.$ProductoSubmitAction.'>';
                                     echo '<i class="icon-check2"></i>'.$ProductoSubmitTitle;
                                     echo '</button>';
                                 }
                             ?>
-                                
-                                
+
+
                         </div>
                     </div>
                 </div>
@@ -84,9 +98,22 @@
 <script type="text/javascript">
     $(document).ready(function(){
         CargarServicios();
-       CargarValores(); 
+       CargarValores();
+
+       $('#cbServicioProducto').change(function(){
+         var EsProveedor = $(this).find(":selected").data('proveedor');
+         $("#PrecioProveedor").val(0);
+         if (EsProveedor)
+         {
+           $("#PrecioProveedor").removeAttr('disabled');
+         }
+         else {
+           $("#PrecioProveedor").attr('disabled', 'disabled');
+
+         }
+       });
     });
-    
+
     function CargarValores()
     {
         var DatosProducto = <?= json_encode($InformacionProducto)?>;
@@ -95,6 +122,7 @@
             $('#cbServicioProducto').val(DatosProducto['IdServicio']);
             $("#DescripcionProducto").val(DatosProducto['DescripcionProducto']);
             $("#CostoProducto").val(DatosProducto['CostoProducto']);
+            $("#PrecioProveedor").val(DatosProducto['PrecioProveedor']);
         }
         else
         {
@@ -102,19 +130,19 @@
             $("#CostoProducto").val();
         }
 
-        
+
     }
-    
+
     function CargarServicios()
     {
          $.ajax({
                   url:"<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarServicios_ajax",
                   method:"POST",
-                  
+
                   success: function(data)
                     {
                         $('#cbServicioProducto').html(data);
-                        
+
                          var DatosProducto = <?= json_encode($InformacionProducto)?>;
                         if (DatosProducto !== null)
                         {
