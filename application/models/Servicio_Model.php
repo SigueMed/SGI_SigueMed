@@ -55,6 +55,18 @@ class Servicio_Model extends CI_Model {
 
     }
 
+    public function ConsultarServiciosProveedores()
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+       $this->db->where('Habilitado', TRUE);
+       $this->db->where('Proveedor',TRUE);
+
+       $query = $this->db->get();
+
+       return $query->result_array();
+    }
+
     public function ConsultarServicioPorId($IdServicio)
     {
         $this->db->select($this->table.'.*');

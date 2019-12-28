@@ -105,6 +105,18 @@
 
 
                          </div>
+                         <div class="col-md-2">
+                           <div class="form-group">
+                             <label for="TotalEntregado">Total Entregado</label>
+                             <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                               <input type="text" id="TotalEntregado" name="TotalEntregado"  value ="0" class="form-control"/>
+                             </div>
+
+                           </div>
+
+
+                         </div>
                        </div>
 
                         <div class="row">
@@ -183,7 +195,7 @@
             <div class="card">
                 <!--CARD HEADER-->
                 <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-form"><i class="icon-book"></i>Detalle Notas Remisión</h4>
+                    <h4 class="card-title" id="basic-layout-form"><i class="icon-book"></i>Detalle Movimientos</h4>
                     <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                     <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -213,11 +225,8 @@
                                                 <th>Paciente</th>
                                                 <th>Tipo Movimiento</th>
                                                 <th>Cuenta</th>
-
                                                 <th>Total Movimiento</th>
                                                 <th>Forma Pago</th>
-
-                                                <th>Id Salida</th>
                                               </tr>
                                           </thead>
                                           <tbody>
@@ -234,15 +243,71 @@
                  </div>
             </div>
         </div>
-
 </div>
+
+<div class="row match-height">
+        <div class="col-md-12">
+            <div class="card">
+                <!--CARD HEADER-->
+                <div class="card-header">
+                    <h4 class="card-title" id="basic-layout-form"><i class="icon-book"></i>Detalle Notas Remisión</h4>
+                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                                    <li><a data-action="reload"><i class="icon-reload"></i></a></li>
+                                    <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+                                    <li><a data-action="close"><i class="icon-cross2"></i></a></li>
+                            </ul>
+                    </div>
+
+
+                </div>
+                 <div class="card-body collapse in">
+                    <div class="card-block">
+                        <!--FORM BODY-->
+                        <div class="form-body">
+                          <div class="row">
+                              <div class="col-md-12">
+
+                                  <!--TABLA MOVIMIENTOS CUENTA-->
+                                  <div class="table-responsive table-striped table table-bordered">
+                                      <table class="table" id="tblDetalleNotasCuentaCorte">
+                                          <thead class="thead-inverse">
+                                              <tr>
+                                                <th>Nota Remisión</th>
+                                                <th>Fecha Nota</th>
+                                                <th>Paciente</th>
+                                                <th>Total Nota</th>
+                                                <th>Total Pagado</th>
+                                                <th>Estatus Nota</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                          </tbody>
+                                      </table>
+                                  </div>
+
+                              </div>
+
+                          </div>
+
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+</div>
+
 
 <script type="text/javascript">
     $(document).ready(function(){
 
         CargarBalanceCuentas();
         CargarResumenTipoPago();
-        CargarDetalleNotasCorte()
+        CargarDetalleNotasCorte();
+        CargarDetalleMovimientosCorte();
+
 
     });
 
@@ -305,6 +370,7 @@
 
                   var ResumenTipoPago = JSON.parse(data);
                   var MontosPago = <?=json_encode($MontosTipoPago)?>;
+                  var ResumenTotalCorte = 0;
 
                   $("#tblResumenTipoPago tbody tr").remove();
 
@@ -315,6 +381,7 @@
 
 
                     var TotalCorte = ResumenTipoPago[i]['TotalTipoPago'];
+                    ResumenTotalCorte += parseFloat(ValorPago['Monto']);
 
                     if (TotalCorte == null)
                     {
@@ -339,6 +406,8 @@
                       );
                   }
 
+                  $("#TotalEntregado").val(ResumenTotalCorte);
+
 
               }
           });
@@ -361,6 +430,57 @@
     }
 function CargarDetalleNotasCorte() {
 
+  var IdCuenta = $("#IdCuenta").val();
+
+  var t = $('#tblDetalleNotasCuentaCorte').DataTable({
+    "drawCallback": function( settings ) {
+            $('[data-toggle="tooltip"]').tooltip();
+          },
+      "ajax":{
+          url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarDetalleNotasCorteCuenta_ajax",
+          data:{IdCuenta: IdCuenta},
+          method:"POST",
+          dataSrc: ""
+      },
+
+       "destroy":true,
+       "language": {
+            "lengthMenu": "Mostrando _MENU_ registros por pag.",
+            "zeroRecords": "Sin Datos - disculpa",
+            "info": "Motrando pag. _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros disponibles",
+            "infoFiltered": "(filtrado de _MAX_ total)"
+        },
+        "autoWidth":true,
+        "columnDefs":[
+          {
+            "targets":0,"data":"IdNotaRemision","render":function(data,type,meta,row)
+            {
+                return "<a href='<?=site_url()?>/NotaRemision/CargarNotaRemision/"+data+"'' targets='_blank'>"+data+"</a>";
+            }
+          }
+
+        ],
+        "columns": [
+
+              { "data": "IdNotaRemision"},
+              { "data": "FechaNotaRemision" },
+              { "data": "Paciente" },
+              { "data": "TotalNotaRemision" },
+              { "data": "TotalPagado" },
+
+              { "data": "DescripcionEstatusNotaRemision" }
+
+
+
+              ]
+
+      });
+
+
+}
+
+function CargarDetalleMovimientosCorte() {
   var IdCuenta = $("#IdCuenta").val();
 
   var t = $('#tblDetalleMovimientosCuentaCorte').DataTable({
@@ -387,36 +507,24 @@ function CargarDetalleNotasCorte() {
           {
             "targets":0,"data":"IdNotaRemision","render":function(data,type,meta,row)
             {
-                return "<a href='<?=site_url()?>/NotaRemision/CargarNotaRemision/"+data+"''>"+data+"</a>";
+                return "<a href='<?=site_url()?>/NotaRemision/CargarNotaRemision/"+data+"'' target='_blank'>"+data+"</a>";
             }
           }
 
         ],
         "columns": [
-              // {
-              //     "className":      'details-control',
-              //     "orderable":      false,
-              //     "data":           null,
-              //     "defaultContent": ''
-              // },
-              // <th>Nota Remisión</th>
-              // <th>Fecha Nota</th>
-              // <th>Paciente</th>
-              // <th>Tipo Movimiento</th>
-              // <th>Cuenta</th>
-              //
-              // <th>Total Movimiento</th>
-              // <th>Forma Pago</th>
-              //
-              // <th>Id Salida</th>
+
               { "data": "IdNotaRemision"},
               { "data": "FechaNotaRemision" },
               { "data": "Paciente" },
               { "data": "DescripcionTipoMovimientoCuenta" },
               { "data": "DescripcionCuenta" },
               { "data": "TotalMovimiento" },
-              { "data": "DescripcionTipoPago" },
-              { "data": "IdSalidaCaja" }
+
+              { "data": "DescripcionTipoPago" }
+
+
+
 
 
               ]
@@ -425,5 +533,7 @@ function CargarDetalleNotasCorte() {
 
 
 }
+
+
 
 </script>

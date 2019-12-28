@@ -98,6 +98,7 @@ class CorteCaja_Controller extends CI_Controller {
 
       $data['title']='Consultar Detalle Corte No. '.$IdCorteCaja;
       $data['CorteCaja'] = $this->CorteCaja_Model->ConsultarCorteCajaPorId($IdCorteCaja);
+      $data['Imprimir'] = 0;
 
       $this->load->view('templates/MainContainer',$data);
       $this->load->view('templates/HeaderContainer',$data);
@@ -235,10 +236,7 @@ class CorteCaja_Controller extends CI_Controller {
                     "TotalEntradas"=>$TotalEntradas,
                     "TotalSalidas"=>$TotalSalidas,
                     "TotalCorte"=>$TotalCorte,
-                    "TotalEnEfectivo"=>$TotalEfectivo,
-                    "TotalEnTC"=>$TotalTC,
-                    "TotalTransferencias"=>$TotalTransferencias,
-                    "TotalVales"=>$TotalVales,
+
                     "TotalEntregado"=>$TotalEntregado,
                     "IdCuenta" => $IdCuenta,
                     "Comentarios"=>$Comentarios,
@@ -269,7 +267,7 @@ class CorteCaja_Controller extends CI_Controller {
                 }
 
                 //Actualizar Notas Remision
-                $this->NotaRemision_Model->AsignarCorteNotasRemision($IdCorteCaja);
+                $this->NotaRemision_Model->AsignarCorteNotasRemision($IdCuenta,$IdCorteCaja);
 
                 //Actualizar Movimientos de Cuentas
                 $this->MovimientoCuenta_Model->AsignarCorteMovimientosCuentas($IdCorteCaja,$IdCuenta);
@@ -289,10 +287,24 @@ class CorteCaja_Controller extends CI_Controller {
                 $data['title'] = 'Corte Exitoso';
                 $data['swal']=true;
                 $data['swalMessage']="title:'Corte registrado con exito',
-                text: 'El corte de la cuenta ".$Cuenta->DescripcionCuenta." se realizo por un Total en efectivo de $".$TotalEfectivo." y se recibio en efectivo $".$TotalEntregado."',
+                text: 'El corte de la cuenta ".$Cuenta->DescripcionCuenta." se realizo por un Total de $".$TotalCorte." y se entrego $".$TotalEntregado."',
                 type: 'success',
-                showConfirmButton: true";
 
+                showConfirmButton: true,
+                confirmButtonText:'<i class=\"icon-print\"></i> Imprimir Corte',
+                showCancelButton: true,
+                cancelButtonText: '<i class=\"icon-th-list\"></i> Consultar Cortes'";
+
+                $data['swalAction'] = ".then((result)=> {
+                  if (result.value) {
+                    window.open('".site_url("CorteCaja/ImprimirCorteCaja/".$IdCorteCaja)."','_blank');
+                  }
+                  else {
+                    window.location.href = '".site_url("CorteCaja/ConsultarCortesCaja")."';
+                  }
+
+
+                });";
 
                 $this->load->view('templates/MainContainer',$data);
                 $this->load->view('templates/HeaderContainer',$data);
@@ -360,6 +372,50 @@ class CorteCaja_Controller extends CI_Controller {
 
       echo json_encode($CortesCaja);
 
+    }
+
+    public function ConsultarDetalleNotasCorteCuenta_ajax()
+    {
+
+      $IdCuenta = $this->input->post('IdCuenta');
+
+      $this->load->model('NotaRemision_Model');
+
+      $DetalleNotas = $this->NotaRemision_Model->ConsultarNotasCorteCuenta($IdCuenta);
+
+      echo json_encode($DetalleNotas);
+      // code...
+    }
+
+
+    public function ConsultarDetallePagosCorte_ajax()
+    {
+      $IdCorteCaja = $this->input->post('IdCorteCaja');
+
+      $this->load->model('DetallePagosCorteCaja_Model');
+
+      $DetallePagosCorte = $this->DetallePagosCorteCaja_Model->ConsultarDetallesPagoCorte($IdCorteCaja);
+
+      echo json_encode($DetallePagosCorte);
+      // code...
+    }
+
+    public function ImprimirCorte($IdCorteCaja)
+    {
+
+      $data['title']='Detalle Corte No. '.$IdCorteCaja;
+      $data['CorteCaja'] = $this->CorteCaja_Model->ConsultarCorteCajaPorId($IdCorteCaja);
+      $data['Imprimir'] = 1;
+
+      $this->load->view('templates/MainContainerEmpty',$data);
+
+
+      $this->load->view('CorteCaja/CardResumenCorteCaja', $data);
+
+      $this->load->view('templates/FooterContainer');
+
+
+      // code...
     }
 
 }

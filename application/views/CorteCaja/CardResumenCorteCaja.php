@@ -229,6 +229,13 @@
       CargarBalanceCuentas();
       CargarDetalleMovimientosCuenta();
       CargarDetalleTipoPagoCorte();
+
+      var Impresion = <?=$Imprimir?>;
+      if (Impresion == 1)
+      {
+        window.print();
+      }
+
     });
 
     function CargarBalanceCuentas()

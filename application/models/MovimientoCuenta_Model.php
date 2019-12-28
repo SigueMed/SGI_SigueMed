@@ -229,6 +229,8 @@ class MovimientoCuenta_Model extends CI_Model {
       $this->db->join('cuenta c','c.IdCuenta = '.$this->table.'.IdCuenta');
 
       $this->db->where($this->table.'.IdCorteCaja',$IdCorteCaja);
+      $this->db->where($this->table.'.IdClinica', $this->session->userdata('IdClinica'));
+      $this->db->where($this->table.'.IdEstatusMovimientoCuenta <>3');
 
       $query = $this->db->get();
 
@@ -256,7 +258,9 @@ class MovimientoCuenta_Model extends CI_Model {
       $this->db->join('cuenta c','c.IdCuenta = '.$this->table.'.IdCuenta');
 
       $this->db->where($this->table.'.IdCorteCaja',NULL);
+      $this->db->where($this->table.'.IdClinica', $this->session->userdata('IdClinica'));
       $this->db->where($this->table.'.IdCuenta',$IdCuenta);
+      $this->db->where($this->table.'.IdEstatusMovimientoCuenta <>3');
 
 
       $query = $this->db->get();

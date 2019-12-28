@@ -103,6 +103,8 @@ $route['CorteCaja/ElaborarCorteCaja'] = 'CorteCaja_Controller/Load_IniciarCorteC
 $route['CorteCaja/DetalleCorteCaja'] = 'CorteCaja_Controller/Load_RealizarCorteCajaCuenta';
 $route['CorteCaja/ConsultaCortesCaja'] = 'CorteCaja_Controller/Load_ConsultarCortesCaja';
 $route['CorteCaja/ConsultarDetalleCorte/(.+)'] = 'CorteCaja_Controller/Load_ConsultarDetalleCorteCaja/$1';
+$route['CorteCaja/ImprimirCorteCaja/(.+)'] = 'CorteCaja_Controller/ImprimirCorte/$1';
+
 
 
 
@@ -117,5 +119,7 @@ $route['Dashboard/Main'] = 'Dashboard_Controller/Load_Dashboard';
 
 $route['Catalogos/AltaProductos'] = 'CatalogoProductos_Controller/Load_AltaProductos';
 $route['Catalogos/ActualizacionPrecios'] = 'CatalogoProductos_Controller/Load_PreciosProductos';
-
 $route['Catalogos/ConsultaProductos'] = 'CatalogoProductos_Controller/Load_CatalogoProductos';
+
+//Proveedores
+$route['Proveedores/PagarProveedor'] = 'Proveedor_Controller/Load_PagarProveedor';

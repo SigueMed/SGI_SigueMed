@@ -138,10 +138,16 @@ class NotaRemision_Model extends CI_Model {
 
     }
 
-    public function AsignarCorteNotasRemision($IdCorteCaja)
+    public function AsignarCorteNotasRemision($IdCuenta,$IdCorteCaja)
     {
         $this->db->set('IdCorteCaja',$IdCorteCaja);
-        $this->db->where('IdNotaRemision IN (SELECT IdNotaRemision FROM movimientocuenta where IdCorteCaja ='.$IdCorteCaja.')');
+        $this->db->where('IdNotaRemision IN (Select DISTINCT nr.IdNotaRemision
+                                              from (select * from notaremision) as nr
+                                                	join detallenotaremision dnr on dnr.IdNotaRemision = nr.IdNotaRemision
+                                                    join catalogoproductos cp on cp.IdProducto = dnr.IdProducto
+                                                    join cuentaproducto c on c.IdProducto = cp.IdProducto
+                                                where IdCuenta = '.$IdCuenta.'
+                                                and IdCorteCaja is null)');
         return $this->db->update($this->table);
 
     }
@@ -170,7 +176,31 @@ class NotaRemision_Model extends CI_Model {
     public function ConsultarNotasCorteCuenta($IdCuenta)
     {
 
-      
+      $this->db->select($this->table.'.*, CONCAT(NombreEmpleado, " ",ApellidosEmpleado) as ElaboradaPor, DescripcionTurno');
+      $this->db->select('CONCAT(Nombre, " ",Apellidos) as Paciente, DescripcionEstatusNotaRemision');
+      $this->db->from($this->table);
+      $this->db->join('empleado',$this->table.'.IdEmpleado = empleado.IdEmpleado');
+      $this->db->join('catalogoestatusnotaremision',$this->table.'.IdEstatusNotaRemision = catalogoestatusnotaremision.IdEstatusNotaRemision');
+      $this->db->join('paciente',$this->table.'.IdPaciente = paciente.IdPaciente');
+      $this->db->join('catalogoturno',$this->table.'.IdTurno = catalogoturno.IdTurno');
+      $this->db->join('detallenotaremision dnr',$this->table.'.IdNotaRemision = dnr.IdNotaRemision');
+      $this->db->join('catalogoproductos cp','dnr.IdProducto = cp.IdProducto');
+      $this->db->join('cuentaproducto c','c.IdProducto = cp.IdProducto');
+
+
+      $this->db->where('IdClinica',$this->session->userdata('IdClinica'));
+      $this->db->where('c.IdCuenta',$IdCuenta);
+      $this->db->where('IdCorteCaja',NULL);
+
+
+
+      $query = $this->db->get();
+
+      return $query->result_array();
+
+
+
+
 
 
       // code...

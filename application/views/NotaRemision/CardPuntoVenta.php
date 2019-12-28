@@ -609,6 +609,7 @@
                     );
                 ActualizarTotalNota(subtotal);
                 CalcularTotalesNotaRemision();
+                HabilitarPago();
 
                  $('#cbProducto').val('');
                  $('#SubtotalProducto').val('');
@@ -730,7 +731,7 @@
                 }
 
                 $("#idPaciente").val(value);
-                $("#btnPagar").removeAttr('disabled');
+                HabilitarPago();
                 $("#lblNombrePaciente").html(NombrePaciente);
                 $("#lblSexo").html(sexo);
                 $("#lblFechaNacimiento").html(FechaNacimiento.toDateString("es-ES","dd/M/YYYY"));
@@ -761,7 +762,7 @@
 
                 $("#idPaciente").val(value);
                 $("#lblNombrePaciente").html(NombrePaciente);
-                $("#btnPagar").removeAttr('disabled');
+                HabilitarPago();
                 $("#lblSexo").html(sexo);
                 $("#lblFechaNacimiento").html(FechaNacimiento.toLocaleDateString());
 
@@ -822,14 +823,7 @@
 
         var Row = document.getElementById('rowPago'+index);
         var Cell = Row.getElementsByTagName('td');
-
-
-
-
         var montoPago = parseFloat(Cell[3].innerText.substring(1,Cell[3].innerText.length));
-
-
-
 
         document.getElementById("tblPagos").deleteRow(Row.rowIndex);
 
@@ -1034,7 +1028,7 @@
           else {
             $("#lblSexo").html('MASCULINO');
           }
-          $("#btnPagar").removeAttr('disabled');
+          HabilitarPago();
 
           $("#Modal_NuevoPaciente").modal('hide');
         }
@@ -1067,5 +1061,23 @@
      }
 
      return edad;
+ }
+
+ function HabilitarPago() {
+   var Paciente = $("#idPaciente").val();
+   var TotalNota = $("#TotalNota").val();
+
+
+   if (Paciente!== "" && TotalNota !== "")
+   {
+
+     $("#btnPagar").removeAttr('disabled');
+
+   }
+
+
+
+
+
  }
 </script>

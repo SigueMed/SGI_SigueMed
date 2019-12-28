@@ -274,9 +274,50 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
 
 }
 function LoadRowDetail ( d ) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
 
-    '</table>';
+  var div = $('<div/>')
+        .addClass( 'loading' )
+        .text( 'Loading...' );
+
+
+    $.ajax({
+      url: '<?= site_url()?>/CorteCaja_Controller/ConsultarDetallePagosCorte_ajax',
+      type: 'POST',
+
+      data: {IdCorteCaja: d.IdCorteCaja}
+    })
+    .done(function(data) {
+
+      var DetallesPagoCorte = JSON.parse(data);
+
+      for (i=0; i<DetallesPagoCorte.length;i++)
+      {
+        var output ='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                        '<th>Tipo Pago</th>'+
+                        '<th>Corte</th>'+
+                        '<th>Entregado</th>';
+        output +='<tr>'+
+                  '<td>'+DetallesPagoCorte[i]['DescripcionTipoPago']+'</td>'+
+                  '<td>'+DetallesPagoCorte[i]['TotalCorteCaja']+'</td>'+
+                  '<td>'+DetallesPagoCorte[i]['TotalEntregado']+'</td>'+
+                '</tr>';
+
+      }
+      output += '</table>';
+
+      div.html(output);
+      div.removeClass('loading');
+
+      console.log(output);
+    })
+    .fail(function() {
+      console.log("error");
+    });
+
+
+
+    return div;
+
+    // `d` is the original data object for the row
 }
 </script>

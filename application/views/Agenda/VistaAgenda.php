@@ -88,8 +88,7 @@
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
 					editable: true,
-          minTime: "07:00:00",
-          maxTime: "23:00:00",
+        
           allDaySlot: false,
                                         //llama a data de la funcion getEvetos
 					events: {
@@ -957,7 +956,7 @@
                         Comentarios:Comentarios
 		},
 		function(data){
-    
+
 			if (data != "0") {
         Swal.fire({
             title:'Nueva cita registrada',

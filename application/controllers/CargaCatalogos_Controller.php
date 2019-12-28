@@ -153,5 +153,27 @@ class CargaCatalogos_Controller extends CI_Controller {
       echo json_encode($result);
       // code...
     }
+
+    public function ConsultarServiciosProveedores_ajax()
+    {
+
+      $this->load->model('Servicio_Model');
+
+      $Proveedores = $this->Servicio_Model->ConsultarServiciosProveedores();
+
+      $output='<option value="">Selecciona un Proveedor</option>';
+
+       foreach($Proveedores as $Proveedor)
+       {
+           $output .= '<option value="'.$Proveedor['IdServicio'].'">'.$Proveedor['DescripcionServicio'].'</option>';
+       }
+       echo $output;
+
+      echo json_encode($result);
+
+      // code...
+    }
+
+  
     //put your code here
 }
