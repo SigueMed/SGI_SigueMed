@@ -378,10 +378,18 @@ class CorteCaja_Controller extends CI_Controller {
     {
 
       $IdCuenta = $this->input->post('IdCuenta');
+      $IdCorteCaja = $this->input->post('IdCorteCaja');
 
       $this->load->model('NotaRemision_Model');
 
-      $DetalleNotas = $this->NotaRemision_Model->ConsultarNotasCorteCuenta($IdCuenta);
+      if (isset($IdCorteCaja) && $IdCorteCaja !== null)
+      {
+          $DetalleNotas = $this->NotaRemision_Model->ConsultarNotasCorteCuenta($IdCuenta,$IdCorteCaja);
+      }
+      else {
+        $DetalleNotas = $this->NotaRemision_Model->ConsultarNotasCorteCuenta($IdCuenta);
+      }
+
 
       echo json_encode($DetalleNotas);
       // code...

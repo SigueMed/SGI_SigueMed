@@ -173,10 +173,10 @@ class NotaRemision_Model extends CI_Model {
       // code...
     }
 
-    public function ConsultarNotasCorteCuenta($IdCuenta)
+    public function ConsultarNotasCorteCuenta($IdCuenta, $IdCorteCaja = FALSE)
     {
 
-      $this->db->select($this->table.'.*, CONCAT(NombreEmpleado, " ",ApellidosEmpleado) as ElaboradaPor, DescripcionTurno');
+      $this->db->select('DISTINCT('.$this->table.'.IdNotaRemision),'.$this->table.'.*, CONCAT(NombreEmpleado, " ",ApellidosEmpleado) as ElaboradaPor, DescripcionTurno');
       $this->db->select('CONCAT(Nombre, " ",Apellidos) as Paciente, DescripcionEstatusNotaRemision');
       $this->db->from($this->table);
       $this->db->join('empleado',$this->table.'.IdEmpleado = empleado.IdEmpleado');
@@ -189,20 +189,21 @@ class NotaRemision_Model extends CI_Model {
 
 
       $this->db->where('IdClinica',$this->session->userdata('IdClinica'));
-      $this->db->where('c.IdCuenta',$IdCuenta);
-      $this->db->where('IdCorteCaja',NULL);
 
 
+      if ($IdCorteCaja !== FALSE)
+      {
+        $this->db->where('IdCorteCaja',$IdCorteCaja);
+      }
+      else {
+
+        $this->db->where('IdCorteCaja',NULL);
+        $this->db->where('c.IdCuenta',$IdCuenta);
+      }
 
       $query = $this->db->get();
 
       return $query->result_array();
-
-
-
-
-
-
       // code...
     }
 }

@@ -43,7 +43,7 @@ class DetalleNotaRemision_Model extends CI_Model{
     public function ConsultarMovimientosProveedorSinPagar($IdProveedor)
     {
 
-      $this->db->select('dnr.IdNotaRemision, FechaNotaRemision,DescripcionTipoPago,DescripcionProducto,Cantidad, CostoUnitario, dnr.PrecioProveedor, PorcentajeNotaRemision, (Cantidad*(CostoUnitario-dnr.PrecioProveedor)) as TotalProveedor');
+      $this->db->select('dnr.IdNotaRemision, FechaNotaRemision,DescripcionTipoPago,DescripcionProducto,Cantidad, CostoUnitario, dnr.PrecioProveedor, PorcentajeNotaRemision, (Cantidad*(dnr.PrecioProveedor)) as TotalProveedor');
       $this->db->from($this->table.' dnr');
       $this->db->join('catalogoproductos cp','dnr.IdProducto = cp.IdProducto');
       $this->db->join('pagonotaremision pnr','pnr.IdNotaRemision = dnr.IdNotaRemision');
@@ -62,7 +62,7 @@ class DetalleNotaRemision_Model extends CI_Model{
 
     public function ConsultarResumenTipoPagoProveedor($IdProveedor)
     {
-      $this->db->select('DescripcionTipoPago, SUM(Cantidad*(CostoUnitario-dnr.PrecioProveedor)) as TotalPago');
+      $this->db->select('DescripcionTipoPago, SUM(Cantidad*(dnr.PrecioProveedor)) as TotalPago');
       $this->db->from($this->table.' dnr');
       $this->db->join('catalogoproductos cp','dnr.IdProducto = cp.IdProducto');
       $this->db->join('pagonotaremision pnr','pnr.IdNotaRemision = dnr.IdNotaRemision');
@@ -81,7 +81,7 @@ class DetalleNotaRemision_Model extends CI_Model{
 
     public function ConsultarTotalPagoProveedor($IdProveedor)
     {
-      $this->db->select('SUM(Cantidad*(CostoUnitario-dnr.PrecioProveedor)) as TotalPago');
+      $this->db->select('SUM(Cantidad*(dnr.PrecioProveedor)) as TotalPago');
       $this->db->from($this->table.' dnr');
       $this->db->join('catalogoproductos cp','dnr.IdProducto = cp.IdProducto');
       $this->db->join('pagonotaremision pnr','pnr.IdNotaRemision = dnr.IdNotaRemision');

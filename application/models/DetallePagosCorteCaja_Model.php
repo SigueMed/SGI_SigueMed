@@ -26,7 +26,7 @@ class DetallePagosCorteCaja_Model extends CI_Model{
     $this->db->select($this->table.'.*');
     $this->db->select('DescripcionTipoPago');
     $this->db->from($this->table);
-    $this->db->join('CatalogoTipoPago ctp',$this->table.'.IdTipoPago = ctp.IdTipoPago');
+    $this->db->join('catalogotipopago ctp',$this->table.'.IdTipoPago = ctp.IdTipoPago');
     $this->db->where('IdCorteCaja',$IdCorteCaja);
 
     $query = $this->db->get();
