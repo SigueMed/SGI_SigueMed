@@ -185,22 +185,61 @@ class Seguimiento_Controller extends CI_Controller {
         $FechaSeguimiento = $this->input->post('FechaSeguimiento');
         $PrioridadSeguimiento = $this->input->post('cbPrioridadSeguimiento');
 
-        $Seguimiento = array(
-            'DescripcionSeguimiento'=> $DescripcionSeguimiento,
-            'IdServicio'=>$IdServicio,
-            'IdPaciente' => $IdPaciente,
-             'IdEstatusSeguimiento'=>1,
-             'IdElaboradoPor'=> $this->session->userdata('IdEmpleado'),
-             'FechaSeguimiento' => $FechaSeguimiento,
-             'IdClinica'=>$this->session->userdata('IdClinica'),
-             'Prioridad'=>$PrioridadSeguimiento);
+        if($IdPaciente !=='')
+        {
+          $Seguimiento = array(
+              'DescripcionSeguimiento'=> $DescripcionSeguimiento,
+              'IdServicio'=>$IdServicio,
+              'IdPaciente' => $IdPaciente,
+               'IdEstatusSeguimiento'=>1,
+               'IdElaboradoPor'=> $this->session->userdata('IdEmpleado'),
+               'FechaSeguimiento' => $FechaSeguimiento,
+               'IdClinica'=>$this->session->userdata('IdClinica'),
+               'Prioridad'=>$PrioridadSeguimiento);
 
-        $this->SeguimientoMedico_Model->InsertarSeguimiento($Seguimiento);
+          $this->SeguimientoMedico_Model->InsertarSeguimiento($Seguimiento);
 
-         echo "<script>
-            alert('Se ha registrado el nuevo seguimiento');
-            window.location.href='".site_url('Paciente/SeguimientoPaciente')."';
-            </script>";
+          $data['title'] = 'Nuevo Seguimento Guardado';
+          $data['swal']=true;
+          $data['swalMessage']="title:'Nuevo Seguimiento Registrado',
+          text: 'El nuevo seguimiento se creo exitosamente',
+          type: 'success',
+
+          showConfirmButton: true";
+
+          $data['swalAction'] = ".then((result)=> {
+            if (result.value) {
+              window.location.href = '".site_url("Paciente/SeguimientoPaciente")."';
+            }
+          });";
+
+          $this->load->view('templates/MainContainer',$data);
+          $this->load->view('templates/HeaderContainer',$data);
+          $this->load->view('templates/FormFooter',$data);
+          $this->load->view('templates/FooterContainer');
+
+
+        }
+        else {
+          $data['title'] = 'ERROR: Nuevo Seguimiento';
+          $data['swal']=true;
+          $data['swalMessage']="title:'Error',
+          text: 'No se selecciono el paciente de forma correcta',
+          type: 'error',
+
+          showConfirmButton: true";
+
+          $data['swalAction'] = ".then((result)=> {
+            if (result.value) {
+              window.location.href = '".site_url("Paciente/SeguimientoPaciente")."';
+            }
+          });";
+
+          $this->load->view('templates/MainContainer',$data);
+          $this->load->view('templates/HeaderContainer',$data);
+          $this->load->view('templates/FormFooter',$data);
+          $this->load->view('templates/FooterContainer');
+        }
 
     }
 

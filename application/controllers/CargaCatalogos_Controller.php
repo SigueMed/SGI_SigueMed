@@ -169,11 +169,38 @@ class CargaCatalogos_Controller extends CI_Controller {
        }
        echo $output;
 
+      // code...
+    }
+
+    public function ConsultarClinicas_ajax()
+    {
+      $this->load->model('Clinica_Model');
+
+      $result = $this->Clinica_Model->ConsultarClinicas();
+
       echo json_encode($result);
 
       // code...
     }
 
-  
+    public function CargarPerfiles_ajax()
+    {
+
+      $this->load->model('Perfil_Model');
+
+      $Perfiles = $this->Perfil_Model->ConsultarPerfiles();
+
+      $output='<option value="">Selecciona un Perfil</option>';
+
+       foreach($Perfiles as $perfil)
+       {
+           $output .= '<option value="'.$perfil['IdPerfil'].'">'.$perfil['DescripcionPerfil'].'</option>';
+       }
+       echo $output;
+
+      // code...
+    }
+
+
     //put your code here
 }

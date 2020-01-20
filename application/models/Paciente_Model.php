@@ -80,8 +80,8 @@ class Paciente_Model extends CI_Model {
 
 
                 $PacienteUpdt = array(
-                    'Nombre'=>$this->input->post('Nombre'),
-                    'Apellidos' => $this->input->post('Apellidos'),
+                    'Nombre'=>rtrim($this->input->post('Nombre')),
+                    'Apellidos' => rtrim($this->input->post('Apellidos')),
                     'Sexo' => $this->input->post('cbSexo'),
                     'FechaNacimiento' => $this->input->post('FechaNacimiento'),
                     'Calle' => $this->input->post('Calle'),
@@ -114,8 +114,8 @@ class Paciente_Model extends CI_Model {
     public function agregarNuevoPaciente($param){
 
         $campos = array(
-            'Nombre' => $param['nombre'],
-            'Apellidos' => $param['apellido'],
+            'Nombre' => rtrim($param['nombre']),
+            'Apellidos' => rtrim($param['apellido']),
             'NumCelular' => $param['telefono'],
         );
 
@@ -130,9 +130,17 @@ class Paciente_Model extends CI_Model {
 
     public function AgregarPaciente($DatosPaciente)
     {
-      $this->db->insert($this->table,$DatosPaciente);
 
-      return $this->db->insert_id();
+      if ($DatosPaciente['Nombre']=='' || $DatosPaciente['Nombre']==' ')
+      {
+        return false;
+      }
+      else {
+        $this->db->insert($this->table,$DatosPaciente);
+
+        return $this->db->insert_id();
+      }
+
     }
 
     public function BuscarPacientePorNombre($Nombre, $Apellidos)

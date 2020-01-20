@@ -12,12 +12,27 @@
  * @author SigueMed
  */
 class Perfil_Model extends CI_Model {
-    
-    public $Perfil_Medico;
+
+
+    private $table;
+
     public function __construct() {
         parent::__construct();
-        
-        $this->Perfil_Medico = 3;
+        $this->table = 'perfil';
+
     }
+
+    public function ConsultarPerfiles()
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+
+      $query = $this->db->get();
+
+      return $query->result_array();
+      // code...
+    }
+
+
     //put your code here
 }

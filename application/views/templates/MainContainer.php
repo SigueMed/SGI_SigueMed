@@ -322,6 +322,20 @@
                         </li>
                       </ul>
                     </li>';
+
+                //CATALOGO USUARIOS
+                echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Usuarios</a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Catalogos/NuevoUsuario').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Usuario </a>
+                        </li>';
+
+                }
+                        echo '<li><a href="'. site_url('/Catalogos/ConsultaUsuarios').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Usuarios</a>
+                        </li>
+                      </ul>
+                    </li>';
             }
           ?>
 
