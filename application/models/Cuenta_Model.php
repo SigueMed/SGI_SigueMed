@@ -53,6 +53,8 @@ class Cuenta_Model extends CI_Model{
         return $query->result_array();
     }
 
+
+
     public function ConsultarCuentaPorId($IdCuenta)
     {
         $this->db->select($this->table.'.*, CONCAT(NombreEmpleado," ",ApellidosEmpleado) as PropietarioCuenta, DescripcionServicio');

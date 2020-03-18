@@ -353,7 +353,7 @@
          var datos ={
            FechaInicio:FechaInicio,
            FechaFin:FechaFin,
-           EstatusNota:'notaremision.IdEstatusNotaRemision = 3 OR notaremision.IdEstatusNotaRemision = 4'
+           EstatusNota:'(notaremision.IdEstatusNotaRemision = 3 OR notaremision.IdEstatusNotaRemision = 4)'
          };
            CargarTabla(datos);
 
@@ -436,24 +436,7 @@
 
                ],
                "columns": [
-                 // <th>No. Nota</th>
-                 // <th>Fecha Nota</th>
-                 // <th>Paciente</th>
-                 //
-                 // <th>Estatus</th>
-                 // <th>Total Nota</th>
-                 // <th>Total Pagado</th>
-                 // <th>Total Adeudo</th>
-                 // <th>Requiere Factura</th>
-                 // <th>Elaborada por</th>
-                 // <th>Turno</th>
-                 // <th>Acciones</th>
-                     // {
-                     //     "className":      'details-control',
-                     //     "orderable":      false,
-                     //     "data":           null,
-                     //     "defaultContent": ''
-                     // },
+
                      { "data": "IdNotaRemision"},
                      { "data": "FechaNotaRemision" },
                      { "data": "NombrePaciente" },

@@ -69,15 +69,10 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->join('empleado em2',$this->table.'.IdEmpleado_2 = em2.IdEmpleado','left');
         $this->db->join('empleado em3',$this->table.'.IdEmpleado_3 = em3.IdEmpleado','left');
 
-        if ($condicion==FALSE) {
-          $this->db->group_start();
-          $this->db->where($this->table.'.IdEstatusSeguimiento',1);
-          $this->db->or_where($this->table.'.IdEstatusSeguimiento',2);
-          $this->db->group_end();
-        }
-        else {
+        if ($condicion!==FALSE) {
           $this->db->where($condicion);
         }
+        
 
         $this->db->where($this->table.'.IdClinica', $this->session->userdata('IdClinica'));
 

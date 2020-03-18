@@ -335,8 +335,8 @@ class Paciente_Controller extends CI_Controller
 
   public function AgregarNuevoPaciente()
   {
-    $Nombre = $this->input->post('NombrePaciente');
-    $Apellidos = $this->input->post('ApellidosPaciente');
+    $Nombre = rtrim($this->input->post('NombrePaciente'));
+    $Apellidos = rtrim($this->input->post('ApellidosPaciente'));
     $Telefono = $this->input->post('TelefonoPaciente');
     $FechaNacimiento = $this->input->post('FechaNacimientoPaciente');
     $RFC = ($this->input->post('RFCPaciente')!==null?$this->input->post('RFCPaciente'):"") ;

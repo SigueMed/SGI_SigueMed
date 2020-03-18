@@ -123,8 +123,10 @@ class NotaRemision_Model extends CI_Model {
         $this->db->join('paciente',$this->table.'.IdPaciente = paciente.IdPaciente');
         $this->db->join('catalogoturno',$this->table.'.IdTurno = catalogoturno.IdTurno');
         $this->db->where('IdClinica',$IdClinica);
+        $this->db->group_start();
         $this->db->where('FechaNotaRemision >=',$FechaInicio);
         $this->db->where('FechaNotaRemision <=', $FechaFin);
+        $this->db->group_end();
         if($IdEstatusNota!== FALSE)
         {
             $this->db->where ($IdEstatusNota);

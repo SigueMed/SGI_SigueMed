@@ -50,7 +50,7 @@
                       </div>
                       <div class="row">
                           <div class="col-md-3 col-xs-3">
-                              <img src="<?php echo base_url();?>app-assets/images/portrait/small/paciente50.png" alt="avatar">
+                              <img src="<?php echo base_url();?>app-assets/images/portrait/small/Paciente50.png" alt="avatar">
                           </div>
                           <div class="col-md-9 col-xs-9">
                               <b><label id="lblNombrePaciente" style="font-size: 16px"></label></b>
