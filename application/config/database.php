@@ -74,7 +74,7 @@ $active_group = ENVIRONMENT;
 $query_builder = TRUE;
 
 $db['development'] = array(
-	'dsn'	=> '‘mysql:host=localhost;dbname=bd_siguemed’',
+	'dsn'	=> '‘mysql:host=localhost;dbname=bd_siguemed_preprod’',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',

@@ -303,6 +303,13 @@ public function ActualizarPreciosProductos()
       $this->CatalogoProductos_Model->ActualizarPrecios_Batch($PreciosActualizados);
     }
 }
+
+public function autocompleteProducto(){
+  $IdClinica =$this->session->userdata('IdClinica');
+    $IdFoliador = $this->input->post('IdFoliador');
+    $resultado = $this->CatalogoProductos_Model->ConsultarProductosPuntoVenta($IdFoliador,$IdClinica);
+    echo json_encode($resultado);
+}
 //**************************[FIN] ACTUALIZACION PRECIOS****************************
 
 

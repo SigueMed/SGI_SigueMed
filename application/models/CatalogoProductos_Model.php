@@ -122,4 +122,22 @@ class CatalogoProductos_Model extends CI_Model{
       return $this->db->update_batch($this->table,$NuevosPrecios,'IdProducto');
       // code...
     }
+
+    public function ConsultarProductosPuntoVenta($IdFoliador,$IdClinica)
+    {
+      $this->db->select($this->table.'.*, DescripcionServicio, Proveedor');
+      $this->db->from($this->table);
+      $this->db->join('servicio',$this->table.'.IdServicio = Servicio.IdServicio');
+      $this->db->join('folioservicio','servicio.IdServicio = folioservicio.IdServicio');
+
+      $this->db->where($this->table.'.Habilitado', true);
+      $this->db->where('servicio.Habilitado', true);
+      $this->db->where('folioservicio.IdFoliador',$IdFoliador);
+      $this->db->where('folioservicio.IdClinica',$IdClinica);
+      $this->db->order_by('DescripcionProducto','asc');
+
+      $query= $this->db->get();
+
+      return $query->result_array();
+    }
 }

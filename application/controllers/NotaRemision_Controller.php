@@ -90,10 +90,6 @@ class NotaRemision_Controller extends CI_Controller {
                     $TotalNota = $this->input->post('TotalNota');
                     $TotalPagadoNota = $this->input->post('resumenTotalPago');
 
-                    log_message('debug','TotalPagadoNota'.$TotalPagadoNota);
-
-
-
                     if ($this->input->post('RequiereFactura')==1)
                     {
                         $RequiereFactura = TRUE;
@@ -132,7 +128,7 @@ class NotaRemision_Controller extends CI_Controller {
                     {
 
                        //CARGAR DETALLE NOTA REMISION
-                        $IdProductos = $this->input->post('IdProducto');
+                        $IdProductos = $this->input->post('IdProductos');
 
                         $cantidadProductos = $this->input->post('cantidad');
                         $precioProductos = $this->input->post('precio');

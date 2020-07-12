@@ -9,6 +9,9 @@
     .inputNombrePaciente{
          width: 100%;
     }
+    .inputBuscarProducto{
+         width: 100%;
+    }
     .table th {
         font-size: 14px;
         padding: 7px;}
@@ -24,151 +27,171 @@
 </style>
 
 <?php echo form_open('NotaRemision_Controller/RegistrarNotaRemision');?>
+<!--RENGLON 1-->
 <div class="row">
 
-    <!--PACIENTE-ULTIMAS NOTAS-->
-    <div class="col-lg-4 col-xs-12">
+    <div class="col-lg-6 col-xs-12">
 
         <!-- PACIENTE -->
         <div class="card my-4">
+          <div class="card-header">
+              <h6>Datos Paciente</h6>
+          </div>
 
           <div class="card-body">
               <div class="card-block">
                   <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input type="checkbox" id="chkPacienteGeneral" name="PacienteGeneral" value="PacienteGeneral">
+                        <label for="chkPacienteGeneral">Venta General</label><br>
+
+                      </div>
+
+                    </div>
                       <div class="row">
-                        <div class="col-md-10 col-xs-12">
+                        <div class="col-md-2 col-xs-1">
+                            <img src="<?php echo base_url();?>app-assets/images/portrait/small/Paciente50.png" alt="avatar">
+                        </div>
+                        <div class="col-md-8 col-xs-12">
                               <div class="form-group">
                                   <input type="hidden" class="form-control" id="idPaciente" name="idPaciente"  readonly="readonly"/>
-                                  <label>Paciente</label>
+                                  <label>Nombre:</label>
                                   <input type="text" class="inputNombrePaciente form-control" id="txtPaciente" required placeholder="Buscar" />
                               </div>
-                            </div>
+                          </div>
                           <div class="col-md-2">
+                            <label style="color:white">_____</label>
                               <button type="button" class="btn btn-sm btn-success" onclick="AbrirModalNuevoPaciente()"><i class="icon-plus"></i></button>
                           </div>
 
                       </div>
                       <div class="row">
-                          <div class="col-md-3 col-xs-3">
-                              <img src="<?php echo base_url();?>app-assets/images/portrait/small/Paciente50.png" alt="avatar">
-                          </div>
+
                           <div class="col-md-9 col-xs-9">
                               <b><label id="lblNombrePaciente" style="font-size: 16px"></label></b>
                           </div>
 
                       </div>
                       <div class="row">
-                          <div class="col-md-3">
 
-                          </div>
                           <div class="col-md-7" style="font-size: 11px">
 
-                              <label id="lblFechaNacimiento" ></label> | <label id="lblSexo"></label> | <a href="#"><i class="icon-pencil"></i></a>
+                              Fec. Nacimiento: <label id="lblFechaNacimiento" ></label> |Sexo: <label id="lblSexo"></label> | <a href="#"><i class="icon-pencil"></i></a>
                           </div>
                           <div class ="col-md-2">
 
                           </div>
 
                       </div>
-                       <div class="row">
-                          <div class="col-md-3">
 
-                          </div>
-                          <div class="col-md-7" style="font-size: 11px">
-
-                              Total Adeudos: $<label id="lblTotalAdeudos" ></label>  <a href="#"><i class="icon-note"></i></a>
-                          </div>
-                          <div class ="col-md-2">
-
-                          </div>
-
-                      </div>
                   </div>
               </div>
 
           </div>
         </div>
+    </div>
 
-        <!-- ULTIMAS NOTAS -->
+    <div class="col-lg-6 col-xs-12">
+
+        <!-- Resumen -->
         <div class="card my-4">
           <div class="card-header">
-            <h6 >Ultimas Notas</h6>
+              <h6>Resumen Compra</h6>
           </div>
+
           <div class="card-body">
               <div class="card-block">
-                  <!--FORM BODY-->
                   <div class="form-body">
-                      The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS!
+                      <div class="row">
+
+                      </div>
                   </div>
               </div>
-
           </div>
         </div>
-
     </div>
-    <div class="col-lg-8 col-xs-12">
+
+
+</div>
+<!--RENGLON 2-->
+<div class="row">
+    <div class="col-lg-12 col-xs-12">
         <!--SERVICIOS NOTA-->
         <div class="card my-4">
             <div class="card-header">
-                <h6>Nota Remisión</h6>
+                <h6>Detalle</h6>
             </div>
             <div class="card-body">
                 <div class="card-block">
+                  <div class="row">
+                    <div class="col-md-12">
+                        <table class="table" style="width:100%" id="tablaProductos">
+                                <thead>
+                                    <tr>
+                                        <th >#</th>
+                                        <th >Servicio</th>
+                                        <th >Producto</th>
+                                        <th >Costo</th>
+                                        <th >Cant.</th>
+                                        <th >Total</th>
+                                        <th >Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
 
-                    <p class="card-text">Agrega los servicios brindados al paciente<br></p>
-                    <div class="row">
+                    </div>
+                  </div>
 
-                        <div class="col-md-10 col-xs-10">
+                    <div class="row  match-height">
+                      <div class="col-md-12 col-xs-12">
                             <div class="form-group">
-                                <label for="cbFoliador">Grupo</label>
-                                <input type="hidden" name ="IdFoliador" id="IdFoliador"/>
-                                <select name="cbFoliador" id="cbFoliador" class="form-control" onchange="CargarServiciosGrupo(this)" >
-                                    <option value="">Grupo</option>
-
-                                </select>
+                                <input type="hidden" class="form-control" id="IdProducto" name="IdProducto"  readonly="readonly"/>
+                                <label>Servicio/Producto:</label>
+                                <input type="text" class="inputBuscarProducto form-control" id="txtProducto" placeholder="Buscar" />
+                                <input type="hidden" name="IdFoliador" id="IdFoliador" value="1">
                             </div>
                         </div>
-                        <div class="col-md-2 col-xs-2">
+                      </div>
+                      <div class="row">
+
+
+                        <div class="col-md-4 col-xs-4">
                           <div class="form-group">
-                            <button type="button" name="btnLimpiar" class="btn" onclick="location.reload()"><i class="icon-reload"></i></button>
+                            <label for="DescripcionProducto">Descripción Producto:</label>
+                            <input type="text" class = "form-control" name="DescripcionProducto" id="DescripcionProducto" value="" readonly="readonly">
+                            <input type="hidden" class="form-control" id="IdServicio" name="IdServicio"  readonly="readonly"/>
+                            <input type="hidden" class="form-control" id="DescripcionServicio" name="DescripcionServicio"  readonly="readonly"/>
+                            <input type="hidden" class="form-control" id="PrecioProveedor" name="PrecioProveedor"  readonly="readonly"/>
+                            <input type="hidden" class="form-control" id="EsProveedor" name="EsProveedor"  readonly="readonly"/>
+
 
                           </div>
 
                         </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label for="CantidadProducto">Cantidad</label>
+                            <input type="text" class ="form-control" name="CantidadProducto"  id="CantidadProducto" value="">
+                          </div>
 
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="cbServicio">Servicio</label>
-                                <select name="cbServicio" id="cbServicio" class="form-control" onchange="CargarProductosPorServicio(this)">
-                                    <option value="">Servicios</option>
-
-                                </select>
-                            </div>
                         </div>
 
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="cbProducto">Producto</label>
-                                <select name="cbProducto" id="cbProducto" class="form-control"  >
-                                    <option value="">Productos</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row  match-height">
-                        <div class="col-md-5 col-xs-4   ">
+                        <div class="col-md-3 col-xs-3">
                             <div class="form-group">
                                  <label for="SubtotalProducto">Total</label>
-                                 <div class="input-group">
+
+                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
+
+
+                                 <!-- <div class="input-group">
+
                                     <span class="input-group-addon">$</span>
-                                   <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly/>
-                                 </div>
+                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
+                                 </div> -->
+
                                  <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
                                  <input type="hidden" name="Lote" id="Lote">
                             </div>
@@ -187,26 +210,7 @@
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-responsive my-0" id="tablaProductos">
-                                    <thead>
-                                        <tr>
-                                            <th >#</th>
-                                            <th >Servicio</th>
-                                            <th >Producto</th>
-                                            <th >Subtotal</th>
-                                            <th >Eliminar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
 
-                        </div>
-
-
-                    </div>
 
 
 
@@ -214,152 +218,150 @@
             </div>
         </div>
 
-        <div class="card my-0">
-            <div class="card-header">
-                <h6>Resumen</h6>
-            </div>
-            <div class="card-body">
-                <div class="card-block">
-                  <div class="row">
-                    <div class="col-md-3">
+
+    </div>
+
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <div class="card my-0">
+        <div class="card-header">
+            <h6>Resumen</h6>
+        </div>
+        <div class="card-body">
+            <div class="card-block">
+
+                <div class="row" align="right">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                           <label for="TotalNota">Total</label>
+                           <div class="input-group">
+                              <span class="input-group-addon">$</span>
+                             <input type="text" id="TotalNota" name="TotalNota" class="form-control" placeholder="Total" readonly/>
+                           </div>
+                      </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label for="cb_FormaPago">Forma de Pago:</label>
+                          <select id="cb_FormaPago" name="cb_FormaPago" class="form-control" required>
+
+                          </select>
+
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form.group">
+                      <label for=""># Vaucher</label>
+                      <input type="text" class="form-control" name="txtVaucher" id="txtVaucher" placeholder="# Vaucher">
 
                     </div>
                   </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="montoPago">Monto Pago</label>
+                        <div class="input-group">
+                           <span class="input-group-addon">$</span>
+                          <input type="text" id="montoPago" name="montoPago" class="form-control" placeholder="Monto" />
+                        </div>
+                    </div>
+
+                  </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label style="color:white">______</label>
+                        <button type="button" class="form-control btn" name="button" id="btnAgregarPago">+</button>
+                      </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-responsive" id="tblPagos">
+                      <th>#</th>
+                      <th>Forma</th>
+                      <th>Vaucher</th>
+                      <th>Monto</th>
+                      <th>Eliminar</th>
+                    </table>
+
+                  </div>
+                </div>
+                <div class="row" align ="right">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="resumenTotalPago">Total a Pagar</label>
+                        <div class="input-group">
+                           <span class="input-group-addon">$</span>
+                          <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" required readonly/>
+                        </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="resumenSaldoPendiente">Saldo Pendiente</label>
+                        <div class="input-group">
+                           <span class="input-group-addon">$</span>
+                           <input type="text" id="resumenSaldoPendiente" name="resumenSaldoPendiente" class="form-control" placeholder="Total" readonly />
+                        </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
                     <div class="row" align="right">
-                        <div class="col-md-3">
-                          <div class="form-group">
-                               <label for="TotalNota">Total</label>
-                               <div class="input-group">
-                                  <span class="input-group-addon">$</span>
-                                 <input type="text" id="TotalNota" name="TotalNota" class="form-control" placeholder="Total" readonly/>
-                               </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                              <label for="TotalAdeudo">Total Adeudos</label>
-                              <div class="input-group">
-                                 <span class="input-group-addon">$</span>
-                                <input type="text" id="TotalAdeudo" name="TotalAdeudo" class="form-control" placeholder="Total" readonly/>
-                              </div>
-                          </div>
-
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                              <label for="resumenSaldoPendiente">Saldo Pendiente</label>
-                              <div class="input-group">
-                                 <span class="input-group-addon">$</span>
-                                 <input type="text" id="resumenSaldoPendiente" name="resumenSaldoPendiente" class="form-control" placeholder="Total" readonly />
-                              </div>
-                          </div>
-
-                        </div>
-
-
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                          <div class="form-group">
-                              <label for="cb_FormaPago">Forma de Pago:</label>
-                              <select id="cb_FormaPago" name="cb_FormaPago" class="form-control" required>
-
-                              </select>
-
-                          </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form.group">
-                          <label for=""># Vaucher</label>
-                          <input type="text" class="form-control" name="txtVaucher" id="txtVaucher" placeholder="# Vaucher">
-
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="montoPago">Monto Pago</label>
-                            <div class="input-group">
-                               <span class="input-group-addon">$</span>
-                              <input type="text" id="montoPago" name="montoPago" class="form-control" placeholder="Monto" />
-                            </div>
-                        </div>
-
-                      </div>
-
-                        <div class="col-md-2">
-                          <div class="form-group">
-                            <label for=""></label>
-                            <button type="button" class="form-control btn" name="button" id="btnAgregarPago">+</button>
-                          </div>
-
-                        </div>
-
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <table class="table table-responsive" id="tblPagos">
-                          <th>#</th>
-                          <th>Forma</th>
-                          <th>Vaucher</th>
-                          <th>Monto</th>
-                          <th>Eliminar</th>
-                        </table>
-
-                      </div>
-                    </div>
-                    <div class="row" align ="right">
-                      <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="resumenTotalPago">Total a Pagar</label>
-                            <div class="input-group">
-                               <span class="input-group-addon">$</span>
-                              <input type="text" id="resumenTotalPago" name="resumenTotalPago" class="form-control" placeholder="Total" required readonly/>
-                            </div>
-                        </div>
-
-                      </div>
-
-                    </div>
-
-
-                        <div class="row" align="right">
-                            <div class ="col-md-9">
-                                <div class="form-group">
-                                    <label>Requiere Factura</label>
-                                    <div class="input-group">
-                                        <label class="display-inline-block custom-control custom-radio ml-1">
-                                                <input type="radio" name="RequiereFactura" id="chkRequiereFactura" value="1" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description ml-0">Si</span>
-                                        </label>
-                                        <label class="display-inline-block custom-control custom-radio">
-                                                <input type="radio" name="RequiereFactura" checked id ="chkRequiereFactura" value="0" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description ml-0">No</span>
-                                        </label>
-                                    </div>
+                        <div class ="col-md-4">
+                            <div class="form-group">
+                                <label>Requiere Factura</label>
+                                <div class="input-group">
+                                    <label class="display-inline-block custom-control custom-radio ml-1">
+                                            <input type="radio" name="RequiereFactura" id="chkRequiereFactura" value="1" class="custom-control-input">
+                                            <span class="custom-control-indicator"></span>
+                                            <span class="custom-control-description ml-0">Si</span>
+                                    </label>
+                                    <label class="display-inline-block custom-control custom-radio">
+                                            <input type="radio" name="RequiereFactura" checked id ="chkRequiereFactura" value="0" class="custom-control-input">
+                                            <span class="custom-control-indicator"></span>
+                                            <span class="custom-control-description ml-0">No</span>
+                                    </label>
                                 </div>
-
                             </div>
-                        </div>
-
-                        <div class="row" align="right">
-                          <div class="col-md-12">
-                            <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
-                              <i class="icon-cross2"></i> Cerrar
-                            </button>
-
-                            <button type="submit" class="btn btn-success" id="btnPagar" name="action" value='crear'>
-                              <i class="icon-check2"></i> Pagar
-                            </button>
-                          </div>
 
                         </div>
+                    </div>
+
+                    <div class="row" align="right">
+                      <div class="col-md-12">
+                        <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
+                          <i class="icon-cross2"></i> Cerrar
+                        </button>
+
+                        <button type="submit" class="btn btn-success" id="btnPagar" name="action" value='crear'>
+                          <i class="icon-check2"></i> Pagar
+                        </button>
+                      </div>
+
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
+  </div>
 </div>
 </form>
 
@@ -553,16 +555,19 @@
 
 
 
-            var idServicio = $("#cbServicio").val();
-            var idProducto =  $("#cbProducto").val();
-            var EsProveedor = $("#cbProducto").find(":selected").data('proveedor');
-            var PrecioProveedor = $("#cbProducto").find(":selected").data('precioproveedor');
+            var idServicio = $("#IdServicio").val();
+            var idProducto =  $("#IdProducto").val();
+            var Cantidad = $("#CantidadProducto").val();
+            var PrecioProveedor = $("#PrecioProveedor").val();
+            var descServicio = $("#DescripcionServicio").val();
+            var EsProveedor = $("#EsProveedor").val();
+
 
             if (idProducto !="")
             {
-            var descServicio = $("#cbServicio option:selected").html();
 
-            var descProducto = $("#cbProducto option:selected").html();
+
+            var descProducto = $("#DescripcionProducto").val();
             var TotalFilas = $('#tablaProductos tbody tr').length;
             var precio =$("#SubtotalProducto").val();
 
@@ -582,19 +587,20 @@
 
 
 
-            var subtotal = $("#SubtotalProducto").val();
+            var subtotal = parseFloat(precio) * parseFloat(Cantidad);
+
 
              $('#tablaProductos').append(
                     '<tr id=row'+numFila+'>'+
                     '<td>'+numFila+'</td>'+
                     '<td>'+
                         '<input type="hidden" value="'+idServicio+'">'+
-                        '<input type="hidden" name="IdProducto[]" value="'+idProducto+'">'+
+                        '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
                         '<input type="hidden" name="CodigoSubProducto[]" value="">'+
                         '<input type="hidden" name="Lote[]" value="">'+
                         '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
-                        '<input type="hidden" class="form-control" name="precio[]" value="'+subtotal+'">'+
-                        '<input type="hidden" class="form-control" name="cantidad[]" value="1">'+
+                        '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
+                        '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
                         '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
                         '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
@@ -602,6 +608,8 @@
                         '<input type="hidden" name="IdEmpleado[]" value="">'+
                         descServicio+'</td>'+
                     '<td>'+descProducto+'</td>'+
+                    '<td>'+precio+'</td>'+
+                    '<td>'+Cantidad+'</td>'+
                     '<td>'+subtotal+'</td>'+
                     '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
                     //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
@@ -611,8 +619,12 @@
                 CalcularTotalesNotaRemision();
                 HabilitarPago();
 
-                 $('#cbProducto').val('');
-                 $('#SubtotalProducto').val('');
+              $("#txtProducto").val("");
+              $("#DescripcionProducto").val("");
+              $("#CantidadProducto").val("");
+              $("#SubtotalProducto").val("");
+              $("#txtProducto").focus();
+
 
             }
 
@@ -692,6 +704,43 @@
 
         });
     });
+
+    //INPUT AUTOCOMPLETE Productos
+    var optionsProducto = {
+        url: "<?php echo site_url();?>/CatalogoProductos_Controller/autocompleteProducto",
+        ajaxSettings: { dataType: "json", method: "POST", data: {IdFoliador:1} },
+        getValue: function (element){
+                        return "[" + element.DescripcionServicio +"]-" + element.DescripcionProducto ;
+                    },
+        template: {
+            type: "custom",
+            method: function(value, item){
+                return "[" + item.DescripcionServicio +"]-" + item.DescripcionProducto  ;
+
+            }
+        },
+        list: {
+            maxNumberOfElements: 5,
+            match:{
+                enabled:true
+            },
+
+            onClickEvent: function(){
+                Autocomplete_CargarDatosProducto();
+            },
+
+            onChooseEvent: function()
+            {
+
+              Autocomplete_CargarDatosProducto();
+            }
+
+        },
+        theme: "plate-dark"
+    };
+
+
+
  //input autocomplete Nombre
     var optionsNombre = {
         url: "<?php echo site_url();?>/Agenda_Controler/autocompleteNombre",
@@ -712,64 +761,13 @@
             },
 
             onClickEvent: function(){
-
-
-                var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
-
-                var NombrePaciente = $("#txtPaciente").getSelectedItemData().Nombre +' '+ $("#txtPaciente").getSelectedItemData().Apellidos;
-                var FechaNacimiento = new Date( $("#txtPaciente").getSelectedItemData().FechaNacimiento);
-                var bdSexo = $("#txtPaciente").getSelectedItemData().Sexo;
-
-                var sexo =" - ";
-                if (bdSexo=="F")
-                {
-                    sexo ="Femenino";
-                }
-                else
-                {
-                    sexo = "Masculino";
-                }
-
-                $("#idPaciente").val(value);
-                HabilitarPago();
-                $("#lblNombrePaciente").html(NombrePaciente);
-                $("#lblSexo").html(sexo);
-                $("#lblFechaNacimiento").html(FechaNacimiento.toDateString("es-ES","dd/M/YYYY"));
-                ConsultarAdeudosPaciente();
-                CalcularTotalesNotaRemision();
-
-
-
+                Autocomplete_CargarDatosPaciente();
             },
 
             onChooseEvent: function()
             {
-                 var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
 
-                var NombrePaciente = $("#txtPaciente").getSelectedItemData().Nombre +' '+ $("#txtPaciente").getSelectedItemData().Apellidos;
-                var FechaNacimiento = new Date( $("#txtPaciente").getSelectedItemData().FechaNacimiento);
-                var bdSexo = $("#txtPaciente").getSelectedItemData().Sexo;
-
-                var sexo =" - ";
-                if (bdSexo=="F")
-                {
-                    sexo ="Femenino";
-                }
-                else
-                {
-                    sexo = "Masculino";
-                }
-
-                $("#idPaciente").val(value);
-                $("#lblNombrePaciente").html(NombrePaciente);
-                HabilitarPago();
-                $("#lblSexo").html(sexo);
-                $("#lblFechaNacimiento").html(FechaNacimiento.toLocaleDateString());
-
-                ConsultarAdeudosPaciente();
-                CalcularTotalesNotaRemision();
-
-
+              Autocomplete_CargarDatosPaciente();
             }
 
         },
@@ -777,6 +775,53 @@
     };
 
     $('#txtPaciente').easyAutocomplete(optionsNombre);
+    $("#txtProducto").easyAutocomplete(optionsProducto);
+
+    function Autocomplete_CargarDatosPaciente() {
+      var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+     var NombrePaciente = $("#txtPaciente").getSelectedItemData().Nombre +' '+ $("#txtPaciente").getSelectedItemData().Apellidos;
+     var FechaNacimiento = new Date( $("#txtPaciente").getSelectedItemData().FechaNacimiento);
+     var bdSexo = $("#txtPaciente").getSelectedItemData().Sexo;
+     var sexo =" - ";
+     if (bdSexo=="F")
+     {
+         sexo ="Femenino";
+     }
+     else
+     {
+         sexo = "Masculino";
+     }
+
+     $("#idPaciente").val(value);
+     $("#lblNombrePaciente").html(NombrePaciente);
+     HabilitarPago();
+     $("#lblSexo").html(sexo);
+     $("#lblFechaNacimiento").html(FechaNacimiento.toLocaleDateString());
+
+     //ConsultarAdeudosPaciente();
+     CalcularTotalesNotaRemision();
+    }
+
+    function Autocomplete_CargarDatosProducto() {
+      var value = $("#txtProducto").getSelectedItemData().IdProducto;
+     var DescripcionProducto = $("#txtProducto").getSelectedItemData().DescripcionProducto;
+     var DescripcionServicio = $("#txtProducto").getSelectedItemData().DescripcionServicio;
+     var CostoProducto = $("#txtProducto").getSelectedItemData().CostoProducto;
+     var IdServicio =$("#txtProducto").getSelectedItemData().IdServicio;
+     var PrecioProveedor =$("#txtProducto").getSelectedItemData().PrecioProveedor;
+     var EsProveedor =$("#txtProducto").getSelectedItemData().Proveedor;
+
+     $("#IdProducto").val(value);
+     $("#DescripcionProducto").val(DescripcionProducto);
+     $("#SubtotalProducto").val(CostoProducto)
+     $("#IdServicio").val(IdServicio);
+     $("#DescripcionServicio").val(DescripcionServicio);
+     $("#PrecioProveedor").val(PrecioProveedor);
+     $("#EsProveedor").val(EsProveedor);
+
+     $("#CantidadProducto").val(1);
+
+    }
 
      //Calcular el subtotal del producto seleccionado incluyendo el descuento
     function ActualizarTotalNota(subtotal)
@@ -791,11 +836,11 @@
         TotalNota = TotalNota + parseFloat(subtotal);
         $("#TotalNota").val(TotalNota);
 
-        var TotalAdeudo = 0;
-        if ($("#TotalAdeudo").val()!== "")
-        {
-            TotalAdeudo = parseFloat($("#TotalAdeudo").val());
-        }
+        // var TotalAdeudo = 0;
+        // if ($("#TotalAdeudo").val()!== "")
+        // {
+        //     TotalAdeudo = parseFloat($("#TotalAdeudo").val());
+        // }
 
         // var TotalAPagar = TotalNota + TotalAdeudo;
         // $("#resumenTotalPago").val(TotalAPagar);
@@ -951,17 +996,14 @@
          totalPagar = $("#resumenTotalPago").val();
      }
 
-     var totalAdeudos = 0;
-     if($("#TotalAdeudo").val()!=="")
-     {
-         totalAdeudos = $("#TotalAdeudo").val();
-     }
+
 
      var totalPendiente = 0;
 
-     totalPendiente = parseFloat(totalNota) + parseFloat(totalAdeudos) - parseFloat(totalPagar);
+     totalPendiente = parseFloat(totalNota)  - parseFloat(totalPagar);
 
      $("#resumenSaldoPendiente").val(totalPendiente);
+     $("#montoPago").val(totalPendiente);
 
  }
 
