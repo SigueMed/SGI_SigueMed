@@ -181,6 +181,7 @@ class Seguimiento_Controller extends CI_Controller {
     {
         $IdPaciente = $this->input->post('idPaciente');
         $IdServicio = $this->input->post('IdServicio');
+        $IdMedico = $this->input->post('IdMedico');
         $DescripcionSeguimiento = $this->input->post('DescripcionSeguimiento');
         $FechaSeguimiento = $this->input->post('FechaSeguimiento');
         $PrioridadSeguimiento = $this->input->post('cbPrioridadSeguimiento');
@@ -190,6 +191,7 @@ class Seguimiento_Controller extends CI_Controller {
           $Seguimiento = array(
               'DescripcionSeguimiento'=> $DescripcionSeguimiento,
               'IdServicio'=>$IdServicio,
+              'IdEmpleado_Medico'=>$IdMedico,
               'IdPaciente' => $IdPaciente,
                'IdEstatusSeguimiento'=>1,
                'IdElaboradoPor'=> $this->session->userdata('IdEmpleado'),

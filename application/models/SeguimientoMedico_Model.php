@@ -49,6 +49,7 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->select('DescripcionEstatusSeguimiento, nm.IdNotaMedica, nm.FechaNotaMedica');
         $this->db->select('IF (nm.IdNotaMedica IS NULL, ss.DescripcionServicio, snm.DescripcionServicio) AS DescripcionServicio');
         $this->db->select('CONCAT(em.NombreEmpleado," ",em.ApellidosEmpleado) as NombreElaboradoPor');
+        $this->db->select('CONCAT(med.NombreEmpleado," ",med.ApellidosEmpleado) as NombreMedico');
         $this->db->select('cr1.DescripcionRespuestaSeguimiento as Respuesta1');
         $this->db->select('cr2.DescripcionRespuestaSeguimiento as Respuesta2');
         $this->db->select('cr3.DescripcionRespuestaSeguimiento as Respuesta3');
@@ -58,6 +59,7 @@ class SeguimientoMedico_Model extends CI_Model{
         $this->db->from($this->table);
         $this->db->join('paciente p',$this->table.'.IdPaciente = p.IdPaciente');
         $this->db->join('empleado em',$this->table.'.IdElaboradoPor = em.IdEmpleado');
+        $this->db->join('empleado med',$this->table.'.IdEmpleado_Medico = med.IdEmpleado','left');
         $this->db->join('catalogestatusseguimiento ces',$this->table.'.IdEstatusSeguimiento = ces.IdEstatusSeguimiento');
         $this->db->join('notamedica nm',$this->table.'.IdNotaMedica = nm.IdNotaMedica','left');
         $this->db->join('servicio snm','nm.IdServicio = snm.IdServicio','left');
@@ -72,7 +74,7 @@ class SeguimientoMedico_Model extends CI_Model{
         if ($condicion!==FALSE) {
           $this->db->where($condicion);
         }
-        
+
 
         $this->db->where($this->table.'.IdClinica', $this->session->userdata('IdClinica'));
 

@@ -629,10 +629,10 @@ class NotaRemision_Controller extends CI_Controller {
             $data['PagosNotaRemision']= $this->PagoNotaRemision_Model->ConsultarPagosNotaRemision($IdNotaRemision);
 
 
-            $htmlContent = $this->load->view('NotaRemision/PDFNotaRemision',$data,TRUE);
-            $NombreArchivoPDF = 'NotaRemision_'.$IdNotaRemision.'.pdf';
+            $this->load->view('NotaRemision/ticketNotaRemision',$data);
+            //$NombreArchivoPDF = 'NotaRemision_'.$IdNotaRemision.'.pdf';
 
-            $this->createPDF($NombreArchivoPDF, $htmlContent);
+            //$this->createPDF($NombreArchivoPDF, $htmlContent);
         }
 
         public function CargarTemplateNotaRemision($IdNotaRemision)

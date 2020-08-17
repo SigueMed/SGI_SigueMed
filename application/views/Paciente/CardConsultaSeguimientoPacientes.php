@@ -83,6 +83,7 @@
                                         <th>Teléfono</th>
                                         <th>Seguimiento</th>
                                         <th>Servicio</th>
+                                        <th>Medico</th>
                                         <th>Fecha Seguimiento</th>
                                         <th>Estatus</th>
 
@@ -303,8 +304,19 @@
               <div class="col-md-9">
                   <div class="form-group">
                       <label for="ModalSeguimiento_cbServicio">Servicio</label>
-                      <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" required="required">
+                      <select name="IdServicio" id="ModalSeguimiento_cbServicio" class="form-control" required="required" onchange="CargarMedicosServicio(this)">
                           <option value="">Servicios</option>
+
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-9">
+                  <div class="form-group">
+                      <label for="ModalSeguimiento_Medico">Medico</label>
+                      <select name="IdMedico" id="ModalSeguimiento_Medico" class="form-control" >
+                          <option value="">Medicos por Servicio</option>
 
                       </select>
                   </div>
@@ -475,7 +487,7 @@ function CargarSeguimientoPacientes(TipoConsulta)
           },
           "autoWidth":true,
           "columnDefs":[
-            {"targets": 14, "render":function(data,type,row,meta){
+            {"targets": 15, "render":function(data,type,row,meta){
               return '<a id="linkEditar" href="#" onclick="EditarSeguimiento('+data+',\''+row['NombrePaciente']+'\',\''+row['DescripcionServicio']+'\',\''+row['DescripcionSeguimiento']+'\')"><i class="icon-edit2"></i></a>'+
                     '<a id="linkEliminar" href="#" onclick="EliminarSeguimiento('+data+')"><i class="icon-trash2"></i></a>';
             }},
@@ -506,6 +518,7 @@ function CargarSeguimientoPacientes(TipoConsulta)
                 { "data": "NumCelular" },
                 { "data": "DescripcionSeguimiento" },
                 { "data": "DescripcionServicio" },
+                { "data": "NombreMedico" },
                 { "data": "FechaSeguimiento" },
                 { "data": "DescripcionEstatusSeguimiento" },
                 { "data": "Respuesta1" },
@@ -718,6 +731,21 @@ function ConfirmarSeguimientoPaciente(IdSeguimientoMedico, IdEstatusSeguimiento,
           success: function(data)
               {
                    $('#ModalSeguimiento_cbServicio').html(data);
+              }
+      });
+
+  }
+  function CargarMedicosServicio(sel)
+  {
+       var IdServicio = sel.value;
+
+      $.ajax({
+          url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarMedicoservicio_ajax",
+          data: {IdServicio: IdServicio},
+          method: "POST",
+          success: function(data)
+              {
+                   $('#ModalSeguimiento_Medico').html(data);
               }
       });
 

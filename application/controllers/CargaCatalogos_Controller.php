@@ -201,6 +201,26 @@ class CargaCatalogos_Controller extends CI_Controller {
       // code...
     }
 
+    public function CargarMedicoservicio_ajax()
+    {
+      $servicio = $this->input->post('IdServicio');
+
+      $this->load->model('Empleado_Model');
+
+      $Medicos = $this->Empleado_Model->ConsultarMedicosPorServicio($servicio,$this->session->userdata('IdClinica'));
+
+
+       $output='<option value="">Selecciona un Medico</option>';
+
+      foreach($Medicos as $medico)
+      {
+          $output .= '<option value="'.$medico['IdEmpleado'].'">'.$medico['Nombre'].'</option>';
+      }
+      echo $output;
+
+
+    }
+
 
     //put your code here
 }

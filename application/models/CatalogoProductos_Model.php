@@ -127,7 +127,7 @@ class CatalogoProductos_Model extends CI_Model{
     {
       $this->db->select($this->table.'.*, DescripcionServicio, Proveedor');
       $this->db->from($this->table);
-      $this->db->join('servicio',$this->table.'.IdServicio = Servicio.IdServicio');
+      $this->db->join('servicio',$this->table.'.IdServicio = servicio.IdServicio');
       $this->db->join('folioservicio','servicio.IdServicio = folioservicio.IdServicio');
 
       $this->db->where($this->table.'.Habilitado', true);

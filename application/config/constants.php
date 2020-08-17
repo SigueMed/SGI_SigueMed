@@ -87,7 +87,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 /*
  * GLOBAL CONSTANTS SGI_SIGUEMED
- * 
+ *
  */
 //PERFILES
 defined('ENFERMERIA')        OR define('ENFERMERIA', 1);
@@ -134,5 +134,8 @@ defined('TMC_SALIDA')        OR define('TMC_SALIDAE', 2);
 defined('TIPOPAGO_EFECTIVO')        OR define('TIPOPAGO_EFECTIVO', 1);
 defined('TIPOPAGO_TARJETACREDITO')        OR define('TIPOPAGO_TARJETACREDITO', 2);
 defined('TIPOPAGO_TRANSFERENCIA')        OR define('TIPOPAGO_TRANSFERENCIA', 3);
+
+
+defined('IMPRESORA_TICKETS')        OR define('IMPRESORA_TICKETS', 'TICKETS');
 
 defined('ROOTPATH') OR define('ROOTPATH', __DIR__);
