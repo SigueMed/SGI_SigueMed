@@ -3,3 +3,5 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/clinicasiguemed/sgi.siguemed.com.mx
     - /bin/cp -R application $DEPLOYPATH
+    - /bin/cp -R ticket $DEPLOYPATH
+    - /bin/cp -R vendor $DEPLOYPATH
