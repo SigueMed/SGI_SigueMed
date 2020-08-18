@@ -341,6 +341,8 @@ class NotaRemision_Controller extends CI_Controller {
                             $this->db->trans_rollback();
                         }
 
+                        $this->generarPDFNotaRemision($IdNuevaNotaRemision->IdUltimaNotaRemision);
+
 
 
                         $data['title'] = 'Nota de Remisión';

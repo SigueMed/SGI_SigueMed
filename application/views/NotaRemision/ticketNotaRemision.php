@@ -79,18 +79,32 @@ $printer->setJustification(Printer::JUSTIFY_CENTER);
 	el logo
 */
 try{
-	$logo = EscposImage::load(base_url()."app-assets/images/logo/SigueMED_Logo_B.jpg", false);
+	$logo = EscposImage::load(FCPATH."/app-assets/images/logo/SigueMED_Logo_B.jpg", false);
     $printer->bitImage($logo);
 }catch(Exception $e){/*No hacemos nada si hay error*/}
 
 /*
 	Ahora vamos a imprimir un encabezado
 */
+/* Name of shop */
+$printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+$printer -> text("Clinica SígueMED\n");
+$printer -> selectPrintMode();
+$printer -> text("Sucursal Ghandi\n");
+$printer -> feed();
 
-$printer->text("Yo voy en el encabezado" . "\n");
-$printer->text("Otra linea" . "\n");
-#La fecha también
-$printer->text(date("Y-m-d H:i:s") . "\n");
+/*DATOS DEL PACIENTE*/
+$printer -> setJustification(Printer::JUSTIFY_LEFT);
+$printer -> text("Paciente:".$NotaRemision->NombrePaciente."\n");
+$printer -> feed();
+
+/* Title of receipt */
+$printer->setJustification(Printer::JUSTIFY_CENTER);
+$printer -> setEmphasis(true);
+$printer -> text("Ticket No.".$NotaRemision->Folio."\n");
+$printer -> setEmphasis(false);
+$printer -> text("Fecha:".$NotaRemision->FechaNotaRemision."\n");
+$printer -> feed();
 
 
 /*
@@ -98,18 +112,18 @@ $printer->text(date("Y-m-d H:i:s") . "\n");
 	productos
 */
 
+
 # Para mostrar el total
-$total = 0;
-foreach ($productos as $producto) {
-	$total += $producto->cantidad * $producto->precio;
+foreach ($DetalleNotaRemision as $detalle) {
+
 
 	/*Alinear a la izquierda para la cantidad y el nombre*/
 	$printer->setJustification(Printer::JUSTIFY_LEFT);
-    $printer->text($producto->cantidad . "x" . $producto->nombre . "\n");
+    $printer->text($detalle['Cantidad'] . "x" . $detalle['DescripcionProducto'] . "\n");
 
     /*Y a la derecha para el importe*/
     $printer->setJustification(Printer::JUSTIFY_RIGHT);
-    $printer->text(' $' . $producto->precio . "\n");
+    $printer->text(' $' . $detalle['SubTotalDetalle'] . "\n");
 }
 
 /*
@@ -117,13 +131,44 @@ foreach ($productos as $producto) {
 	los productos, ahora va el total
 */
 $printer->text("--------\n");
-$printer->text("TOTAL: $". $total ."\n");
+$printer->text("TOTAL: $". $NotaRemision->TotalNotaRemision ."\n");
+$printer -> feed();
+
+$printer->setJustification(Printer::JUSTIFY_CENTER);
+$printer -> setEmphasis(true);
+$printer -> text("SUS PAGOS\n");
+$printer -> setEmphasis(false);
+
+foreach($PagosNotaRemision as $pagoNotaRemision)
+{
+		$printer->setJustification(Printer::JUSTIFY_LEFT);
+		$printer->text($pagoNotaRemision['DescripcionTipoPago'] . "\n");
+		$printer->setJustification(Printer::JUSTIFY_RIGHT);
+    $printer->text(' $' . $pagoNotaRemision['TotalPago'] . "\n");
+
+
+}
+
+$printer->text("--------\n");
+
+$printer -> text("SU PAGO: $".$NotaRemision->TotalPagado."\n");
+$printer -> feed();
+
+$SaldoFinal =  floatval($NotaRemision->TotalNotaRemision) - floatval($NotaRemision->TotalPagado);
+
+
+$printer -> setEmphasis(true);
+$printer -> text("SALDO FINAL: $".$SaldoFinal."\n");
+$printer -> feed();
+
+
+
 
 
 /*
 	Podemos poner también un pie de página
 */
-$printer->text("Muchas gracias por su compra\nparzibyte.me");
+$printer->text("Muchas gracias por su compra\n");
 
 
 
