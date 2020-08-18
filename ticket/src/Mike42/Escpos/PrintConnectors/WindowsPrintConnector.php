@@ -230,6 +230,16 @@ class WindowsPrintConnector implements PrintConnector
         }
         $retval = $this -> runCommand($command, $outputStr, $errorStr, $data);
         if ($retval != 0) {
+          if(is_null($errorStr))
+          {
+            $errorStr = "0";
+          }
+          if(is_null($outputStr))
+          {
+            $outputStr = "0";
+          }
+
+            log_message('debug', 'command'.$command.'- outputStr:'.$outputStr.'-errorStr'.$errorStr);
             throw new Exception("Failed to print. Command \"$redactedCommand\" " .
                 "failed with exit code $retval: " . trim($errorStr) . trim($outputStr));
         }

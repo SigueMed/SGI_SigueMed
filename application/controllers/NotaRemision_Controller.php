@@ -341,10 +341,6 @@ class NotaRemision_Controller extends CI_Controller {
                             $this->db->trans_rollback();
                         }
 
-                        $this->generarPDFNotaRemision($IdNuevaNotaRemision->IdUltimaNotaRemision);
-
-
-
                         $data['title'] = 'Nota de Remisión';
                         $data['IdNotaRemision']= $IdNuevaNotaRemision->IdUltimaNotaRemision;
 
@@ -357,14 +353,14 @@ class NotaRemision_Controller extends CI_Controller {
                         showConfirmButton: true,
                         confirmButtonText:'<i class=\"icon-file-o\"></i> Nueva Nota',
                         showCancelButton: true,
-                        cancelButtonText: '<i class=\"icon-calendar3\"></i> Agenda'";
+                        cancelButtonText: '<i class=\"icon-printer4\"></i> Ticket'";
 
                         $data['swalAction'] = ".then((result)=> {
                           if (result.value) {
                             window.location.href ='".site_url("NotaRemision/CrearNota")."';
                           }
                           else {
-                            window.location.href ='".site_url("Agenda/VistaAgenda")."';
+                            window.open ('".site_url("NotaRemision/CrearPDF/").$IdNuevaNotaRemision->IdUltimaNotaRemision."');
                           }
                         });";
                         $this->load->view('templates/MainContainer',$data);
@@ -631,7 +627,7 @@ class NotaRemision_Controller extends CI_Controller {
             $data['PagosNotaRemision']= $this->PagoNotaRemision_Model->ConsultarPagosNotaRemision($IdNotaRemision);
 
 
-            $this->load->view('NotaRemision/ticketNotaRemision',$data);
+            $this->load->view('NotaRemision/PDFNotaRemision',$data);
             //$NombreArchivoPDF = 'NotaRemision_'.$IdNotaRemision.'.pdf';
 
             //$this->createPDF($NombreArchivoPDF, $htmlContent);
