@@ -6,6 +6,7 @@ class Usuario_Controller extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('Usuario_Model');
     //Codeigniter : Write Less Do More
   }
 
@@ -63,6 +64,96 @@ class Usuario_Controller extends CI_Controller{
 
       // code...
     }
+
+    // code...
+  }
+
+  // CATALOGO Usuarios
+  public function Load_ConsultarUsuarios()
+  {
+    $data['title']='Usuarios';
+
+    $this->load->view('templates/MainContainer',$data);
+    $this->load->view('templates/HeaderContainer',$data);
+    $this->load->view('Usuario/CardConsultaUsuarios',$data);
+    $this->load->view('templates/FormFooter',$data);
+    $this->load->view('templates/FooterContainer');
+  }
+
+  public function ConsultarCatalogoUsuarios_ajax()
+  {
+    $CatalogoUsuarios = $this->Usuario_Model->ConsultarUsuarios();
+
+    echo json_encode($CatalogoUsuarios);
+    // code...
+  }
+
+  public function ConsultarClinicasUsuario_ajax()
+  {
+
+    $IdEmpleado = $this->input->post('IdUsuario');
+
+    $ClinicasUsuario = $this->Usuario_Model->ConsultarClinicasUsuario($IdEmpleado);
+
+    echo json_encode($ClinicasUsuario);
+    // code...
+  }
+
+  public function CargarCatalogoClinicasUsuario_ajax()
+  {
+
+    $IdEmpleado = $this->input->post('IdUsuario');
+
+    $ClinicasUsuario = $this->Usuario_Model->CatalogoClinicasUsuario($IdEmpleado);
+
+    echo json_encode($ClinicasUsuario);
+    // code...
+  }
+
+
+  public function ConsultarUsuarioPorId()
+  {
+    $IdEmpleado = $this->input->post('IdUsuario');
+
+    $Usuario = $this->Usuario_Model->ConsultarUsuarioPorId($IdEmpleado);
+
+    echo json_encode($Usuario);
+  }
+
+  public function ActualizarUsuario_ajax()
+  {
+
+    $ActualizarEmpleado = array(
+      'NombreEmpleado'=>$this->input->post('NombreEmpleado'),
+      'ApellidosEmpleado'=> $this->input->post('ApellidosEmpleado'),
+      'TelefonoEmpleado'=>$this->input->post('TelefonoEmpleado'),
+      'IdServicio'=>$this->input->post('IdServicio'),
+      'IdPerfil'=>$this->input->post('IdPerfil'),
+      'Habilitado'=>$this->input->post('Habilitado')
+
+    );
+
+    $IdEmpleado = $this->input->post('IdEmpleado');
+
+    $ClinicasUsuario = $this->input->post('Clinicas');
+
+    $this->Usuario_Model->EditarUsuario($IdEmpleado,$ActualizarEmpleado);
+    $result = $this->Usuario_Model->ActualizarClinicasUsuario($IdEmpleado,$ClinicasUsuario);
+    // code...
+  }
+  public function ActualizarContrasenaUsuario_ajax()
+  {
+
+    $ActualizarEmpleado = array(
+      'password'=>$this->input->post('password')
+
+    );
+
+    $IdEmpleado = $this->input->post('IdEmpleado');
+
+
+
+    return $this->Usuario_Model->EditarUsuario($IdEmpleado,$ActualizarEmpleado);
 
     // code...
   }

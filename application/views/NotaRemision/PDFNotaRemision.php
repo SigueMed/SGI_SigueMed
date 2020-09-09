@@ -102,8 +102,38 @@ img {
             </table>
             <div class="derecha">
               <p>TOTAL: $<?=$NotaRemision->TotalNotaRemision;?></p>
-              <p>PAGADO: $<?=$NotaRemision->TotalPagado;?></p>
-              <p></p>
+
+
+            </div>
+
+            <p class="centrado"><b>SU PAGO</b></p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>FORMA</th>
+
+                        <th>$$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    foreach($PagosNotaRemision as $pagoNotaRemision)
+                    {
+                        echo '<tr class="item">';
+                        echo '<td>'.$pagoNotaRemision['DescripcionTipoPago'].'</td>';
+                        echo '<td>'.$pagoNotaRemision['TotalPago'].'</td>';
+                        echo '</tr>';
+                    }
+                ?>
+
+                </tbody>
+            </table>
+
+            <div class="derecha">
+
+              <p>TOTAL PAGADO: $<?=$NotaRemision->TotalPagado;?></p>
+              <p>--------------------</p>
               <p>SALDO: $<?php echo (floatval($NotaRemision->TotalNotaRemision) - floatval($NotaRemision->TotalPagado));?></p>
 
             </div>

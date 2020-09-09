@@ -412,7 +412,7 @@
                    {
 
                      var btnAgregarPago="";
-                     var btnAvanzar="";
+                    
                      var btnCancelarNota="";
                      var btnVerNotaRemision="";
                      if(row['IdEstatusNotaRemision']>2)

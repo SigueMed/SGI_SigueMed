@@ -74,11 +74,11 @@ $active_group = ENVIRONMENT;
 $query_builder = TRUE;
 
 $db['development'] = array(
-	'dsn'	=> '‘mysql:host=localhost;dbname=bd_siguemed_preprod’',
+	'dsn'	=> '‘mysql:host=localhost;dbname=clinicasiguemed',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'bd_siguemed',
+	'database' => 'clinicasiguemed',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -116,11 +116,11 @@ $db['production'] = array(
 	'save_queries' => TRUE
 );
 $db['testing'] = array(
-	'dsn'	=> '‘mysql:host=localhost;dbname=bd_siguemed’',
+	'dsn'	=> '‘mysql:host=localhost;dbname=clinicasiguemed',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'bd_siguemed_preprod',
+	'database' => 'clinicasiguemed',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

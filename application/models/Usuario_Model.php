@@ -61,9 +61,11 @@ class Usuario_Model extends CI_Model {
           );
           $this->db->insert('empleadoclinica',$empleadoClinica);
 
-          return $IdNuevoUsuario;
+
 
         }
+
+        return $IdNuevoUsuario;
 
 
       }
@@ -71,6 +73,87 @@ class Usuario_Model extends CI_Model {
         return false;
       }
 
+    }
+    public function ConsultarUsuarios()
+    {
+        $this->db->select($this->table.'.*, p.DescripcionPerfil, s.DescripcionServicio');
+        $this->db->from($this->table);
+        $this->db->join('perfil p', $this->table.'.IdPerfil = p.IdPerfil');
+        $this->db->join('servicio s', 's.IdServicio = '.$this->table.'.IdServicio','left');
+
+        $query = $this->db->get();
+        return $query->result_array();
+
+    }
+
+    public function ConsultarClinicasUsuario($IdEmpleado)
+    {
+      $this->db->select('*');
+      $this->db->from('clinicas c');
+      $this->db->join('empleadoclinica ec', 'ec.IdClinica = c.IdClinica');
+      $this->db->where('ec.IdEmpleado', $IdEmpleado);
+
+      $query = $this->db->get();
+      return $query->result_array();
+
+      // code...
+    }
+
+    public function CatalogoClinicasUsuario($IdEmpleado)
+    {
+      $this->db->select('c.*, IdEmpleado');
+      $this->db->from('clinicas c');
+      $this->db->join('empleadoclinica ec', 'ec.IdClinica = c.IdClinica and ec.IdEmpleado ='.$IdEmpleado,'left');
+
+
+      $query = $this->db->get();
+      return $query->result_array();
+    }
+
+
+
+    public function ConsultarUsuarioPorId($IdEmpleado)
+    {
+      $this->db->select($this->table.'.*, p.DescripcionPerfil');
+      $this->db->from($this->table);
+      $this->db->join('perfil p', $this->table.'.IdPerfil = p.IdPerfil');
+      $this->db->where('IdEmpleado', $IdEmpleado);
+
+      $query = $this->db->get();
+      return $query->row();
+
+      // code...
+    }
+
+    public function EditarUsuario($IdEmpleado,$ActualizarEmpleado)
+    {
+      $this->db->where('IdEmpleado', $IdEmpleado);
+      return $this->db->update($this->table, $ActualizarEmpleado);
+
+      // code...
+    }
+
+    public function ActualizarClinicasUsuario($IdEmpleado,$ClinicasUsuario)
+    {
+      $this->db->where('IdEmpleado', $IdEmpleado);
+      $this->db->delete('empleadoclinica');
+
+      $this->db->reset_query();
+
+      for ($i=0;$i<sizeof($ClinicasUsuario);$i++)
+      {
+        $empleadoClinica = array(
+          'IdClinica'=>$ClinicasUsuario[$i],
+          'IdEmpleado'=>$IdEmpleado
+        );
+        $this->db->insert('empleadoclinica',$empleadoClinica);
+
+      }
+      return 1;
+
+
+
+      // code...
     }
 
 }
