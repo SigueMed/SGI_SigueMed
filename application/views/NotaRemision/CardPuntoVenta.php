@@ -242,6 +242,15 @@
                            </div>
                       </div>
                     </div>
+                    <div class="col-md-1">
+                      <div class="form-group">
+                          <label style="color:white">.</label>
+                          <button type="button" class="btn form-control p-0" id="btnRecalcularTotales" onclick="RecalcularTotales()">
+                            <i class="fa fa-refresh align-middle"></i>
+                          </button>
+                      </div>
+
+                    </div>
 
 
 
@@ -503,6 +512,13 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
+      $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+
         $("#btnPagar").attr("disabled","disabled");
         CargarFoliador();
         CargarTipoPago();
@@ -589,41 +605,48 @@
 
             var subtotal = parseFloat(precio) * parseFloat(Cantidad);
 
+            if (!isNaN(subtotal))
+            {
+              $('#tablaProductos').append(
+                     '<tr id=row'+numFila+'>'+
+                     '<td>'+numFila+'</td>'+
+                     '<td>'+
+                         '<input type="hidden" value="'+idServicio+'">'+
+                         '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
+                         '<input type="hidden" name="CodigoSubProducto[]" value="">'+
+                         '<input type="hidden" name="Lote[]" value="">'+
+                         '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
+                         '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
+                         '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
+                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
+                         '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
+                         '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
+                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
+                         '<input type="hidden" name="IdEmpleado[]" value="">'+
+                         descServicio+'</td>'+
+                     '<td>'+descProducto+'</td>'+
+                     '<td>'+precio+'</td>'+
+                     '<td>'+Cantidad+'</td>'+
+                     '<td>'+subtotal+'</td>'+
+                     '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
+                     //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
+                     '</tr>'
+                     );
+                 ActualizarTotalNota(subtotal);
+                 CalcularTotalesNotaRemision();
+                 HabilitarPago();
 
-             $('#tablaProductos').append(
-                    '<tr id=row'+numFila+'>'+
-                    '<td>'+numFila+'</td>'+
-                    '<td>'+
-                        '<input type="hidden" value="'+idServicio+'">'+
-                        '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
-                        '<input type="hidden" name="CodigoSubProducto[]" value="">'+
-                        '<input type="hidden" name="Lote[]" value="">'+
-                        '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
-                        '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
-                        '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
-                        '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
-                        '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
-                        '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
-                        '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
-                        '<input type="hidden" name="IdEmpleado[]" value="">'+
-                        descServicio+'</td>'+
-                    '<td>'+descProducto+'</td>'+
-                    '<td>'+precio+'</td>'+
-                    '<td>'+Cantidad+'</td>'+
-                    '<td>'+subtotal+'</td>'+
-                    '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
-                    //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
-                    '</tr>'
-                    );
-                ActualizarTotalNota(subtotal);
-                CalcularTotalesNotaRemision();
-                HabilitarPago();
+               $("#txtProducto").val("");
+               $("#DescripcionProducto").val("");
+               $("#CantidadProducto").val("");
+               $("#SubtotalProducto").val("");
+               $("#txtProducto").focus();
+               $("#btnAgregar").attr("disabled","disabled");
 
-              $("#txtProducto").val("");
-              $("#DescripcionProducto").val("");
-              $("#CantidadProducto").val("");
-              $("#SubtotalProducto").val("");
-              $("#txtProducto").focus();
+            }
+
+
+
 
 
             }
@@ -820,6 +843,7 @@
      $("#EsProveedor").val(EsProveedor);
 
      $("#CantidadProducto").val(1);
+     $("#btnAgregar").removeAttr("disabled");
 
     }
 
@@ -1117,7 +1141,18 @@
 
    }
 
+ }
+ function RecalcularTotales()
+ {
+   var Total=0;
+   $('input[name^="subtotal"]').each(function(){
+   Total = Total + parseFloat($(this).val());
+  });
 
+
+  $("#TotalNota").val(parseFloat(Total));
+
+  CalcularTotalesNotaRemision();
 
 
 

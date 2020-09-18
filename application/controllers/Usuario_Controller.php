@@ -127,11 +127,19 @@ class Usuario_Controller extends CI_Controller{
       'NombreEmpleado'=>$this->input->post('NombreEmpleado'),
       'ApellidosEmpleado'=> $this->input->post('ApellidosEmpleado'),
       'TelefonoEmpleado'=>$this->input->post('TelefonoEmpleado'),
-      'IdServicio'=>$this->input->post('IdServicio'),
+
       'IdPerfil'=>$this->input->post('IdPerfil'),
       'Habilitado'=>$this->input->post('Habilitado')
 
     );
+
+    if ($this->input->post('IdServicio')!== '')
+    {
+      $ActualizarEmpleado['IdServicio']= $this->input->post('IdServicio');
+    }
+    else {
+      $ActualizarEmpleado['IdServicio']= NULL;
+    }
 
     $IdEmpleado = $this->input->post('IdEmpleado');
 

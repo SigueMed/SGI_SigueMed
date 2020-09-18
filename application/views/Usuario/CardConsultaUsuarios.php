@@ -37,7 +37,7 @@
                         <!--FORM BODY-->
                         <div class="form-body">
 
-                          
+
                             <table id="tblUsuarios" class="table table-striped table-bordered table-responsive" style="width:100%">
                                 <thead class="thead-inverse">
                                     <tr>
@@ -586,12 +586,12 @@ function cerrar(Ventana)
     var ApellidosEmpleado= $("#txtApellidosUsuario").val();
     var TelefonoEmpleado= $("#txtTelefono").val();
     var IdServicio=$("#cbServicio").val();
+    
     var IdPerfil= $("#cbPerfil").val();
     var Habilitado =0;
     var clinicas=[];
-    alert("x");
+
     $("input[name='ClinicaUsuario']:checked").each(function(){
-          alert(this.value);
             clinicas.push(this.value);
         });
     if ($("#UsuarioHabilitado").is(":checked"))
