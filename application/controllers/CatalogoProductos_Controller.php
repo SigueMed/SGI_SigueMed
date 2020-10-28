@@ -310,6 +310,12 @@ public function autocompleteProducto(){
     $resultado = $this->CatalogoProductos_Model->ConsultarProductosPuntoVenta($IdFoliador,$IdClinica);
     echo json_encode($resultado);
 }
+public function ConsultarProductosPuntoVenta(){
+    $IdClinica =$this->session->userdata('IdClinica');
+    $IdFoliador = $this->input->post('IdFoliador');
+    $resultado = $this->CatalogoProductos_Model->ConsultarProductosPuntoVenta($IdFoliador,$IdClinica);
+    echo json_encode($resultado);
+}
 //**************************[FIN] ACTUALIZACION PRECIOS****************************
 
 
