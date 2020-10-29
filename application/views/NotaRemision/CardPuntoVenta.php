@@ -384,6 +384,139 @@
 
 <!------------------------------------------------------------MODALS--------------------------------------------------------------->
 
+<!--MODAL NUEVO PACIENTE-->
+<div class="modal fade" id="Modal_NuevoPaciente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title">Nuevo Paciente</h5>
+            <input type="hidden" id="ModalLlamada_IdSeguimientoMedico" name="ModalLlamada_IdSeguimientoMedico">
+            <input type="hidden" id="ModalLlamada_IdEstatusSeguimiento" name="ModalLlamada_IdEstatusSeguimiento">
+            <input type="hidden" id="NumeroSeguimiento" name="NumeroSeguimiento">
+        </div>
+        <div class="modal-body">
+                <input type="text" hidden="true" name="ModalIdPaciente" id="IdFamiliarResponsable"/>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="ModalNombre">Nombre</label>
+                      <input type="text" name="ModalNombre" id="ModalNombre" class="form-control" placeholder="Nombre"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ModalApellidos">Apellidos</label>
+                        <input type="text" name="ModalApellidos" id="ModalApellidos" class="form-control" placeholder="Apellidos"/>
+                    </div>
+                  </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                        <label for="ModalSexo">Sexo</label>
+                                        <select class="form-control" id="ModalSexo" name="ModalSexo">
+                                          <option value="F">FEMENINO</option>
+                                          <option value="M">MASCULINO</option>
+
+                                        </select>
+
+                                </div>
+                        </div>
+                </div>
+          <div class="row">
+                    <div class="col-md-4 col-xs-6">
+                        <div class="form-group">
+                            <label for="ModalFechaNacimiento">Fecha Nacimiento</label>
+                            <div class="position-relative has-icon-left">
+                                <input type="date" id="ModalFechaNacimiento" class="form-control" name="ModalFechaNacimiento" value="" onchange="CalcularEdad()"/>
+                                <div class="form-control-position">
+                                        <i class="icon-calendar5"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-2 col-xs-6">
+                        <div class="form-group">
+                                <label for="ModalEdad">Edad</label>
+                                <input type="text" name="ModalEdad" id ="ModalEdad" class="form-control" placeholder="Edad" readonly/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="ModalCelular">Celular:</label>
+                            <input type="text" id = "ModalCelular" name="ModalCelular" class="form-control" placeholder="Celular"/>
+                        </div>
+                    </div>
+
+
+
+                </div>
+          <h6 class="form-section">Facturación</h6>
+          <div class="row">
+
+                  <div class="col-md-5">
+
+                    <div class="form-group">
+                      <label for="ModalRFC">RFC</label>
+                      <input type="text" name="ModalRFC" id="ModalRFC" class="form-control" placeholder="RFC"/>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="Modalemail">email</label>
+                      <input type="text" name="Modalemail" id="Modalemail" class="form-control" placeholder="email"/>
+                    </div>
+                  </div>
+                </div>
+          <h5 class="form-section"><i class="icon-clipboard4"></i> Dirección</h5>
+
+          <!--DIRECCION-->
+          <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="ModalDondeVive">Donde Vive:</label>
+                    <select name="ModalDondeVive" id="ModalDondeVive" class="form-control" onchange="">
+                        <option value="">Seleccione una opción</option>
+                        <option value="1">Zona Urbana</option>
+                        <option value="0">Zona Rural</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="ModalCalle">Calle</label>
+                    <input type="text" name="ModalCalle" id="ModalCalle" class="form-control" placeholder="Calle"/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="ModalColonia">Colonia</label>
+                    <input type="text" name="ModalColonia" id="ModalColonia" class="form-control" placeholder="Colonia"/>
+                </div>
+            </div>
+            <div class="col-md-2">
+                        <div class="form-group">
+                             <label for="ModalCP">Código Postal</label>
+                            <input type="text" id="ModalCP" name="ModalCP" class="form-control" placeholder="C.P."/>
+                        </div>
+                    </div>
+          </div>
+
+          <!-- FORM ACTIONS-->
+          <div class="modal-footer">
+                    <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                        <i class="icon-cross2"></i>Cerrar
+                    </button>
+                    <button type="button" class="btn btn-success mr-1" name="btnAgregarPaciente" id ="btnAgregarPaciente" onclick="AgregarNuevoPaciente()">
+                        <i class="icon-check2"></i>Registrar
+                    </button>
+                </div>
+        </div>
+      </div>
+    </div>
+</div><!--MODAL NUEVO PACIENTE-->
+
 <!--MODAL BUSCAR PRODUCTO-->
 <div class="modal fade" id="Modal_BuscarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -686,6 +819,41 @@
         theme: "plate-dark"
     };
 
+    //input autocomplete Nombre
+    var optionsNombre = {
+        url: "<?php echo site_url();?>/Agenda_Controler/autocompleteNombre",
+        getValue: function (element){
+                        return element.Nombre + " " + element.Apellidos;
+                    },
+        template: {
+            type: "custom",
+            method: function(value, item){
+                return item.Nombre + " " + item.Apellidos;
+
+            }
+        },
+        list: {
+            maxNumberOfElements: 5,
+            match:{
+                enabled:true
+            },
+
+            onClickEvent: function(){
+                Autocomplete_CargarDatosPaciente();
+            },
+
+            onChooseEvent: function()
+            {
+
+              Autocomplete_CargarDatosPaciente();
+            }
+
+        },
+        theme: "plate-dark"
+    };
+
+    $('#txtPaciente').easyAutocomplete(optionsNombre);
+
     $("#txtProducto").easyAutocomplete(optionsProducto);
 
     function Autocomplete_CargarDatosProducto() {
@@ -709,6 +877,32 @@
      $("#btnAgregar").removeAttr("disabled");
 
     }
+
+    function Autocomplete_CargarDatosPaciente() {
+      var value = $("#txtPaciente").getSelectedItemData().IdPaciente;
+     var NombrePaciente = $("#txtPaciente").getSelectedItemData().Nombre +' '+ $("#txtPaciente").getSelectedItemData().Apellidos;
+     var FechaNacimiento = new Date( $("#txtPaciente").getSelectedItemData().FechaNacimiento);
+     var bdSexo = $("#txtPaciente").getSelectedItemData().Sexo;
+     var sexo =" - ";
+     if (bdSexo=="F")
+     {
+         sexo ="Femenino";
+     }
+     else
+     {
+         sexo = "Masculino";
+     }
+
+     $("#idPaciente").val(value);
+     $("#lblNombrePaciente").html(NombrePaciente);
+     HabilitarPago();
+     $("#lblSexo").html(sexo);
+     $("#lblFechaNacimiento").html(FechaNacimiento.toLocaleDateString());
+
+     //ConsultarAdeudosPaciente();
+     CalcularTotalesNotaRemision();
+    }
+
 
      //Calcular el subtotal del producto seleccionado incluyendo el descuento
     function ActualizarTotalNota(subtotal)
@@ -898,6 +1092,127 @@
      CalcularTotalesNotaRemision();
  });
 
+
+ function HabilitarPago() {
+   var Paciente = $("#idPaciente").val();
+   var TotalNota = $("#TotalNota").val();
+
+
+   if (Paciente!== "" && TotalNota !== "")
+   {
+
+     $("#btnPagar").removeAttr('disabled');
+
+   }
+
+ }
+ function RecalcularTotales()
+ {
+   var Total=0;
+   $('input[name^="subtotal"]').each(function(){
+   Total = Total + parseFloat($(this).val());
+  });
+
+
+  $("#TotalNota").val(parseFloat(Total));
+
+  CalcularTotalesNotaRemision();
+
+ }
+
+ function AbrirModalNuevoPaciente()
+ {
+   $("#ModalNombre").val();
+   $("#Modalemail").val();
+   $("#ModalFechaNacimiento").val();
+   $("#ModalSexo").val('F');
+   $("#ModalRFC").val();
+   $("#ModalApellidos").val();
+   $("#ModalCelular").val();
+   $("#ModalDondeVive").val();
+   $("#ModalCalle").val();
+   $("#ModalColonia").val();
+   $("#ModalCP").val();
+
+
+   $("#Modal_NuevoPaciente").modal('show');
+ }
+
+ function AgregarNuevoPaciente()
+ {
+   $.ajax({
+      type: "POST",
+      url: "<?php echo site_url();?>/NotaRemision_Controller/AgregarPaciente_ajax",
+      data:{
+        'NombrePaciente': $("#ModalNombre").val(),
+        'ApellidosPaciente': $("#ModalApellidos").val(),
+        'Sexo': $("#ModalSexo").val(),
+        'RFCPaciente': $("#ModalRFC").val(),
+        'emailPaciente': $("#Modalemail").val(),
+        'FechaNacimientoPaciente': $("#ModalFechaNacimiento").val(),
+        'DondeVivePaciente': $("#ModalDondeVive").val(),
+        'callePaciente': $("#ModalCalle").val(),
+        'TelefonoPaciente': $("#ModalCelular").val(),
+        'CP': $("#ModalCP").val(),
+        'Colonia':$("#ModalColonia").val()
+      },
+      method:"POST",
+      success: function(data)
+      {
+        var result = JSON.parse(data);
+
+        if (result!== false) {
+          Swal.fire({
+              title:'El Paciente ha sido registrado',
+              type: 'success',
+              showConfirmButton: true
+          });
+          var NombrePaciente = result['Nombre']+ ' '+ result['Apellidos'];
+
+          $("#txtPaciente").val(NombrePaciente);
+          $("#idPaciente").val(result['IdPaciente']);
+          $("#lblNombrePaciente").html(NombrePaciente);
+          $("#lblFechaNacimiento").html(result['FechaNacmiento']);
+          if (result['Sexo']=='F') {
+              $("#lblSexo").html('FEMENINO');
+          }
+          else {
+            $("#lblSexo").html('MASCULINO');
+          }
+          HabilitarPago();
+
+          $("#Modal_NuevoPaciente").modal('hide');
+        }
+
+
+
+
+
+
+      }
+    });
+
+ }
+ function CalcularEdad()
+ {
+     edad = CalcularEdad($("#ModalFechaNacimiento").val());
+     $("#ModalEdad").val(edad);
+ }
+
+
+ function CalcularEdad(FechaNacimiento)
+ {
+     var hoy = new Date();
+     var cumpleanos = new Date(FechaNacimiento);
+     var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+     var m = hoy.getMonth() - cumpleanos.getMonth();
+
+     if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+         edad--;
+     }
+
+     return edad;
+ }
 
  function HabilitarPago() {
    var Paciente = $("#idPaciente").val();
