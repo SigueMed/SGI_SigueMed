@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('America/Mexico_City');
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 if (ENVIRONMENT =='production')
 {
-   $config['base_url'] = 'https://sgi.siguemed.com.mx/'; 
+   $config['base_url'] = 'https://sgi.siguemed.com.mx/';
 }
 else
 {

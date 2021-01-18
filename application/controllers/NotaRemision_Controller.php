@@ -145,7 +145,7 @@ class NotaRemision_Controller extends CI_Controller {
                            for ($i=0;$i<sizeof($IdProductos); $i++)
                            {
 
-                               if ($CodigoSubProducto[$i] !== "")
+                               if (isset($CodigoSubProducto)&& is_array($CodigoSubProducto))
                                {
                                    $strCodigoSubProducto =$CodigoSubProducto[$i] ;
                                }
@@ -154,7 +154,7 @@ class NotaRemision_Controller extends CI_Controller {
 
                                    $strCodigoSubProducto = null;
                                }
-                               if($Lote[$i]!== "")
+                               if(isset($Lote)&&is_array($Lote))
                                {
                                    $strLote = $Lote[$i];
                                }

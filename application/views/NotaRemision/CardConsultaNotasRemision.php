@@ -41,7 +41,8 @@
                             <table id="tblNotasRemision" class="table table-striped table-bordered table-responsive" style="width:100%">
                                 <thead class="thead-inverse">
                                     <tr>
-                                        <th>No. Nota</th>
+                                        <th>Id. Nota</th>
+                                        <th>No. Ticket</th>
                                         <th>Fecha Nota</th>
                                         <th>Paciente</th>
 
@@ -389,14 +390,14 @@
                    "visible": false, "targets":[10]
                  },
                  {
-                   "targets": 6, "data": "TotalNotaRemision", "render":function(data,type,row,meta)
+                   "targets": 7, "data": "TotalNotaRemision", "render":function(data,type,row,meta)
                    {
                      return "$"+(data-row['TotalPagado']);
                      // return parseFloat(row['TotalEnEfectivo'])-parseFloat(data);
                    }
                  },
                  {
-                   "targets":7, "data":"RequiereFactura", "render":function(data,type,meta,row){
+                   "targets":8, "data":"RequiereFactura", "render":function(data,type,meta,row){
                      if (data =='1')
                      {
                          return  '<input type="checkbox" checked disabled>';
@@ -408,11 +409,11 @@
                    }
                  },
                  {
-                   "targets": 11, "data": "IdNotaRemision", "render":function(data,type,row,meta)
+                   "targets": 12, "data": "IdNotaRemision", "render":function(data,type,row,meta)
                    {
 
                      var btnAgregarPago="";
-                    
+
                      var btnCancelarNota="";
                      var btnVerNotaRemision="";
                      if(row['IdEstatusNotaRemision']>2)
@@ -438,6 +439,7 @@
                "columns": [
 
                      { "data": "IdNotaRemision"},
+                     { "data": "IdFoliador"},
                      { "data": "FechaNotaRemision" },
                      { "data": "NombrePaciente" },
                      { "data": "DescripcionEstatusNotaRemision" },
