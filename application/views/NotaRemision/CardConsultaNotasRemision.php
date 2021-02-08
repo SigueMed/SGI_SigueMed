@@ -439,7 +439,7 @@
                "columns": [
 
                      { "data": "IdNotaRemision"},
-                     { "data": "IdFoliador"},
+                     { "data": "Folio"},
                      { "data": "FechaNotaRemision" },
                      { "data": "NombrePaciente" },
                      { "data": "DescripcionEstatusNotaRemision" },

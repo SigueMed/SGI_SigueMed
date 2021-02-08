@@ -1,6 +1,6 @@
 
 
-    
+
     <div onclick="location.href='<?php echo site_url('Paciente/SeguimientoPaciente');?>';" class="col-xl-3 col-lg-6 col-xs-12">
         <div class="card">
             <div class="card-body">
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-6 col-xs-12">
+    <!-- <div onclick="location.href='<?php echo site_url('Agenda/CitasHoy');?>';" class="col-xl-3 col-lg-6 col-xs-12">
         <div class="card">
             <div class="card-body">
                 <div class="card-block">
@@ -34,56 +34,56 @@
                 </div>
             </div>
         </div>
-    </div>
-    
+    </div> -->
+
 
 
 <script type="text/javascript">
     $(document).ready(function(){
-        
+
         CargarSeguimientos();
-        CargarCitasDia();
-        
+        //CargarCitasDia();
+
     });
-    
+
     function CargarSeguimientos()
     {
       $.ajax({
             url:"<?php echo site_url();?>/Seguimiento_Controller/ConsultarTotalSeguimientos_ajax",
-            
-            
+
+
             method:"POST",
             success: function(data)
               {
-    
+
                   var SeguimientosDia = JSON.parse(data);
-                  
-                  
+
+
                   $('#PacientesSeguimiento').html(SeguimientosDia['TotalSeguimientos']);
-                 
+
 
               }
-          });  
+          });
     }
-    
+
     function CargarCitasDia()
     {
       $.ajax({
             url:"<?php echo site_url();?>/Agenda_Controler/ConsultarTotalCitasDia_ajax",
-            
-            
+
+
             method:"POST",
             success: function(data)
               {
-    
+
                   var CitasDia = JSON.parse(data);
-                  
-                  
+
+
                   $('#CitasDia').html(CitasDia['TotalCitas']);
-                 
+
 
               }
-          });  
+          });
     }
-    
+
 </script>
