@@ -555,9 +555,7 @@
             <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
                 <i class="icon-cross2"></i>Cerrar
             </button>
-            <button type="button" class="btn btn-success mr-1" name="btnAgregarPaciente" id ="btnAgregarPaciente" onclick="AgregarNuevoPaciente()">
-                <i class="icon-check2"></i>Registrar
-            </button>
+
         </div>
 
       </div>

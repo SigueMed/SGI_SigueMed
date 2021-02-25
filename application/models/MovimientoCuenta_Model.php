@@ -95,6 +95,18 @@ class MovimientoCuenta_Model extends CI_Model {
 
     }
 
+    public function ConsultarBalanceCorteTipoPago()
+    {
+      $query = $this->db->query('call CorteCaja_BalanceTipoPago('.$this->session->userdata('IdClinica').')');
+
+      $result =  $query->result_array();
+
+      $query->next_result();
+      $query->free_result();
+
+      return $result;
+    }
+
     public function ConsultarResumentMovimientosCuentaPorTipoPago($IdTipoMovimientoCuenta, $IdClinica, $IdCuenta, $IdCorte=FALSE, $FechaInicio=FALSE, $FechaFin=FALSE)
     {
 
@@ -122,7 +134,7 @@ class MovimientoCuenta_Model extends CI_Model {
         }
 
         $this->db->where('IdClinica', $IdClinica);
-        $this->db->where('IdCuenta',$IdCuenta);
+
 
         $this->db->where('IdTipoMovimientoCuenta',$IdTipoMovimientoCuenta);
         $this->db->where('IdEstatusMovimientoCuenta <>',3);
@@ -176,12 +188,13 @@ class MovimientoCuenta_Model extends CI_Model {
 
     }
 
-    public function ConsultarBalanceCuentaCorte($IdCuenta, $IdCorteCaja=FALSE)
+    public function ConsultarBalanceCuentaCorte($IdCorteCaja=FALSE)
     {
+      $IdCuenta = 0;
       $IdClinica = $this->session->userdata('IdClinica');
       if ($IdCorteCaja == FALSE)
       {
-        $query = $this->db->query('call CorteCaja_BalanceCuentasCorte('.$IdClinica.','.$IdCuenta.')');
+        $query = $this->db->query('call CorteCaja_BalanceCuentasCorte('.$IdClinica.')');
       }
       else {
 
@@ -200,11 +213,11 @@ class MovimientoCuenta_Model extends CI_Model {
     }
 
 
-    public function AsignarCorteMovimientosCuentas($IdCorteCaja,$IdCuenta)
+    public function AsignarCorteMovimientosCuentas($IdCorteCaja)
     {
         $this->db->set('IdCorteCaja',$IdCorteCaja);
         $this->db->where('IdCorteCaja', NULL);
-        $this->db->where('IdCuenta',$IdCuenta);
+        //$this->db->where('IdCuenta',$IdCuenta);
         $this->db->where('IdClinica', $this->session->userdata('IdClinica'));
         return $this->db->update($this->table);
     }

@@ -255,67 +255,62 @@
             </ul>
           </li>-->
           <?php
-          if ($this->session->userdata('IdPerfil') !== '3')
+          if ($this->session->userdata('IdPerfil') == '1')
           {
 
               echo '<li class=" nav-item"><a href="#"><i class="icon-lecturer"></i><span data-i18n="nav.project.main" class="menu-title">Recepción</span></a>
                         <ul class="menu-content">
                             <li><a href="'.site_url('NotaRemision/CrearNota').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Clínica</a>
                             </li>
-                            <li><a href="'.site_url('NotaRemision/RegistrarVentaFarmacia').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Farmacia</a>
-                            </li>
                             <li><a href="'.site_url('SalidaCaja/PagarServicioMedico').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Pagar Servicios Médicos</a>
                             </li>
-
-
-                        </ul>
-                    </li>
-                    <li class=" nav-item"><a href="#"><i class="icon-ios-albums-outline"></i><span data-i18n="nav.cards.main" class="menu-title">Administrar Caja</span></a>
-                        <ul class="menu-content">
-                          <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>
-                          <li><a href="'. site_url('CorteCaja/ConsultaCortesCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Consultar Cortes Caja</a></li>
-                          <li><a href="'. site_url('Proveedores/PagarProveedor').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Pago a Proveedor</a>
-                          <li><a href="'. site_url('Proveedores/ConsultarPagosProveedor').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Consultar Pagos Proveedor</a>
-                          <li><a href="'. site_url('NotaRemision/ConsultarNotasRemision').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Consultar Notas Remisión</a>
-                          </li>
+                            <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>
 
                         </ul>
                     </li>';
+                    //<li><a href="'.site_url('NotaRemision/RegistrarVentaFarmacia').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Farmacia</a>
+                    //</li>
           }
           ?>
 
            <?php
-            if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
+            if ($this->session->userdata('IdPerfil') == '2')
             {
 
-                echo '<li class=" nav-item"><a href="#"><i class="icon-archive2"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Inventario</span></a>
+                echo '<li class=" nav-item"><a href="#"><i class="icon-ios-albums-outline"></i><span data-i18n="nav.cards.main" class="menu-title">Administrar Caja</span></a>
+                    <ul class="menu-content">
+
+                      <li><a href="'. site_url('CorteCaja/ConsultaCortesCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Consultar Cortes Caja</a></li>
+                      <li><a href="'. site_url('Proveedores/PagarProveedor').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Pago a Proveedor</a>
+                      <li><a href="'. site_url('Proveedores/ConsultarPagosProveedor').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Consultar Pagos Proveedor</a>
+                      <li><a href="'. site_url('NotaRemision/ConsultarNotasRemision').'" data-i18n="nav.cards.card_bootstrap" class="menu-item">Consultar Notas Remisión</a>
+                      </li>
+
+                    </ul>
+                </li>
+                        <li class=" nav-item"><a href="#"><i class="icon-archive2"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Inventario</span></a>
                         <ul class="menu-content">';
-                if($this->session->userdata('IdPerfil')=='2')
-                {
-                    echo '<li><a href="'. site_url('/Inventario/RegistrarEntrada').'" data-i18n="nav.cards.card_statistics" class="menu-item">Registrar Entrada </a>
-                        </li>';
-                }
-                        echo '<li><a href="'. site_url('/Inventario/ConsultarInventario').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Inventario</a>
-                        </li>
-                      </ul>
+                echo '<li><a href="'. site_url('/Inventario/RegistrarEntrada').'" data-i18n="nav.cards.card_statistics" class="menu-item">Registrar Entrada </a>
                     </li>';
+                echo '<li><a href="'. site_url('/Inventario/ConsultarInventario').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Inventario</a>
+                    </li>
+                    </ul>
+                </li>';
             }
           ?>
           <?php
-            if ($this->session->userdata('IdPerfil') == '1' || $this->session->userdata('IdPerfil') == '2')
+            if ($this->session->userdata('IdPerfil') == '2')
             {
 
                 echo '<li class=" nav-item"><a href="#"><i class="icon-monitor"></i><span data-i18n="nav.advance_cards.main" class="menu-title">Catalogos SígueMED</span></a>
                         <ul class="menu-content">';
                 echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Productos</a>
                         <ul class="menu-content">';
-                if($this->session->userdata('IdPerfil')=='2')
-                {
-                    echo '<li><a href="'. site_url('/Catalogos/AltaProductos').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Productos </a>
-                        </li>';
-                    echo '<li><a href="'. site_url('/Catalogos/ActualizacionPrecios').'" data-i18n="nav.cards.card_statistics" class="menu-item">Actualización Precios </a>
-                        </li>';
-                }
+                echo '<li><a href="'. site_url('/Catalogos/AltaProductos').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Productos </a>
+                    </li>';
+                echo '<li><a href="'. site_url('/Catalogos/ActualizacionPrecios').'" data-i18n="nav.cards.card_statistics" class="menu-item">Actualización Precios </a>
+                    </li>';
+
                         echo '<li><a href="'. site_url('/Catalogos/ConsultaProductos').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Productos</a>
                         </li>
                       </ul>

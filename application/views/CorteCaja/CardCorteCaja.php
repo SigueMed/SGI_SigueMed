@@ -3,8 +3,8 @@
         <div class="card">
             <!--CARD HEADER-->
             <div class="card-header">
-                <h4 class="card-title" id="basic-layout-form"><i class="icon-inbox"></i>Corte de Caja - <?=$Cuenta->DescripcionCuenta?></h4>
-                <input type="hidden" name="IdCuenta" id="IdCuenta" value="<?=$IdCuenta?>">
+                <h4 class="card-title" id="basic-layout-form"><i class="icon-inbox"></i>Corte de Caja - <?=$Clinica->NombreClinica?></h4>
+                <input type="hidden" name="IdCuenta" id="IdCuenta">
                 <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                 <div class="heading-elements">
                         <ul class="list-inline mb-0">
@@ -47,7 +47,7 @@
 
                         </div>
                         <div class="row">
-                          <div class="col-md-8">
+                          <div class="col-md-12">
 
                              <!--TABLA MOVIMIENTOS CUENTA-->
                              <div class="table-responsive table-striped table table-bordered">
@@ -55,7 +55,9 @@
                                      <thead class="thead-inverse">
                                          <tr>
                                              <th>Forma de Pago</th>
-                                             <th>Total Pagos</th>
+                                             <th>Total Entradas</th>
+                                             <th>Total Salidas</th>
+                                             <th>Balance</th>
                                              <th>Total Entregado</th>
                                              <th>Diferencia</th>
                                            </tr>
@@ -190,114 +192,56 @@
         </div>
     </div>
 </div>
-<div class="row match-height">
-        <div class="col-md-12">
-            <div class="card">
-                <!--CARD HEADER-->
-                <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-form"><i class="icon-book"></i>Detalle Movimientos</h4>
-                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                    <div class="heading-elements">
-                            <ul class="list-inline mb-0">
-                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
-                                    <li><a data-action="reload"><i class="icon-reload"></i></a></li>
-                                    <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-                                    <li><a data-action="close"><i class="icon-cross2"></i></a></li>
-                            </ul>
-                    </div>
 
+<!--MODALS-->
+<!--MODAL BUSCAR PRODUCTO-->
+<div class="modal fade" id="Modal_DetalleEntradasCorte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title">Detalle Entradas corte</h5>
 
-                </div>
-                 <div class="card-body collapse in">
-                    <div class="card-block">
-                        <!--FORM BODY-->
-                        <div class="form-body">
-                          <div class="row">
-                              <div class="col-md-12">
-
-                                  <!--TABLA MOVIMIENTOS CUENTA-->
-                                  <div class="table-responsive table-striped table table-bordered">
-                                      <table class="table" id="tblDetalleMovimientosCuentaCorte">
-                                          <thead class="thead-inverse">
-                                              <tr>
-                                                <th>Nota Remisión</th>
-                                                <th>Fecha Nota</th>
-                                                <th>Paciente</th>
-                                                <th>Tipo Movimiento</th>
-                                                <th>Cuenta</th>
-                                                <th>Total Movimiento</th>
-                                                <th>Forma Pago</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                          </tbody>
-                                      </table>
-                                  </div>
-
-                              </div>
-
-                          </div>
-
-                        </div>
-                    </div>
-                 </div>
-            </div>
         </div>
-</div>
+        <div class="modal-body">
+          <h6 class="form-section">Entradas</h6>
+          <table id="tbl_DetalleEntradasCorte" class="table table-striped table-bordered table-responsive" style="width:100%">
+              <thead>
 
-<div class="row match-height">
-        <div class="col-md-12">
-            <div class="card">
-                <!--CARD HEADER-->
-                <div class="card-header">
-                    <h4 class="card-title" id="basic-layout-form"><i class="icon-book"></i>Detalle Notas Remisión</h4>
-                    <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-                    <div class="heading-elements">
-                            <ul class="list-inline mb-0">
-                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
-                                    <li><a data-action="reload"><i class="icon-reload"></i></a></li>
-                                    <li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-                                    <li><a data-action="close"><i class="icon-cross2"></i></a></li>
-                            </ul>
-                    </div>
+                  <tr>
+                      <th>No. Nota</th>
+                      <th>Fecha</th>
+                      <th>Paciente</th>
+                      <th>Total Nota</th>
+                      <th>Total Pagado</th>
+                      <th>Estatus</th>
 
 
-                </div>
-                 <div class="card-body collapse in">
-                    <div class="card-block">
-                        <!--FORM BODY-->
-                        <div class="form-body">
-                          <div class="row">
-                              <div class="col-md-12">
+                  </tr>
+              </thead>
+              <tbody>
 
-                                  <!--TABLA MOVIMIENTOS CUENTA-->
-                                  <div class="table-responsive table-striped table table-bordered">
-                                      <table class="table" id="tblDetalleNotasCuentaCorte">
-                                          <thead class="thead-inverse">
-                                              <tr>
-                                                <th>Nota Remisión</th>
-                                                <th>Fecha Nota</th>
-                                                <th>Paciente</th>
-                                                <th>Total Nota</th>
-                                                <th>Total Pagado</th>
-                                                <th>Estatus Nota</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                          </tbody>
-                                      </table>
-                                  </div>
 
-                              </div>
+              </tbody>
 
-                          </div>
+          </table>
 
-                        </div>
-                    </div>
-                 </div>
-            </div>
+
+
         </div>
-</div>
+        <!-- FORM ACTIONS-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning mr-1" data-dismiss="modal">
+                <i class="icon-cross2"></i>Cerrar
+            </button>
+
+        </div>
+
+      </div>
+    </div>
+</div><!--MODAL BUSCAR PRODUCTO-->
+
+
 
 
 <script type="text/javascript">
@@ -305,8 +249,8 @@
 
         CargarBalanceCuentas();
         CargarResumenTipoPago();
-        CargarDetalleNotasCorte();
-        CargarDetalleMovimientosCorte();
+        //CargarDetalleNotasCorte();
+        //CargarDetalleMovimientosCorte();
 
 
     });
@@ -314,12 +258,9 @@
 
     function CargarBalanceCuentas()
     {
+
         $.ajax({
             url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarBalanceCorteCuentas",
-            data:{
-              IdCuenta: <?=$IdCuenta?>
-            },
-
             method:"POST",
             success: function(data)
               {
@@ -335,21 +276,25 @@
 
                       TotalEntradas += parseFloat(BalanceCuenta[i]['TotalEntradas']);
                       TotalSalidas += parseFloat(BalanceCuenta[i]['TotalSalidas']);
+                      Entrada = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(parseFloat(BalanceCuenta[i]['TotalEntradas']));
+                      Salida = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(parseFloat(BalanceCuenta[i]['TotalSalidas']));
+                      BalanceES = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(parseFloat(BalanceCuenta[i]['Balance']));
+
 
                       $('#tblBalanceCuentas').append(
                           '<tr>'+
-                          '<td>'+BalanceCuenta[i]['DescripcionCuenta']+'</td>'+
-                          '<td>'+BalanceCuenta[i]['TotalEntradas']+'</td>'+
-                          '<td>'+BalanceCuenta[i]['TotalSalidas']+'</td>'+
-                          '<td>$'+BalanceCuenta[i]['Balance']+'</td>'+
+                          '<td> '+BalanceCuenta[i]['DescripcionCuenta']+'</td>'+
+                          '<td> <a id="linkEditar" href="#" onclick="OpenModal_DetalleEntradasCorte('+BalanceCuenta[i]['IdCuenta']+')">'+Entrada+'</a></td>'+
+                          '<td>'+Salida+'</td>'+
+                          '<td>'+BalanceES+'</td>'+
                           '</tr>'
                       );
                   }
 
-                  $("#TotalEntradas").val(TotalEntradas);
-                  $("#TotalSalidas").val(TotalSalidas);
+                  $("#TotalEntradas").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(TotalEntradas));
+                  $("#TotalSalidas").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(TotalSalidas));
                   var Balance = TotalEntradas - TotalSalidas;
-                  $("#BalanceCorte").val(Balance);
+                  $("#BalanceCorte").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(Balance));
 
 
               }
@@ -359,10 +304,8 @@
     function CargarResumenTipoPago()
     {
         $.ajax({
-            url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarResumenEntradas",
-            data:{
-              IdCuenta : <?=$IdCuenta?>
-            },
+            url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarBalanceCorteTipoPago",
+
 
             method:"POST",
             success: function(data)
@@ -371,6 +314,10 @@
                   var ResumenTipoPago = JSON.parse(data);
                   var MontosPago = <?=json_encode($MontosTipoPago)?>;
                   var ResumenTotalCorte = 0;
+                  var TotalEntradas = 0;
+                  var TotalSalidas = 0;
+                  var Balance = 0;
+                  var TotalEntregado =0;
 
                   $("#tblResumenTipoPago tbody tr").remove();
 
@@ -379,34 +326,35 @@
 
                     var ValorPago = MontosPago.find(o=>o.IdTipoPago===ResumenTipoPago[i]['IdTipoPago']);
 
+                    TotalEntradas = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(parseFloat(ResumenTipoPago[i]['TotalEntradas']));
+                    TotalSalidas = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(parseFloat(ResumenTipoPago[i]['TotalSalidas']));
+                    Balance = parseFloat(ResumenTipoPago[i]['TotalEntradas'])-parseFloat(ResumenTipoPago[i]['TotalSalidas']);
+                    TotalEntregado=new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(ValorPago['Monto']);
 
-                    var TotalCorte = ResumenTipoPago[i]['TotalTipoPago'];
                     ResumenTotalCorte += parseFloat(ValorPago['Monto']);
 
-                    if (TotalCorte == null)
-                    {
-                      TotalCorte=0;
-                    }
 
-                    var Diferencia = ValorPago['Monto']-TotalCorte;
+                    var Diferencia = parseFloat(ValorPago['Monto'])-Balance;
 
 
 
                       $('#tblResumenTipoPago').append(
                           '<tr>'+
                           '<td>'+ResumenTipoPago[i]['DescripcionTipoPago']+'</td>'+
-                          '<td>$'+TotalCorte+'</td>'+
-                          '<td>$'+ValorPago['Monto']+'</td>'+
+                          '<td>'+TotalEntradas+'</td>'+
+                          '<td>'+TotalSalidas+'</td>'+
+                          '<td>'+new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(Balance)+'</td>'+
+                          '<td>'+TotalEntregado+'</td>'+
                           '<td>'+
                             '<input type="hidden" name="IdTiposPago[]" value="'+ResumenTipoPago[i]['IdTipoPago']+'">'+
-                            '<input type="hidden" name="TotalesCorte[]" value="'+TotalCorte+'">'+
+                            '<input type="hidden" name="TotalesCorte[]" value="'+Balance+'">'+
                             '<input type="hidden" name="TotalesEntregado[]" value="'+ValorPago['Monto']+'">'+
-                          '$'+Diferencia+'</td>'+
+                          ''+new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(Diferencia)+'</td>'+
                           '</tr>'
                       );
                   }
 
-                  $("#TotalEntregado").val(ResumenTotalCorte);
+                  $("#TotalEntregado").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(ResumenTotalCorte));
 
 
               }
@@ -428,17 +376,17 @@
         $("#TotalCorteEfectivo").val(Efectivo);
 
     }
-function CargarDetalleNotasCorte() {
+function CargarDetalleNotasCorte(IdCuenta) {
 
-  var IdCuenta = $("#IdCuenta").val();
 
-  var t = $('#tblDetalleNotasCuentaCorte').DataTable({
+
+  var t = $('#tbl_DetalleEntradasCorte').DataTable({
     "drawCallback": function( settings ) {
             $('[data-toggle="tooltip"]').tooltip();
           },
       "ajax":{
           url:"<?php echo site_url();?>/CorteCaja_Controller/ConsultarDetalleNotasCorteCuenta_ajax",
-          data:{IdCuenta: IdCuenta},
+          data:{IdCuenta:IdCuenta},
           method:"POST",
           dataSrc: ""
       },
@@ -452,15 +400,7 @@ function CargarDetalleNotasCorte() {
             "infoFiltered": "(filtrado de _MAX_ total)"
         },
         "autoWidth":true,
-        "columnDefs":[
-          {
-            "targets":0,"data":"IdNotaRemision","render":function(data,type,meta,row)
-            {
-                return "<a href='<?=site_url()?>/NotaRemision/CargarNotaRemision/"+data+"'' targets='_blank'>"+data+"</a>";
-            }
-          }
-
-        ],
+        
         "columns": [
 
               { "data": "IdNotaRemision"},
@@ -531,6 +471,16 @@ function CargarDetalleMovimientosCorte() {
 
       });
 
+
+}
+
+//MODALS
+
+function OpenModal_DetalleEntradasCorte(IdCuenta) {
+
+
+  CargarDetalleNotasCorte(IdCuenta);
+  $("#Modal_DetalleEntradasCorte").modal('show');
 
 }
 

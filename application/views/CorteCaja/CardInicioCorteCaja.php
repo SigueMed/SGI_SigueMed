@@ -22,6 +22,7 @@
                 <div class="card-block">
                     <!--FORM BODY-->
                     <div class="form-body">
+                      <!--QUITAR LA CUENTA PARA REALIZAR EL CORTE
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
@@ -33,7 +34,7 @@
                           </div>
 
                         </div>
-                      </div>
+                      </div> -->
 
                     <h4 class="form-section"><i class="icon-calculator"></i> Total</h4>
                     <div class="row">
@@ -74,7 +75,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-  CargarCuentas();
+  //CargarCuentas();
   CargarTablaFormasPago();
 
 

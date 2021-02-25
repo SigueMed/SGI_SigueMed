@@ -53,11 +53,17 @@ class CorteCaja_Controller extends CI_Controller {
 
         $data['title'] = 'Relizar Corte Caja';
 
-        $this->load->model('Cuenta_Model');
-        $IdCuenta = $this->input->post('cbCuentas');
-        log_message('debug','[CORTECAJA] IdCuenta='.$IdCuenta);
-        $Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
-        log_message('debug','[CORTECAJA] DescrpcionCuenta='.$Cuenta->DescripcionCuenta);
+        //CONSULTAR INFORMACIÒN DE LA CLINICA
+        $this->load->model('Clinica_Model');
+        $IdClinica = $this->session->userdata('IdClinica');
+        $Clinica = $this->Clinica_Model->ConsultarClinicaPorId($IdClinica);
+        $data['Clinica'] =$Clinica;
+
+        //$this->load->model('Cuenta_Model');
+        //$IdCuenta = $this->input->post('cbCuentas');
+        log_message('debug','[CORTECAJA] IdClinica='.$this->session->userdata('IdClinica').' ');
+        //$Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
+        //log_message('debug','[CORTECAJA] DescrpcionCuenta='.$Cuenta->DescripcionCuenta);
         $this->load->model('CatalogoTipoPago_Model');
         $TiposPago = $this->CatalogoTipoPago_Model->ConsultarTipoPago();
 
@@ -77,8 +83,8 @@ class CorteCaja_Controller extends CI_Controller {
         //log_message('debug',$MontosTipoPago);
 
         $data['MontosTipoPago']=$MontosTipoPago;
-        $data['IdCuenta']=$IdCuenta;
-        $data['Cuenta'] =$Cuenta;
+        //$data['IdCuenta']=$IdCuenta;
+        //$data['Cuenta'] =$Cuenta;
 
 
 
@@ -163,29 +169,36 @@ class CorteCaja_Controller extends CI_Controller {
         echo json_encode($ResumenEntradas);
     }
 
-    public function ConsultarBalanceCortePorTipoPago()
+    public function ConsultarBalanceCorteTipoPago($value='')
     {
-        $IdTipoPago = $this->input->post('IdTipoPago');
-        $IdCuenta = $this->input->post('IdCuenta');
+      $BalanceCorteTipoPago = $this->MovimientoCuenta_Model->ConsultarBalanceCorteTipoPago();
 
-        $TotalBalanceEfectivo = $this->MovimientoCuenta_Model->ConsultarBalanceCorte($IdTipoPago,$IdCuenta);
-
-        echo json_encode($TotalBalanceEfectivo);
+      echo json_encode($BalanceCorteTipoPago);
     }
+
+    // public function ConsultarBalanceCortePorTipoPago()
+    // {
+    //     $IdTipoPago = $this->input->post('IdTipoPago');
+    //     $IdCuenta = $this->input->post('IdCuenta');
+    //
+    //     $TotalBalanceEfectivo = $this->MovimientoCuenta_Model->ConsultarBalanceCorte($IdTipoPago,$IdCuenta);
+    //
+    //     echo json_encode($TotalBalanceEfectivo);
+    // }
 
     public function ConsultarBalanceCorteCuentas()
     {
 
-        $IdCuenta = $this->input->post('IdCuenta');
+        //$IdClinica = $this->input->post('IdClinica');
         $IdCorteCaja = $this->input->post('IdCorteCaja');
 
         if (isset($IdCorteCaja))
         {
-            $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte(FALSE,$IdCorteCaja);
+            $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdCorteCaja);
         }
         else {
 
-          $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdCuenta);
+          $BalanceCuentasCorte = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte();
         }
 
 
@@ -238,7 +251,7 @@ class CorteCaja_Controller extends CI_Controller {
                     "TotalCorte"=>$TotalCorte,
 
                     "TotalEntregado"=>$TotalEntregado,
-                    "IdCuenta" => $IdCuenta,
+                    //"IdCuenta" => $IdCuenta,
                     "Comentarios"=>$Comentarios,
                     "IdClinica"=>$this->session->userdata('IdClinica')
 
@@ -267,10 +280,10 @@ class CorteCaja_Controller extends CI_Controller {
                 }
 
                 //Actualizar Notas Remision
-                $this->NotaRemision_Model->AsignarCorteNotasRemision($IdCuenta,$IdCorteCaja);
+                $this->NotaRemision_Model->AsignarCorteNotasRemision($IdCorteCaja);
 
                 //Actualizar Movimientos de Cuentas
-                $this->MovimientoCuenta_Model->AsignarCorteMovimientosCuentas($IdCorteCaja,$IdCuenta);
+                $this->MovimientoCuenta_Model->AsignarCorteMovimientosCuentas($IdCorteCaja);
 
                 $transStatus = $this->db->trans_complete();
 
@@ -287,7 +300,7 @@ class CorteCaja_Controller extends CI_Controller {
                 $data['title'] = 'Corte Exitoso';
                 $data['swal']=true;
                 $data['swalMessage']="title:'Corte registrado con exito',
-                text: 'El corte de la cuenta ".$Cuenta->DescripcionCuenta." se realizo por un Total de $".$TotalCorte." y se entrego $".$TotalEntregado."',
+                text: 'El corte se realizo por un Total de $".$TotalCorte." y se entrego $".$TotalEntregado."',
                 type: 'success',
 
                 showConfirmButton: true,

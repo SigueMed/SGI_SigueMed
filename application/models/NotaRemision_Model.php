@@ -140,7 +140,7 @@ class NotaRemision_Model extends CI_Model {
 
     }
 
-    public function AsignarCorteNotasRemision($IdCuenta,$IdCorteCaja)
+    public function AsignarCorteNotasRemision($IdCorteCaja)
     {
         $this->db->set('IdCorteCaja',$IdCorteCaja);
         $this->db->where('IdNotaRemision IN (Select DISTINCT nr.IdNotaRemision
@@ -148,7 +148,7 @@ class NotaRemision_Model extends CI_Model {
                                                 	join detallenotaremision dnr on dnr.IdNotaRemision = nr.IdNotaRemision
                                                     join catalogoproductos cp on cp.IdProducto = dnr.IdProducto
                                                     join cuentaproducto c on c.IdProducto = cp.IdProducto
-                                                where IdCuenta = '.$IdCuenta.'
+                                                where IdClinica = '.$this->session->userdata('IdClinica').'
                                                 and IdCorteCaja is null)');
         return $this->db->update($this->table);
 
