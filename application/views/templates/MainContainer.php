@@ -255,7 +255,7 @@
             </ul>
           </li>-->
           <?php
-          if ($this->session->userdata('IdPerfil') == '1')
+          if ($this->session->userdata('IdPerfil') == '1'|| $this->session->userdata('IdPerfil') == '2')
           {
 
               echo '<li class=" nav-item"><a href="#"><i class="icon-lecturer"></i><span data-i18n="nav.project.main" class="menu-title">Recepción</span></a>
