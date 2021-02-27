@@ -73,7 +73,7 @@ public function ConsultarCorteCajaPorId($IdCorteCaja)
   $this->db->from($this->table);
   $this->db->join('empleado e',$this->table.'.IdEmpleado = e.IdEmpleado');
   $this->db->join('catalogoturno ct',$this->table.'.IdTurno = ct.IdTurno');
-  $this->db->join('cuenta c',$this->table.'.IdCuenta = c.IdCuenta');
+  //$this->db->join('cuenta c',$this->table.'.IdCuenta = c.IdCuenta');
   $this->db->where('IdCorteCaja',$IdCorteCaja);
 
   $query = $this->db->get();

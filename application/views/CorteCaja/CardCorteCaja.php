@@ -76,7 +76,8 @@
                              <label for="TotalEntradas">Total Entradas</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="TotalEntradas" name="TotalEntradas"  value ="0" class="form-control"/>
+                               <input type="text" id="txtTotalEntradas" name="txtTotalEntradas"  value ="0" class="form-control"/>
+                               <input type="hidden" id="TotalEntradas" name="TotalEntradas"  value ="0" class="form-control"/>
                              </div>
 
                            </div>
@@ -88,7 +89,8 @@
                              <label for="TotalSalidas">Total Salidas</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="TotalSalidas" name="TotalSalidas"  value ="0" class="form-control"/>
+                               <input type="text" id="txtTotalSalidas" name="txtTotalSalidas"  value ="0" class="form-control"/>
+                               <input type="hidden" id="TotalSalidas" name="TotalSalidas"  value ="0" class="form-control"/>
                              </div>
 
                            </div>
@@ -100,7 +102,8 @@
                              <label for="BalanceCorte">Balance Corte</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="BalanceCorte" name="BalanceCorte"  value ="0" class="form-control"/>
+                               <input type="text" id="txtBalanceCorte" name="txtBalanceCorte"  value ="0" class="form-control"/>
+                               <input type="hidden" id="BalanceCorte" name="BalanceCorte"  value ="0" class="form-control"/>
                              </div>
 
                            </div>
@@ -112,7 +115,8 @@
                              <label for="TotalEntregado">Total Entregado</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="TotalEntregado" name="TotalEntregado"  value ="0" class="form-control"/>
+                               <input type="text" id="txtTotalEntregado" name="txtTotalEntregado"  value ="0" class="form-control"/>
+                               <input type="hidden" id="TotalEntregado" name="TotalEntregado"  value ="0" class="form-control"/>
                              </div>
 
                            </div>
@@ -291,10 +295,14 @@
                       );
                   }
 
-                  $("#TotalEntradas").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(TotalEntradas));
-                  $("#TotalSalidas").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(TotalSalidas));
+                  $("#TotalEntradas").val(TotalEntradas);
+                  $("#TotalSalidas").val(TotalSalidas);
+                  $("#txtTotalEntradas").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(TotalEntradas));
+                  $("#txtTotalSalidas").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(TotalSalidas));
                   var Balance = TotalEntradas - TotalSalidas;
-                  $("#BalanceCorte").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(Balance));
+                  $("#txtBalanceCorte").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(Balance));
+                  $("#BalanceCorte").val(Balance);
+
 
 
               }
@@ -354,7 +362,8 @@
                       );
                   }
 
-                  $("#TotalEntregado").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(ResumenTotalCorte));
+                  $("#txtTotalEntregado").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(ResumenTotalCorte));
+                  $("#TotalEntregado").val(ResumenTotalCorte);
 
 
               }
@@ -400,7 +409,7 @@ function CargarDetalleNotasCorte(IdCuenta) {
             "infoFiltered": "(filtrado de _MAX_ total)"
         },
         "autoWidth":true,
-        
+
         "columns": [
 
               { "data": "IdNotaRemision"},

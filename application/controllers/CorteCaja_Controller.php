@@ -253,7 +253,10 @@ class CorteCaja_Controller extends CI_Controller {
                     "TotalEntregado"=>$TotalEntregado,
                     //"IdCuenta" => $IdCuenta,
                     "Comentarios"=>$Comentarios,
+                    "HoraCorte"=>mdate('%H:%i',now()),
+
                     "IdClinica"=>$this->session->userdata('IdClinica')
+
 
                 );
                 $IdCorteCaja = $this->CorteCaja_Model->CrearCorteCaja($dataCorteCaja);
@@ -310,7 +313,7 @@ class CorteCaja_Controller extends CI_Controller {
 
                 $data['swalAction'] = ".then((result)=> {
                   if (result.value) {
-                    window.open('".site_url("CorteCaja/ImprimirCorteCaja/".$IdCorteCaja)."','_blank');
+                    window.open('".site_url("CorteCaja/ImprimirTicketCorteCaja/".$IdCorteCaja)."','_blank');
                   }
                   else {
                     window.location.href = '".site_url("CorteCaja/ConsultarCortesCaja")."';
@@ -434,6 +437,21 @@ class CorteCaja_Controller extends CI_Controller {
       $this->load->view('CorteCaja/CardResumenCorteCaja', $data);
 
       $this->load->view('templates/FooterContainer');
+
+
+      // code...
+    }
+
+    public function ImprimirTicketCorte($IdCorteCaja)
+    {
+
+      $data['CorteCaja'] = $this->CorteCaja_Model->ConsultarCorteCajaPorId($IdCorteCaja);
+      $this->load->model('Clinica_Model');
+      $data['Clinica'] = $this->Clinica_Model->ConsultarClinicaPorId($this->session->userdata('IdClinica'));
+      $this->load->model('DetallePagosCorteCaja_Model');
+      $data['DetalleCorteCaja']=$this->DetallePagosCorteCaja_Model->ConsultarDetallesPagoCorte($IdCorteCaja);
+
+      $this->load->view('CorteCaja/TicketCierreCaja',$data);
 
 
       // code...

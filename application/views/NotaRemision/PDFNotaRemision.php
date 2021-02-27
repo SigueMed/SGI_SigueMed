@@ -73,9 +73,9 @@ img {
       </div>
 
 
-            <p class="centrado">Clinica SígueMED<br>Sucursal Ghandi<br>Ticket No. <?=$NotaRemision->Folio;?><br> <?=$NotaRemision->FechaNotaRemision;?> <br>Hora <?= date('H:i');?></p>
+            <p class="centrado">Clinica SígueMED<br>Sucursal <?=$Clinica->NombreClinica?><br>Ticket No. <?=$NotaRemision->Folio;?><br> <?=$NotaRemision->FechaNotaRemision;?> <br>Hora <?= date('H:i');?></p>
 
-            <p>Tel. 449 3928 310</p>
+            <p>Tel. <?=$Clinica->TelefonoClinica?></p>
 
               <p>Paciente:<?=$NotaRemision->NombrePaciente;?> </p>
             <table>

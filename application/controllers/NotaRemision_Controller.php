@@ -625,6 +625,8 @@ class NotaRemision_Controller extends CI_Controller {
             $data['NotaRemision'] = $this->NotaRemision_Model->ConsultarNotaRemision($IdNotaRemision);
             $data['DetalleNotaRemision']= $this->DetalleNotaRemision_Model->ConsultarDetalleNotaRemision($IdNotaRemision);
             $data['PagosNotaRemision']= $this->PagoNotaRemision_Model->ConsultarPagosNotaRemision($IdNotaRemision);
+            $data['Clinica'] = $this->Clinica_Model->ConsultarClinicaPorId($this->session->userdata('IdClinica'));
+
 
 
             $this->load->view('NotaRemision/PDFNotaRemision',$data);

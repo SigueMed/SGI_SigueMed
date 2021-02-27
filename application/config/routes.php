@@ -104,6 +104,7 @@ $route['CorteCaja/DetalleCorteCaja'] = 'CorteCaja_Controller/Load_RealizarCorteC
 $route['CorteCaja/ConsultaCortesCaja'] = 'CorteCaja_Controller/Load_ConsultarCortesCaja';
 $route['CorteCaja/ConsultarDetalleCorte/(.+)'] = 'CorteCaja_Controller/Load_ConsultarDetalleCorteCaja/$1';
 $route['CorteCaja/ImprimirCorteCaja/(.+)'] = 'CorteCaja_Controller/ImprimirCorte/$1';
+$route['CorteCaja/ImprimirTicketCorteCaja/(.+)']='CorteCaja_Controller/ImprimirTicketCorte/$1';
 
 //CAJA
 $route['NotaRemision/ConsultarNotasRemision'] = 'NotaRemision_Controller/Load_ConsultaNotasRemision';
