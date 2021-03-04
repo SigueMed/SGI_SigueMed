@@ -113,6 +113,27 @@ class NotaRemision_Model extends CI_Model {
         return $this->db->update($this->table,$NotaArray);
     }
 
+    public function BuscarNotasRemision($CondicionesBusqueda)
+    {
+        $this->db->select($this->table.'.*, CONCAT(NombreEmpleado, " ",ApellidosEmpleado) as ElaboradaPor, DescripcionTurno');
+        $this->db->select('CONCAT(Nombre, " ",Apellidos) as NombrePaciente, DescripcionEstatusNotaRemision');
+        $this->db->from($this->table);
+        $this->db->join('empleado',$this->table.'.IdEmpleado = empleado.IdEmpleado');
+        $this->db->join('catalogoestatusnotaremision',$this->table.'.IdEstatusNotaRemision = catalogoestatusnotaremision.IdEstatusNotaRemision');
+        $this->db->join('paciente',$this->table.'.IdPaciente = paciente.IdPaciente');
+        $this->db->join('catalogoturno',$this->table.'.IdTurno = catalogoturno.IdTurno');
+        $this->db->where($CondicionesBusqueda);
+
+
+        $this->db->order_by('FechaNotaRemision','desc');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+
+    }
+
+
     public function ConsultarNotasRemision($FechaInicio, $FechaFin, $IdClinica, $IdEstatusNota = FALSE)
     {
         $this->db->select($this->table.'.*, CONCAT(NombreEmpleado, " ",ApellidosEmpleado) as ElaboradaPor, DescripcionTurno');

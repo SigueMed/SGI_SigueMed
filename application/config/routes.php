@@ -108,6 +108,7 @@ $route['CorteCaja/ImprimirTicketCorteCaja/(.+)']='CorteCaja_Controller/ImprimirT
 
 //CAJA
 $route['NotaRemision/ConsultarNotasRemision'] = 'NotaRemision_Controller/Load_ConsultaNotasRemision';
+$route['NotaRemision/BuscarNotas'] = 'NotaRemision_Controller/Load_BuscarNotas';
 
 //DASHBOARD
 $route['Dashboard/Main'] = 'Dashboard_Controller/Load_Dashboard';

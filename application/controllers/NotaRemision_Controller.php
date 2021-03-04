@@ -625,6 +625,7 @@ class NotaRemision_Controller extends CI_Controller {
             $data['NotaRemision'] = $this->NotaRemision_Model->ConsultarNotaRemision($IdNotaRemision);
             $data['DetalleNotaRemision']= $this->DetalleNotaRemision_Model->ConsultarDetalleNotaRemision($IdNotaRemision);
             $data['PagosNotaRemision']= $this->PagoNotaRemision_Model->ConsultarPagosNotaRemision($IdNotaRemision);
+            $this->load->model('Clinica_Model');
             $data['Clinica'] = $this->Clinica_Model->ConsultarClinicaPorId($this->session->userdata('IdClinica'));
 
 
@@ -674,6 +675,17 @@ class NotaRemision_Controller extends CI_Controller {
 
         }
 
+        public function Load_BuscarNotas()
+        {
+            $data['title'] = 'Buscar Notas de Remisión';
+
+            $this->load->view('templates/MainContainer',$data);
+            $this->load->view('templates/HeaderContainer',$data);
+            $this->load->view('NotaRemision/CardConsultaNotasRemisionRecepcion',$data);
+            $this->load->view('templates/FooterContainer');
+
+        }
+
         public function ConsultarNotasDeRemision()
         {
             $FechaInicio = $this->input->post('FechaInicio');
@@ -692,6 +704,15 @@ class NotaRemision_Controller extends CI_Controller {
 
 
             echo json_encode($NotasRemision);
+        }
+
+        public function BuscarNotasRemision()
+        {
+
+          $CondicionesBusqueda = $this->input->post('CondicionesBusqueda');
+          $NotasRemision = $this->NotaRemision_Model->BuscarNotasRemision($CondicionesBusqueda);
+
+          echo json_encode($NotasRemision);
         }
 
         public function AgregarPaciente_ajax()

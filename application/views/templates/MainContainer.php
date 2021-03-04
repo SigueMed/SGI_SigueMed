@@ -45,8 +45,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
-    <!--SIGUEMED JS-->
-    <script src="<?php echo base_url();?>js/siguemed_general.js"></script>
+    <!--SIGUEMED JS
+    <script src="<?php echo base_url();?>js/siguemed_general.js"></script>-->
 
     <!--FONTAWESOME-->
   <script src="https://kit.fontawesome.com/58366cd50a.js"></script>
@@ -265,6 +265,7 @@
                             <li><a href="'.site_url('SalidaCaja/PagarServicioMedico').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Pagar Servicios Médicos</a>
                             </li>
                             <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>
+                            <li><a href="'. site_url('NotaRemision/BuscarNotas').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Buscar Notas</a></li>
 
                         </ul>
                     </li>';
