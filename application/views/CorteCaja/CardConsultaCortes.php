@@ -29,7 +29,7 @@
                         <!--FORM BODY-->
                         <div class="form-body">
 
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="form-group col-md-7 col-xs-12">
                                     <div class="form-group">
                                         <label for="cbCuentas">Cuentas</label>
@@ -39,7 +39,7 @@
                                         </select>
                                     </div>
                                </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                               <div class="form-group col-md-7 col-xs-12">
                                 <button type="button" class="btn btn-secondary" id="btnTodos"onclick="ConsultarCortesPorCuenta()">
@@ -60,7 +60,7 @@
                                     <tr>
                                         <th></th>
                                         <th>#</th>
-                                        <th>Cuenta</th>
+
                                         <th>Fecha</th>
                                         <th>Turno</th>
                                         <th>Balance Corte</th>
@@ -121,7 +121,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-  CargarCuentas();
+
+  ConsultarCortesPorCuenta();
 
   $('#tblCortesCaja tbody').on('click', 'td.details-control', function () {
       var tr = $(this).closest('tr');
@@ -141,22 +142,22 @@ $(document).ready(function() {
   } );
 
 });
-function CargarCuentas()
-{
-  $.ajax({
-      url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarCuentas_ajax",
-      method: "POST",
-      success: function(data)
-          {
-               $('#cbCuentas').html(data);
-          }
-  });
-
-}
+// function CargarCuentas()
+// {
+//   $.ajax({
+//       url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarCuentas_ajax",
+//       method: "POST",
+//       success: function(data)
+//           {
+//                $('#cbCuentas').html(data);
+//           }
+//   });
+//
+// }
 
 function ConsultarCortesPorCuenta(escenarioConsulta) {
 
-  var IdCuenta = $("#cbCuentas").val();
+  //var IdCuenta = $("#cbCuentas").val();
 
 
   switch (escenarioConsulta) {
@@ -172,7 +173,7 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
       var FechaInicio = hoy.getFullYear()+'/'+mesInicio+'/'+hoy.getDate();
       var FechaFin = hoy.getFullYear()+'/'+mesInicio+'/'+hoy.getDate();
       var datos = {
-        IdCuenta:IdCuenta,
+        //IdCuenta:IdCuenta,
         FechaInicial: FechaInicio
       };
 
@@ -197,7 +198,7 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
     var FechaInicio = hoy.getFullYear()+'/'+mesInicio+'/01';
     var FechaFin = hoy.getFullYear()+'/'+mesInicio+'/31';
       var datos = {
-        IdCuenta:IdCuenta,
+        //IdCuenta:IdCuenta,
         FechaInicial: FechaInicio,
         FechaFinal: FechaFin
       };
@@ -205,7 +206,7 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
       break;
     default:
       var datos = {
-        IdCuenta:IdCuenta
+
       };
 
   }
@@ -234,14 +235,14 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
         "autoWidth":true,
         "columnDefs":[
           {
-            "targets": 10, "data": "TotalEntregado", "render":function(data,type,row,meta)
+            "targets": 9, "data": "TotalEntregado", "render":function(data,type,row,meta)
             {
               return data-row['TotalEnEfectivo'];
               // return parseFloat(row['TotalEnEfectivo'])-parseFloat(data);
             }
           },
           {
-            "targets": 11, "data": "IdCorteCaja", "render":function(data,type,row,meta)
+            "targets": 10, "data": "IdCorteCaja", "render":function(data,type,row,meta)
             {
               var url = '<?php echo site_url();?>/CorteCaja/ConsultarDetalleCorte/'+data;
               return'<a href="'+url+'"><i class="icon-book" data-toggle="tooltip" data-placement="top" id="VerDetalle" title="Ver Detalle"></i></a>'
@@ -258,7 +259,7 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
                   "defaultContent": ''
               },
               { "data": "IdCorteCaja"},
-              { "data": "DescripcionCuenta" },
+
               { "data": "FechaCorte" },
               { "data": "DescripcionTurno" },
               { "data": "TotalCorte" },
@@ -289,13 +290,13 @@ function LoadRowDetail ( d ) {
     .done(function(data) {
 
       var DetallesPagoCorte = JSON.parse(data);
-
+      var output='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                      '<th>Tipo Pago</th>'+
+                      '<th>Corte</th>'+
+                      '<th>Entregado</th>';
       for (i=0; i<DetallesPagoCorte.length;i++)
       {
-        var output ='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-                        '<th>Tipo Pago</th>'+
-                        '<th>Corte</th>'+
-                        '<th>Entregado</th>';
+        
         output +='<tr>'+
                   '<td>'+DetallesPagoCorte[i]['DescripcionTipoPago']+'</td>'+
                   '<td>'+DetallesPagoCorte[i]['TotalCorteCaja']+'</td>'+

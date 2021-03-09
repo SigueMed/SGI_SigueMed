@@ -366,7 +366,7 @@ class CorteCaja_Controller extends CI_Controller {
 
     public function ConsultarCortesCaja_ajax()
     {
-      $IdCuenta = $this->input->post('IdCuenta');
+      //$IdCuenta = $this->input->post('IdCuenta');
       $FechaInicial = $this->input->post('FechaInicial');
       $FechaFinal = $this->input->post('FechaFinal');
 
@@ -374,15 +374,15 @@ class CorteCaja_Controller extends CI_Controller {
       {
         if(isset($FechaFinal))
         {
-          $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta,$FechaInicial,$FechaFinal);
+          $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($FechaInicial,$FechaFinal);
         }
         else {
-          $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta,$FechaInicial);
+          $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($FechaInicial);
         }
 
       }
       else {
-        $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja($IdCuenta);
+        $CortesCaja = $this->CorteCaja_Model->ConsultarCortesCaja();
       }
 
 

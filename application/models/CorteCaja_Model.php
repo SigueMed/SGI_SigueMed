@@ -29,23 +29,23 @@ public function CrearCorteCaja($NuevoCorte_Array)
 
 }
 
-public function ConsultarCortesCaja($IdCuenta,$FechaInicial = FALSE, $FechaFinal=FALSE)
+public function ConsultarCortesCaja($FechaInicial = FALSE, $FechaFinal=FALSE)
 {
 
   $this->db->select($this->table.'.*, e.NombreEmpleado, e.ApellidosEmpleado');
-  $this->db->select('DescripcionCuenta');
+  //$this->db->select('DescripcionCuenta');
   $this->db->select('DescripcionTurno');
   $this->db->from($this->table);
   $this->db->join('empleado e',$this->table.'.IdEmpleado= e.IdEmpleado');
-  $this->db->join('cuenta c', $this->table.'.IdCuenta = c.IdCuenta');
+  //$this->db->join('cuenta c', $this->table.'.IdCuenta = c.IdCuenta');
   $this->db->join('catalogoturno ct',$this->table.'.IdTurno = ct.IdTurno');
 
   $this->db->where('IdClinica',$this->session->userdata('IdClinica'));
 
-  if ($IdCuenta !== FALSE && $IdCuenta !="")
-  {
-    $this->db->where($this->table.'.IdCuenta',$IdCuenta);
-  }
+  // if ($IdCuenta !== FALSE && $IdCuenta !="")
+  // {
+  //   $this->db->where($this->table.'.IdCuenta',$IdCuenta);
+  // }
 
   if($FechaInicial !== FALSE && $FechaInicial !== "")
   {
