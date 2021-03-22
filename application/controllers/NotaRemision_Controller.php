@@ -89,6 +89,8 @@ class NotaRemision_Controller extends CI_Controller {
                     $IdTurno = $this->session->userdata('IdTurno');
                     $TotalNota = $this->input->post('TotalNota');
                     $TotalPagadoNota = $this->input->post('resumenTotalPago');
+                    $MedicoAtendio= $this->input->post('MedicoAtendio');
+                    $ComentariosNota = $this->input->post('ComentariosNota');
 
                     if ($this->input->post('RequiereFactura')==1)
                     {
@@ -116,6 +118,8 @@ class NotaRemision_Controller extends CI_Controller {
                         'TotalPagado'=>0,
                         'IdEstatusNotaRemision'=>1,
                         'RequiereFactura'=>$RequiereFactura,
+                        'MedicoAtendio'=>$MedicoAtendio,
+                        'ComentariosNota'=>$ComentariosNota,
                         'IdClinica'=>$this->session->userdata('IdClinica')
                     );
 

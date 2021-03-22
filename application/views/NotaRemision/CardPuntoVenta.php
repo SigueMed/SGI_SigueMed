@@ -97,7 +97,7 @@
         <!-- Resumen -->
         <div class="card my-4">
           <div class="card-header">
-              <h6>Resumen Compra</h6>
+              <h6>Medico</h6>
           </div>
 
           <div class="card-body">
@@ -105,7 +105,16 @@
                   <div class="form-body">
                       <div class="row">
 
-                      </div>
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="cb_Medico">Medico que atendió:</label>
+                                  <input type="text" class="form-control" style="text-transform:uppercase;" name="MedicoAtendio" value="">
+
+                              </div>
+                          </div>
+
+                        </div>
+
                   </div>
               </div>
           </div>
@@ -134,6 +143,7 @@
                                         <th >Producto</th>
                                         <th >Costo</th>
                                         <th >Cant.</th>
+                                        <th >%</th>
                                         <th >Total</th>
                                         <th >Eliminar</th>
                                     </tr>
@@ -179,19 +189,38 @@
                           </div>
 
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1 col-xs-2">
                           <div class="form-group">
-                            <label for="CantidadProducto">Cantidad</label>
+                            <label for="CantidadProducto">Cant.</label>
                             <input type="text" class ="form-control" name="CantidadProducto"  id="CantidadProducto" value="">
                           </div>
 
                         </div>
 
-                        <div class="col-md-3 col-xs-3">
+                        <div class="col-md-2 col-xs-2">
+                            <div class="form-group">
+                                 <label for="SubtotalProducto">%</label>
+
+                                    <input type="number" id="Descuento" name="Descuento" class="form-control" placeholder="%" value="0" min="0" max="100" readonly="readonly" onchange="AplicarDescuento()">
+
+
+                                 <!-- <div class="input-group">
+
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
+                                 </div> -->
+
+                                 <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
+                                 <input type="hidden" name="Lote" id="Lote">
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 col-xs-4">
                             <div class="form-group">
                                  <label for="SubtotalProducto">Total</label>
 
                                     <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly="readonly">
+                                    <input type="hidden" id="CostoProducto" name="CostoProducto">
 
 
                                  <!-- <div class="input-group">
@@ -216,6 +245,19 @@
 
                         </div>
 
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                          <label for="DescripcionProducto">Comentarios:</label>
+                          <input type="text" class = "form-control" name="ComentariosNota" id="ComentariosNota" value="">
+
+
+
+                        </div>
+
+                      </div>
 
                     </div>
 
@@ -599,27 +641,7 @@
           }
 
        });
-        // Lista Productos Evento: Change
-        //Carga Información del producto seleccionado
-        $('#cbProducto').change(function(){
-            var producto_id = $('#cbProducto').val();
-            if(producto_id!='')
-            {
-                $.ajax({
-                    url: "<?php echo site_url();?>/NotaMedica_Controller/ConsultarProductoPorId",
-                    method: "POST",
-                    data:{producto_id:producto_id},
-                    success: function(data)
-                        {
-                            var producto_detail = JSON.parse(data);
-                            $('#SubtotalProducto').val(producto_detail['CostoProducto']);
 
-                        }
-                });
-
-
-            }
-        });
 
         //Agregar nueva fila a la tabla productos
         $('#btnAgregar').click(function(){
@@ -640,7 +662,8 @@
 
             var descProducto = $("#DescripcionProducto").val();
             var TotalFilas = $('#tablaProductos tbody tr').length;
-            var precio =$("#SubtotalProducto").val();
+            var precio =$("#CostoProducto").val();
+            var descuento =isNaN(parseFloat($("#Descuento").val())) ? 0 : $("#Descuento").val();
 
 
             var numFila = 0;
@@ -658,7 +681,7 @@
 
 
 
-            var subtotal = parseFloat(precio) * parseFloat(Cantidad);
+            var subtotal = parseFloat($("#SubtotalProducto").val());
 
             if (!isNaN(subtotal))
             {
@@ -673,15 +696,15 @@
                          '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
                          '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
                          '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
-                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
                          '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
                          '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
-                         '<input type="hidden" class="form-control" name="descuento[]" value="0">'+
+                         '<input type="hidden" class="form-control" name="descuento[]" value="'+descuento+'">'+
                          '<input type="hidden" name="IdEmpleado[]" value="">'+
                          descServicio+'</td>'+
                      '<td>'+descProducto+'</td>'+
                      '<td>'+precio+'</td>'+
                      '<td>'+Cantidad+'</td>'+
+                     '<td>'+descuento+'%</td>'+
                      '<td>'+subtotal+'</td>'+
                      '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
                      //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
@@ -697,18 +720,10 @@
                $("#SubtotalProducto").val("");
                $("#txtProducto").focus();
                $("#btnAgregar").attr("disabled","disabled");
+               $("#Descuento").attr("readonly","readonly");
 
             }
-
-
-
-
-
             }
-
-
-
-
         });
 
         $("#btnAgregarPago").click(function()
@@ -865,13 +880,16 @@
 
      $("#IdProducto").val(value);
      $("#DescripcionProducto").val(DescripcionProducto);
-     $("#SubtotalProducto").val(CostoProducto)
+     $("#SubtotalProducto").val(CostoProducto);
+     $("#CostoProducto").val(CostoProducto);
+
      $("#IdServicio").val(IdServicio);
      $("#DescripcionServicio").val(DescripcionServicio);
      $("#PrecioProveedor").val(PrecioProveedor);
      $("#EsProveedor").val(EsProveedor);
 
      $("#CantidadProducto").val(1);
+     $("#Descuento").removeAttr("readonly");
      $("#btnAgregar").removeAttr("disabled");
 
     }
@@ -1225,21 +1243,7 @@
    }
 
  }
- function RecalcularTotales()
- {
-   var Total=0;
-   $('input[name^="subtotal"]').each(function(){
-   Total = Total + parseFloat($(this).val());
-  });
 
-
-  $("#TotalNota").val(parseFloat(Total));
-
-  CalcularTotalesNotaRemision();
-
-
-
- }
 
  //MODAL BUSCAR Productos
  function LoadModal_BuscarProducto()
@@ -1316,8 +1320,28 @@
    $("#EsProveedor").val(Proveedor);
    //
    $("#CantidadProducto").val(1);
+   $("#Descuento").val(0);
    $("#btnAgregar").removeAttr("disabled");
     $("#Modal_BuscarProducto").modal('hide');
+
+
+ }
+
+ function AplicarDescuento() {
+
+
+
+   var Cantidad = parseFloat($("#CantidadProducto").val());
+   var CostoProducto = parseFloat($("#CostoProducto").val());
+   var Descuento = isNaN(parseFloat($("#Descuento").val()))? 0 : $("#Descuento").val() ;
+
+   var Subtotal = Cantidad * CostoProducto;
+   alert(Descuento);
+   var Subtotal = Subtotal * (((100-Descuento)/100));
+   alert(Subtotal);
+
+   $("#SubtotalProducto").val(Subtotal);
+
 
 
  }

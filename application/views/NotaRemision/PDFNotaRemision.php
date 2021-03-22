@@ -17,12 +17,14 @@ tr,
 table {
     border-top: 1px solid black;
     border-collapse: collapse;
+    font-size: 10px;
 }
 
 td.producto,
 th.producto {
     width: 75px;
     max-width: 75px;
+
 }
 
 td.cantidad,
@@ -69,7 +71,7 @@ img {
 <body>
   <div class="ticket">
       <div class="centrado">
-        <img src="<?php echo base_url();?>app-assets/images/logo/SigueMED_Logo_B.jpg" alt="company logo" style="width:100%; max-width:80px;">
+        <img src="<?php echo base_url();?>app-assets/images/logo/SigueMED_Logo_B.jpg" alt="company logo" style="width:80%; max-width:70px;">
       </div>
 
 
@@ -77,13 +79,17 @@ img {
 
             <p>Tel. <?=$Clinica->TelefonoClinica?></p>
 
-              <p>Paciente:<?=$NotaRemision->NombrePaciente;?> </p>
+              <p>Paciente:<?=$NotaRemision->NombrePaciente;?>
+                <br>
+                Medico: <?=$NotaRemision->MedicoAtendio;?>
+              </p>
             <table>
                 <thead>
                     <tr>
                         <th>CANT</th>
-                        <th>PRODUCTO</th>
-                        <th>$$</th>
+                        <th>PROD</th>
+                        <th>%</th>
+                        <th>$</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +99,7 @@ img {
                         echo '<tr class="item">';
                         echo '<td>'.$detalle['Cantidad'].'</td>';
                         echo '<td>'.$detalle['DescripcionProducto'].'</td>';
+                        echo '<td>'.$detalle['Descuento'].'%</td>';
 
 
                         echo '<td>$'.$detalle['SubTotalDetalle'].'</td>';

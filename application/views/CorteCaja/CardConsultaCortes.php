@@ -64,9 +64,7 @@
                                         <th>Fecha</th>
                                         <th>Turno</th>
                                         <th>Balance Corte</th>
-                                        <th>Total Efectivo </th>
-                                        <th>Total T.C.</th>
-                                        <th>Total Transferencias</th>
+
                                         <th>Total Entregado</th>
                                         <th>Diferencia</th>
                                         <th>Acciones</th>
@@ -235,14 +233,17 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
         "autoWidth":true,
         "columnDefs":[
           {
-            "targets": 9, "data": "TotalEntregado", "render":function(data,type,row,meta)
+            "targets": 6, "data": "TotalEntregado", "render":function(data,type,row,meta)
             {
-              return data-row['TotalEnEfectivo'];
-              // return parseFloat(row['TotalEnEfectivo'])-parseFloat(data);
+              //return data-row['TotalEnEfectivo'];
+
+              var diferencia= parseFloat(data) - parseFloat(row['TotalCorte']);
+              return "$"+meta.settings.fnFormatNumber(diferencia);
             }
           },
+
           {
-            "targets": 10, "data": "IdCorteCaja", "render":function(data,type,row,meta)
+            "targets": 7, "data": "IdCorteCaja", "render":function(data,type,row,meta)
             {
               var url = '<?php echo site_url();?>/CorteCaja/ConsultarDetalleCorte/'+data;
               return'<a href="'+url+'"><i class="icon-book" data-toggle="tooltip" data-placement="top" id="VerDetalle" title="Ver Detalle"></i></a>'
@@ -262,15 +263,12 @@ function ConsultarCortesPorCuenta(escenarioConsulta) {
 
               { "data": "FechaCorte" },
               { "data": "DescripcionTurno" },
-              { "data": "TotalCorte" },
-              { "data": "TotalEnEfectivo" },
-              { "data": "TotalEnTC" },
-              { "data": "TotalTransferencias" },
+              { "data": "TotalCorte" ,render: $.fn.dataTable.render.number( ',', '.', 2, '$' )},
+              { "data": "TotalEntregado",render: $.fn.dataTable.render.number( ',', '.', 2, '$' ) },
               { "data": "TotalEntregado" }
 
 
-              ]
-
+            ]
       });
 
 }
@@ -296,7 +294,7 @@ function LoadRowDetail ( d ) {
                       '<th>Entregado</th>';
       for (i=0; i<DetallesPagoCorte.length;i++)
       {
-        
+
         output +='<tr>'+
                   '<td>'+DetallesPagoCorte[i]['DescripcionTipoPago']+'</td>'+
                   '<td>'+DetallesPagoCorte[i]['TotalCorteCaja']+'</td>'+

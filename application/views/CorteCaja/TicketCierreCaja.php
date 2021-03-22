@@ -88,7 +88,7 @@ img {
 
               <p class="derecha">
                 Total Entradas: $<?=number_format($CorteCaja->TotalEntradas,2)?><br>
-                Total Entradas: $<?=number_format($CorteCaja->TotalSalidas,2)?><br>
+                Total Salidas: $<?=number_format($CorteCaja->TotalSalidas,2)?><br>
                 ----------------------------------------
                 TOTAL CORTE: $<?=number_format($CorteCaja->TotalCorte,2)?><br>
               </p>

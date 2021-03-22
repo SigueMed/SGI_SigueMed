@@ -76,7 +76,7 @@
                              <label for="TotalEntradas">Total Entradas</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="txtTotalEntradas" name="txtTotalEntradas"  value ="0" class="form-control"/>
+                               <input type="text" id="txtTotalEntradas" name="txtTotalEntradas"  value ="0" class="form-control" readonly/>
                                <input type="hidden" id="TotalEntradas" name="TotalEntradas"  value ="0" class="form-control"/>
                              </div>
 
@@ -89,7 +89,7 @@
                              <label for="TotalSalidas">Total Salidas</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="txtTotalSalidas" name="txtTotalSalidas"  value ="0" class="form-control"/>
+                               <input type="text" id="txtTotalSalidas" name="txtTotalSalidas"  value ="0" class="form-control" readonly/>
                                <input type="hidden" id="TotalSalidas" name="TotalSalidas"  value ="0" class="form-control"/>
                              </div>
 
@@ -102,7 +102,7 @@
                              <label for="BalanceCorte">Balance Corte</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="txtBalanceCorte" name="txtBalanceCorte"  value ="0" class="form-control"/>
+                               <input type="text" id="txtBalanceCorte" name="txtBalanceCorte"  value ="0" class="form-control" readonly/>
                                <input type="hidden" id="BalanceCorte" name="BalanceCorte"  value ="0" class="form-control"/>
                              </div>
 
@@ -115,7 +115,7 @@
                              <label for="TotalEntregado">Total Entregado</label>
                              <div class="input-group">
                                <span class="input-group-addon">$</span>
-                               <input type="text" id="txtTotalEntregado" name="txtTotalEntregado"  value ="0" class="form-control"/>
+                               <input type="text" id="txtTotalEntregado" name="txtTotalEntregado"  value ="0" class="form-control" readonly/>
                                <input type="hidden" id="TotalEntregado" name="TotalEntregado"  value ="0" class="form-control"/>
                              </div>
 
