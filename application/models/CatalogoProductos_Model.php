@@ -30,10 +30,11 @@ class CatalogoProductos_Model extends CI_Model{
 
     public function ConsultarProductosPorServicio($IdServicio)
     {
-        $this->db->select($this->table.'.*, DescripcionServicio,s.Proveedor');
+        $this->db->select($this->table.'.*, DescripcionServicio,gs.EsProveedor');
         $this->db->select('DescripcionTipoProducto, RequiereReceta');
         $this->db->from($this->table);
         $this->db->join('servicio s','s.IdServicio ='.$this->table.'.IdServicio');
+        $this->db->join('gruposervicio gs','s.IdGrupoServicio = gs.IdGrupoServicio');
         $this->db->join('catalogotipoproducto ctp','ctp.IdTipoProducto ='.$this->table.'.IdTipoProducto','left');
         $this->db->where($this->table.'.IdServicio', $IdServicio);
         $this->db->order_by('DescripcionProducto','asc');
@@ -46,11 +47,11 @@ class CatalogoProductos_Model extends CI_Model{
     public function ConsultarProductoPorId($IdProducto)
     {
         $this->db->select($this->table.'.*');
-        $this->db->select('subproducto.IdCodigoSubProducto');
+        $this->db->select('subproducto.IdCodigoSubProducto, gs.EsProveedor');
         $this->db->from($this->table);
         $this->db->join('subproducto',$this->table.'.IdProducto = subproducto.IdProducto','left');
-
-
+        $this->db->join('servicio s', $this->table.'.IdServicio = s.IdServicio');
+        $this->db->join('gruposervicio gs', 'gs.IdGrupoServicio = s.IdGrupoServicio');
         $this->db->where($this->table.'.IdProducto', $IdProducto);
 
 
@@ -125,11 +126,11 @@ class CatalogoProductos_Model extends CI_Model{
 
     public function ConsultarProductosPuntoVenta($IdFoliador,$IdClinica)
     {
-      $this->db->select($this->table.'.*, DescripcionServicio, Proveedor');
+      $this->db->select($this->table.'.*, DescripcionServicio, EsProveedor');
       $this->db->from($this->table);
       $this->db->join('servicio',$this->table.'.IdServicio = servicio.IdServicio');
       $this->db->join('folioservicio','servicio.IdServicio = folioservicio.IdServicio');
-
+      $this->db->join('gruposervicio gs','gs.IdGrupoServicio = servicio.IdGrupoServicio');
       $this->db->where($this->table.'.Habilitado', true);
       $this->db->where('servicio.Habilitado', true);
       $this->db->where('folioservicio.IdFoliador',$IdFoliador);

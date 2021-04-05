@@ -192,7 +192,7 @@
                         <div class="col-md-1 col-xs-2">
                           <div class="form-group">
                             <label for="CantidadProducto">Cant.</label>
-                            <input type="text" class ="form-control" name="CantidadProducto"  id="CantidadProducto" value="">
+                            <input type="text" class ="form-control" name="CantidadProducto"  id="CantidadProducto" value="" onchange="AplicarDescuento()">
                           </div>
 
                         </div>
@@ -734,8 +734,8 @@
           var txtVaucher = $("#txtVaucher").val();
           var montoPago = $("#montoPago").val();
 
-          var saldoPendiente = parseInt($("#resumenSaldoPendiente").val());
-          var TotalAPagar = parseInt($("#resumenTotalPago").val());
+          var saldoPendiente = parseFloat($("#resumenSaldoPendiente").val());
+          var TotalAPagar = parseFloat($("#resumenTotalPago").val());
 
           if (montoPago =="" || montoPago==null)
           {
@@ -761,7 +761,7 @@
 
             {
 
-                numFilaPago = parseInt(document.getElementById('tblPagos').rows[TotalFilasPagos-1].cells[0].innerHTML);
+                numFilaPago = parseFloat(document.getElementById('tblPagos').rows[TotalFilasPagos-1].cells[0].innerHTML);
                 numFilaPago +=1;
             }
 
@@ -781,7 +781,7 @@
                     );
 
 
-              TotalAPagar += parseInt(montoPago);
+              TotalAPagar += parseFloat(montoPago);
 
               $("#montoPago").val('');
 
@@ -876,7 +876,7 @@
      var CostoProducto = $("#txtProducto").getSelectedItemData().CostoProducto;
      var IdServicio =$("#txtProducto").getSelectedItemData().IdServicio;
      var PrecioProveedor =$("#txtProducto").getSelectedItemData().PrecioProveedor;
-     var EsProveedor =$("#txtProducto").getSelectedItemData().Proveedor;
+     var EsProveedor =$("#txtProducto").getSelectedItemData().EsProveedor;
 
      $("#IdProducto").val(value);
      $("#DescripcionProducto").val(DescripcionProducto);
@@ -1302,7 +1302,7 @@
             { "data": "DescripcionProducto" },
             { "data": "CostoProducto"},
             {"data":"IdProducto", "width": "20%"},
-            {"data":"Proveedor"}
+            {"data":"EsProveedor"}
             ]
 
     });
@@ -1336,9 +1336,9 @@
    var Descuento = isNaN(parseFloat($("#Descuento").val()))? 0 : $("#Descuento").val() ;
 
    var Subtotal = Cantidad * CostoProducto;
-   alert(Descuento);
+
    var Subtotal = Subtotal * (((100-Descuento)/100));
-   alert(Subtotal);
+
 
    $("#SubtotalProducto").val(Subtotal);
 

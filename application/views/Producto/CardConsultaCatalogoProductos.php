@@ -1,4 +1,15 @@
+<style>
 
+    td.details-control {
+        background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_open.png');?>) no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_close.png');?>) no-repeat center center;
+    }
+    th { font-size: 14px; }
+    td { font-size: 13px; }
+</style>
 <div class="row match-height">
         <div class="col-md-12">
             <div class="card">
@@ -30,9 +41,11 @@
                             <table id="tblCatalogoProductos" class="table table-striped table-bordered table-responsive" style="width:100%">
                                 <thead class="thead-inverse">
                                     <tr>
+                                        <th></th>
                                         <th>Id</th>
                                         <th>Descripción Producto</th>
-                                        <th>Costo</th>
+                                        <th>$ Publico</th>
+                                        <th>$ Proveedor</th>
                                         <th>Habilitado</th>
                                         <th>Tipo Producto</th>
                                         <th>Receta</th>
@@ -60,7 +73,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class='row'>
-                                            <div class='col-md-4'>
+                                            <div class='col-md-2'>
                                                 <div class='form-group'>
                                                     <label for="Modal_IdProducto">Id. Producto:</label>
                                                     <input type='text' id='Modal_IdProducto' class='form-control' name='Modal_IdProducto' readonly/>
@@ -85,14 +98,16 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-4">
-                                              <div class="form-group">
-                                                  <label for="cbTipoProducto">Tipo Producto</label>
-                                                  <select id="cbTipoProducto" name="cbTipoProducto" class="form-control">
-                                                  </select>
-                                              </div>
-
+                                            <div class='col-md-4'>
+                                                <div class="form-group">
+                                                    <label for="Modal_CostoProducto">Precio Proveedor</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">$</span>
+                                                        <input type="text" id="Modal_PrecioProveedor" class="form-control square" placeholder="Costo" aria-label="Costo" name="Modal_PrecioProveedor" disabled>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label for="Modal_chkHabilitado">Habilitado:</label>
@@ -101,20 +116,20 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 col-xs-12">
                                                 <div class="form-group">
                                                     <label for="cbCuentaProducto">Cuenta</label>
                                                     <select id="cbCuentaProducto" name="cbCuentaProducto" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-3 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="PorcentajeCuentaProducto">Procentaje Producto</label>
+                                                    <label for="MontoAsignarCuenta">Monto Asignar</label>
                                                     <div class="input-group">
+                                                        <span class="input-group-addon">$</span>
+                                                        <input type="text" id="MontoAsignarCuenta" class="form-control square" name="MontoAsignarCuenta">
 
-                                                        <input type="text" id="PorcentajeCuentaProducto" class="form-control square" placeholder="%" aria-label="Porcentaje" name="PorcentajeCuentaProducto">
-                                                        <span class="input-group-addon">%</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,11 +149,11 @@
                                         <div class='row'>
                                             <div class='col-md-3 col-xs-6'>
                                                 <div class='form-group'>
-                                                    <label>Porcentaje Asignado </label>
+                                                    <label>Monto por Asignar </label>
                                                     <div class="input-group">
+                                                        <span class="input-group-addon">$</span>
+                                                        <input type="text" id="MontoPorAsignar" class="form-control square"  name="MontoPorAsignar" value="0" readonly>
 
-                                                        <input type="text" id="PorcentajeAsignado" class="form-control square" placeholder="%" aria-label="Porcentaje" name="PorcentajeAsignado" value="0" readonly>
-                                                        <span class="input-group-addon">%</span>
                                                     </div>
 
                                                 </div>
@@ -154,6 +169,7 @@
                                                         <th>#</th>
                                                         <th>Cuenta</th>
                                                         <th>%</th>
+                                                        <th>Monto</th>
                                                         <th>Eliminar</th>
                                                     </tr>
 
@@ -198,51 +214,79 @@
         //Agregar nueva fila a la tabla productos
         $('#btnAgregarCuentaProd').click(function(){
 
-
-
             var IdCuenta = $("#cbCuentaProducto").val();
-            var DescripcionCuenta = $("#cbCuentaProducto option:selected").html();
-            var TotalFilas = $('#tblCuentasProducto tbody tr').length;
-            var numFila = 0;
 
-            if(TotalFilas <1)
+            if(isNaN(parseFloat(IdCuenta)))
             {
-                numFila = 1;
+              alert("Seleccione una cuenta para asignar");
             }
-            else
+            else {
 
-            {
-                numFila = parseInt(document.getElementById('tblCuentasProducto').rows[TotalFilas].cells[0].innerHTML);
-                numFila +=1;
-            }
+              var DescripcionCuenta = $("#cbCuentaProducto option:selected").html();
+              var TotalFilas = $('#tblCuentasProducto tbody tr').length;
+              var numFila = 0;
 
-            var PorcentajeCuenta =  parseFloat($("#PorcentajeCuentaProducto").val());
-            var PorcentajeAsignado = parseFloat($("#PorcentajeAsignado").val());
+              if(TotalFilas <1)
+              {
+                  numFila = 1;
+              }
+              else
 
-           if (PorcentajeCuenta <= (100-PorcentajeAsignado))
-            {
+              {
+                  numFila = parseInt(document.getElementById('tblCuentasProducto').rows[TotalFilas].cells[0].innerHTML);
+                  numFila +=1;
+              }
 
-                $('#tblCuentasProducto').append(
-                    '<tr id="row'+numFila+'">'+
-                    '<td>'+numFila+'</td>'+
-                    '<td><input type="hidden" name="IdCuentaProducto[]" value="'+IdCuenta+'"><input type="hidden" name="PorcentajeProducto[]" value="'+PorcentajeCuenta+'">'+DescripcionCuenta+'</td>'+
-                    '<td>'+PorcentajeCuenta+'</td>'+
+              var CostoProducto =  parseFloat($("#Modal_CostoProducto").val());
+              var MontoAsignar = parseFloat($("#MontoAsignarCuenta").val());
 
-                    '<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarCuenta" title="Eliminar cuenta"> Eliminar</i></a></td>'+
-                    '</tr>'
-                    );
+              var PorcentajeCuenta =  MontoAsignar / CostoProducto;
+              var MontoPorAsignar = parseFloat($("#MontoPorAsignar").val());
 
-            PorcentajeAsignado += PorcentajeCuenta;
+             if (MontoAsignar <= MontoPorAsignar)
+              {
 
-            $("#PorcentajeAsignado").val(PorcentajeAsignado);
+                  $('#tblCuentasProducto').append(
+                      '<tr id="row'+numFila+'">'+
+                      '<td>'+numFila+'</td>'+
+                      '<td><input type="hidden" name="IdCuentaProducto[]" value="'+IdCuenta+'"><input type="hidden" name="PorcentajeProducto[]" value="'+PorcentajeCuenta+'">'+DescripcionCuenta+'</td>'+
+                      '<td>'+PorcentajeCuenta*100+'</td>'+
+                      '<td>'+MontoAsignar+'</td>'+
 
-            }
-            else
-            {
-                alert('No puedes asignar mas del '+(100-PorcentajeAsignado)+'%');
-            }
+                      '<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarCuenta" title="Eliminar cuenta"> Eliminar</i></a></td>'+
+                      '</tr>'
+                      );
+
+              MontoPorAsignar -= MontoAsignar;
+
+              $("#MontoPorAsignar").val(MontoPorAsignar);
+
+              }
+              else
+              {
+                  alert('No puedes asignar mas del disponible por asignar');
+              }
+          }
 
         });
+
+        $('#tblCatalogoProductos tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var t = $("#tblCatalogoProductos").DataTable();
+            var row = t.row( tr );
+
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child( LoadRowDetail(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+
     });
 
     function CargarCuentas()
@@ -318,7 +362,7 @@
               },
               "columnDefs":[
                 {
-                 "type": 'currency',"targets":2, "render": function(data,type,row,meta)
+                 "type": 'currency',"targets":3, "render": function(data,type,row,meta)
 
                         {
                             return "$"+(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -326,14 +370,23 @@
                         }
                 },
                 {
-                    "targets":6, "render": function(data,type,row,meta)
+                 "type": 'currency',"targets":4, "render": function(data,type,row,meta)
+
+                        {
+                            var PrecioProveedor = isNaN(parseFloat(data))?0:parseFloat(data);
+                            return "$"+(PrecioProveedor).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                        }
+                },
+                {
+                    "targets":8, "render": function(data,type,row,meta)
 
                         {
                             return '<a classs = "btn" onclick="OpenModal_EditarProducto('+data+')"><i class="icon-pencil2" data-toggle="tooltip" data-placement="top" id="EditarProducto" title="Editar Producto"> Editar</i></a>';
 
                         }
                   },
-                  {"targets":3, "render": function(data,type,row,meta)
+                  {"targets":5, "render": function(data,type,row,meta)
                         {
                             if (data=='1')
                             {
@@ -346,7 +399,7 @@
 
 
                         }},
-                        {"targets":5,"render":function(data,type,row,meta)
+                        {"targets":7,"render":function(data,type,row,meta)
                           {
                             if(data==1)
                             {
@@ -362,10 +415,16 @@
                       ],
 
               "columns": [
-
+                    {
+                        "className":      'details-control',
+                        "orderable":      false,
+                        "data":           null,
+                        "defaultContent": ''
+                    },
                     { "data": "IdProducto" },
                     { "data": "DescripcionProducto" },
                     { "data": "CostoProducto"},
+                    { "data": "PrecioProveedor"},
                     { "data": "Habilitado" },
                     {"data":"DescripcionTipoProducto"},
                     {"data":"RequiereReceta"},
@@ -385,26 +444,12 @@
 
             document.getElementById("tblCuentasProducto").deleteRow(Row.rowIndex);
 
+            var MontoCuenta = parseFloat(Cell[3].innerText);
+            var MontoPorAsignar=isNaN(parseFloat($("#MontoPorAsignar").val()))? 0:parseFloat($("#MontoPorAsignar").val());
 
+           MontoPorAsignar += MontoCuenta;
 
-            var PorcentajeCuentaBorrado = parseFloat(Cell[2].innerText);
-
-
-
-            var PorcentajeAsignado=0;
-
-            if($("#PorcentajeAsignado").val()!=="")
-            {
-                PorcentajeAsignado = parseFloat($("#PorcentajeAsignado").val());
-            }
-
-
-
-            PorcentajeAsignado -= PorcentajeCuentaBorrado;
-
-
-
-            $("#PorcentajeAsignado").val(PorcentajeAsignado);
+            $("#MontoPorAsignar").val(MontoPorAsignar);
     }
 
 
@@ -428,6 +473,19 @@
                 $('#Modal_IdProducto').val(Producto['IdProducto']);
                 $("#Modal_Descripcion").val(Producto['DescripcionProducto']);
                 $("#Modal_CostoProducto").val(Producto['CostoProducto']);
+
+                if (Producto['EsProveedor']==1)
+                {
+                  $("#Modal_PrecioProveedor").removeAttr('disabled');
+                  $("#Modal_PrecioProveedor").val(Producto['PrecioProveedor']);
+
+                }
+                else {
+                  $("#Modal_PrecioProveedor").attr('disabled', 'disabled');
+                  $("#Modal_PrecioProveedor").val(0);
+                }
+
+
 
                 if(Producto['Habilitado']== '1')
                 {
@@ -465,11 +523,16 @@
 
                 for (var i=0; i<CuentasProducto.length; i++)
                 {
+                  var CostoProducto = parseFloat($("#Modal_CostoProducto").val());
+                  var PorcentajeProducto = parseFloat(CuentasProducto[i]['PorcentajeCuenta']);
+                  var MontoCuenta = CostoProducto * PorcentajeProducto;
+
                     $('#tblCuentasProducto').append(
                         '<tr id="row'+numFila+'">'+
                         '<td>'+numFila+'</td>'+
                         '<td><input type="hidden" name="IdCuentaProducto[]" value="'+CuentasProducto[i]['IdCuenta']+'"><input type="hidden" name="PorcentajeProducto[]" value="'+CuentasProducto[i]['PorcentajeCuenta']*100+'">'+CuentasProducto[i]['DescripcionCuenta']+'</td>'+
                         '<td>'+(CuentasProducto[i]['PorcentajeCuenta']*100)+'</td>'+
+                        '<td>'+MontoCuenta+'</td>'+
 
                         '<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarCuenta" title="Eliminar cuenta"> Eliminar</i></a></td>'+
                         '</tr>');
@@ -496,5 +559,60 @@
         $("#Modal_chkHabilitado").prop("checked",false);
 
 
+    }
+
+    function LoadRowDetail ( d ) {
+
+      var div = $('<div/>')
+            .addClass( 'loading' )
+            .text( 'Loading...' );
+
+
+        $.ajax({
+          url: '<?= site_url()?>/CatalogoProductos_Controller/ConsultarCuentasProducto_ajax',
+          type: 'POST',
+
+          data: {IdProducto: d.IdProducto}
+        })
+        .done(function(data) {
+
+          var CuentasProducto = JSON.parse(data);
+          var output='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                          '<th>Cuenta</th>'+
+                          '<th>%</th>'+
+                          '<th>Monto</th>';
+                          //'<th></th>';
+
+
+          for (i=0; i<CuentasProducto.length;i++)
+          {
+            var CostoProducto = parseFloat(d.CostoProducto);
+            var Porcentaje = parseFloat(CuentasProducto[i]['PorcentajeCuenta']);
+            var MontoProducto = CostoProducto*Porcentaje;
+
+
+
+            output +='<tr>'+
+                      '<td>'+CuentasProducto[i]['DescripcionCuenta']+'</td>'+
+                      '<td>'+Porcentaje*100+'</td>'+
+                      '<td>'+MontoProducto+'</td>'+
+                      //'<td><a classs = "btn" onclick="BorrarCuentaProducto('+d.IdProducto+')"><i class="icon-pencil2" data-toggle="tooltip" data-placement="top" id="CambiarCuentasProducto" title="Cambiar Cuentas"> </i></a></td>'+
+                    '</tr>';
+
+          }
+          output += '</table>';
+
+          div.html(output);
+          div.removeClass('loading');
+
+          console.log(output);
+        })
+        .fail(function() {
+          console.log("error");
+        });
+
+
+
+        return div;
     }
 </script>

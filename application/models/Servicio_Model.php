@@ -24,7 +24,9 @@ class Servicio_Model extends CI_Model {
     public function ConsultarServiciosPorGrupo($IdGrupo = FALSE)
     {
         $this->db->select($this->table.'.*');
+        $this->db->select("gs.EsProveedor");
         $this->db->from($this->table);
+        $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
         $this->db->where('Habilitado',TRUE);
 
         if($IdGrupo!== FALSE)
@@ -41,7 +43,9 @@ class Servicio_Model extends CI_Model {
     public function ConsultarServicios($Inventario = FALSE)
     {
          $this->db->select($this->table.'.*');
+         $this->db->select("gs.EsProveedor");
         $this->db->from($this->table);
+        $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
         $this->db->where('Habilitado', TRUE);
 
         if ($Inventario)
@@ -58,9 +62,11 @@ class Servicio_Model extends CI_Model {
     public function ConsultarServiciosProveedores()
     {
       $this->db->select($this->table.'.*');
+      $this->db->select("gs.EsProveedor");
       $this->db->from($this->table);
+      $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
        $this->db->where('Habilitado', TRUE);
-       $this->db->where('Proveedor',TRUE);
+       $this->db->where('EsProveedor',TRUE);
 
        $query = $this->db->get();
 
@@ -70,7 +76,9 @@ class Servicio_Model extends CI_Model {
     public function ConsultarServicioPorId($IdServicio)
     {
         $this->db->select($this->table.'.*');
+        $this->db->select("gs.EsProveedor");
         $this->db->from ($this->table);
+        $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
         $this->db->where('IdServicio', $IdServicio);
         $this->db->limit(1);
 

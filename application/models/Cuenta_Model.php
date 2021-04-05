@@ -68,5 +68,20 @@ class Cuenta_Model extends CI_Model{
         return $query->row();
 
     }
+
+    public function ConsultarCuentaMaestra()
+    {
+
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+
+
+      $this->db->where('CuentaMaestra', true);
+
+      $query = $this->db->get();
+
+      return $query->row();
+      // code...
+    }
     //put your code here
 }

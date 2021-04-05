@@ -34,7 +34,7 @@ class CatalogoProductos_Controller extends CI_Controller {
         $this->load->view('templates/HeaderContainer',$data);
         $this->load->view('Producto/FormNuevoProducto');
         $this->load->view('Producto/CardDetalleProducto',$data);
-        $this->load->view('Producto/CardCuentasProducto',$data);
+        //$this->load->view('Producto/CardCuentasProducto',$data);
         $this->load->view('templates/FormFooter');
 
 
@@ -64,6 +64,9 @@ class CatalogoProductos_Controller extends CI_Controller {
                 $this->db->trans_start();
                 $Cuentas = $this->input->post('IdCuentaProducto');
                 $PorcentajeProductos = $this->input->post('PorcentajeProducto');
+                $CuentaMaster =$this->input->post('IdCuentaMaestra');
+                $PorcentajeCuentaMaestra = $this->input->post('PorcentajeCuentaMaestra');
+
                 $NuevoProducto = array(
                     'IdServicio'=>$this->input->post('cbServicioProducto'),
                     'DescripcionProducto' => $this->input->post('DescripcionProducto'),
@@ -79,9 +82,11 @@ class CatalogoProductos_Controller extends CI_Controller {
 
                     if ($NuevoIdProducto>1)
                     {
+                        $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($NuevoIdProducto,$CuentaMaster,$PorcentajeCuentaMaestra);
+
                         for ($i=0; $i<sizeof($Cuentas); $i++)
                         {
-                            $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($NuevoIdProducto,$Cuentas[$i],($PorcentajeProductos[$i]/100));
+                            $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($NuevoIdProducto,$Cuentas[$i],($PorcentajeProductos[$i]));
                             if ($result <0)
                             {
                                 throw new Exception('Error al registrar cuentas del producto');
@@ -98,10 +103,32 @@ class CatalogoProductos_Controller extends CI_Controller {
                             $this->db->trans_rollback();
                         }
 
-                        echo "<script>
-                            alert('El producto ha sido guardado');
-                            window.location.href='".site_url('Catalogos/AltaProductos')."';
-                            </script>";
+                        $data['title'] = 'Corte Exitoso';
+                        $data['swal']=true;
+                        $data['swalMessage']="title:'Nuevo Producto ',
+                        text: 'El nuevo producto se agrego exitosamente',
+                        type: 'success',
+
+                        showConfirmButton: true,
+                        confirmButtonText:'<i class=\"icon-print\"></i> Catalogo Productos',
+                        showCancelButton: true,
+                        cancelButtonText: '<i class=\"icon-th-list\"></i> Nuevo Producto'";
+
+                        $data['swalAction'] = ".then((result)=> {
+                          if (result.value) {
+                            window.open('".site_url("Catalogos/ConsultaProductos")."','_blank');
+                          }
+                          else {
+                            window.location.href = '".site_url("Catalogos/AltaProductos")."';
+                          }
+
+
+                        });";
+
+                        $this->load->view('templates/MainContainer',$data);
+                        $this->load->view('templates/HeaderContainer',$data);
+                        $this->load->view('templates/FormFooter',$data);
+                        $this->load->view('templates/FooterContainer');
                     }
                 }
                 else
@@ -132,7 +159,7 @@ class CatalogoProductos_Controller extends CI_Controller {
         $output = "<option value=''>Selecciona un servicio</option>";
         foreach($Servicios as $servicio)
         {
-            $output.='<option value="'.$servicio['IdServicio'].'" data-proveedor="'.$servicio['Proveedor'].'">'.$servicio['DescripcionServicio'].'</option>';
+            $output.='<option value="'.$servicio['IdServicio'].'" data-proveedor="'.$servicio['EsProveedor'].'">'.$servicio['DescripcionServicio'].'</option>';
 
         }
 

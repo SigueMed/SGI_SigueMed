@@ -12,24 +12,24 @@
  * @author SigueMED
  */
 class Cuenta_Controller extends CI_Controller {
-    
+
     public function __construct() {
-        
+
         parent::__construct();
-        
+
         $this->load->model('Cuenta_Model');
-        
+
     }
-    
+
     public function ConsultarCuentasProducto_ajax()
     {
         $IdProducto = $this->input->post('producto_id');
-        
-        
+
+
         if ($IdProducto !== null)
         {
             $CuentasProducto = $this->Cuenta_Model->ConsultarCuentasPorProducto($IdProducto);
-            
+
             if(sizeof($CuentasProducto)>0)
             {
                 $output ='<option value ="">Cuenta Base</option>';
@@ -43,16 +43,25 @@ class Cuenta_Controller extends CI_Controller {
                     {
                         $output .='<option value ="'.$cuentaProducto['IdCuenta'].'|'.$cuentaProducto['PorcentajeCuenta'].'">'.$cuentaProducto['DescripcionCuenta'].'</option>';
                     }
-                    
+
                 }
             }
             else
             {
                 $output ='<option value="" selected = "selected">Cuenta Base</option>';
             }
-            
+
             echo $output;
         }
+    }
+
+    public function ConsultarCuentaMaestra()
+    {
+
+      $CuentaMaestra = $this->Cuenta_Model->ConsultarCuentaMaestra();
+
+      echo json_encode($CuentaMaestra);
+      // code...
     }
     //put your code here
 }
