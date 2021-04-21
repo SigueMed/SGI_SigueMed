@@ -226,7 +226,7 @@
 
          $("#MontoPorAsignar").val(MontoAsignar);
          $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
-         alert($("#PorcentajeCuentaMaestra").val());
+         
 
 
        });

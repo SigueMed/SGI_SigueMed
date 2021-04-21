@@ -419,12 +419,13 @@ function OpenModal_EditarUsuario(IdEmpleado) {
     $("#cbServicio").val (Usuario['IdServicio']);
     $("#cbPerfil").val(Usuario['IdPerfil']);
     $("#txtTelefono").val(Usuario['TelefonoEmpleado']);
-    $("#UsuarioHabilitado").removeAttr('checked');
+    $("#UsuarioHabilitado").prop('checked',false);
     $("#txtUsuario").val(Usuario['usuario']);
 
     if (Usuario['Habilitado']==1)
     {
-      $("#UsuarioHabilitado").attr('checked',true);
+      alert("habilitado");
+      $("#UsuarioHabilitado").prop('checked',true);
     }
     CargarClinicas(Usuario['IdEmpleado']);
 
@@ -586,7 +587,7 @@ function cerrar(Ventana)
     var ApellidosEmpleado= $("#txtApellidosUsuario").val();
     var TelefonoEmpleado= $("#txtTelefono").val();
     var IdServicio=$("#cbServicio").val();
-    
+
     var IdPerfil= $("#cbPerfil").val();
     var Habilitado =0;
     var clinicas=[];

@@ -262,6 +262,8 @@
                         <ul class="menu-content">
                             <li><a href="'.site_url('NotaRemision/CrearNota').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Clínica</a>
                             </li>
+                            <li><a href="'.site_url('NotaRemision/CrearNotaFarmacia').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cobro Farmacia</a>
+                            </li>
                             <li><a href="'.site_url('SalidaCaja/PagarServicioMedico').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Pagar Servicios Médicos</a>
                             </li>
                             <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>

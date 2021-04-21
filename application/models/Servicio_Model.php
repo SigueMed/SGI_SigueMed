@@ -31,7 +31,7 @@ class Servicio_Model extends CI_Model {
 
         if($IdGrupo!== FALSE)
         {
-            $this->db->where('IdGrupoServicio',$IdGrupo);
+            $this->db->where($this->table.'.IdGrupoServicio',$IdGrupo);
         }
 
 
