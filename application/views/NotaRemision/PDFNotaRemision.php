@@ -71,11 +71,11 @@ img {
 <body>
   <div class="ticket">
       <div class="centrado">
-        <img src="<?php echo base_url();?>app-assets/images/logo/SigueMED_Logo_B.jpg" alt="company logo" style="width:80%; max-width:70px;">
+        <img src="<?php echo base_url();?>app-assets/images/logo/<?=$Foliador->ImagenTicket?>" alt="company logo" style="width:100%; max-width:100px;">
       </div>
 
 
-            <p class="centrado">Clinica SígueMED<br>Sucursal <?=$Clinica->NombreClinica?><br>Ticket No. <?=$NotaRemision->Folio;?><br> <?=$NotaRemision->FechaNotaRemision;?> <br>Hora <?= date('H:i');?></p>
+            <p class="centrado"><?=$Foliador->TituloTicket?><br>Sucursal <?=$Clinica->NombreClinica?><br>Ticket No. <?=$NotaRemision->Folio;?><br> <?=$NotaRemision->FechaNotaRemision;?> <br>Hora <?= date('H:i');?></p>
 
             <p>Tel. <?=$Clinica->TelefonoClinica?></p>
 

@@ -55,6 +55,7 @@
 
 
                     </div>
+
                   </div>
 
 
@@ -122,8 +123,17 @@ function CargarTablaFormasPago()
           '</tr>'
         );
 
-
       }
+      $("#tblTotalFormasPago").append(
+        '<tr>'+
+          '<td>CAJA</td>'+
+          '<td>'+
+            '<div class="input-group">'+
+              '<span class="input-group-addon">$</span>'+
+              '<input type="text" id="TipoPago-CAJA" name="TipoPago-CAJA"  value ="0" class="form-control"/>'+
+            '</div>'+
+          '</td>'+
+        '</tr>');
 
   })
   .fail(function() {

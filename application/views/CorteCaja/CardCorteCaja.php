@@ -209,16 +209,20 @@
         </div>
         <div class="modal-body">
           <h6 class="form-section">Entradas</h6>
-          <table id="tbl_DetalleEntradasCorte" class="table table-striped table-bordered table-responsive" style="width:100%">
+          <table id="tblDetalleMovimientosCuentaCorte" class="table table-striped table-bordered table-responsive" style="width:100%">
               <thead>
 
                   <tr>
+
+
+
                       <th>No. Nota</th>
+                      <th>No. Ticket</th>
                       <th>Fecha</th>
                       <th>Paciente</th>
-                      <th>Total Nota</th>
+
                       <th>Total Pagado</th>
-                      <th>Estatus</th>
+
 
 
                   </tr>
@@ -429,8 +433,8 @@ function CargarDetalleNotasCorte(IdCuenta) {
 
 }
 
-function CargarDetalleMovimientosCorte() {
-  var IdCuenta = $("#IdCuenta").val();
+function CargarDetalleMovimientosCorte(IdCuenta) {
+
 
   var t = $('#tblDetalleMovimientosCuentaCorte').DataTable({
     "drawCallback": function( settings ) {
@@ -462,19 +466,11 @@ function CargarDetalleMovimientosCorte() {
 
         ],
         "columns": [
-
               { "data": "IdNotaRemision"},
+              { "data": "Folio"},
               { "data": "FechaNotaRemision" },
               { "data": "Paciente" },
-              { "data": "DescripcionTipoMovimientoCuenta" },
-              { "data": "DescripcionCuenta" },
-              { "data": "TotalMovimiento" },
-
-              { "data": "DescripcionTipoPago" }
-
-
-
-
+              { "data": "TotalMovimiento" }
 
               ]
 
@@ -488,7 +484,7 @@ function CargarDetalleMovimientosCorte() {
 function OpenModal_DetalleEntradasCorte(IdCuenta) {
 
 
-  CargarDetalleNotasCorte(IdCuenta);
+  CargarDetalleMovimientosCorte(IdCuenta);
   $("#Modal_DetalleEntradasCorte").modal('show');
 
 }

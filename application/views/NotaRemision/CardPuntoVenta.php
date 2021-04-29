@@ -1321,6 +1321,7 @@
    //
    $("#CantidadProducto").val(1);
    $("#Descuento").val(0);
+   $("#Descuento").removeAttr("readonly");
    $("#btnAgregar").removeAttr("disabled");
     $("#Modal_BuscarProducto").modal('hide');
 
