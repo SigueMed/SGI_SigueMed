@@ -18,32 +18,33 @@ class CuentaProducto_Model extends CI_Model {
         $this->table = "cuentaproducto";
         $this->load->database();
     }
-    
+
     public function InsertarNuevaCuentaProducto($NuevoIdProducto,$Cuenta,$PorcentajeProducto)
     {
         $this->db->set('IdProducto',$NuevoIdProducto);
         $this->db->set('IdCuenta',$Cuenta);
         $this->db->set('PorcentajeCuenta',$PorcentajeProducto);
         return $this->db->insert($this->table);
-        
+
     }
-    
+
     public function ConsultarCuentasPorProducto($IdProducto)
     {
         $this->db->select($this->table.'.*');
         $this->db->select('DescripcionProducto');
         $this->db->select('DescripcionCuenta');
+        $this->db->select('CuentaMaestra');
         $this->db->from($this->table);
         $this->db->join('catalogoproductos',$this->table.'.IdProducto = catalogoproductos.IdProducto');
         $this->db->join('cuenta',$this->table.'.IdCuenta = cuenta.IdCuenta');
         $this->db->where($this->table.'.IdProducto',$IdProducto);
-        
+
         $query = $this->db->get();
-        
+
         return $query->result_array();
-        
+
     }
-    
+
     public function EliminarCuentasProducto($IdProducto)
     {
         $this->db->where('IdProducto',$IdProducto);

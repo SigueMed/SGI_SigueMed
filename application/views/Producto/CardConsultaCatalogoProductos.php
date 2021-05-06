@@ -86,54 +86,105 @@
                                                 </div>
                                              </div>
                                         </div>
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                                  <div class="form-group">
+                                                          <label for="CostoProducto">Precio Publico</label>
+                                                          <div class="input-group">
+                                                          <span class="input-group-addon">$</span>
+                                                          <input type="text" id="Modal_CostoProducto" class="form-control square" placeholder="Costo" aria-label="Costo" name="Modal_CostoProducto">
+                                                          <input type="hidden" name="CostoProducto_ANT" id= "CostoProducto_ANT" value="">
+                                                  </div>
+                                                  </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                                  <div class="form-group">
+                                                          <label for="PrecioProveedor">Precio Proveedor</label>
+                                                          <div class="input-group">
+                                                          <span class="input-group-addon">$</span>
+                                                          <input type="text" id="Modal_PrecioProveedor" class="form-control square" placeholder="Costo" aria-label="Costo" name="Modal_PrecioProveedor" disabled>
+
+
+                                                  </div>
+                                                  </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label for="Modal_chkHabilitado">Habilitado:</label>
+                                                  <input type="checkbox" class='form-control' id="Modal_chkHabilitado" name="Modal_chkHabilitado" value="1">
+                                              </div>
+                                          </div>
+
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                                  <div class="form-group">
+                                                          <label for="PrecioClinica">Precio Clinica</label>
+                                                          <div class="input-group">
+                                                          <span class="input-group-addon">$</span>
+                                                          <input type="text" id="Modal_PrecioClinica" class="form-control square" placeholder="Costo" aria-label="Costo" name="Modal_PrecioClinica" disabled>
+                                                          <input type="hidden" id ="IdCuentaMaestra" name="IdCuentaMaestra">
+                                                          <input type="hidden" name="PrecioClinica_Ant" id= "PrecioClinica_Ant" value="">
+
+                                                  </div>
+                                                  </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="txtCuentaMaestra">Cuenta:</label>
+                                                <input type="text" class="form-control" name="txtCuentaMaestra" id="txtCuentaMaestra" value="" disabled>
+                                                <input type="hidden" id="PorcentajeCuentaMaestra" name="PorcentajeCuentaMaestra" value="">
+                                            </div>
+
+                                          </div>
+
+                                        </div>
                                         <div class='row'>
-                                            <div class='col-md-4'>
-                                                <div class="form-group">
-                                                    <label for="Modal_CostoProducto">Precio Publico</label>
+                                            <div class='col-md-4 col-xs-4'>
+                                                <div class='form-group'>
+                                                    <label>Monto Pendiente</label>
                                                     <div class="input-group">
                                                         <span class="input-group-addon">$</span>
-                                                        <input type="text" id="Modal_CostoProducto" class="form-control square" placeholder="Costo" aria-label="Costo" name="Modal_CostoProducto">
+                                                        <input type="text" id="Modal_MontoPorAsignar" class="form-control square" placeholder="%" aria-label="Porcentaje" name="Modal_MontoPorAsignar" value="0" readonly>
 
                                                     </div>
+
                                                 </div>
 
-                                            </div>
-                                            <div class='col-md-4'>
-                                                <div class="form-group">
-                                                    <label for="Modal_CostoProducto">Precio Proveedor</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">$</span>
-                                                        <input type="text" id="Modal_PrecioProveedor" class="form-control square" placeholder="Costo" aria-label="Costo" name="Modal_PrecioProveedor" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="Modal_chkHabilitado">Habilitado:</label>
-                                                    <input type="checkbox" class='form-control' id="Modal_chkHabilitado" name="Modal_chkHabilitado" value="1">
-                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4">
+                                              <div class='form-group'>
+                                                  <label>Monto Asignado</label>
+                                                  <div class="input-group">
+                                                      <span class="input-group-addon">$</span>
+                                                      <input type="text" id="Modal_MontoEnCuentas" class="form-control square" placeholder="%" aria-label="Porcentaje" name="Modal_MontoEnCuentas" value="0" readonly>
+
+                                                  </div>
+
+                                              </div>
+
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-4 col-xs-12">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="cbCuentaProducto">Cuenta</label>
                                                     <select id="cbCuentaProducto" name="cbCuentaProducto" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 col-xs-12">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="MontoAsignarCuenta">Monto Asignar</label>
+                                                    <label for="PorcentajeCuentaProducto">Monto</label>
                                                     <div class="input-group">
                                                         <span class="input-group-addon">$</span>
-                                                        <input type="text" id="MontoAsignarCuenta" class="form-control square" name="MontoAsignarCuenta">
+                                                        <input type="text" id="MontoAsignado" class="form-control square" aria-label="Porcentaje" name="MontoAsignado">
 
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class='col-md-2 col-xs-6'>
+                                            <div class='col-md-2 col-xs-2'>
                                                 <div class='form-group'>
                                                     <label><br> </label>
                                                     <button class='form-control' type="button" class="btn btn-secondary" id="btnAgregarCuentaProd">
@@ -146,21 +197,7 @@
                                             </div>
 
                                         </div>
-                                        <div class='row'>
-                                            <div class='col-md-3 col-xs-6'>
-                                                <div class='form-group'>
-                                                    <label>Monto por Asignar </label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">$</span>
-                                                        <input type="text" id="MontoPorAsignar" class="form-control square"  name="MontoPorAsignar" value="0" readonly>
 
-                                                    </div>
-
-                                                </div>
-
-
-                                            </div>
-                                        </div>
                                         <div class="row">
 
                                             <table class="table table-responsive table-striped" id="tblCuentasProducto" style="width:100%">
@@ -238,10 +275,11 @@
               }
 
               var CostoProducto =  parseFloat($("#Modal_CostoProducto").val());
-              var MontoAsignar = parseFloat($("#MontoAsignarCuenta").val());
+              var MontoAsignar = parseFloat($("#MontoAsignado").val());
+              var MontoEnCuentas = parseFloat($("#Modal_MontoEnCuentas").val());
 
               var PorcentajeCuenta =  MontoAsignar / CostoProducto;
-              var MontoPorAsignar = parseFloat($("#MontoPorAsignar").val());
+              var MontoPorAsignar = parseFloat($("#Modal_MontoPorAsignar").val());
 
              if (MontoAsignar <= MontoPorAsignar)
               {
@@ -258,8 +296,11 @@
                       );
 
               MontoPorAsignar -= MontoAsignar;
+              MontoEnCuentas += MontoAsignar;
 
-              $("#MontoPorAsignar").val(MontoPorAsignar);
+              $("#Modal_MontoPorAsignar").val(MontoPorAsignar);
+              $("#Modal_MontoEnCuentas").val(MontoEnCuentas);
+
 
               }
               else
@@ -286,6 +327,73 @@
                 tr.addClass('shown');
             }
         } );
+
+        $("#Modal_CostoProducto").change(function(){
+          var EsProveedor = $("#cbServicioProducto").find(":selected").data('proveedor');
+
+          if (EsProveedor)
+          {
+
+            $("#Modal_PrecioClinica").val($("#CostoProducto").val());
+          }
+
+          var PrecioPublico = isNaN(parseFloat($("#Modal_CostoProducto").val()))?0:parseFloat($("#Modal_CostoProducto").val());
+          var PrecioPublicoANT = isNaN(parseFloat($("#CostoProducto_ANT").val()))?0:parseFloat($("#CostoProducto_ANT").val());
+          var MontoEnCuentas = isNaN(parseFloat($("#Modal_MontoEnCuentas").val()))?0:parseFloat($("#Modal_MontoEnCuentas").val());
+          var PrecioClinica = isNaN(parseFloat($("#Modal_PrecioClinica").val()))?0:parseFloat($("#Modal_PrecioClinica").val());
+          var PrecioClinicaANT = isNaN(parseFloat($("#PrecioClinica_Ant").val()))?0:parseFloat($("#PrecioClinica_Ant").val());
+          var MontoAsignar = PrecioPublico-(MontoEnCuentas+PrecioClinica);
+          alert(MontoAsignar);
+          if (MontoAsignar >=0)
+          {
+            var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
+
+
+              $("#Modal_MontoPorAsignar").val(MontoAsignar);
+              $("#CostoProducto_ANT").val(PrecioPublicoANT);
+              $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
+
+          }
+          else {
+
+            $("#Modal_CostoProducto").val(PrecioPublicoANT);
+
+          }
+
+
+
+
+        });
+
+        $("#Modal_PrecioClinica").change(function(){
+
+
+          var PrecioPublico = isNaN(parseFloat($("#Modal_CostoProducto").val()))?0:parseFloat($("#Modal_CostoProducto").val());
+          var PrecioPublicoANT = isNaN(parseFloat($("#CostoProducto_ANT").val()))?0:parseFloat($("#CostoProducto_ANT").val());
+          var MontoEnCuentas = isNaN(parseFloat($("#Modal_MontoEnCuentas").val()))?0:parseFloat($("#Modal_MontoEnCuentas").val());
+          var PrecioClinica = isNaN(parseFloat($("#Modal_PrecioClinica").val()))?0:parseFloat($("#Modal_PrecioClinica").val());
+          var PrecioClinicaANT = isNaN(parseFloat($("#PrecioClinica_Ant").val()))?0:parseFloat($("#PrecioClinica_Ant").val());
+          var MontoAsignar = PrecioPublico-(MontoEnCuentas+PrecioClinica);
+
+
+          if (MontoAsignar >=0)
+          {
+            var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
+
+
+              $("#Modal_MontoPorAsignar").val(MontoAsignar);
+              $("#CostoProducto_ANT").val(PrecioPublicoANT);
+              $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
+
+          }
+          else {
+
+            $("#Modal_PrecioClinica").val(PrecioClinicaANT);
+
+          }
+
+        });
+
 
     });
 
@@ -441,6 +549,7 @@
 
         var Row = document.getElementById('row'+index);
         var Cell = Row.getElementsByTagName('td');
+        var MontoEnCuentas = parseFloat($("#Modal_MontoEnCuentas").val());
 
             document.getElementById("tblCuentasProducto").deleteRow(Row.rowIndex);
 
@@ -448,8 +557,10 @@
             var MontoPorAsignar=isNaN(parseFloat($("#MontoPorAsignar").val()))? 0:parseFloat($("#MontoPorAsignar").val());
 
            MontoPorAsignar += MontoCuenta;
+           MontoEnCuentas -= MontoCuenta;
 
-            $("#MontoPorAsignar").val(MontoPorAsignar);
+            $("#Modal_MontoPorAsignar").val(MontoPorAsignar);
+            $("#Modal_MontoEnCuentas").val(MontoEnCuentas);
     }
 
 
@@ -473,16 +584,19 @@
                 $('#Modal_IdProducto').val(Producto['IdProducto']);
                 $("#Modal_Descripcion").val(Producto['DescripcionProducto']);
                 $("#Modal_CostoProducto").val(Producto['CostoProducto']);
+                $("#CostoProducto_ANT").val(Producto['CostoProducto']);
 
                 if (Producto['EsProveedor']==1)
                 {
                   $("#Modal_PrecioProveedor").removeAttr('disabled');
                   $("#Modal_PrecioProveedor").val(Producto['PrecioProveedor']);
+                  $("#Modal_PrecioClinica").attr('disabled', 'disabled');
 
                 }
                 else {
                   $("#Modal_PrecioProveedor").attr('disabled', 'disabled');
                   $("#Modal_PrecioProveedor").val(0);
+                  $("#Modal_PrecioClinica").removeAttr('disabled');
                 }
 
 
@@ -521,12 +635,25 @@
                 var PorcentajeAsignado = 0;
              $('#tblCuentasProducto tbody tr').remove();
 
+              var MontoEnCuentas = 0;
+
                 for (var i=0; i<CuentasProducto.length; i++)
                 {
                   var CostoProducto = parseFloat($("#Modal_CostoProducto").val());
                   var PorcentajeProducto = parseFloat(CuentasProducto[i]['PorcentajeCuenta']);
+                  var CuentaMaestra = CuentasProducto[i]['CuentaMaestra'];
                   var MontoCuenta = CostoProducto * PorcentajeProducto;
 
+
+                  if (CuentaMaestra ==1)
+                  {
+                    $('#txtCuentaMaestra').val(CuentasProducto[i]['DescripcionCuenta']);
+                    $("#IdCuentaMaestra").val(CuentasProducto[i]['IdCuenta']);
+                    $("#Modal_PrecioClinica").val(MontoCuenta);
+                    $("#PrecioClinica_Ant").val(MontoCuenta);
+
+                  }
+                  else {
                     $('#tblCuentasProducto').append(
                         '<tr id="row'+numFila+'">'+
                         '<td>'+numFila+'</td>'+
@@ -538,8 +665,15 @@
                         '</tr>');
 
                         PorcentajeAsignado += parseFloat(CuentasProducto[i]['PorcentajeCuenta'])*100;
+                        MontoEnCuentas += MontoCuenta;
+
+                  }
+
+
 
                 }
+
+                $("#Modal_MontoEnCuentas").val(MontoEnCuentas);
 
 
 

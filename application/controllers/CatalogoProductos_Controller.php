@@ -255,13 +255,20 @@ class CatalogoProductos_Controller extends CI_Controller {
                 $Cuentas = $this->input->post('IdCuentaProducto');
                 $PorcentajeCuentas =$this->input->post('PorcentajeProducto');
 
+                $this->CuentaProducto_Model->EliminarCuentasProducto($IdProducto);
+
+                $CuentaMaestra = $this->input->post('IdCuentaMaestra');
+                $PorcentajeCuentaMaestra = $this->input->post('PorcentajeCuentaMaestra');
+                $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($IdProducto,$CuentaMaestra,$PorcentajeCuentaMaestra);
+
+
                 if (isset($Cuentas))
                 {
-                    $this->CuentaProducto_Model->EliminarCuentasProducto($IdProducto);
+
 
                     for ($i=0; $i<sizeof($Cuentas); $i++)
                         {
-                            $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($IdProducto,$Cuentas[$i],($PorcentajeCuentas[$i]/100));
+                            $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($IdProducto,$Cuentas[$i],($PorcentajeCuentas[$i]));
                             if ($result <0)
                             {
                                 throw new Exception('Error al registrar cuentas del producto');
