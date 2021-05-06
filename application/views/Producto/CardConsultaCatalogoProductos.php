@@ -77,6 +77,7 @@
                                                 <div class='form-group'>
                                                     <label for="Modal_IdProducto">Id. Producto:</label>
                                                     <input type='text' id='Modal_IdProducto' class='form-control' name='Modal_IdProducto' readonly/>
+                                                    <input type="hidden" name="EsProveedor" id="EsProveedor" value="">
                                                 </div>
                                             </div>
                                              <div class='col-md-8'>
@@ -329,36 +330,57 @@
         } );
 
         $("#Modal_CostoProducto").change(function(){
-          var EsProveedor = $("#cbServicioProducto").find(":selected").data('proveedor');
-
-          if (EsProveedor)
-          {
-
-            $("#Modal_PrecioClinica").val($("#CostoProducto").val());
-          }
+          var EsProveedor = $("#EsProveedor").val();
 
           var PrecioPublico = isNaN(parseFloat($("#Modal_CostoProducto").val()))?0:parseFloat($("#Modal_CostoProducto").val());
           var PrecioPublicoANT = isNaN(parseFloat($("#CostoProducto_ANT").val()))?0:parseFloat($("#CostoProducto_ANT").val());
           var MontoEnCuentas = isNaN(parseFloat($("#Modal_MontoEnCuentas").val()))?0:parseFloat($("#Modal_MontoEnCuentas").val());
           var PrecioClinica = isNaN(parseFloat($("#Modal_PrecioClinica").val()))?0:parseFloat($("#Modal_PrecioClinica").val());
           var PrecioClinicaANT = isNaN(parseFloat($("#PrecioClinica_Ant").val()))?0:parseFloat($("#PrecioClinica_Ant").val());
-          var MontoAsignar = PrecioPublico-(MontoEnCuentas+PrecioClinica);
-          alert(MontoAsignar);
-          if (MontoAsignar >=0)
+
+          if (EsProveedor)
           {
-            var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
+            var PrecioProveedor = isNaN(parseFloat($("#Modal_PrecioProveedor").val()))?0:parseFloat($("#Modal_PrecioProveedor").val());
+
+            if (PrecioProveedor <= PrecioPublico)
+            {
+              $("#Modal_PrecioClinica").val(PrecioPublico);
+              $("#PorcentajeCuentaMaestra").val(1);
+
+            }
+            else {
+              alert("No puedes reducir el precio publio menos que el precio proveedor");
+              $("#Modal_CostoProducto").val(PrecioPublicoANT);
+
+            }
 
 
-              $("#Modal_MontoPorAsignar").val(MontoAsignar);
-              $("#CostoProducto_ANT").val(PrecioPublicoANT);
-              $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
 
           }
           else {
 
-            $("#Modal_CostoProducto").val(PrecioPublicoANT);
+            var MontoAsignar = PrecioPublico-(MontoEnCuentas+PrecioClinica);
+
+            if (MontoAsignar >=0)
+            {
+                var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
+
+
+                $("#Modal_MontoPorAsignar").val(MontoAsignar);
+                $("#CostoProducto_ANT").val(PrecioPublicoANT);
+                $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
+
+            }
+            else {
+
+              $("#Modal_CostoProducto").val(PrecioPublicoANT);
+
+            }
 
           }
+
+
+
 
 
 
@@ -588,12 +610,14 @@
 
                 if (Producto['EsProveedor']==1)
                 {
+                  $("#EsProveedor").val(1);
                   $("#Modal_PrecioProveedor").removeAttr('disabled');
                   $("#Modal_PrecioProveedor").val(Producto['PrecioProveedor']);
                   $("#Modal_PrecioClinica").attr('disabled', 'disabled');
 
                 }
                 else {
+                  $("#EsProveedor").val(0);
                   $("#Modal_PrecioProveedor").attr('disabled', 'disabled');
                   $("#Modal_PrecioProveedor").val(0);
                   $("#Modal_PrecioClinica").removeAttr('disabled');
@@ -649,6 +673,7 @@
                   {
                     $('#txtCuentaMaestra').val(CuentasProducto[i]['DescripcionCuenta']);
                     $("#IdCuentaMaestra").val(CuentasProducto[i]['IdCuenta']);
+                    $("#PorcentajeCuentaMaestra").val(PorcentajeProducto);
                     $("#Modal_PrecioClinica").val(MontoCuenta);
                     $("#PrecioClinica_Ant").val(MontoCuenta);
 
