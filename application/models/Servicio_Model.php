@@ -40,13 +40,18 @@ class Servicio_Model extends CI_Model {
         return $query->result_array();
 
     }
-    public function ConsultarServicios($Inventario = FALSE)
+    public function ConsultarServicios($Inventario = FALSE, $Todos = FALSE)
     {
          $this->db->select($this->table.'.*');
          $this->db->select("gs.EsProveedor");
         $this->db->from($this->table);
         $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
-        $this->db->where('Habilitado', TRUE);
+        if (!$Todos)
+        {
+              $this->db->where('Habilitado', TRUE);
+        }
+
+
 
         if ($Inventario)
         {

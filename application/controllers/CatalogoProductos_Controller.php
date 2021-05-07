@@ -154,7 +154,7 @@ class CatalogoProductos_Controller extends CI_Controller {
 //*******************************AJAX***************************************
     public function ConsultarServicios_ajax()
     {
-        $Servicios = $this->Servicio_Model->ConsultarServicios();
+        $Servicios = $this->Servicio_Model->ConsultarServicios(FALSE,TRUE);
 
         $output = "<option value=''>Selecciona un servicio</option>";
         foreach($Servicios as $servicio)
