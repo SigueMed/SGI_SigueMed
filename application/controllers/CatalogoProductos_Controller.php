@@ -75,7 +75,7 @@ class CatalogoProductos_Controller extends CI_Controller {
                     'PrecioProveedor'=>$this->input->post('PrecioProveedor')
                 );
 
-                if (sizeof($Cuentas)>0)
+                if (isset($Cuentas))
                 {
 
                     $NuevoIdProducto = $this->CatalogoProductos_Model->AgregarNuevoProducto($NuevoProducto);

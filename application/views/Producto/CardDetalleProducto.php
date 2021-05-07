@@ -240,12 +240,14 @@
 
          $("#MontoPorAsignar").val(MontoAsignar);
          $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
-         
+
 
        });
 
        $('#cbServicioProducto').change(function(){
          var EsProveedor = $(this).find(":selected").data('proveedor');
+
+         CargarCuentaMaestra();
 
          $("#PrecioProveedor").val(0);
          $("#PrecioClinica").val(0);
@@ -265,7 +267,7 @@
 
 
            $("#PrecioClinica").removeAttr('disabled');
-           CargarCuentaMaestra();
+
            $("#PrecioProveedor").attr('disabled', 'disabled');
          }
        });
