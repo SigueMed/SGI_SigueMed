@@ -75,23 +75,28 @@ class CatalogoProductos_Controller extends CI_Controller {
                     'PrecioProveedor'=>$this->input->post('PrecioProveedor')
                 );
 
-                if (isset($Cuentas))
-                {
+                $NuevoIdProducto = $this->CatalogoProductos_Model->AgregarNuevoProducto($NuevoProducto);
 
-                    $NuevoIdProducto = $this->CatalogoProductos_Model->AgregarNuevoProducto($NuevoProducto);
+
+
+
 
                     if ($NuevoIdProducto>1)
                     {
                         $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($NuevoIdProducto,$CuentaMaster,$PorcentajeCuentaMaestra);
 
-                        for ($i=0; $i<sizeof($Cuentas); $i++)
+                        if (isset($Cuentas))
                         {
-                            $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($NuevoIdProducto,$Cuentas[$i],($PorcentajeProductos[$i]));
-                            if ($result <0)
-                            {
-                                throw new Exception('Error al registrar cuentas del producto');
-                            }
+                          for ($i=0; $i<sizeof($Cuentas); $i++)
+                          {
+                              $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($NuevoIdProducto,$Cuentas[$i],($PorcentajeProductos[$i]));
+                              if ($result <0)
+                              {
+                                  throw new Exception('Error al registrar cuentas del producto');
+                              }
+                          }
                         }
+
                          $transStatus = $this->db->trans_complete();
 
                         if ($transStatus == true)
@@ -130,12 +135,7 @@ class CatalogoProductos_Controller extends CI_Controller {
                         $this->load->view('templates/FormFooter',$data);
                         $this->load->view('templates/FooterContainer');
                     }
-                }
-                else
-                {
-                    echo "<script>alert(Debe de asignar cuentas al producto);</script>";
-                     $this->db->trans_rollback();
-                }
+
 
             } catch (Exception $ex) {
                 log_message('error', $ex->getMessage());
