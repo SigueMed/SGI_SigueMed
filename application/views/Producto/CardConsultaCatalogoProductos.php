@@ -699,13 +699,9 @@
                 }
 
                 $("#Modal_MontoEnCuentas").val(MontoEnCuentas);
-
-
-
-            $("#PorcentajeAsignado").val(PorcentajeAsignado);
+                $("#PorcentajeAsignado").val(PorcentajeAsignado);
 
                 }
-
         });
 
      }

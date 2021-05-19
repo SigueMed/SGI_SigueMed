@@ -134,6 +134,16 @@
             <div class="card-body">
                 <div class="card-block">
                   <div class="row">
+                    <div class="col-md-8 col-xs-12">
+                        <div class="form-group">
+
+                            <label for="txtCodigoProducto">Código</label>
+                            <input type="text" name ="txtCodigoProducto" id="txtCodigoProducto" class="form-control"/>
+                        </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
                     <div class="col-md-12">
                         <table class="table" style="width:100%" id="tablaProductos">
                                 <thead>
@@ -229,8 +239,7 @@
                                     <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
                                  </div> -->
 
-                                 <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
-                                 <input type="hidden" name="Lote" id="Lote">
+
                             </div>
 
                         </div>
@@ -609,12 +618,12 @@
     $(document).ready(function(){
       CargarProductos();
 
-      $(window).keydown(function(event){
-        if(event.keyCode == 13) {
-          event.preventDefault();
-          return false;
-        }
-      });
+      // $(window).keydown(function(event){
+      //   if(event.keyCode == 13) {
+      //     event.preventDefault();
+      //     return false;
+      //   }
+      // });
 
         $("#btnPagar").attr("disabled","disabled");
         CargarFoliador();
@@ -658,12 +667,14 @@
 
             if (idProducto !="")
             {
-
-
             var descProducto = $("#DescripcionProducto").val();
             var TotalFilas = $('#tablaProductos tbody tr').length;
             var precio =$("#CostoProducto").val();
             var descuento =isNaN(parseFloat($("#Descuento").val())) ? 0 : $("#Descuento").val();
+
+            var CodigoSubProducto = $("#CodigoSubProducto").val();
+            var lote = $("#lote").val();
+
 
 
             var numFila = 0;
@@ -679,8 +690,6 @@
                 numFila +=1;
             }
 
-
-
             var subtotal = parseFloat($("#SubtotalProducto").val());
 
             if (!isNaN(subtotal))
@@ -691,8 +700,8 @@
                      '<td>'+
                          '<input type="hidden" value="'+idServicio+'">'+
                          '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
-                         '<input type="hidden" name="CodigoSubProducto[]" value="">'+
-                         '<input type="hidden" name="Lote[]" value="">'+
+                         '<input type="hidden" name="CodigoSubProducto[]" value="'+CodigoSubProducto+'">'+
+                         '<input type="hidden" name="Lote[]" value="'+lote+'">'+
                          '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
                          '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
                          '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
@@ -870,7 +879,7 @@
     $("#txtProducto").easyAutocomplete(optionsProducto);
 
     function Autocomplete_CargarDatosProducto() {
-      var value = $("#txtProducto").getSelectedItemData().IdProducto;
+     var value = $("#txtProducto").getSelectedItemData().IdProducto;
      var DescripcionProducto = $("#txtProducto").getSelectedItemData().DescripcionProducto;
      var DescripcionServicio = $("#txtProducto").getSelectedItemData().DescripcionServicio;
      var CostoProducto = $("#txtProducto").getSelectedItemData().CostoProducto;
@@ -1312,6 +1321,109 @@
 
 
  }
+
+ //CODIGO DE BARRAS
+ $('#txtCodigoProducto').on('keypress', function (e) {
+  if(e.which === 13){
+
+     //Disable textbox to prevent multiple submit
+     $(this).attr("disabled", "disabled");
+
+     //BUSCAR PRODUCTO POR Codigo
+     $.ajax({
+             url:"<?php echo site_url();?>/Inventario_Controller/ConsultarExistenciaSubProducto_ajax",
+             method:"POST",
+             data:{CodigoSubProducto:$('#txtCodigoProducto').val()},
+             success: function(data)
+             {
+
+                var SubProducto = JSON.parse(data);
+
+                if (SubProducto!== false && SubProducto !== '2')
+                {
+                   if (SubProducto['CantidadInventario']<=0)
+                   {
+                     Swal.fire({
+                       title:'Sin Existencias',
+                       text:'El producto '+SubProducto['NombreSubProducto']+' no tiene existencias en el inventario',
+                       type:'error'
+                     });
+
+                   }
+                   else {
+
+
+
+                     
+                     var idProducto =  SubProducto['IdProducto'];
+
+                     if (idProducto !="")
+                     {
+
+                       //AGREGAR PRODUCTO A LA tabla
+                       $("#IdProducto").val(SubProducto['IdProducto']);
+                       $("#DescripcionProducto").val(SubProducto['DescripcionProducto']);
+                       $("#SubtotalProducto").val(SubProducto['CostoProducto']);
+                       $("#CostoProducto").val(SubProducto['CostoProducto']);
+
+                       $("#IdServicio").val(SubProducto['IdServicio']);
+                       $("#DescripcionServicio").val(SubProducto['DescripcionServicio']);
+                       $("#PrecioProveedor").val(SubProducto['PrecioProveedor']);
+                       $("#EsProveedor").val(SubProducto['EsProveedor']);
+
+
+                       $("#CodigoSubProducto").val(SubProducto['IdCodigoSubProducto']);
+                       $("#lote").val(SubProducto['Lote']);
+
+
+
+                       $("#CantidadProducto").val(1);
+                       $("#Descuento").removeAttr("readonly");
+                       $("#btnAgregar").removeAttr("disabled");
+
+                           $("#txtCodigoProducto").val('');
+                           $("#txtCodigoProducto").focus();
+
+
+                     }
+                   }
+                }
+                else
+                {
+
+                    alert('No existe el producto');
+                    $("#txtCodigoProducto").focus();
+                }
+
+
+             }
+         });
+
+
+
+
+     //Enable the textbox again if needed.
+     $(this).removeAttr("disabled");
+     e.preventDefault();
+     return false;
+   }
+  });
+
+  function AgregarProductoTablaDetalle(Producto) {
+
+    var idServicio = Producto['IdServicio'];
+    var idProducto =  Producto['IdProducto'];
+    var Cantidad = Producto['CantidadProducto'];
+    var PrecioProveedor = Producto['PrecioProveedor'];
+    var descServicio = Producto['DescripcionServicio'];
+    var EsProveedor = Producto['EsProveedor'];
+    var descProducto = Producto['DescripcionProducto'];
+    var TotalFilas = $('#tablaProductos tbody tr').length;
+    var precio =Producto['CostoProducto'];
+    var descuento =Producto['Descuento'];
+
+
+  }
 
 
 </script>

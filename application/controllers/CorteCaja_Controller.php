@@ -83,6 +83,7 @@ class CorteCaja_Controller extends CI_Controller {
         //log_message('debug',$MontosTipoPago);
 
         $data['MontosTipoPago']=$MontosTipoPago;
+        $data['EfectivoEnCaja'] = $this->input->post('TipoPago-CAJA');
         //$data['IdCuenta']=$IdCuenta;
         //$data['Cuenta'] =$Cuenta;
 

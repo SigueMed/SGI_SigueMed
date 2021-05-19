@@ -123,6 +123,19 @@
 
 
                          </div>
+                         <div class="col-md-2">
+                           <div class="form-group">
+                             <label for="TotalEntregado">Efectivo en Caja</label>
+                             <div class="input-group">
+                               <span class="input-group-addon">$</span>
+                               <input type="text" id="txtTotalEfectivoCaja" name="txtTotalEfectivoCaja"  value ="0" class="form-control" readonly/>
+                               <input type="hidden" id="TotalEfectivoCaja" name="TotalEfectivoCaja"  value ="0" class="form-control"/>
+                             </div>
+
+                           </div>
+
+
+                         </div>
                        </div>
 
                         <div class="row">
@@ -161,8 +174,6 @@
                             </div>
                         </div>
 
-
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -178,9 +189,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
 
                     <div class="form-actions" align="center">
                         <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
@@ -211,27 +219,17 @@
           <h6 class="form-section">Entradas</h6>
           <table id="tblDetalleMovimientosCuentaCorte" class="table table-striped table-bordered table-responsive" style="width:100%">
               <thead>
-
                   <tr>
-
-
-
                       <th>No. Nota</th>
                       <th>No. Ticket</th>
                       <th>Fecha</th>
                       <th>Paciente</th>
-
                       <th>Total Pagado</th>
-
-
-
                   </tr>
               </thead>
               <tbody>
 
-
               </tbody>
-
           </table>
 
 
@@ -257,6 +255,9 @@
 
         CargarBalanceCuentas();
         CargarResumenTipoPago();
+        var EfectivoEnCaja = <?=$EfectivoEnCaja?>;
+
+        $("#txtTotalEfectivoCaja").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(EfectivoEnCaja));
         //CargarDetalleNotasCorte();
         //CargarDetalleMovimientosCorte();
 
@@ -366,7 +367,9 @@
                       );
                   }
 
+
                   $("#txtTotalEntregado").val(new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(ResumenTotalCorte));
+
                   $("#TotalEntregado").val(ResumenTotalCorte);
 
 

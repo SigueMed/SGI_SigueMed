@@ -189,6 +189,14 @@
                           </div>
 
                         </div>
+                        <div class="col-md-1">
+                          <div class="form-group">
+                            <label for="CantidadProducto">Unit.</label>
+                            <input type="text" class="form-control" id="CostoProducto" name="CostoProducto" readonly>
+
+                          </div>
+
+                        </div>
                         <div class="col-md-1 col-xs-2">
                           <div class="form-group">
                             <label for="CantidadProducto">Cant.</label>
@@ -220,7 +228,7 @@
                                  <label for="SubtotalProducto">Total</label>
 
                                     <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly="readonly">
-                                    <input type="hidden" id="CostoProducto" name="CostoProducto">
+
 
 
                                  <!-- <div class="input-group">
@@ -719,6 +727,7 @@
                $("#CantidadProducto").val("");
                $("#SubtotalProducto").val("");
                $("#txtProducto").focus();
+               $("#CostoProducto").val();
                $("#btnAgregar").attr("disabled","disabled");
                $("#Descuento").attr("readonly","readonly");
 
@@ -1313,7 +1322,8 @@
  {
    $("#IdProducto").val(IdProducto);
    $("#DescripcionProducto").val(DescripcionProducto);
-   $("#SubtotalProducto").val(CostoProducto)
+   $("#SubtotalProducto").val(CostoProducto);
+   $("#CostoProducto").val(CostoProducto);
    $("#IdServicio").val(IdServicio);
    $("#DescripcionServicio").val(DescripcionServicio);
    $("#PrecioProveedor").val(PrecioProveedor);

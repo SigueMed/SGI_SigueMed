@@ -39,7 +39,7 @@
                     <h4 class="form-section"><i class="icon-calculator"></i> Total</h4>
                     <div class="row">
 
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <table id="tblTotalFormasPago">
                           <thead>
                             <th>Forma Pago</th>
@@ -126,7 +126,7 @@ function CargarTablaFormasPago()
       }
       $("#tblTotalFormasPago").append(
         '<tr>'+
-          '<td>CAJA</td>'+
+          '<td>EFECTIVO EN CAJA</td>'+
           '<td>'+
             '<div class="input-group">'+
               '<span class="input-group-addon">$</span>'+
