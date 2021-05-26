@@ -1293,6 +1293,7 @@
    $("#DescripcionServicio").val(DescripcionServicio);
    $("#PrecioProveedor").val(PrecioProveedor);
    $("#EsProveedor").val(Proveedor);
+   $("#CostoProducto").val(CostoProducto);
    //
    $("#CantidadProducto").val(1);
    $("#Descuento").val(0);
@@ -1354,7 +1355,7 @@
 
 
 
-                     
+
                      var idProducto =  SubProducto['IdProducto'];
 
                      if (idProducto !="")

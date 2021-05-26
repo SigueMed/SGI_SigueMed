@@ -403,10 +403,11 @@ class Agenda_Controler extends CI_Controller
           $DiaSemana = $this->input->post('DiaSemana');
           $HoraCita = $this->input->post('HoraCita');
           $IdServicio = $this->input->post('IdServicio');
+          $IdClinica = $this->session->userdata('IdClinica');
 
           $this->load->model('HorarioServicio_Model');
 
-          $CitaValida = $this->HorarioServicio_Model->ValidarHorarioCita($IdServicio,$DiaSemana,$HoraCita);
+          $CitaValida = $this->HorarioServicio_Model->ValidarHorarioCita($IdServicio,$IdClinica, $DiaSemana,$HoraCita);
 
           echo json_encode($CitaValida);
           // code...

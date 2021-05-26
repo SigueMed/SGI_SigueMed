@@ -215,21 +215,23 @@ class NotaRemision_Controller extends CI_Controller {
 
                             for ($i=0; $i < sizeof($IdFormaPagos) ; $i++) {
 
-                              $TotalDespuesAdeudo = $this->PagarAdeudosAnteriores($IdPaciente,$MontosPago[$i],$IdFormaPagos[$i]);
-                              log_message('debug','PagarAdeudosAnteriores->TotalPagado'.$TotalPagado);
 
-                              if($TotalDespuesAdeudo>0)
-                              {
-                                $PorcentajePagado = $TotalDespuesAdeudo/ $TotalNota;
+                              //DESHABILITAR PAGO ADEUDOS ANTERIORES
+                              //$TotalDespuesAdeudo = $this->PagarAdeudosAnteriores($IdPaciente,$MontosPago[$i],$IdFormaPagos[$i]);
+                              //log_message('debug','PagarAdeudosAnteriores->TotalPagado'.$TotalPagado);
 
-                                $TotalPagado += $TotalDespuesAdeudo;
+                              // if($TotalDespuesAdeudo>0)
+                              // {
+                                $PorcentajePagado = $MontosPago[$i]/ $TotalNota;
+
+                                $TotalPagado += $MontosPago[$i];
 
                                 $PagoNotaRemision = array(
                                     'IdNotaRemision'=> $IdNuevaNotaRemision->IdUltimaNotaRemision,
                                     'FechaPago'=> mdate('%Y-%m-%d',$FechaNotaRemision),
                                     'IdEmpleado'=> $this->session->userdata('IdEmpleado'),
                                     'PorcentajeNotaRemision'=>$PorcentajePagado,
-                                    'TotalPago'=>$TotalDespuesAdeudo,
+                                    'TotalPago'=>$MontosPago[$i],
                                     'IdTipoPago'=>$IdFormaPagos[$i],
                                     'Vaucher'=> $Vauchers[$i]
                                 );
@@ -241,7 +243,7 @@ class NotaRemision_Controller extends CI_Controller {
                                      throw new Exception('Error al registrar pago');
                                 }
 
-                                $PorcentajePagado = $TotalDespuesAdeudo / $TotalPagadoNota;
+                                $PorcentajePagado = $MontosPago[$i] / $TotalPagadoNota;
 
                                 //REGISTRAR MOVIMIENTOS A LAS CUENTAS
                                 $MovimientosACuenta = $this->NotaRemision_Model->ConsultarMovimientosCuentaNota($IdNuevaNotaRemision->IdUltimaNotaRemision);
@@ -264,7 +266,7 @@ class NotaRemision_Controller extends CI_Controller {
                                     $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
                                 }
 
-                              }
+                              //}
 
 
 

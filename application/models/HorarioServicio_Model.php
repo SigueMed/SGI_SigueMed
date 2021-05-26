@@ -10,7 +10,7 @@ class HorarioServicio_Model extends CI_Model{
     //Codeigniter : Write Less Do More
   }
 
-  public function ValidarHorarioCita($IdServicio,$DiaSemana,$Hora)
+  public function ValidarHorarioCita($IdServicio,$IdClinica, $DiaSemana,$Hora)
   {
     $this->db->select('*');
     $this->db->from($this->table);
@@ -18,6 +18,8 @@ class HorarioServicio_Model extends CI_Model{
     $this->db->where('DiaSemana',$DiaSemana);
     $this->db->where('HoraInicio <=',$Hora);
     $this->db->where('HoraFin>=',$Hora);
+    $this->db->where('IdClinica',$IdClinica);
+
 
     $query = $this->db->get();
 
