@@ -26,7 +26,7 @@ date_default_timezone_set('America/Mexico_City');
 */
 if (ENVIRONMENT =='production')
 {
-   $config['base_url'] = 'https://sgi.siguemed.com.mx/';
+   $config['base_url'] = 'https://sgi.clinicasiguemed.com/';
 }
 else
 {
