@@ -126,3 +126,7 @@ $route['Proveedores/PagarProveedor'] = 'Proveedor_Controller/Load_PagarProveedor
 //usuarios
 $route['Catalogos/NuevoUsuario'] = 'Usuario_Controller/Load_AgregarNuevoUsuario';
 $route['Catalogos/ConsultaUsuarios'] = 'Usuario_Controller/Load_ConsultarUsuarios';
+
+//SERVICIOS AUTOR: RICARDO
+$route['Catalogos/NuevoServicio'] = 'Servicio_Controller/Load_AgregarNuevoServicio';
+$route['Catalogos/ConsultarServicios'] = 'Servicio_Controller/Load_ConsultarServicios';
