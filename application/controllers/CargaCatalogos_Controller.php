@@ -217,8 +217,27 @@ class CargaCatalogos_Controller extends CI_Controller {
           $output .= '<option value="'.$medico['IdEmpleado'].'">'.$medico['Nombre'].'</option>';
       }
       echo $output;
+    }
 
 
+
+
+    public function CargarEmpleados_ajax()
+    {
+
+      $this->load->model('Empleado_Model');
+
+      $Empleado = $this->Empleado_Model->ConsultarEmpleados();
+
+      $output='<option value="">Selecciona un empleado</option>';
+
+       foreach($Empleado as $empleado)
+       {
+           $output .= '<option value="'.$empleado['IdEmpleado'].'">'.$empleado['NombreEmpleado'].'</option>';
+       }
+       echo $output;
+
+      // code...
     }
 
 

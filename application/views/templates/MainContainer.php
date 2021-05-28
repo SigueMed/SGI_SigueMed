@@ -243,6 +243,7 @@
                       <li><a href="'.site_url('Paciente/SeguimientoPaciente').'" data-i18n="nav.cards.card_statistics" class="menu-item">Seguimiento a Pacientes </a>
                       </li>
 
+
                     </ul>
                   </li>';
             }
@@ -332,7 +333,23 @@
                         </li>
                       </ul>
                     </li>';
+
+
+
+              //Catalogo de Cuentas
+            echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Cuentas</a>
+                    <ul class="menu-content">';
+            if($this->session->userdata('IdPerfil')=='2')
+            {
+                echo '<li><a href="'. site_url('/Catalogos/NuevaCuenta').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta de Cuentas </a>
+                    </li>';
+
             }
+                    echo '<li><a href="'. site_url('/Catalogos/ConsultarCuentas').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Cuentas</a>
+                    </li>
+                  </ul>
+                </li>';
+        }
           ?>
 
 
