@@ -69,5 +69,18 @@ class Empleado_Model extends CI_Model {
 
         return $query->row();
     }
+
+
+    public function ConsultarEmpleados()
+    {
+      //Carga a los empleados
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+
+      $query = $this->db->get();
+
+      return $query->result_array();
+      // code...
+    }
     //put your code here
 }

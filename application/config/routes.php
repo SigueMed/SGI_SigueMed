@@ -130,3 +130,6 @@ $route['Catalogos/ConsultaUsuarios'] = 'Usuario_Controller/Load_ConsultarUsuario
 //SERVICIOS AUTOR: RICARDO
 $route['Catalogos/NuevoServicio'] = 'Servicio_Controller/Load_AgregarNuevoServicio';
 $route['Catalogos/ConsultarServicios'] = 'Servicio_Controller/Load_ConsultarServicios';
+//Cuentas 18-may0-2021
+$route['Catalogos/NuevaCuenta'] = 'Cuenta_ControllerPersona/Load_AgregarNuevaCuenta';
+$route['Catalogos/ConsultarCuentas'] = 'Cuenta_ControllerPersona/Load_ConsultarCuentas';
