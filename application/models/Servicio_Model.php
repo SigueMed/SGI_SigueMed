@@ -21,6 +21,87 @@ class Servicio_Model extends CI_Model {
         $this->table = "servicio";
 
     }
+    
+    //Autor: Ricardo
+    /*
+    *
+    *Se agrego el codigo de nuevo servico a Servicio model 14/05/2021
+    */
+    public function AgregarNuevoServicio($DatosServicio,$ClinicasServicio)
+    {
+      $this->db->select('DescripcionServicio, CodigoColorServicio');
+      $this->db->from($this->table);
+      $this->db->where('DescripcionServicio' ,$DatosServicio['DescripcionServicio']);
+      $query = $this->db->get();
+
+      if ($query->num_rows()<=0)
+      {
+        $this->db->reset_query();
+        $this->db->insert($this->table,$DatosServicio);
+
+        $IdNuevoServicio =  $this->db->insert_id();
+
+        $this->db->reset_query();
+
+        for ($i=0;$i<sizeof($ClinicasServicio);$i++)
+        {
+          $servicioClinica = array(
+            'IdClinica'=>$ClinicasServicio[$i],
+            'IdServicio'=>$IdNuevoServicio
+          );
+          $this->db->insert('servicioclinica',$servicioClinica);
+
+
+
+        }
+
+        return $IdNuevoServicio;
+
+
+      }
+      else {
+        return false;
+      }
+
+    }
+
+    public function ConsultarClinicasServicio($IdServicio)
+    {
+      $this->db->select('*');
+      $this->db->from('clinicas c');
+      $this->db->join('servicioclinica sc', 'sc.IdClinica = c.IdClinica');
+      $this->db->where('sc.IdServicio', $IdServicio);
+
+      $query = $this->db->get();
+      return $query->result_array();
+
+      // code...
+    }
+    
+    public function CatalogoClinicasServicio($IdServicio)
+    {
+      $this->db->select('c.*, IdServicio');
+      $this->db->from('clinicas c');
+      $this->db->join('servicioclinica sc', 'sc.IdClinica = c.IdClinica and sc.IdServicio ='.$IdServicio,'left');
+      
+
+      $query = $this->db->get();
+      return $query->result_array();
+    }
+
+    //HORARIO SERVICIO MODEL
+    public function CatalogoClinicasHorarioServicio($IdHorarioServicio)
+    {
+      $this->db->select('c.*, IdHorarioServicio');
+      $this->db->from('clinicas c');
+      $this->db->join('horarioservicio sc', 'sc.IdClinica = c.IdClinica and sc.IdHorarioServicio ='.$IdHorarioServicio,'left');
+      
+
+      $query = $this->db->get();
+      return $query->result_array();
+    }
+
+
     public function ConsultarServiciosPorGrupo($IdGrupo = FALSE)
     {
         $this->db->select($this->table.'.*');
@@ -40,16 +121,16 @@ class Servicio_Model extends CI_Model {
         return $query->result_array();
 
     }
-    public function ConsultarServicios($Inventario = FALSE, $Todos = FALSE)
+    public function ConsultarServicios($Inventario = FALSE)
     {
          $this->db->select($this->table.'.*');
-         $this->db->select("gs.EsProveedor");
+         $this->db->select("gs.*");
         $this->db->from($this->table);
         $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
-        if (!$Todos)
+        /*if (!$Todos)
         {
               $this->db->where('Habilitado', TRUE);
-        }
+        }*/
 
 
 
@@ -80,12 +161,11 @@ class Servicio_Model extends CI_Model {
 
     public function ConsultarServicioPorId($IdServicio)
     {
-        $this->db->select($this->table.'.*');
-        $this->db->select("gs.EsProveedor");
+        $this->db->select($this->table.'.*, gs.DescripcionGrupoServicio');
         $this->db->from ($this->table);
         $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
         $this->db->where('IdServicio', $IdServicio);
-        $this->db->limit(1);
+        //$this->db->limit(1);
 
         $query = $this->db->get();
 
@@ -96,6 +176,25 @@ class Servicio_Model extends CI_Model {
         }
         return false;
     }
+    public function ConsultarHorarioServicioPorId($IdServicio)
+    {
+        $this->db->select($this->table.'.*, gs.DescripcionGrupoServicio');
+        $this->db->from ($this->table);
+        $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
+        $this->db->where('IdServicio', $IdServicio);
+        //$this->db->limit(1);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows()>0)
+        {
+            return $query->row();
+
+        }
+        return false;
+    }
+
+
     //put your code here
 
     //AUTOR 'Carlos Esquivel' -- muestra los servicios en el dropdown
@@ -135,6 +234,38 @@ class Servicio_Model extends CI_Model {
     }
 
 
+//Autor: Ricardo
+//14/05/2021 Se Agrego editar Servicio
+    public function EditarServicio($IdServicio,$ActualizarServicio)
+    {
+      $this->db->where('IdServicio', $IdServicio);
+      return $this->db->update($this->table, $ActualizarServicio);
 
+      // code...
+    }
+
+    public function ActualizarClinicasServicio($IdServicio,$ClinicasServicio)
+    {
+      $this->db->where('IdServicio', $IdServicio);
+      $this->db->delete('servicioclinica');
+
+      $this->db->reset_query();
+      
+      for ($i=0;$i<sizeof($ClinicasServicio);$i++)
+      {
+        $servicioClinica = array(
+          'IdClinica'=>$ClinicasServicio[$i],
+          'IdServicio'=>$IdServicio
+        );
+        $this->db->insert('servicioclinica',$servicioClinica);
+
+      }
+      return 1;
+
+
+
+      // code...
+    }
 
 }
+

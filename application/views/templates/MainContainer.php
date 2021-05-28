@@ -335,6 +335,24 @@
             }
           ?>
 
+          <?php
+                //CATALOGO SERVICIOS
+                if ($this->session->userdata('IdPerfil') == '2')
+                {
+                echo '<li><a href="#" data-i18n="nav.menu_levels.three_level_child.main" class="menu-item">Catalogo de Servicios</a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Catalogos/NuevoServicio').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Servicio</a>
+                        </li>';
+
+                }
+                        echo '<li><a href="'. site_url('/Catalogos/ConsultarServicios').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Servicios</a>
+                        </li>
+                      </ul>
+                    </li>';
+            }
+          ?>
 
         </ul>
       </div>
