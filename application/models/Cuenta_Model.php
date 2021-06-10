@@ -106,31 +106,19 @@ class Cuenta_Model extends CI_Model{
 
     public function AgregarNuevaCuenta($NuevaCuenta)
     {
-
-      $this->db->insert($this->table,$NuevaCuenta);
-
-      $this->db->select('IdEmpleado');
-      $this->db->from(empleado);
-      $this->db->where('NombreEmpleado',$NuevaCuenta['IdEmpleado']);
+      $this->db->select('DescripcionCuenta');
+      $this->db->from($this->table);
+      $this->db->where('DescripcionCuenta',$NuevaCuenta['DescripcionCuenta']);
       $query = $this->db->get();
 
       if ($query->num_rows()<=0)
       {
-        $this->db->reset_query();
+          $this->db->reset_query();
         $this->db->insert($this->table,$NuevaCuenta);
 
         $IdNuevaCuenta =  $this->db->insert_id();
 
-         $this->db->reset_query();
-
-         // for ($i=0;$i<sizeof($ClinicasUsuario);$i++)
-         // {
-         //   $empleadoClinica = array(
-         //     'IdClinica'=>$ClinicasUsuario[$i],
-         //     'IdEmpleado'=>$IdNuevoUsuario
-         //   );
-           // $this->db->insert('empleadoclinica',$empleadoClinica);
-        // }
+        $this->db->reset_query();
 
         return $IdNuevaCuenta;
       }

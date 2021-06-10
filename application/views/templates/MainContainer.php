@@ -349,6 +349,20 @@
                     </li>
                   </ul>
                 </li>';
+
+                //CATALOGO Clinicas
+                echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Clinicas</a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Catalogos/NuevaClinica').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Nueva Clinica</a>
+                        </li>';
+
+                }
+                        echo '<li><a href="'. site_url('/Catalogos/ConsultarClinicas').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Clinicas</a>
+                        </li>
+                      </ul>
+                    </li>';
         }
           ?>
 

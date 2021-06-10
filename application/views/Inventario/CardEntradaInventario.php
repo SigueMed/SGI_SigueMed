@@ -208,6 +208,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="CodigoSAT">Codigo SAT</label>
+                                            <input type="text" id="CodigoSAT" class="form-control" placeholder="CodigoSAT" name="CodigoSAT"/>
+                                        </div>
+                                    </div>
                                     <div class="col-md-7">
                                         <div class="form-group" align="right">
                                             <button type="button" class="btn btn-primary" id="btnAgregarSubProducto"><i class="icon-android-add"></i>Agregar</button>
@@ -228,7 +234,9 @@
                                         <th>Fec. Caducidad</th>
                                         <th>Cantidad</th>
                                         <th>Costo</th>
+                                        <th>CodigoSAT</th>
                                         <th>Eliminar</th>
+
                                     </thead>
                                     <tbody>
 
@@ -279,6 +287,8 @@
             var CostoSubProducto = $("#CostoSubProducto").val();
             var FechaCaducidad = $("#CaducidadSubProducto").val();
             var LoteSubProducto = $("#LoteSubProducto").val();
+            var CodigoSAT = $("#CodigoSAT").val();
+
 
             if(CantidadSubProducto!=="" && parseInt(CantidadSubProducto) >0)
             {
@@ -292,6 +302,7 @@
                     '<td><input type="hidden" class="form-control" name="FechaCaducidad[]" value="'+FechaCaducidad+'" readonly>'+FechaCaducidad+'</td>'+
                     '<td><input type="hidden" class="form-control" name="CantidadSubProducto[]" value="'+CantidadSubProducto+'" readonly>'+CantidadSubProducto+'</td>'+
                     '<td><input type="hidden" class="form-control" name="CostoSubProducto[]" value="'+CostoSubProducto+'" readonly>'+CostoSubProducto+'</td>'+
+                    '<td><input type="hidden" class="form-control" name="CodigoSAT[]" value="'+CodigoSAT+'" readonly>'+CodigoSAT+'</td>'+
                     '<td><button type="button" name="removeSubProducto" class="btn mr-1 mb-1 btn-danger btn-sm removeSubProducto" data-row="row'+numFila+'"><i class="icon-ios-trash"></i></button></td>'+
                     '</tr>'
                     );
@@ -374,6 +385,7 @@
         $("#LoteSubProducto").val("");
         $("#CaducidadSubProducto").val(0);
         $("#CantidadSubProducto").val("");
+        $("#CodigoSAT").val("");
     }
 
     function CargarSubProducto()
@@ -391,6 +403,9 @@
 
                         $('#DescripcionSubProducto').val(SubProducto['NombreSubProducto']);
                         $('#DescripcionSubProducto').prop('readonly',true);
+                        $('#CodigoSAT').val(SubProducto['CodigoSAT']);
+                        $('#CodigoSAT').prop('readonly',true);
+
                         $('#Productos').val(SubProducto['IdProducto']);
 
                         $('#LoteSubProducto').focus();
