@@ -214,14 +214,14 @@
             <div class="form-group">
               <label for="txtDiaSemana">Dia de la Semana</label>
                 <select name="txtDiaSemana" id="txtDiaSemana" class="form-control">
-                  <option value="0">Selecciona Un Dia</option>
-                  <option value="1">DOMINGO</option>
-                  <option value="2">LUNES</option>
-                  <option value="3">MARTES</option>
-                  <option value="4">MIERCOLES</option>
-                  <option value="5">JUEVES</option>
-                  <option value="6">VIERNES</option>
-                  <option value="7">SABADO</option>
+                  <option value="">Selecciona Un Dia</option>
+                  <option value="0">DOMINGO</option>
+                  <option value="1">LUNES</option>
+                  <option value="2">MARTES</option>
+                  <option value="3">MIERCOLES</option>
+                  <option value="4">JUEVES</option>
+                  <option value="5">VIERNES</option>
+                  <option value="6">SABADO</option>
 
                 </select>
             </div>
@@ -647,13 +647,38 @@ function CargarHorario(IdServicio) {
             return btnEliminarHora;
 
           }},
+          {"targets": 2, "render":function(data,type,row,meta){
+            switch(data){
+              case '0':
+                return "DOMINGO";
+                break;
+              case '1':
+                return "LUNES";
+                break;
+              case '2':
+                return "MARTES";
+                break;
+              case '3':
+                return "MIERCOLES";
+                break;
+              case '4':
+                return "JUEVES";
+                break;
+              case '5':
+                return "VIERNES";
+                break;
+              case '6':
+                return "SABADO";
+                break;
+            }
+          }},
         ],
         "columns": [
                 { "data": "IdHorarioServicio"},
                 { "data": "NombreClinica" },
                 { "data": "DiaSemana" },
-                { "data": "HoraFin" },
                 { "data": "HoraInicio" },
+                { "data": "HoraFin" },
                 { "data": "IdHorarioServicio"}
 
         ]
