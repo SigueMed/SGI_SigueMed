@@ -46,8 +46,6 @@
                                         <th>Descripcion</th>
                                         <th>Nombre empleado</th>
                                         <th>Apellidos</th>
-
-
                                         <th>CuentaMaestra</th>
                                         <th>CorteCaja</th>
                                         <th>Habilitado</th>
@@ -75,61 +73,7 @@
 </div><!--DIV ROW MATCH-->
 
 <!----------------MODALS-->
-<!--MODAL CAMBIAR CONTRASEÑA-->
-<!-- <div class="modal fade" tabindex="-1" role="dialog" id="ModalCambiarContrasena" aria-hidden="true">
-  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button onclick="cerrar('#ModalCambiarContrasena')" type="button" class="close" id="CancelarModalCambiarContrasena">&times;</button>
-            <h5 class="modal-title" id="actualizarModalLabel">Cambiar Contraseña Usuario</h5>
-        </div>
-        <div class="modal-body">
 
-
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="ModalIdEmpleado">Id Empleado</label>
-                    <input type="text" id="ModalIdEmpleado" class="form-control"  name="ModalIdEmpleado" readonly>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="ModalUsuario">Usuario:</label>
-                    <div class="position-relative">
-                        <input type="text" id="ModalUsuario" class="form-control"  name="ModalUsuario" readonly>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                  <label for="txtPassword">Password (mínimo 8 carácteres)</label>
-                  <div class="position-relative has-icon-left">
-                      <input type="password" id="txtPassword" class="form-control" name="Password" value="" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"/>
-                      <div class="form-control-position">
-                        <i class="icon-lock2"></i>
-
-                      </div>
-                  </div>
-                  <input type="checkbox" onclick="ShowPassword()">Show Password
-                </div>
-            </div>
-
-
-        </div>
-
-
-        </div>
-        <div class="modal-footer">
-            <button id="ModalbtnCambiarContrasena" type="button" onclick="CambiarContrasena()" class="btn btn-success">Cambiar</button>
-            <button id="CancelarModalCambiarContrasena" onclick="cerrar('#ModalCambiarContrasena')" type="button" class="btn btn-warning">Cancelar</button>
-        </div>
-        </div>
-    </div>
-</div> -->
 <!--MODAL EDITAR Cuenta-->
 <div class="modal fade" tabindex="-1" role="dialog" id="ModalEditarCuenta" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-body" role="document">

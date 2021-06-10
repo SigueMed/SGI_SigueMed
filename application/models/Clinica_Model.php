@@ -53,5 +53,40 @@ class Clinica_Model extends CI_Model {
       return $query->result_array();
       // code...
     }
+    public function AgregarNuevaClinica($NuevaClinica)
+    {
+      $this->db->select('NombreClinica,DireccionClinica');
+      $this->db->from($this->table);
+      $this->db->where('NombreClinica',$NuevaClinica['NombreClinica']);
+      $query = $this->db->get();
+
+      if ($query->num_rows()<=0)
+      {
+        $this->db->reset_query();
+        $this->db->insert($this->table,$NuevaClinica);
+
+        $IdNuevaClinica =  $this->db->insert_id();
+
+        $this->db->reset_query();
+
+        return $IdNuevaClinica;
+
+      }
+      else {
+        return false;
+      }
+
+    }
+
+    public function EditarClinica($IdClinica,$ActualizarClinica)
+    {
+      $this->db->where('IdClinica', $IdClinica);
+      return $this->db->update($this->table,$ActualizarClinica);
+
+      // code...
+    }
+
+
+
     //put your code here
 }

@@ -133,3 +133,7 @@ $route['Catalogos/ConsultarServicios'] = 'Servicio_Controller/Load_ConsultarServ
 //Cuentas 18-may0-2021
 $route['Catalogos/NuevaCuenta'] = 'Cuenta_ControllerPersona/Load_AgregarNuevaCuenta';
 $route['Catalogos/ConsultarCuentas'] = 'Cuenta_ControllerPersona/Load_ConsultarCuentas';
+
+//Clinicas 7-Junio-2021
+$route['Catalogos/NuevaClinica'] = 'Clinica_Controller/Load_AgregarNuevaClinica';
+$route['Catalogos/ConsultarClinicas'] = 'Clinica_Controller/Load_ConsultarClinicas';

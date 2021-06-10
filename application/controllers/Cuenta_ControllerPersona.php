@@ -23,21 +23,18 @@ class Cuenta_ControllerPersona extends CI_Controller{
   }
   public function AgregarNuevaCuenta()
   {
-    //$IdCuenta = $this->input->post('IdCuenta');
+
     $Descripcion = $this->input->post('DescripcionCuenta');
     $IdEmpleado = $this->input->post('IdEmpleado');
     $habilitado = $this->input->post('Habilitado');
     $CorteCaja = $this->input->post('CorteCaja');
     $CuentaMaestra = $this->input->post('CuentaMaestra');
 
-    log_message('debug','IdEmpleado='+$IdEmpleado);
 
 
     $NuevaCuenta = array(
-      //'IdCuenta'=>$IdCuenta,
       'DescripcionCuenta'=>$Descripcion,
       'IdEmpleado'=>$IdEmpleado,
-
 
       'Habilitado'=> ($habilitado=='on' ? 1:0),
       'CorteCaja'=> ($CorteCaja=='on' ? 1:0),
@@ -47,28 +44,33 @@ class Cuenta_ControllerPersona extends CI_Controller{
 
     $this->load->model('Cuenta_Model');
 
-    if (isset($IdEmpleado)==FALSE)
+    if (($IdEmpleado)==FALSE)
     {
       die(json_encode(['error'=>TRUE,'message'=>'No se selecciono a un empleado']));
     }
 
-    $result = $this->Cuenta_Model->AgregarNuevaCuenta($NuevaCuenta);
-
-    if ($result!==false)
+    if ($CuentaMaestra=='on')
     {
-
-      die(json_encode(['error'=>FALSE,'message'=>'Cuenta Registrada Exitosamente con el Id:'.$result]));
-
-
+      $result = $this->Cuenta_Model->ConsultarCuentaMaestra();
+      if (($result)>=1){
+        die(json_encode(['error'=>TRUE,'message'=>'Ya existe una cuenta Maestra']));
+      }
     }
     else {
-
-      die(json_encode(['error'=>TRUE,'message'=>'Esta cuenta ya existe']));
-
       // code...
-    }
 
-    // code...
+          $result = $this->Cuenta_Model->AgregarNuevaCuenta($NuevaCuenta);
+
+          if ($result==TRUE)
+          {
+            die(json_encode(['error'=>FALSE,'message'=>'Se registro la cuenta con el id: '.$result]));
+          }
+          else {
+
+            die(json_encode(['error'=>TRUE,'message'=>'Esta cuenta ya existe']));
+            // code...
+          }
+    }
   }
 
   // CATALOGO Cuentas
@@ -119,7 +121,7 @@ class Cuenta_ControllerPersona extends CI_Controller{
     $IdCuenta = $this->input->post('IdCuenta');
 
     $Cuenta = $this->Cuenta_Model->ConsultarCuentaPorId($IdCuenta);
-    
+
 
     echo json_encode($Cuenta);
   }
@@ -135,8 +137,16 @@ class Cuenta_ControllerPersona extends CI_Controller{
       'Habilitado'=>$this->input->post('Habilitado'),
       'CorteCaja'=>$this->input->post('CorteCaja'),
       'CuentaMaestra' =>$this->input->post('CuentaMaestra')
-
     );
+
+    if ($this->input->post('CuentaMaestra')=='1')
+    {
+      $result = $this->Cuenta_Model->ConsultarCuentaMaestra();
+      if (($result)>=1){
+        die(json_encode(['error'=>TRUE,'message'=>'Ya existe una cuenta Maestra']));
+      }
+    }
+
 
     if ($this->input->post('CuentaMaestra')!== '')
     {
@@ -151,25 +161,10 @@ class Cuenta_ControllerPersona extends CI_Controller{
     $EmpleadosCuenta = $this->input->post('IdEmpleado');
 
     $this->Cuenta_Model->EditarCuenta($IdCuenta,$ActualizarCuenta);
-    //$result = $this->Cuenta_Model->ActualizarCuenta($IdCuenta,$EmpleadosCuenta);
+
     // code...
   }
 
-  // public function ActualizarContrasenaUsuario_ajax()
-  // {
-  //
-  //   $ActualizarEmpleado = array(
-  //     'password'=>$this->input->post('password')
-  //
-  //   );
-  //
-  //   $IdEmpleado = $this->input->post('IdEmpleado');
-  //
-  //
-  //
-  //   return $this->Usuario_Model->EditarUsuario($IdEmpleado,$ActualizarEmpleado);
-  //
-  //   // code...
-  // }
+
 
 }

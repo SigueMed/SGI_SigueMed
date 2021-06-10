@@ -80,6 +80,7 @@ class Inventario_Controller extends CI_Controller {
                     $FechaCaducidadSubProducto = $this->input->post('FechaCaducidad');
                     $CantidadSubProducto = $this->input->post('CantidadSubProducto');
                     $CostoSubProducto = $this->input->post('CostoSubProducto');
+                    $CodigosSATSubProducto = $this->input->post('CodigoSAT');
 
                      for ($i=0;$i<sizeof($CodigosSubProducto); $i++)
                         {
@@ -93,6 +94,7 @@ class Inventario_Controller extends CI_Controller {
                                     'IdProducto' => $CodigosProducto[$i],
                                     'NombreSubProducto'=> $DescripcionesSubProducto[$i],
                                     'IdProveedor'=>$this->input->post('proveedor'),
+                                    'CodigoSAT' => $CodigosSATSubProducto[$i],
 
                                     );
                                 $this->SubProducto_Model->AgregarNuevoSubProducto($NuevoSubProducto);
@@ -107,6 +109,8 @@ class Inventario_Controller extends CI_Controller {
                                     'IdCodigoSubProducto'=>$CodigosSubProducto[$i],
                                     'Lote'=> $LotesSubProducto[$i],
                                     'Costo'=>$CostoSubProducto[$i],
+                                    //'CodigoSAT'=>$CodigosSATSubProducto[$i],
+
                                     'FechaCaducidad'=>$FechaCaducidadSubProducto[$i]
                                 );
                                 $this->LoteSubProducto_Model->RegistrarNuevoLote($NuevoLote);
@@ -118,6 +122,7 @@ class Inventario_Controller extends CI_Controller {
                                 'IdTipoMovimientoInventario'=>1,
                                 'FechaMovimiento'=>mdate('%Y-%m-%d',$Fecha),
                                 'IdCodigoSubProducto'=>$CodigosSubProducto[$i],
+                                //'CodigoSAT'=>$CodigosSATSubProducto[$i],
                                 'CantidadMovimiento'=>$CantidadSubProducto[$i],
                                 'Lote'=>$LotesSubProducto[$i],
                                 'IdClinica'=>$this->session->userdata('IdClinica'),
