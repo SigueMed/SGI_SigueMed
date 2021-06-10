@@ -201,6 +201,24 @@ class CargaCatalogos_Controller extends CI_Controller {
       // code...
     }
 
+    public function CargarClinicas_ajax()
+    {
+
+      $this->load->model('Clinica_Model');
+
+      $Clinicas = $this->Clinica_Model->ConsultarClinicas();
+
+      $output='<option value="">Selecciona una Clinica</option>';
+
+       foreach($Clinicas as $clinicas)
+       {
+           $output .= '<option value="'.$clinicas['IdClinica'].'">'.$clinicas['NombreClinica'].'</option>';
+       }
+       echo $output;
+
+      // code...
+    }
+
     public function CargarMedicoservicio_ajax()
     {
       $servicio = $this->input->post('IdServicio');

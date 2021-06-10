@@ -7,6 +7,7 @@ class Servicio_Controller extends CI_Controller{
   {
     parent::__construct();
     $this->load->model('Servicio_Model');
+    $this->load->model('HorarioServicio_Model');
     //Codeigniter : Write Less Do More
   }
   //Autor: Ricardo
@@ -96,7 +97,26 @@ class Servicio_Controller extends CI_Controller{
     // code...
   }
 
+  public function ConsultarCatalogoHorarioServicios_ajax()
+  {
+    $CatalogoHorarioServicios = $this->HorarioServicio_Model->ConsultarHorarioServicios();
+
+    echo json_encode($CatalogoHorarioServicios);
+    // code...
+  }
+
   
+  public function CargarCatalogoClinicasHorarioServicio_ajax()
+  {
+
+    $IdServicio = $this->input->post('IdServicio');
+
+    $ClinicasHorarioServicio = $this->HorarioServicio_Model->CatalogoHorarioServicio($IdServicio);
+
+    echo json_encode($ClinicasHorarioServicio);
+    // code...
+  }
+
   public function CargarCatalogoClinicasServicio_ajax()
   {
 
@@ -152,7 +172,7 @@ class Servicio_Controller extends CI_Controller{
   {
     $IdServicio = $this->input->post('IdServicio');
 
-    $Servicio = $this->Servicio_Model->ConsultarHorarioServicioPorId($IdServicio);
+    $Servicio = $this->HorarioServicio_Model->ConsultarHorarioServicioPorId($IdServicio);
 
     echo json_encode($Servicio);
     // code...
@@ -194,4 +214,75 @@ class Servicio_Controller extends CI_Controller{
     $result = $this->Servicio_Model->ActualizarClinicasServicio($IdServicio,$ClinicasServicio);
     // code...
   }
+
+  public function CargarClinicasPorServicio_ajax()
+    {
+
+      $this->load->model('Clinica_Model');
+      $IdServicio = $this->input->post('IdServicio');
+
+      $Clinicas = $this->Clinica_Model->ConsultarClinicasPorServicio($IdServicio);
+
+      $output='<option value="">Selecciona una Clinica</option>';
+
+       foreach($Clinicas as $clinicas)
+       {
+           $output .= '<option value="'.$clinicas['IdClinica'].'">'.$clinicas['NombreClinica'].'</option>';
+       }
+       echo $output;
+
+      // code...
+    }
+
+
+    //--08/06/2021
+    //AUTOR: RICARDO
+    public function EliminarHorario_ajax()
+    {
+  
+      $IdServicio = $this->input->post('IdServicio');
+      $this->HorarioServicio_Model->EliminarHorario($IdServicio);
+      //log_message('debug','IdServicio='.$IdServicio);
+
+       // code...
+    }
+
+    //--08/06/2021
+    //AUTOR: RICARDO
+    public function AgregarNuevoHorario()
+    {
+      $IdServicio = $this->input->post('IdServicio');
+      $IdClinica = $this->input->post('IdClinica');
+      $DiaSemana = $this->input->post('DiaSemana');
+      $HoraInicio = $this->input->post('HoraInicio');
+      $HoraFin = $this->input->post('HoraFin');
+  
+      $DatosHorario = array(
+        'IdServicio'=>$IdServicio,
+        'IdClinica'=>$IdClinica,
+        'DiaSemana'=>$DiaSemana,
+        'HoraInicio'=>$HoraInicio,
+        'HoraFin'=>$HoraFin,
+      );
+  
+      $this->load->model('HorarioServicio_Model');
+  
+      $result = $this->HorarioServicio_Model->AgregarNuevoHorario($DatosHorario);
+  
+      if ($result!==false)
+      {
+  
+        die(json_encode(['error'=>FALSE,'message'=>'Horario Registrado Exitosamente con el Id:'.$result]));
+  
+  
+      }
+      else {
+  
+        die(json_encode(['error'=>TRUE,'message'=>'El Horario No Se Agrego']));
+  
+        // code...
+      }
+  
+      // code...
+    }
 }

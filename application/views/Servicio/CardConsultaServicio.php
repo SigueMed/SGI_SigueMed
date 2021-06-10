@@ -84,7 +84,7 @@
                 </div>
             </div>
 
-          <div class="row">
+            <div class="row">
             <div class="col-md-6">
               <fieldset class="form-group">
                 <label for="txtDescripcionServicio">Descripcion Servicio</label>
@@ -172,8 +172,8 @@
         </div>
     </div>
 </div>
-<!--MODAL HORARIO SERVICIO--->
 
+<!--MODAL HORARIO SERVICIO--->
 <div class="modal fade" tabindex="-1" role="dialog" id="ModalHorarioServicio" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-body" role="document">
         <div class="modal-content">
@@ -181,6 +181,23 @@
             <button onclick="cerrar('#ModalHorarioServicio')" type="button" class="close" id="CancelarModalHorarioServicio">&times;</button>
             <h5 class="modal-title" id="actualizarModalLabel">Horario Servicio</h5>
         </div>
+        <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="IdServicio">Id</label>
+                    <input type="text" id="IdServicio_HorarioServicio" class="form-control"  name="IdServicio_HorarioServicio" readonly>
+                </div>
+            </div>
+            <div class="col-md-9">
+              <fieldset class="form-group">
+                <label for="txtDescripcionServicio_HorarioServicio">Descripcion Servicio</label>
+                <input type="text" class="form-control" id="txtDescripcionServicio_HorarioServicio" name="Descripcion Servicio_HorarioServicio" readonly>
+              </fieldset>
+            </div>
+        </div>
+
         <div class="row">
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
@@ -195,34 +212,73 @@
         <div class="row">
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
-              <label for="cbDiaSemana">Dia de la Semana</label>
-                <select name="cbDiaSemana" id="cbDiaSemana" class="form-control">
-                  <option value="">Selecciona un Dia</option>
+              <label for="txtDiaSemana">Dia de la Semana</label>
+                <select name="txtDiaSemana" id="txtDiaSemana" class="form-control">
+                  <option value="0">Selecciona Un Dia</option>
+                  <option value="1">DOMINGO</option>
+                  <option value="2">LUNES</option>
+                  <option value="3">MARTES</option>
+                  <option value="4">MIERCOLES</option>
+                  <option value="5">JUEVES</option>
+                  <option value="6">VIERNES</option>
+                  <option value="7">SABADO</option>
+
                 </select>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label for="cbHoraInicio">Hora Inicio</label>
-                <select name="cbHoraInicio" id="cbHoraInicio" class="form-control">
-                  <option value="">Hora Fin</option>
-                </select>
-            </div>
-          </div>
-        </div>
+
 
         <div class="row">
-          <div class="col-md-6 col-xs-12">
-            <div class="form-group">
-              <label for="cbHoraFin">Hora Fin</label>
-                <select name="cbHoraFin" id="cbhoraFin" class="form-control">
-                  <option value="">Hora Fin</option>
-                </select>
+            <div class="col-md-6">
+              <fieldset class="form-group">
+                <label for="txtHoraInicio">Hora Inicio</label>
+                <input type="text" class="form-control" id="txtHoraInicio" name="HoraInicio" placeholder="Hora Inicio">
+              </fieldset>
             </div>
+            
+            <div class="col-md-6">
+              <fieldset class="form-group">
+                <label for="txtHoraFin">Hora Fin</label>
+                <input type="text" class="form-control" id="txtHoraFin" name="HoraFin" placeholder="Hora Fin">
+              </fieldset>
+            </div>
+        </div>
+              <button id="AgregarHorario" type="button" onclick="AgregarHorario()" class="btn btn-green" name="AgregarHorario"><i class="icon-check2"></i>Añadir</button>
+            <br>
+            </br>
+            <h4 class="form-section"><i class="icon-clock5"></i> Horario Servicio</h4>
+
+            <div class="row">
+            <div class="col-md-12">
+              <table class="table-striped table-bordered" id="tblHorarioServicio" name="tblHorarioServicio">
+                <thead>
+                  <th>Id</th>
+                  <th>Clinica</th>
+                  <th>Dia</th>
+                  <th>Hora Inicio</th>
+                  <th>Hora Fin</th>
+                  <th>Acciones</th>
+
+
+                </thead>
+                <tbody>
+
+
+
+                </tbody>
+
+              </table>
+
+            </div>
+
           </div>
+
+
+            <div class="modal-footer">
+            <button id="CancelarModalCancelarNota" onclick="cerrar('#ModalHorarioServicio')" type="button" class="btn btn-warning">Cerrar</button>
+        </div>
         </div>
 </div>
 
@@ -472,23 +528,21 @@ function cerrar(Ventana)
 function OpenModal_HorarioServicio(IdServicio) {
 
 $.ajax({
-  url:"<?php echo site_url();?>/Servicio_Controller/ConsultarHorarioServicioPorId",
+  url:"<?php echo site_url();?>/Servicio_Controller/ConsultarServicioPorId",
   data:{IdServicio:IdServicio},
   method:"POST",
   dataSrc: ""
 
 })
 .done(function(data) {
-  var Horario = JSON.parse(data);
-  $("#IdHorarioServicio").val(Horario['IdHorarioServicio']);
-  $("#IdServicio").val(Horario['IdServicio']);
-  $("#IdClinica").val(Horario['IdClinica']);
-  $("#DiaSemana").val (Horario['DiaSemana']);
-  $("#HoraInicio").val (Horario['HoraInicio']);
-  $("#HoraFin").val (Horario['HoraFin']);
+  var Servicio = JSON.parse(data);
+  $("#IdServicio_HorarioServicio").val(Servicio['IdServicio']);
+  $("#txtDescripcionServicio_HorarioServicio").val(Servicio['DescripcionServicio']);
 
-  CargarClinicas(Servicio['IdServicio']);
 
+
+  CargarClinicasHorario(Servicio['IdServicio']);
+  CargarHorario(Servicio['IdServicio']);
 })
 .fail(function() {
   console.log("error");
@@ -507,7 +561,7 @@ function cerrar(Ventana)
 }
 
 
-  function CargarClinicas(IdServicio) {
+function CargarClinicas(IdServicio) {
 
     var t = $('#tblSucursalServicio').DataTable({
       "drawCallback": function( settings ) {
@@ -560,6 +614,50 @@ function cerrar(Ventana)
 
 
 
+}
+
+function CargarHorario(IdServicio) {
+
+   var t = $('#tblHorarioServicio').DataTable({
+      "drawCallback": function( settings ) {
+              $('[data-toggle="tooltip"]').tooltip();
+            },
+        "ajax":{
+            url:"<?php echo site_url();?>/Servicio_Controller/ConsultarHorarioServicioPorId",
+            data: {
+              IdServicio:IdServicio
+            },
+          method:"POST",
+          dataSrc: ""
+      },
+
+        "destroy":true,
+        "language": {
+             "lengthMenu": "Mostrando _MENU_ registros por pag.",
+             "zeroRecords": "Sin Datos - disculpa",
+             "info": "Motrando pag. _PAGE_ de _PAGES_",
+             "infoEmpty": "Sin registros disponibles",
+             "infoFiltered": "(filtrado de _MAX_ total)"
+        },
+        "autoWidth":true,
+        "columnDefs":[
+          {"targets": 5, "render":function(data,type,row,meta){
+            var btnEliminarHora="";
+            btnEliminarHora=' <button type="button" style="border-radius: 200px" class="btn btn-red btn-sm" onclick="EliminarHora('+data+')"><i class="icon-close" data-toggle="tooltip" data-placement="top" id="EliminarHora" title="Eliminar Horario"></i></button>';
+            return btnEliminarHora;
+
+          }},
+        ],
+        "columns": [
+                { "data": "IdHorarioServicio"},
+                { "data": "NombreClinica" },
+                { "data": "DiaSemana" },
+                { "data": "HoraFin" },
+                { "data": "HoraInicio" },
+                { "data": "IdHorarioServicio"}
+
+        ]
+    });
   }
 
   function CargarGruposServicio()
@@ -574,6 +672,19 @@ function cerrar(Ventana)
 
 
 
+                  }
+            });
+  }
+  function CargarClinicasHorario(IdServicio)
+  {
+       $.ajax({
+                url:"<?php echo site_url();?>/Servicio_Controller/CargarClinicasPorServicio_ajax",
+                data:{IdServicio:IdServicio},
+                method:"POST",
+
+                success: function(data)
+                  {
+                      $('#cbClinica').html(data);
                   }
             });
   }
@@ -645,5 +756,79 @@ function cerrar(Ventana)
 
   }
 
-//
+  function EliminarHora(IdServicio) {
+    Swal.fire({
+        title: 'Eliminar Horario',
+        text: "¿Deseas eliminar este horario?",
+        type: 'warning',
+        showCancelButton: true,
+        reverseButtons: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: '<?=site_url('Servicio_Controller/EliminarHorario_ajax')?>',
+            type: 'POST',
+            data: {IdServicio: IdServicio}
+          })
+          .done(function() {
+            Swal.fire(
+              'Eliminado',
+              'Horario Eliminado.',
+              'success'
+            );
+            CargarHorario(1);
+
+          })
+          .fail(function() {
+            Swal.fire(
+              'Oops...',
+              'Hubo un error al eliminar el horario',
+              'error'
+            );
+          });
+        }
+      });
+
+  }
+
+  function AgregarHorario() {
+
+    var IdServicio = $("#IdServicio_HorarioServicio").val();
+    var IdClinica= $("#cbClinica").val();
+    var DiaSemana= $("#txtDiaSemana").val();
+    var HoraInicio = $("#txtHoraInicio").val();
+    var HoraFin= $("#txtHoraFin").val();
+
+    $.ajax({
+      url: '<?=site_url('Servicio_Controller/AgregarNuevoHorario')?>',
+        type: 'POST',
+          data: {
+            IdServicio: IdServicio,
+            IdClinica: IdClinica,
+            DiaSemana: DiaSemana,
+            HoraInicio: HoraInicio,
+            HoraFin: HoraFin,
+            }
+          })
+          .done(function() {
+            Swal.fire(
+              'Genial',
+              'Horario Añadido.',
+              'success'
+            );
+            CargarHorario(1);
+
+          })
+          .fail(function() {
+            Swal.fire(
+              'Oops...',
+              'Hubo un error al añadir el horario',
+              'error'
+            );
+          });
+
+  }
+
 </script>
