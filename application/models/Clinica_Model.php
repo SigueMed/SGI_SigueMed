@@ -88,5 +88,17 @@ class Clinica_Model extends CI_Model {
 
 
 
+
+    public function ConsultarClinicasPorServicio($IdServicio)
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+      $this->db->join('servicioclinica sc', $this->table.'.IdClinica = sc.IdClinica');
+      $this->db->where('IdServicio',$IdServicio);
+
+      $query = $this->db->get();
+      return $query->result_array();
+      // code...
+    }
     //put your code here
 }

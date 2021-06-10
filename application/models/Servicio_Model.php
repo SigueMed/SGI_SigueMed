@@ -89,19 +89,6 @@ class Servicio_Model extends CI_Model {
       return $query->result_array();
     }
 
-    //HORARIO SERVICIO MODEL
-    public function CatalogoClinicasHorarioServicio($IdHorarioServicio)
-    {
-      $this->db->select('c.*, IdHorarioServicio');
-      $this->db->from('clinicas c');
-      $this->db->join('horarioservicio sc', 'sc.IdClinica = c.IdClinica and sc.IdHorarioServicio ='.$IdHorarioServicio,'left');
-      
-
-      $query = $this->db->get();
-      return $query->result_array();
-    }
-
-
     public function ConsultarServiciosPorGrupo($IdGrupo = FALSE)
     {
         $this->db->select($this->table.'.*');
@@ -176,24 +163,6 @@ class Servicio_Model extends CI_Model {
         }
         return false;
     }
-    public function ConsultarHorarioServicioPorId($IdServicio)
-    {
-        $this->db->select($this->table.'.*, gs.DescripcionGrupoServicio');
-        $this->db->from ($this->table);
-        $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
-        $this->db->where('IdServicio', $IdServicio);
-        //$this->db->limit(1);
-
-        $query = $this->db->get();
-
-        if ($query->num_rows()>0)
-        {
-            return $query->row();
-
-        }
-        return false;
-    }
-
 
     //put your code here
 
