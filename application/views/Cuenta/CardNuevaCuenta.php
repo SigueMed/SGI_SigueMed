@@ -102,8 +102,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-  // CargarClinicas();
-  // CargarServicios();
+
   CargarEmpleados();
 
   $(document).on('submit', '.form-ajax', function(e){
@@ -139,49 +138,7 @@ $(document).ready(function() {
 
 
 
-// function CargarClinicas() {
-//
-//   var t = $('#tblSucursalUsuario').DataTable({
-//     "drawCallback": function( settings ) {
-//             $('[data-toggle="tooltip"]').tooltip();
-//           },
-//       "ajax":{
-//           url:"<?php echo site_url();?>/CargaCatalogos_Controller/ConsultarClinicas_ajax",
-//
-//           method:"POST",
-//           dataSrc: ""
-//       },
-//
-//        "destroy":true,
-//        "language": {
-//             "lengthMenu": "Mostrando _MENU_ registros por pag.",
-//             "zeroRecords": "Sin Datos - disculpa",
-//             "info": "Motrando pag. _PAGE_ de _PAGES_",
-//             "infoEmpty": "Sin registros disponibles",
-//             "infoFiltered": "(filtrado de _MAX_ total)"
-//         },
-//         "autoWidth":true,
-//         "columnDefs":[
-//           {
-//             "targets":0,"data":"IdClinica","render":function(data,type,meta,row)
-//             {
-//                 return '<input type="checkbox" class="form-control" name="ClinicaUsuario[]" value="'+data+'">';
-//             }
-//           }
-//
-//         ],
-//         "columns": [
-//
-//               { "data": "IdClinica"},
-//               { "data": "IdClinica" },
-//               { "data": "NombreClinica" }
-//
-//               ]
-//       });
-//
-//
-//
-// }
+
 
 
 function CargarEmpleados()
