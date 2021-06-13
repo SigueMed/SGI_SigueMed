@@ -299,7 +299,7 @@
 
                                         }
                                         else {
-
+                                          
                                               $.ajax({
                                                 url: '<?=site_url()?>/Agenda_Controler/ValidarHorarioCita_ajax',
                                                 type: 'POST',
@@ -1263,7 +1263,7 @@
 $("#txtTelefonoPaciente").keyup(function(){
   var regex = /[^\d]/g;
   //var regex = /^([0-9]{3})([0-9]{3})([0-9]{4})$/;
-   
+
    $("#txtTelefonoPaciente").val($("#txtTelefonoPaciente").val().replace(regex, ""));
 });
 

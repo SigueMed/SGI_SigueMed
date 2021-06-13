@@ -417,9 +417,11 @@
                         <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
                           <i class="icon-cross2"></i> Cerrar
                         </button>
-
                         <button type="submit" class="btn btn-success" id="btnPagar" name="action" value='crear'>
                           <i class="icon-check2"></i> Pagar
+                        </button>
+                        <button type="button" class ="btn btn-secondary" name="btnGuardarNota" onclick="GuardarNota()">
+                          <i class="icon-floppy-disk"></i> Guardar
                         </button>
                       </div>
 
