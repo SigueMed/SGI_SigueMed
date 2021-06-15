@@ -259,8 +259,14 @@ class CatalogoProductos_Controller extends CI_Controller {
 
                 $CuentaMaestra = $this->input->post('IdCuentaMaestra');
                 $PorcentajeCuentaMaestra = $this->input->post('PorcentajeCuentaMaestra');
-                $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($IdProducto,$CuentaMaestra,$PorcentajeCuentaMaestra);
 
+                if (isset($CuentaMaestra))
+                {
+                  $result = $this->CuentaProducto_Model->InsertarNuevaCuentaProducto($IdProducto,$CuentaMaestra,$PorcentajeCuentaMaestra);
+
+                }
+
+              
 
                 if (isset($Cuentas))
                 {

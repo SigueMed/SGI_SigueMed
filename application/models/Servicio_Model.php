@@ -34,6 +34,8 @@ class Servicio_Model extends CI_Model {
             $this->db->where($this->table.'.IdGrupoServicio',$IdGrupo);
         }
 
+        $this->db->order_by('DescripcionServicio','ASC');
+
 
         $query = $this->db->get();
 
@@ -58,6 +60,8 @@ class Servicio_Model extends CI_Model {
             $this->db->where('ManejoInventario', TRUE);
         }
 
+        $this->db->order_by('DescripcionServicio','ASC');
+
         $query = $this->db->get();
 
         return $query->result_array();
@@ -72,6 +76,8 @@ class Servicio_Model extends CI_Model {
       $this->db->join("gruposervicio gs",$this->table.".IdGrupoServicio = gs.IdGrupoServicio");
        $this->db->where('Habilitado', TRUE);
        $this->db->where('EsProveedor',TRUE);
+
+       $this->db->order_by('DescripcionServicio','ASC');
 
        $query = $this->db->get();
 
