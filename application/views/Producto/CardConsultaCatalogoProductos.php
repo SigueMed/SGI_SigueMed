@@ -661,8 +661,11 @@
 
               var MontoEnCuentas = 0;
 
+
+
                 for (var i=0; i<CuentasProducto.length; i++)
                 {
+
                   var CostoProducto = parseFloat($("#Modal_CostoProducto").val());
                   var PorcentajeProducto = parseFloat(CuentasProducto[i]['PorcentajeCuenta']);
                   var CuentaMaestra = CuentasProducto[i]['CuentaMaestra'];
@@ -675,6 +678,7 @@
                     $("#IdCuentaMaestra").val(CuentasProducto[i]['IdCuenta']);
                     $("#PorcentajeCuentaMaestra").val(PorcentajeProducto);
                     $("#Modal_PrecioClinica").val(MontoCuenta);
+                    var TotalCuentaMaestra = MontoCuenta;
                     $("#PrecioClinica_Ant").val(MontoCuenta);
 
                   }
@@ -682,7 +686,7 @@
                     $('#tblCuentasProducto').append(
                         '<tr id="row'+numFila+'">'+
                         '<td>'+numFila+'</td>'+
-                        '<td><input type="hidden" name="IdCuentaProducto[]" value="'+CuentasProducto[i]['IdCuenta']+'"><input type="hidden" name="PorcentajeProducto[]" value="'+CuentasProducto[i]['PorcentajeCuenta']*100+'">'+CuentasProducto[i]['DescripcionCuenta']+'</td>'+
+                        '<td><input type="hidden" name="IdCuentaProducto[]" value="'+CuentasProducto[i]['IdCuenta']+'"><input type="hidden" name="PorcentajeProducto[]" value="'+CuentasProducto[i]['PorcentajeCuenta']+'">'+CuentasProducto[i]['DescripcionCuenta']+'</td>'+
                         '<td>'+(CuentasProducto[i]['PorcentajeCuenta']*100)+'</td>'+
                         '<td>'+MontoCuenta+'</td>'+
 
@@ -692,12 +696,15 @@
                         PorcentajeAsignado += parseFloat(CuentasProducto[i]['PorcentajeCuenta'])*100;
                         MontoEnCuentas += MontoCuenta;
 
+
                   }
 
-
-
                 }
+                var MontoAsignar = CostoProducto - (TotalCuentaMaestra + MontoEnCuentas);
 
+              
+
+                $("#Modal_MontoPorAsignar").val(MontoAsignar);
                 $("#Modal_MontoEnCuentas").val(MontoEnCuentas);
                 $("#PorcentajeAsignado").val(PorcentajeAsignado);
 

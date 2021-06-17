@@ -249,13 +249,14 @@ class CatalogoProductos_Controller extends CI_Controller {
             );
 
             $result = $this->CatalogoProductos_Model->ActualizarProducto($IdProducto,$DatosProducto);
+            $this->CuentaProducto_Model->EliminarCuentasProducto($IdProducto);
 
             if($result == 1)
             {
                 $Cuentas = $this->input->post('IdCuentaProducto');
                 $PorcentajeCuentas =$this->input->post('PorcentajeProducto');
 
-                $this->CuentaProducto_Model->EliminarCuentasProducto($IdProducto);
+
 
                 $CuentaMaestra = $this->input->post('IdCuentaMaestra');
                 $PorcentajeCuentaMaestra = $this->input->post('PorcentajeCuentaMaestra');
@@ -266,7 +267,7 @@ class CatalogoProductos_Controller extends CI_Controller {
 
                 }
 
-              
+
 
                 if (isset($Cuentas))
                 {

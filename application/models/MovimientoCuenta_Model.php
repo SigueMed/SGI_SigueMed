@@ -290,5 +290,21 @@ class MovimientoCuenta_Model extends CI_Model {
       return $this->db->update($this->table);
       // code...
     }
+
+    public function ConsultarDetalleMovimientosCuentaTipoPago($IdCorte, $IdTipoPago)
+    {
+
+
+      $query= $this->db->query('call CorteCaja_BalanceCuentasCortePorTipoPago ('.$IdTipoPago.','.$IdCorte.')');
+
+      $result =  $query->result_array();
+
+      $query->next_result();
+      $query->free_result();
+
+      return $result;
+
+      // code...
+    }
     //put your code here
 }

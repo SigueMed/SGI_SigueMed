@@ -451,6 +451,8 @@ class CorteCaja_Controller extends CI_Controller {
       $data['Clinica'] = $this->Clinica_Model->ConsultarClinicaPorId($this->session->userdata('IdClinica'));
       $this->load->model('DetallePagosCorteCaja_Model');
       $data['DetalleCorteCaja']=$this->DetallePagosCorteCaja_Model->ConsultarDetallesPagoCorte($IdCorteCaja);
+      $data['DetalleEfectivo'] = $this->MovimientoCuenta_Model->ConsultarDetalleMovimientosCuentaTipoPago($IdCorteCaja,TIPOPAGO_EFECTIVO);
+      $data['BalanceCorte'] = $this->MovimientoCuenta_Model->ConsultarBalanceCuentaCorte($IdCorteCaja);
 
       $this->load->view('CorteCaja/TicketCierreCaja',$data);
 

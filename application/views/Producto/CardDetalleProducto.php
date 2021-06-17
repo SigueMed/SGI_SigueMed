@@ -218,29 +218,13 @@
            $("#PrecioClinica").val($("#CostoProducto").val());
          }
 
-         var PrecioPublico = isNaN(parseFloat($("#CostoProducto").val()))?0:parseFloat($("#CostoProducto").val());
-         var PrecioClinica = isNaN(parseFloat($("#PrecioClinica").val()))?0:parseFloat($("#PrecioClinica").val());
-         var MontoAsignar = PrecioPublico-PrecioClinica;
-         var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
-
-
-         $("#MontoPorAsignar").val(MontoAsignar);
-         $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
-
-
+         CalcularMontoPendiente();
 
        });
 
        $("#PrecioClinica").change(function(){
-         var PrecioPublico = isNaN(parseFloat($("#CostoProducto").val()))?0:parseFloat($("#CostoProducto").val());
-         var PrecioClinica = isNaN(parseFloat($("#PrecioClinica").val()))?0:parseFloat($("#PrecioClinica").val());
-         var MontoAsignar = PrecioPublico-PrecioClinica;
-         var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
 
-
-         $("#MontoPorAsignar").val(MontoAsignar);
-         $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
-
+         CalcularMontoPendiente();
 
        });
 
@@ -339,6 +323,8 @@
             $("#CostoProducto").val();
         }
 
+        CalcularMontoPendiente();
+
 
     }
 
@@ -423,6 +409,19 @@
 
                     }
               });
+
+    }
+
+    function CalcularMontoPendiente() {
+
+      var PrecioPublico = isNaN(parseFloat($("#CostoProducto").val()))?0:parseFloat($("#CostoProducto").val());
+      var PrecioClinica = isNaN(parseFloat($("#PrecioClinica").val()))?0:parseFloat($("#PrecioClinica").val());
+      var MontoAsignar = PrecioPublico-PrecioClinica;
+      var PorcentajeCuentaMaestra = PrecioClinica / PrecioPublico;
+
+
+      $("#MontoPorAsignar").val(MontoAsignar);
+      $("#PorcentajeCuentaMaestra").val(PorcentajeCuentaMaestra);
 
     }
 </script>
