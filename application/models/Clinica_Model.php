@@ -100,5 +100,17 @@ class Clinica_Model extends CI_Model {
       return $query->result_array();
       // code...
     }
+
+    public function ConsultarClinicasPorFoliador($IdServicio)
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+      $this->db->join('folioservicio fs', $this->table.'.IdClinica = fs.IdClinica');
+      $this->db->where('IdServicio',$IdServicio);
+
+      $query = $this->db->get();
+      return $query->result_array();
+      // code...
+    }
     //put your code here
 }

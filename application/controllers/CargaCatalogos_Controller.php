@@ -227,8 +227,7 @@ class CargaCatalogos_Controller extends CI_Controller {
 
       $Medicos = $this->Empleado_Model->ConsultarMedicosPorServicio($servicio,$this->session->userdata('IdClinica'));
 
-
-       $output='<option value="">Selecciona un Medico</option>';
+      $output='<option value="">Selecciona un Medico</option>';
 
       foreach($Medicos as $medico)
       {
@@ -236,9 +235,6 @@ class CargaCatalogos_Controller extends CI_Controller {
       }
       echo $output;
     }
-
-
-
 
     public function CargarEmpleados_ajax()
     {
