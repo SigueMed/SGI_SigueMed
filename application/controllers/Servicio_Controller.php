@@ -8,6 +8,9 @@ class Servicio_Controller extends CI_Controller{
     parent::__construct();
     $this->load->model('Servicio_Model');
     $this->load->model('HorarioServicio_Model');
+    $this->load->model('Foliador_Model');
+    $this->load->model('FolioServicio_Model');
+
     //Codeigniter : Write Less Do More
   }
   //Autor: Ricardo
@@ -232,8 +235,7 @@ class Servicio_Controller extends CI_Controller{
        echo $output;
 
       // code...
-    }
-
+  }
 
     //--08/06/2021
     //AUTOR: RICARDO
@@ -284,5 +286,104 @@ class Servicio_Controller extends CI_Controller{
       }
   
       // code...
+    }
+///CARGAR FOLIADORES
+    public function CargarFoliador_ajax()
+    { 
+      
+      $this->load->model('Foliador_Model');
+      
+      $Foliador = $this->Foliador_Model->ConsultarFoliadores();
+      
+      $output='<option value="">Selecciona un Foliador</option>';
+      
+      foreach($Foliador as $foliador)
+      {
+          $output .= '<option value="'.$foliador['IdFoliador'].'">'.$foliador['DescripcionFoliador'].'</option>';
+      }
+      echo $output;
+      
+          // code...
+    }
+
+    ///CLINICAS POR FOLIADOR
+    ///-----11/06/2021
+    public function CargarClinicasPorFoliador_ajax()
+    {
+
+      $this->load->model('Clinica_Model');
+      $IdServicio = $this->input->post('IdServicio');
+
+      $Clinicas = $this->Clinica_Model->ConsultarClinicasPorFoliador($IdServicio);
+
+      $output='<option value="">Selecciona una Clinica</option>';
+
+       foreach($Clinicas as $clinicas)
+       {
+           $output .= '<option value="'.$clinicas['IdClinica'].'">'.$clinicas['NombreClinica'].'</option>';
+       }
+       echo $output;
+
+      // code...
+    }
+
+
+      ///CONSULTAR FOLIO SERVICIOS
+      ///-----11/06/2021
+    public function ConsultarFoliadorServicioPorId()
+    {
+      $IdServicio = $this->input->post('IdServicio');
+
+      $this->load->model('FolioServicio_Model');
+
+      $Servicio = $this->FolioServicio_Model->ConsultarFoliadorPorId($IdServicio);
+
+      echo json_encode($Servicio);
+    // code...
+    }
+
+    ///ELIMINAR FOLIADOR
+    ///15/06/2021 AUTOR: RICARDO
+    public function EliminarFolio_ajax()
+    {
+      $IdServicio = $this->input->post('IdServicio');
+      $IdClinica = $this->input->post('IdClinica');
+      $IdFoliador = $this->input->post('IdFoliador');
+
+      $this->FolioServicio_Model->EliminarFoliador($IdServicio,$IdClinica,$IdFoliador);
+      // code...
+    }
+
+    ///AGREGAR FOLIADOR
+    ///15/06/2021 AUTOR: RICARDO
+    public function AgregarNuevoFoliador()
+    {
+      $IdServicio = $this->input->post('IdServicio');
+      $IdClinica = $this->input->post('IdClinica');
+      $IdFoliador = $this->input->post('IdFoliador');
+  
+      $DatosFolio = array(
+        'IdServicio'=>$IdServicio,
+        'IdClinica'=>$IdClinica,
+        'IdFoliador'=>$IdFoliador
+      );
+  
+      $this->load->model('FolioServicio_Model');
+  
+      $result = $this->FolioServicio_Model->AgregarNuevoFoliador($DatosFolio);
+  
+      if ($result!==false)
+      {
+  
+        die(json_encode(['error'=>FALSE,'message'=>'Foliador Registrado Exitosamente con el Id:'.$result]));
+  
+  
+      }
+      else {
+  
+        die(json_encode(['error'=>TRUE,'message'=>'El Foliador No Se Agrego']));
+  
+        // code...
+      }
     }
 }

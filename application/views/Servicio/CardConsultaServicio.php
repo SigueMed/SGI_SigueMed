@@ -66,114 +66,189 @@
         </div><!--DIV COL-MD-->
 </div><!--DIV ROW MATCH-->
 
+
+
 <!----------------MODALS-->
 <!--MODAL EDITAR SERVICIO-->
 <div class="modal fade" tabindex="-1" role="dialog" id="ModalEditarServicio" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-body" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <button onclick="cerrar('#ModalEditarServicio')" type="button" class="close" id="CancelarModalEditarServicio">&times;</button>
-            <h5 class="modal-title" id="actualizarModalLabel">Editar Servicio</h5>
-        </div>
-        <div class="modal-body">
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="IdServicio">Id Servicio</label>
-                    <input type="text" id="IdServicio" class="form-control"  name="IdServicio" readonly>
-                </div>
-            </div>
-
-            <div class="row">
-            <div class="col-md-6">
-              <fieldset class="form-group">
-                <label for="txtDescripcionServicio">Descripcion Servicio</label>
-                <input type="text" class="form-control" id="txtDescripcionServicio" name="Descripcion Servicio" placeholder="Descripcion Servicio">
-                <input type="hidden" name="DescripcionServicio" id="DescripcionServicio">
-              </fieldset>
-            </div>
-            <div class="col-md-6">
-              <fieldset class="form-group">
-                <label for="txtCodigoColorServicio">Codigo De Color</label>
-                <input type="text" class="form-control" id="txtCodigoColorServicio" name="CodigoColorServicio" placeholder="Codigo Del Color">
-              </fieldset>
-            </div>
-
-            <div class="col-md-1 col-xs-12">
-              <fieldset class="form-group">
-                <label for="txtServicioHabilitado">Hábilitado</label>
-                <input type="checkbox" class="form-control" name="ServicioHabilitado" id="ServicioHabilitado">
-              </fieldset>
-            </div>
-
+          <div class="modal-header">
+              <button onclick="cerrar('#ModalEditarServicio')" type="button" class="close" id="CancelarModalEditarServicio">&times;</button>
+              <h5 class="modal-title" id="actualizarModalLabel">Editar Servicio</h5>
           </div>
+          <div class="modal-body">
 
-          <div class="row">
-            <div class="col-md-1 col-xs-12">
-              <fieldset class="form-group">
-                <label for="txtManejoAgenda">Agenda</label>
-                <input type="checkbox" class="form-control" name="ManejoAgenda" id="ManejoAgenda">
-              </fieldset>
-            </div>
-            
-            <div class="col-md-1 col-xs-12">
-              <fieldset class="form-group">
-                <label for="txtManejoInventario">Inventario</label>
-                <input type="checkbox" class="form-control" name="ManejoInventario" id="ManejoInventario">
-              </fieldset>
-            </div>
-          
-          </div>
-          
-          <div class="row">
-
-              <div class="col-md-6 col-xs-12">
+              <div class="col-md-3">
                   <div class="form-group">
-                      <label for="cbGrupoServicio">Grupo Servicio</label>
-                      <select name="cbGrupoServicio" id="cbGrupoServicio" class="form-control">
-                          <option value="">GrupoServicio</option>
-
-                      </select>
+                      <label for="IdServicio">Id Servicio</label>
+                      <input type="text" id="IdServicio" class="form-control"  name="IdServicio" readonly>
                   </div>
               </div>
 
+              <div class="row">
+              <div class="col-md-6">
+                <fieldset class="form-group">
+                  <label for="txtDescripcionServicio">Descripcion Servicio</label>
+                  <input type="text" class="form-control" id="txtDescripcionServicio" name="Descripcion Servicio" placeholder="Descripcion Servicio">
+                  <input type="hidden" name="DescripcionServicio" id="DescripcionServicio">
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <fieldset class="form-group">
+                  <label for="txtCodigoColorServicio">Codigo De Color</label>
+                  <input type="text" class="form-control" id="txtCodigoColorServicio" name="CodigoColorServicio" placeholder="Codigo Del Color">
+                </fieldset>
+              </div>
 
-          </div>
-          <h4 class="form-section"><i class="icon-clipboard4"></i> Clínicas</h4>
+              <div class="col-md-1 col-xs-12">
+                <fieldset class="form-group">
+                  <label for="txtServicioHabilitado">Hábilitado</label>
+                  <input type="checkbox" class="form-control" name="ServicioHabilitado" id="ServicioHabilitado">
+                </fieldset>
+              </div>
 
-          <div class="row">
-            <div class="col-md-12">
-              <table class="table-striped table-bordered" id="tblSucursalServicio" name="tblSucursalServicio">
-                <thead>
-                  <th></th>
-                  <th>Id</th>
-                  <th>Clínica</th>
+            </div>
 
-                </thead>
-                <tbody>
+            <div class="row">
+              <div class="col-md-1 col-xs-12">
+                <fieldset class="form-group">
+                  <label for="txtManejoAgenda">Agenda</label>
+                  <input type="checkbox" class="form-control" name="ManejoAgenda" id="ManejoAgenda">
+                </fieldset>
+              </div>
+              
+              <div class="col-md-1 col-xs-12">
+                <fieldset class="form-group">
+                  <label for="txtManejoInventario">Inventario</label>
+                  <input type="checkbox" class="form-control" name="ManejoInventario" id="ManejoInventario">
+                </fieldset>
+              </div>
+            
+            </div>
+            
+            <div class="row">
+
+                <div class="col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="cbGrupoServicio">Grupo Servicio</label>
+                        <select name="cbGrupoServicio" id="cbGrupoServicio" class="form-control">
+                            <option value="">GrupoServicio</option>
+
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+            <h4 class="form-section"><i class="icon-clipboard4"></i> Clínicas</h4>
+
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table-striped table-bordered" id="tblSucursalServicio" name="tblSucursalServicio">
+                  <thead>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Clínica</th>
+
+                  </thead>
+                  <tbody>
 
 
 
-                </tbody>
+                  </tbody>
 
-              </table>
+                </table>
+
+              </div>
 
             </div>
 
           </div>
 
-        </div>
 
-
-        <div class="modal-footer">
-            <button id="ModalbtnCancelarNota" type="button" onclick="ActualizarServicio()" class="btn btn-success">Confirmar</button>
-            <button id="CancelarModalCancelarNota" onclick="cerrar('#ModalEditarServicio')" type="button" class="btn btn-warning">Cancelar</button>
-        </div>
+          <div class="modal-footer">
+              <button id="ModalbtnCancelarNota" type="button" onclick="ActualizarServicio()" class="btn btn-success">Confirmar</button>
+              <button id="CancelarModalCancelarNota" onclick="cerrar('#ModalEditarServicio')" type="button" class="btn btn-warning">Cancelar</button>
+          </div>
         </div>
     </div>
 </div>
 
-<!--MODAL HORARIO SERVICIO--->
+<!-- MODAL FOLIADOR SERVICIO -->
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalFoliadorServicio" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-body" role="document">
+    <div class="modal-content">
+      <div class="modal-header" >
+        <button onclick="cerrar('#ModalFoliadorServicio')" type="button" class="close" id="CancelarModalFoliadorServicio">&times;</button>
+        <h5 class="modal-title" id="actualizarModalLabel">Folio Del Servicio</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="IdServicio">Id</label>
+                    <input type="text" id="IdServicio_FolioServicio" class="form-control"  name="IdServicio_FolioServicio" readonly>
+                </div>
+            </div>
+            <div class="col-md-9">
+              <fieldset class="form-group">
+                <label for="txtDescripcionServicio_FolioServicio">Descripcion Del Servicio</label>
+                <input type="text" class="form-control" id="txtDescripcionServicio_FolioServicio" name="DescripcionServicio_FolioServicio" readonly>
+              </fieldset>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label for="cbClinica">Clinicas</label>
+                <select name="cbClinica" id="cbClinica" class="form-control">
+                  <option value="">Clinicas</option>
+                </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <div class="form-group">
+              <label for="cbFoliador">Foliadores</label>
+                <select name="cbFoliador" id="cbFoliador" class="form-control">
+                  <option value="">Folio</option>
+                </select>
+            </div>
+          </div>
+        </div>
+
+        <button id="AgregarFoliador" type="button" onclick="AgregarFoliador()" class="btn btn-green" name="AgregarFoliador"><i class="icon-check2"></i>Añadir</button>
+        <br>
+        </br>
+        <h4 class="form-section"><i class="icon-list"></i> Foliadiores</h4>
+
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table-striped table-bordered" id="tblFoliadorServicio" name="tblFoliadorServicio">
+              <thead>
+                <th>Clinica</th>
+                <th>Foliador</th>
+                <th>Acciones</th>
+                <th>IdFoliador</th>
+                <th>IdClinica</th>
+
+              </thead>
+
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button id="CancelarModalCancelarNota" onclick="cerrar('#ModalFoliadorServicio')" type="button" class="btn btn-warning">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!---MODAL HORARIO SERVICIO-->
 <div class="modal fade" tabindex="-1" role="dialog" id="ModalHorarioServicio" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-body" role="document">
         <div class="modal-content">
@@ -201,8 +276,8 @@
         <div class="row">
           <div class="col-md-6 col-xs-12">
             <div class="form-group">
-              <label for="cbClinica">Clinica</label>
-                <select name="cbClinica" id="cbClinica" class="form-control">
+              <label for="cbClinica_Horario">Clinica</label>
+                <select name="cbClinica_Horario" id="cbClinica_Horario" class="form-control">
                   <option value="">Clinica</option>
                 </select>
             </div>
@@ -279,7 +354,7 @@
             <div class="modal-footer">
             <button id="CancelarModalCancelarNota" onclick="cerrar('#ModalHorarioServicio')" type="button" class="btn btn-warning">Cerrar</button>
         </div>
-        </div>
+      </div>
 </div>
 
 <script type="text/javascript">
@@ -289,16 +364,6 @@
         CargarCatalogoServicios();
         CargarGruposServicio();
 
-
-        // Add event listener for opening and closing details
-
-        // $("#tbl_SeguimientoPacientes tbody").on('click','a.btnEditarSeguimiento',(e)=>{
-        //   e.preventDefault();
-        //   alert('click');
-        //   var $this =$(this);
-        //
-        //   console.log($this.data('id'));
-        // });
         $('#tblServicios tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var t = $("#tblServicios").DataTable();
@@ -344,13 +409,13 @@ function CargarCatalogoServicios()
             {"targets": 8, "render":function(data,type,row,meta){
 
               var btnAgregarPago="";
-
               var btnCancelarNota="";
-              var btnVerNotaRemision="";
+              var btnFolioServicio="";
               btnAgregarPago=' <button type="button" style="border-radius: 200px" class="btn btn-blue btn-sm" onclick="OpenModal_HorarioServicio('+data+')"><i class="icon-clock" data-toggle="tooltip" data-placement="top" id="AgregarPago" title="Horario Servicio"></i></button>';
               btnCancelarNota = ' <button type="button" style="border-radius: 200px" class="btn btn-green btn-sm" onclick="OpenModal_EditarServicio('+data+')"><i class="icon-pencil" data-toggle="tooltip" data-placement="top" id="CancelarNota" title="Editar Servicio"></i></button>';
+              btnFolioServicio = '<button type="button" style="border-radius: 200px" class="btn btn-blue btn-sm" onclick="OpenModal_FoliadorServicio('+data+')"><i class="icon-note" data-toggle="tooltip" data-placement="top" id="FolioServicio" title="Folio del Servicio"></i></button>';
 
-              return btnAgregarPago+btnCancelarNota;//+ btnVerNotaRemision;
+              return btnAgregarPago+btnCancelarNota+btnFolioServicio;
 
             }},
             
@@ -527,25 +592,24 @@ function cerrar(Ventana)
 ///
 function OpenModal_HorarioServicio(IdServicio) {
 
-$.ajax({
-  url:"<?php echo site_url();?>/Servicio_Controller/ConsultarServicioPorId",
-  data:{IdServicio:IdServicio},
-  method:"POST",
-  dataSrc: ""
+  $.ajax({
+    url:"<?php echo site_url();?>/Servicio_Controller/ConsultarServicioPorId",
+    data:{IdServicio:IdServicio},
+    method:"POST",
+    dataSrc: ""
 
-})
-.done(function(data) {
-  var Servicio = JSON.parse(data);
-  $("#IdServicio_HorarioServicio").val(Servicio['IdServicio']);
-  $("#txtDescripcionServicio_HorarioServicio").val(Servicio['DescripcionServicio']);
+  })
+  .done(function(data) {
+    var Servicio = JSON.parse(data);
+    $("#IdServicio_HorarioServicio").val(Servicio['IdServicio']);
+    $("#txtDescripcionServicio_HorarioServicio").val(Servicio['DescripcionServicio']);
 
 
-
-  CargarClinicasHorario(Servicio['IdServicio']);
-  CargarHorario(Servicio['IdServicio']);
-})
-.fail(function() {
-  console.log("error");
+    CargarClinicasHorario(Servicio['IdServicio']);
+    CargarHorario(Servicio['IdServicio']);
+  })
+  .fail(function() {
+    console.log("error");
 });
 
 
@@ -553,12 +617,36 @@ $("#ModalHorarioServicio").modal('show');
 
 }
 
-function cerrar(Ventana)
-{
 
- $(Ventana).modal('hide');
- //limpiar();
+//-------10/06/2021
+///------MODAL FOLIADOR
+function OpenModal_FoliadorServicio(IdServicio) {
+
+  $.ajax({
+    url:"<?php echo site_url();?>/Servicio_Controller/ConsultarServicioPorId",
+    data:{IdServicio:IdServicio},
+    method:"POST",
+    dataSrc: ""
+
+  })
+  .done(function(data) {
+    var Servicio = JSON.parse(data);
+    $("#IdServicio_FolioServicio").val(Servicio['IdServicio']);
+    $("#txtDescripcionServicio_FolioServicio").val(Servicio['DescripcionServicio']);
+
+    
+    CargarClinicasFoliador(Servicio['IdServicio']);
+    CargarFoliador(Servicio['IdServicio']);
+    CargarFoliadores();
+  })
+  .fail(function() {
+    console.log("error");
+  });
+
+  $("#ModalFoliadorServicio").modal('show');
+
 }
+
 
 
 function CargarClinicas(IdServicio) {
@@ -685,6 +773,54 @@ function CargarHorario(IdServicio) {
     });
   }
 
+  ///DATATABLE FOLIADOR
+  ///-----11/06/2021
+  function CargarFoliador(IdServicio) {
+
+  var t = $('#tblFoliadorServicio').DataTable({
+   "drawCallback": function( settings ) {
+           $('[data-toggle="tooltip"]').tooltip();
+         },
+     "ajax":{
+         url:"<?php echo site_url();?>/Servicio_Controller/ConsultarFoliadorServicioPorId",
+         data: {
+           IdServicio:IdServicio
+         },
+       method:"POST",
+       dataSrc: ""
+      },
+
+     "destroy":true,
+     "language": {
+          "lengthMenu": "Mostrando _MENU_ registros por pag.",
+          "zeroRecords": "Sin Datos - disculpa",
+          "info": "Motrando pag. _PAGE_ de _PAGES_",
+          "infoEmpty": "Sin registros disponibles",
+          "infoFiltered": "(filtrado de _MAX_ total)"
+     },
+     "autoWidth":true,
+     "columnDefs":[
+      {"targets": 2, "render":function(data,type,row,meta){
+            var btnEliminarFoliador="";
+            btnEliminarFoliador=' <button type="button" style="border-radius: 200px" class="btn btn-red btn-sm" onclick="EliminarFolio('+data+','+row['IdServicio']+','+row['IdClinica']+')"><i class="icon-close" data-toggle="tooltip" data-placement="top" id="EliminarFolio" title="Eliminar Folio"></i></button>';
+            return btnEliminarFoliador;
+
+      }},
+      {
+        "visible": false,"targets": [3,4]
+      }
+     ],
+     "columns": [
+              { "data": "NombreClinica"},
+              { "data": "DescripcionFoliador"},
+              { "data": "IdFoliador"},
+              { "data": "IdClinica"},
+              { "data": "IdServicio"}
+      ]
+    });
+  }
+
+
   function CargarGruposServicio()
   {
        $.ajax({
@@ -709,7 +845,35 @@ function CargarHorario(IdServicio) {
 
                 success: function(data)
                   {
+                      $('#cbClinica_Horario').html(data);
+                  }
+            });
+  }
+
+  function CargarClinicasFoliador(IdServicio)
+  {
+       $.ajax({
+                url:"<?php echo site_url();?>/Servicio_Controller/CargarClinicasPorServicio_ajax",
+                data:{IdServicio:IdServicio},
+                method:"POST",
+
+                success: function(data)
+                  {
                       $('#cbClinica').html(data);
+                  }
+            });
+  }
+
+  function CargarFoliadores(IdServicio)
+  {
+       $.ajax({
+                url:"<?php echo site_url();?>/Servicio_Controller/CargarFoliador_ajax",
+                data:{IdServicio:IdServicio},
+                method:"POST",
+
+                success: function(data)
+                  {
+                      $('#cbFoliador').html(data);
                   }
             });
   }
@@ -803,7 +967,8 @@ function CargarHorario(IdServicio) {
               'Horario Eliminado.',
               'success'
             );
-            CargarHorario(1);
+            $('#tblHorarioServicio').DataTable().ajax.reload();
+            //CargarHorario($("#IdServicio_HorarioServicio").val());
 
           })
           .fail(function() {
@@ -817,11 +982,88 @@ function CargarHorario(IdServicio) {
       });
 
   }
+///---15/06/2021 AUTOR: RICARDO
+///---ELIMINAR FOLIADOR
+  function EliminarFolio(IdFoliador,IdServicio,IdClinica) {
+    Swal.fire({
+        title: 'Eliminar Foliador',
+        text: "¿Deseas eliminar este foliador?",
+        type: 'warning',
+        showCancelButton: true,
+        reverseButtons: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: '<?=site_url('Servicio_Controller/EliminarFolio_ajax')?>',
+            type: 'POST',
+            data: 
+            {
+              IdServicio: IdServicio,
+              IdClinica: IdClinica,
+              IdFoliador: IdFoliador
+              }
+          })
+          .done(function() {
+            Swal.fire(
+              'Eliminado',
+              'Folio Eliminado.',
+              'success'
+            );
+            $('#tblFoliadorServicio').DataTable().ajax.reload();
+            
+          })
+          .fail(function() {
+            Swal.fire(
+              'Oops...',
+              'Hubo un error al eliminar el foliador.',
+              'error'
+            );
+          });
+        }
+      });
+
+  }
+///AGREGAR FOLIADOR
+///15/06/2021 AUTOR RICARDO
+  function AgregarFoliador() {
+    var IdServicio = $("#IdServicio_FolioServicio").val();
+    var IdClinica = $("#cbClinica").val();
+    var IdFoliador = $("#cbFoliador").val();
+
+    $.ajax({
+      url: '<?=site_url('Servicio_Controller/AgregarNuevoFoliador')?>',
+        type: 'POST',
+          data: {
+            IdServicio: IdServicio,
+            IdClinica: IdClinica,
+            IdFoliador: IdFoliador
+          }
+        })
+      .done(function() {
+        Swal.fire(
+          'Genial',
+          'Folio Añadido.',
+          'success'
+        );
+        $('#tblFoliadorServicio').DataTable().ajax.reload();
+      })
+      .fail(function() {
+        Swal.fire(
+          'Oops...',
+          'Hubo un error al añadir el folio',
+          'error'
+        );
+      });
+
+  }       
+
 
   function AgregarHorario() {
 
     var IdServicio = $("#IdServicio_HorarioServicio").val();
-    var IdClinica= $("#cbClinica").val();
+    var IdClinica= $("#cbClinica_Horario").val();
     var DiaSemana= $("#txtDiaSemana").val();
     var HoraInicio = $("#txtHoraInicio").val();
     var HoraFin= $("#txtHoraFin").val();
@@ -843,7 +1085,7 @@ function CargarHorario(IdServicio) {
               'Horario Añadido.',
               'success'
             );
-            CargarHorario(1);
+            $('#tblHorarioServicio').DataTable().ajax.reload();
 
           })
           .fail(function() {

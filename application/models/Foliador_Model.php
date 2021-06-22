@@ -25,18 +25,7 @@ class Foliador_Model extends CI_Model{
     // code...
   }
 
-  public function ConsultarFoliadorPorId($IdFoliador)
-  {
-    $this->db->select('*');
-    $this->db->from($this->table);
-    $this->db->where('IdFoliador',$IdFoliador);
-
-    $query = $this->db->get();
-
-    return $query->row();
-
-    // code...
-  }
+  
 
   public function BuscarFoliadorServicio($IdClinica,$IdServicio)
   {
@@ -90,4 +79,15 @@ class Foliador_Model extends CI_Model{
     // code...
   }
 
+  ///CARGAR FOLIADOR 
+  public function ConsultarFoliadores()
+  {
+    $this->db->select($this->table.'.*');
+    $this->db->from($this->table);
+
+    $query = $this->db->get();
+
+    return $query->result_array();
+    // code...
+  }
 }
