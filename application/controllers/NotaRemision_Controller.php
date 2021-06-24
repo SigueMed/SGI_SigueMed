@@ -77,6 +77,8 @@ class NotaRemision_Controller extends CI_Controller {
             $action = $this->input->post('action');
             $transStatus = FALSE;
 
+            log_message('DEBUG','NotaRemisionController.RegistrarNotaRemision.action='.$action);
+
             //Crear Nota de Remisión
             if ($action =="crear")
             {
@@ -395,6 +397,15 @@ class NotaRemision_Controller extends CI_Controller {
                 }
 
             }
+            else if($action =="guardar")
+            {
+
+              log_message('DEBUG','GuardarNotaRemisionTemp');
+              $this->GuardarNotaRemisionTemporal();
+            }
+
+              // code...
+
 
         }
 
@@ -900,5 +911,139 @@ class NotaRemision_Controller extends CI_Controller {
             $this->db->trans_rollback();
         }
 
+    }
+
+    //NOTA REMISION temporal
+
+    public function GuardarNotaRemisionTemporal()
+    {
+      try {
+
+        log_message('DEBUG','GuardarNotaRemisionTemp.INI');
+
+        $this->load->model('NotaRemisionTemp_Model');
+
+
+
+        $NotaRemisionTemp = array(
+          'IdPaciente'=> $this->input->post('idPaciente'),
+          'IdFoliador' => $this->input->post('IdFoliador'),
+          'IdClinica' => $this->session->userdata('IdClinica'),
+          'FechaNotaRemision_Temp' => mdate('%Y-%m-%d',now())
+
+        );
+
+        $IdProductos = $this->input->post('IdProductos');
+
+        $cantidadProductos = $this->input->post('cantidad');
+        $precioProductos = $this->input->post('precio');
+        $CodigoSubProducto = $this->input->post('CodigoSubProducto');
+        $Lote = $this->input->post('Lote');
+        $DescuentoProductos = $this->input->post('descuento');
+
+        $this->db->trans_start();
+
+        $transStatus = false;
+
+        $IdNotaRemisionTemp = $this->NotaRemisionTemp_Model->GuardarNotaRemisionTemp($NotaRemisionTemp);
+
+        //CARGAR DETALLE NOTA REMISION
+         $IdProductos = $this->input->post('IdProductos');
+
+         $cantidadProductos = $this->input->post('cantidad');
+
+         $CodigoSubProducto = $this->input->post('CodigoSubProducto');
+
+         $DescuentoProductos = $this->input->post('descuento');
+
+         //log_message('debug','GuardarNotaRemisionTemporal.IdProducto='.$IdProductos);
+
+         //$IdEmpleado = $this->input->post('IdEmpleado');
+         if (isset($IdProductos))
+             {
+
+               $this->load->model('DetalleNotaRemisionTemp_Model');
+
+                for ($i=0;$i<sizeof($IdProductos); $i++)
+                {
+
+                    if (isset($CodigoSubProducto)&& is_array($CodigoSubProducto))
+                    {
+                        $strCodigoSubProducto =$CodigoSubProducto[$i] ;
+                    }
+                    else
+                    {
+
+                        $strCodigoSubProducto = null;
+                    }
+
+                    $DetalleNotaRemision = array(
+                        'IdNotaRemision_Temp'=>$IdNotaRemisionTemp,
+                        'IdProducto'=>$IdProductos[$i],
+                        'Cantidad'=>$cantidadProductos[$i],
+                        'Descuento'=>$DescuentoProductos[$i],
+                        'IdCodigoSubProducto'=>$strCodigoSubProducto,
+                    );
+
+                     $this->DetalleNotaRemisionTemp_Model->GuardarDetalleNotaRemisionTemp($DetalleNotaRemision);
+                }
+              }
+
+        $transStatus = true;
+
+        $data['title'] = 'Nota de Remisión';
+
+
+        if ($transStatus == true)
+        {
+            $this->db->trans_commit();
+
+            $data['swal']=true;
+            $data['swalMessage']="title:'Nota guardada',
+            text: 'La Nota ha sido guardada exitosamente',
+            type: 'success',
+            showConfirmButton: true";
+
+            $data['swalAction'] = ".then((result)=> {
+              if (result.value) {
+                window.location.href ='".site_url("NotaRemision/CrearNota")."';
+              }
+            });";
+        }
+        else
+        {
+            $this->db->trans_rollback();
+
+            $data['swal']=true;
+            $data['swalMessage']="title:'Error',
+            text: 'Hubo un error al guardar la nota',
+            type: 'error',
+            showConfirmButton: true";
+
+            $data['swalAction'] = ".then((result)=> {
+              if (result.value) {
+                window.location.href ='".site_url("NotaRemision/CrearNota")."';
+              }
+            });";
+        }
+
+
+        $this->load->view('templates/MainContainer',$data);
+        $this->load->view('templates/HeaderContainer',$data);
+        $this->load->view('templates/FormFooter',$data);
+        $this->load->view('templates/FooterContainer');
+
+      } catch (\Exception $e) {
+
+        $this->db->trans_rollback();
+        message_log('ERROR','NotaRemision_Controller.GuardarNotaRemisionTemporal_ajax.error = '.$e->getMessage());
+        throw new \Exception("Error al guardar nueva nota remision temporal", 1);
+      }
+
+
+
+
+
+      // code...
     }
 }

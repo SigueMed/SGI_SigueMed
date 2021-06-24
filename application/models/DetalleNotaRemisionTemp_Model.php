@@ -11,36 +11,36 @@
  *
  * @author SigueMED
  */
-class NotaRemisionTemp_Model extends CI_Model {
+class DetalleNotaRemisionTemp_Model extends CI_Model {
     private $table;
     public function __construct() {
         parent::__construct();
 
-        $this->table="notaremision_temp";
+        $this->table="detallenotaremision_temp";
 
         $this->load->database();
 
     }
 
-    public function GuardarNotaRemisionTemp($NotaRemisionTemp)
+    public function GuardarDetalleNotaRemisionTemp($DetalleNotaRemisionTemp)
     {
 
         try {
 
-            $this->db->insert($this->table,$NotaRemisionTemp);
+            $this->db->insert($this->table,$DetalleNotaRemisionTemp);
 
             return $this->db->insert_id();
 
         } catch (\Exception $e) {
-          log_message('ERROR','GuardarNotaRemisionTemp.Insert.error='.$e->getMessage());
-          throw new \Exception("Error al insertar nueva nota remision temporal en la BD", 1);
+          log_message('ERROR','GuardarDetalleNotaRemisionTemp.Insert.error='.$e->getMessage());
+          throw new \Exception("Error al insertar producto de nota temporal en la BD", 1);
         }
 
 
 
     }
 
-    public function ConsultarNotasRemisionTemp()
+    public function ConsultarDetalleNotasRemisionTemp($IdNotaRemisionTemp)
     {
 
       $this->db->select($this->table.'*');
