@@ -88,7 +88,7 @@
 					editable: true,
 					eventLimit: true, // allow "more" link when too many events
 					editable: true,
-        
+
           allDaySlot: false,
                                         //llama a data de la funcion getEvetos
 					events: {
@@ -299,7 +299,7 @@
 
                                         }
                                         else {
-
+                                          
                                               $.ajax({
                                                 url: '<?=site_url()?>/Agenda_Controler/ValidarHorarioCita_ajax',
                                                 type: 'POST',
@@ -408,6 +408,7 @@
 
     .inputNombrePaciente{
          width: 145%;
+
     }
 
   </style>
@@ -493,7 +494,7 @@
 	               </div>
                         <div class="form-group col-md-5">
 	                  <label>Telefono</label>
-                          <input type="text" class="form-control" id="txtTelefono" readonly="readonly" placeholder="telefóno Paciente" required/>
+                          <input type="text" class="form-control"  id="txtTelefono" readonly="readonly" placeholder="telefóno Paciente" required/>
 	               </div>
                         <div class="form-group col-md-2">
                             <label>-</label>
@@ -554,16 +555,16 @@
 	                <div class="form-group col-md-10">
 
 	                  <label>Nombre:</label>
-                          <input type="text" class="form-control" id="txtNombrePaciente" name="NombrePaciente" >
+                          <input type="text" class="form-control" id="txtNombrePaciente" name="NombrePaciente" required>
                           <label>Apellidos:</label>
-                          <input type="text" class="form-control" id="txtApellidosPaciente" name="ApellidosPaciente" >
+                          <input type="text" class="form-control" id="txtApellidosPaciente" name="ApellidosPaciente" required>
 
                         </div>
 
                     </div>
                     <div class="form-group col-md-5">
 	                  <label>Telefono</label>
-                          <input type="text" class="form-control" id="txtTelefonoPaciente" name="TelefonoPaciente" required>
+                          <input type="text" class="form-control" id="txtTelefonoPaciente"  name="TelefonoPaciente" required>
                     </div>
                     <div class="form-group col-md-2">
                             <label>-</label>
@@ -1252,6 +1253,19 @@
 
 
             }
+
+            $(function() {
+    $('input').keyup(function() {
+        this.value = this.value.toLocaleUpperCase();
+    });
+});
+
+$("#txtTelefonoPaciente").keyup(function(){
+  var regex = /[^\d]/g;
+  //var regex = /^([0-9]{3})([0-9]{3})([0-9]{4})$/;
+
+   $("#txtTelefonoPaciente").val($("#txtTelefonoPaciente").val().replace(regex, ""));
+});
 
 
 </script>

@@ -417,9 +417,11 @@
                         <button type="submit" class="btn btn-warning mr-1" name="action" value="cerrar">
                           <i class="icon-cross2"></i> Cerrar
                         </button>
-
                         <button type="submit" class="btn btn-success" id="btnPagar" name="action" value='crear'>
                           <i class="icon-check2"></i> Pagar
+                        </button>
+                        <button type="submit" class ="btn btn-secondary" name="action" value="guardar">
+                          <i class="icon-floppy-disk"></i> Guardar
                         </button>
                       </div>
 
@@ -1353,6 +1355,52 @@
 
    $("#SubtotalProducto").val(Subtotal);
 
+
+
+ }
+
+ function GuardarNota() {
+
+  var tbl = $("#tablaProductos IdProductos").serializeArray() ;
+
+  alert(tbl);
+
+
+   $.ajax({
+     url: '<?=site_url('NotaRemision_Controller/GuardarNotaRemisionTemporal_ajax')?>',
+     type: 'POST',
+     data: {
+       IdPaciente: $("#idPaciente").val(),
+       IdFoliador: $("#IdFoliador").val(),
+       IdProductos: IdProductos
+       // cantidadProductos: $("#cantidad"),
+       // CodigoSubProducto: $("#CodigoSubProducto"),
+       // DescuentoProductos: $("#descuento")
+
+     }
+   })
+   .done(function() {
+     Swal.fire({
+         title:'Genial',
+         text: 'La nota ha sido guardada',
+         type: 'success',
+         showConfirmButton: true
+
+     }).then((result)=> {
+       if (result.value) {window.location.href = '<?=site_url("NotaRemision/CrearNota")?>' }});
+
+   })
+   .fail(function() {
+     Swal.fire({
+         title:'Error',
+         text:'Hubo un error al guardar la nota',
+         type: 'error',
+
+     });
+   })
+   .always(function(){
+
+   });
 
 
  }
