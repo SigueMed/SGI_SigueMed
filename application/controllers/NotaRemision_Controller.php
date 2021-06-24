@@ -27,6 +27,7 @@ class NotaRemision_Controller extends CI_Controller {
         $this->load->model('MovimientoCuenta_Model');
         $this->load->model('MovimientoInventario_Model');
         $this->load->model('SeguimientoMedico_Model');
+        $this->load->model('NotaRemisionTemp_Model');
 
     }
         public function index(){
@@ -704,6 +705,25 @@ class NotaRemision_Controller extends CI_Controller {
             $this->load->view('NotaRemision/CardConsultaNotasRemisionRecepcion',$data);
             $this->load->view('templates/FooterContainer');
 
+        }
+        
+        public function Load_ConsultarNotasRemisionTemp()
+        {
+            $data['title'] = 'Consultar Notas De Remisión';
+
+            $this->load->view('templates/MainContainer',$data);
+            $this->load->view('templates/HeaderContainer',$data);
+            $this->load->view('NotaRemision/CardConsultarNotasDeRemision',$data);
+            $this->load->view('templates/FooterContainer');
+
+        }
+
+        public function ConsultarNotasRemisionTemp()
+        {
+          $CatalogoNotas = $this->NotaRemisionTemp_Model->ConsultarNotasRemisionTemp();
+      
+          echo json_encode($CatalogoNotas);
+          // code...
         }
 
         public function ConsultarNotasDeRemision()
