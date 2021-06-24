@@ -89,6 +89,7 @@ $route['Paciente/NuevoPaciente'] = 'Paciente_Controller/Load_AgregarNuevoPacient
 
 $route['NotaRemision/CrearNota'] = 'NotaRemision_Controller/Load_RegistrarNotaRemision';
 $route['NotaRemision/CrearNotaFarmacia'] = 'NotaRemision_Controller/Load_RegistrarVentaFarmacia';
+$route['NotaRemision/ConsultarNotasDeRemision'] = 'NotaRemision_Controller/Load_ConsultarNotasRemisionTemp';
 //$route['NotaRemision/RegistrarVentaFarmacia'] = 'NotaRemision_Controller/Load_RegistrarVentaFarmacia';
 $route['NotaRemision/CrearPDF/(.+)'] = 'NotaRemision_Controller/generarPDFNotaRemision/$1';
 $route['NotaRemision/CargarNotaRemision/(.+)'] = 'NotaRemision_Controller/CargarTemplateNotaRemision/$1';

@@ -269,6 +269,7 @@
                             </li>
                             <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>
                             <li><a href="'. site_url('NotaRemision/BuscarNotas').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Buscar Notas</a></li>
+                            <li><a href="'. site_url('NotaRemision/ConsultarNotasDeRemision').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Consultar Notas De Remision</a></li>
 
                         </ul>
                     </li>';
