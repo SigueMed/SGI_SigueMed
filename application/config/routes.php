@@ -138,3 +138,7 @@ $route['Catalogos/ConsultarCuentas'] = 'Cuenta_ControllerPersona/Load_ConsultarC
 //Clinicas 7-Junio-2021
 $route['Catalogos/NuevaClinica'] = 'Clinica_Controller/Load_AgregarNuevaClinica';
 $route['Catalogos/ConsultarClinicas'] = 'Clinica_Controller/Load_ConsultarClinicas';
+
+//Foliador 10-Junio-2021
+$route['Catalogos/NuevoFoliador'] = 'Foliador_Controller/Load_AgregarNuevoFoliador';
+$route['Catalogos/ConsultarFoliador'] = 'Foliador_Controller/Load_ConsultarFoliador';

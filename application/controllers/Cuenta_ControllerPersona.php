@@ -130,7 +130,7 @@ class Cuenta_ControllerPersona extends CI_Controller{
   {
 
     $ActualizarCuenta = array(
-      'IdCuenta'=>$this->input->post('IdCuenta'),
+      //'IdCuenta'=>$this->input->post('IdCuenta'),
       'DescripcionCuenta'=> $this->input->post('DescripcionCuenta'),
       'IdEmpleado'=>$this->input->post('IdEmpleado'),
 
