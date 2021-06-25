@@ -74,7 +74,8 @@ class Empleado_Model extends CI_Model {
     public function ConsultarEmpleados()
     {
       //Carga a los empleados
-      $this->db->select($this->table.'.*');
+      $this->db->select($this->table.'.*,CONCAT(NombreEmpleado,ApellidosEmpleado)as NombreCompleto');
+
       $this->db->from($this->table);
 
       $query = $this->db->get();

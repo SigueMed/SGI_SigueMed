@@ -247,11 +247,12 @@ class CargaCatalogos_Controller extends CI_Controller {
 
       $Empleado = $this->Empleado_Model->ConsultarEmpleados();
 
+
       $output='<option value="">Selecciona un empleado</option>';
 
        foreach($Empleado as $empleado)
        {
-           $output .= '<option value="'.$empleado['IdEmpleado'].'">'.$empleado['NombreEmpleado'].'</option>';
+           $output .= '<option value="'.$empleado['IdEmpleado'].'">'.$empleado['NombreCompleto'].'</option>';
        }
        echo $output;
 
