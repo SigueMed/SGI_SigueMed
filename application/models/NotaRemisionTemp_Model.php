@@ -55,7 +55,7 @@ class NotaRemisionTemp_Model extends CI_Model {
 
       $query = $this->db->get();
       return $query->result_array();
-      // code...
+      
     }
 
     public function ConsultarNotaTemporalPorId($IdNotaRemisionTemp)
@@ -72,6 +72,25 @@ class NotaRemisionTemp_Model extends CI_Model {
       $query = $this->db->get();
 
       return $query->row();
+
+    }
+
+    public function EliminarNotaRemisionTemp($IdNotaRemisionTemp)
+    {
+
+      try {
+
+        $this->db->where('IdNotaRemisionTemp',$IdNotaRemisionTemp);
+        return $this->db->delete($this->table);
+
+
+      } catch (\Exception $e) {
+        log_message('ERROR','NotaRemisionTemp_ModelEliminarNotaRemisionTemp.delete.error='.$e->getMessage());
+        throw new \Exception("Error al eliminar nota temporal BD", 1);
+      }
+
+
+
 
     }
 

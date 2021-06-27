@@ -204,6 +204,13 @@ class NotaRemision_Controller extends CI_Controller {
 
                         }
 
+                        $IdNotaRemisionTemp = $this->input->post('IdNotaRemisionTemp');
+
+                        if($IdNotaRemisionTemp!== null)
+                        {
+                          $this->BorrarNotaRemisionTemp($IdNotaRemisionTemp);
+                        }
+
                           //REGISTRAR PAGO NOTA MEDICA
                           $TotalPagado = 0;
                           if ($TotalPagadoNota>0)
@@ -718,7 +725,7 @@ class NotaRemision_Controller extends CI_Controller {
             $this->load->view('templates/FooterContainer');
 
         }
-        
+
         public function Load_ConsultarNotasRemisionTemp()
         {
             $data['title'] = 'Consultar Notas De Remisión';
@@ -733,7 +740,7 @@ class NotaRemision_Controller extends CI_Controller {
         public function ConsultarNotasRemisionTemp()
         {
           $CatalogoNotas = $this->NotaRemisionTemp_Model->ConsultarNotasRemisionTemp();
-      
+
           echo json_encode($CatalogoNotas);
           // code...
         }
@@ -1230,5 +1237,17 @@ class NotaRemision_Controller extends CI_Controller {
 
 //
         $this->load->view('templates/FooterContainer');
+    }
+
+    public function BorrarNotaRemisionTemp($IdNotaRemisionTemp)
+    {
+
+      $this->load->model('NotaRemisionTemp_Model');
+      $this->load->model('DetalleNotaRemisionTemp_Model');
+
+      $this->DetalleNotaRemisionTemp_Model->EliminarDetalleNotaRemisionTemp($IdNotaRemisionTemp);
+
+      $this->NotaRemisionTemp_Model->EliminarNotaRemisionTemp($IdNotaRemisionTemp);
+      // code...
     }
 }

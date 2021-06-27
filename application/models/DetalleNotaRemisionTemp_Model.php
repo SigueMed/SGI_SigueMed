@@ -61,12 +61,19 @@ class DetalleNotaRemisionTemp_Model extends CI_Model {
 
     }
 
-    public function BorrarDetalleNotaRemisionTemp($IdNotaRemisionTemp)
+    public function EliminarDetalleNotaRemisionTemp($IdNotaRemisionTemp)
     {
-      $this->db->where('IdNotaRemision_Temp',$IdNotaRemisionTemp);
-      $this->db->delete($this->table);
 
-      return true;
-      // code...
+      try {
+
+        $this->db->where('IdNotaRemision_Temp',$IdNotaRemisionTemp);
+        return $this->db->delete($this->table);
+
+
+      } catch (\Exception $e) {
+        log_message('ERROR','DetalleNotaRemisionTemp_Model.EliminarDetalleNotaRemisionTemp.delete.error='.$e->getMessage());
+        throw new \Exception("Error al eliminar nota temporal BD", 1);
+      }
+
     }
 }

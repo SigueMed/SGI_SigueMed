@@ -629,6 +629,8 @@
                 {
                     $("#Modal_chkHabilitado").prop("checked",true);
                 }
+
+                CargarCuentaMaestra();
                 CargarCuentas();
                 CargarTipoProductos();
                 CargarCuentasProducto(Producto['IdProducto']);
@@ -702,7 +704,7 @@
                 }
                 var MontoAsignar = CostoProducto - (TotalCuentaMaestra + MontoEnCuentas);
 
-              
+
 
                 $("#Modal_MontoPorAsignar").val(MontoAsignar);
                 $("#Modal_MontoEnCuentas").val(MontoEnCuentas);
@@ -776,5 +778,24 @@
 
 
         return div;
+    }
+
+    function CargarCuentaMaestra() {
+      $.ajax({
+               url:"<?php echo site_url();?>/Cuenta_Controller/ConsultarCuentaMaestra",
+               method:"POST",
+
+               success: function(data)
+                 {
+                   var CuentaMaestra = JSON.parse(data);
+
+                     $('#txtCuentaMaestra').val(CuentaMaestra['DescripcionCuenta']);
+                     $("#IdCuentaMaestra").val(CuentaMaestra['IdCuenta']);
+
+
+                 }
+           });
+
+
     }
 </script>

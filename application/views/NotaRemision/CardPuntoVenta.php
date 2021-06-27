@@ -733,9 +733,7 @@
 
           }
 
-
-
-
+          HabilitarPago();
 
         });
     });
@@ -999,6 +997,8 @@
         $("#resumenTotalPago").val(TotalAPagar);
         CalcularTotalesNotaRemision();
 
+        HabilitarPago();
+
 
     }
 
@@ -1131,19 +1131,7 @@
  });
 
 
- function HabilitarPago() {
-   var Paciente = $("#idPaciente").val();
-   var TotalNota = $("#TotalNota").val();
 
-
-   if (Paciente!== "" && TotalNota !== "")
-   {
-
-     $("#btnPagar").removeAttr('disabled');
-
-   }
-
- }
  function RecalcularTotales()
  {
    var Total=0;
@@ -1245,20 +1233,6 @@
      }
 
      return edad;
- }
-
- function HabilitarPago() {
-   var Paciente = $("#idPaciente").val();
-   var TotalNota = $("#TotalNota").val();
-
-
-   if (Paciente!== "" && TotalNota !== "")
-   {
-
-     $("#btnPagar").removeAttr('disabled');
-
-   }
-
  }
 
 
@@ -1430,6 +1404,7 @@
 
 
    $("#IdNotaRemisionTemp").val(<?=$IdNotaRemisionTemp?>);
+
    var DetalleNota =<?=json_encode($DetalleNotaRemisionTemp)?>;
 
    for(i=0;i<DetalleNota.length;i++)
@@ -1444,6 +1419,25 @@
    }
 
    $("#txtPaciente").attr("readonly","readonly");
+
+   HabilitarPago();
+
+ }
+
+ function HabilitarPago() {
+
+   var Paciente = $("#idPaciente").val();
+   var TotalPago = parseFloat($("#resumenTotalPago").val());
+
+   
+
+
+   if (Paciente!== "" && TotalPago > 0)
+   {
+
+     $("#btnPagar").removeAttr('disabled');
+
+   }
 
  }
 
