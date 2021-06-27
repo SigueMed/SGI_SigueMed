@@ -243,6 +243,7 @@
                       <li><a href="'.site_url('Paciente/SeguimientoPaciente').'" data-i18n="nav.cards.card_statistics" class="menu-item">Seguimiento a Pacientes </a>
                       </li>
 
+
                     </ul>
                   </li>';
             }
@@ -268,6 +269,7 @@
                             </li>
                             <li><a href="'. site_url('CorteCaja/ElaborarCorteCaja').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Cerrar Caja</a></li>
                             <li><a href="'. site_url('NotaRemision/BuscarNotas').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Buscar Notas</a></li>
+                            <li><a href="'. site_url('NotaRemision/ConsultarNotasDeRemision').'" data-i18n="nav.invoice.invoice_template" class="menu-item">Consultar Notas De Remision</a></li>
 
                         </ul>
                     </li>';
@@ -332,9 +334,71 @@
                         </li>
                       </ul>
                     </li>';
+
+
+
+              //Catalogo de Cuentas
+            echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Cuentas</a>
+                    <ul class="menu-content">';
+            if($this->session->userdata('IdPerfil')=='2')
+            {
+                echo '<li><a href="'. site_url('/Catalogos/NuevaCuenta').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta de Cuentas </a>
+                    </li>';
+
             }
+                    echo '<li><a href="'. site_url('/Catalogos/ConsultarCuentas').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Cuentas</a>
+                    </li>
+                  </ul>
+                </li>';
+
+                //CATALOGO Clinicas
+                echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Clinicas</a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Catalogos/NuevaClinica').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Nueva Clinica</a>
+                        </li>';
+
+                }
+                        echo '<li><a href="'. site_url('/Catalogos/ConsultarClinicas').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Clinicas</a>
+                        </li>
+                      </ul>
+                    </li>';
+
+                    //CATALOGO FOLIADOR
+                    echo '<li><a href="#" data-i18n="nav.menu_levels.second_level_child.main" class="menu-item">Catalogo de Foliador</a>
+                            <ul class="menu-content">';
+                    if($this->session->userdata('IdPerfil')=='2')
+                    {
+                        echo '<li><a href="'. site_url('/Catalogos/NuevoFoliador').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Nuevo Foliador</a>
+                            </li>';
+
+                    }
+                            echo '<li><a href="'. site_url('/Catalogos/ConsultarFoliador').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Foliador</a>
+                            </li>
+                          </ul>
+                        </li>';
+        }
           ?>
 
+          <?php
+                //CATALOGO SERVICIOS
+                if ($this->session->userdata('IdPerfil') == '2')
+                {
+                echo '<li><a href="#" data-i18n="nav.menu_levels.three_level_child.main" class="menu-item">Catalogo de Servicios</a>
+                        <ul class="menu-content">';
+                if($this->session->userdata('IdPerfil')=='2')
+                {
+                    echo '<li><a href="'. site_url('/Catalogos/NuevoServicio').'" data-i18n="nav.cards.card_statistics" class="menu-item">Alta Servicio</a>
+                        </li>';
+
+                }
+                        echo '<li><a href="'. site_url('/Catalogos/ConsultarServicios').'" data-i18n="nav.cards.card_charts" class="menu-item">Consultar Servicios</a>
+                        </li>
+                      </ul>
+                    </li>';
+            }
+          ?>
 
         </ul>
       </div>

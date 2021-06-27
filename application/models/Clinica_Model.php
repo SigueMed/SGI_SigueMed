@@ -53,5 +53,64 @@ class Clinica_Model extends CI_Model {
       return $query->result_array();
       // code...
     }
+    public function AgregarNuevaClinica($NuevaClinica)
+    {
+      $this->db->select('NombreClinica,DireccionClinica');
+      $this->db->from($this->table);
+      $this->db->where('NombreClinica',$NuevaClinica['NombreClinica']);
+      $query = $this->db->get();
+
+      if ($query->num_rows()<=0)
+      {
+        $this->db->reset_query();
+        $this->db->insert($this->table,$NuevaClinica);
+
+        $IdNuevaClinica =  $this->db->insert_id();
+
+        $this->db->reset_query();
+
+        return $IdNuevaClinica;
+
+      }
+      else {
+        return false;
+      }
+
+    }
+
+    public function EditarClinica($IdClinica,$ActualizarClinica)
+    {
+      $this->db->where('IdClinica', $IdClinica);
+      return $this->db->update($this->table,$ActualizarClinica);
+
+      // code...
+    }
+
+
+
+
+    public function ConsultarClinicasPorServicio($IdServicio)
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+      $this->db->join('servicioclinica sc', $this->table.'.IdClinica = sc.IdClinica');
+      $this->db->where('IdServicio',$IdServicio);
+
+      $query = $this->db->get();
+      return $query->result_array();
+      // code...
+    }
+
+    public function ConsultarClinicasPorFoliador($IdServicio)
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->from($this->table);
+      $this->db->join('folioservicio fs', $this->table.'.IdClinica = fs.IdClinica');
+      $this->db->where('IdServicio',$IdServicio);
+
+      $query = $this->db->get();
+      return $query->result_array();
+      // code...
+    }
     //put your code here
 }

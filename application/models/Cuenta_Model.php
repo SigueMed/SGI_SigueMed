@@ -57,17 +57,19 @@ class Cuenta_Model extends CI_Model{
 
     public function ConsultarCuentaPorId($IdCuenta)
     {
-        $this->db->select($this->table.'.*, CONCAT(NombreEmpleado," ",ApellidosEmpleado) as PropietarioCuenta, DescripcionServicio');
+        $this->db->select($this->table.'.*,IdCuenta, CONCAT(NombreEmpleado," ",ApellidosEmpleado) as PropietarioCuenta, DescripcionServicio');
         $this->db->from($this->table);
         $this->db->join('empleado',$this->table.'.IdEmpleado = empleado.IdEmpleado');
         $this->db->join('servicio','empleado.IdServicio = servicio.IdServicio','left');
-        $this->db->where('IdCuenta    ', $IdCuenta);
-        $this->db->where($this->table.'.Habilitado',true);
+        $this->db->where('IdCuenta', $IdCuenta);
+        //$this->db->where($this->table.'.Habilitado',true);
         $query = $this->db->get();
 
         return $query->row();
 
     }
+
+
 
     public function ConsultarCuentaMaestra()
     {
@@ -83,5 +85,71 @@ class Cuenta_Model extends CI_Model{
       return $query->row();
       // code...
     }
+
+
+    //Brandon 20/mayo/2021
+
+    public function ConsultarTodasCuentas()
+  {
+    $this->db->select($this->table.'.*, e.NombreEmpleado, e.ApellidosEmpleado');
+    $this->db->from($this->table);
+    $this->db->join('empleado e', $this->table.'.IdEmpleado = e.IdEmpleado');
+    //$this->db->join('servicio s', 's.IdServicio = '.$this->table.'.IdServicio','left');
+
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
+
+
+
+
+    public function AgregarNuevaCuenta($NuevaCuenta)
+    {
+      $this->db->select('DescripcionCuenta');
+      $this->db->from($this->table);
+      $this->db->where('DescripcionCuenta',$NuevaCuenta['DescripcionCuenta']);
+      $query = $this->db->get();
+
+      if ($query->num_rows()<=0)
+      {
+          $this->db->reset_query();
+        $this->db->insert($this->table,$NuevaCuenta);
+
+        $IdNuevaCuenta =  $this->db->insert_id();
+
+        $this->db->reset_query();
+
+        return $IdNuevaCuenta;
+      }
+      else {
+        return false;
+      }
+    }
+
+    public function EditarCuenta($IdCuenta,$ActualizarEmpleado)
+    {
+      $this->db->where('IdCuenta', $IdCuenta);
+      return $this->db->update($this->table, $ActualizarEmpleado);
+      
+
+      // code...
+    }
+
+    public function ConsultarDatosId($IdCuenta)
+    {
+      $this->db->select($this->table.'.*, e.NombreEmpleado, e.ApellidosEmpleado');
+      $this->db->from($this->table);
+        $this->db->where('IdCuenta',$IdCuenta['IdCuenta']);
+      $this->db->join('empleado e', $this->table.'.IdEmpleado = e.IdEmpleado');
+      //$this->db->join('servicio s', 's.IdServicio = '.$this->table.'.IdServicio','left');
+
+      $query = $this->db->get();
+      return $query->result_array();
+
+    }
+
+
+
     //put your code here
 }

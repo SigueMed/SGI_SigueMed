@@ -201,6 +201,24 @@ class CargaCatalogos_Controller extends CI_Controller {
       // code...
     }
 
+    public function CargarClinicas_ajax()
+    {
+
+      $this->load->model('Clinica_Model');
+
+      $Clinicas = $this->Clinica_Model->ConsultarClinicas();
+
+      $output='<option value="">Selecciona una Clinica</option>';
+
+       foreach($Clinicas as $clinicas)
+       {
+           $output .= '<option value="'.$clinicas['IdClinica'].'">'.$clinicas['NombreClinica'].'</option>';
+       }
+       echo $output;
+
+      // code...
+    }
+
     public function CargarMedicoservicio_ajax()
     {
       $servicio = $this->input->post('IdServicio');
@@ -209,18 +227,33 @@ class CargaCatalogos_Controller extends CI_Controller {
 
       $Medicos = $this->Empleado_Model->ConsultarMedicosPorServicio($servicio,$this->session->userdata('IdClinica'));
 
-
-       $output='<option value="">Selecciona un Medico</option>';
+      $output='<option value="">Selecciona un Medico</option>';
 
       foreach($Medicos as $medico)
       {
           $output .= '<option value="'.$medico['IdEmpleado'].'">'.$medico['Nombre'].'</option>';
       }
       echo $output;
-
-
     }
 
+    public function CargarEmpleados_ajax()
+    {
+
+      $this->load->model('Empleado_Model');
+
+      $Empleado = $this->Empleado_Model->ConsultarEmpleados();
+
+
+      $output='<option value="">Selecciona un empleado</option>';
+
+       foreach($Empleado as $empleado)
+       {
+           $output .= '<option value="'.$empleado['IdEmpleado'].'">'.$empleado['NombreCompleto'].'</option>';
+       }
+       echo $output;
+
+      // code...
+    }
 
     //put your code here
 }

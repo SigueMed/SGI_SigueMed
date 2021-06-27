@@ -26,19 +26,19 @@
                                     <div class="col-md-5">
                                             <div class="form-group">
                                                     <label for="Nombre">Nombre</label>
-                                                    <input type="text" name="Nombre" id="Nombre" class="form-control" placeholder="Nombre"/>
+                                                    <input type="text" name="Nombre" id="Nombre" class="form-control" placeholder="Nombre" required/>
                                             </div>
                                     </div>
                                     <div class="col-md-5">
                                             <div class="form-group">
                                                     <label for="Apellidos">Apellidos</label>
-                                                    <input type="text" name="Apellidos" id="Apellidos" class="form-control" placeholder="Apellidos"/>
+                                                    <input type="text" name="Apellidos" id="Apellidos" class="form-control" placeholder="Apellidos" required/>
                                             </div>
                                     </div>
                                     <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="cbSexo">Sexo:</label>
-                                        <select name="cbSexo" id="cbSexo" class="form-control" onchange="">
+                                        <select name="cbSexo" id="cbSexo" class="form-control" onchange="" required>
                                             <option value="M">Masculino</option>
                                             <option value="F">Femenino</option>
                                         </select>
@@ -67,7 +67,7 @@
                                 <div class="col-md-3 col-xs-12">
                                     <div class="form-group">
                                         <label for="Celular">Celular:</label>
-                                        <input type="text" id = "Celular" name="Celular" class="form-control" placeholder="Celular"/>
+                                        <input type="text" id = "Celular" name="Celular" class="form-control" placeholder="Celular" required/>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-xs-12">
@@ -249,7 +249,7 @@
 
     });
 
-  
+
 
     function CargaEscolaridad()
     {

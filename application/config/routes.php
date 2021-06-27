@@ -88,7 +88,9 @@ $route['Paciente/NuevoPaciente'] = 'Paciente_Controller/Load_AgregarNuevoPacient
 //Nota de Remisión
 
 $route['NotaRemision/CrearNota'] = 'NotaRemision_Controller/Load_RegistrarNotaRemision';
+$route['NotaRemision/AbrirNotaTemp/(.+)'] = 'NotaRemision_Controller/Load_AbrirNotaRemisionTemporal/$1';
 $route['NotaRemision/CrearNotaFarmacia'] = 'NotaRemision_Controller/Load_RegistrarVentaFarmacia';
+$route['NotaRemision/ConsultarNotasDeRemision'] = 'NotaRemision_Controller/Load_ConsultarNotasRemisionTemp';
 //$route['NotaRemision/RegistrarVentaFarmacia'] = 'NotaRemision_Controller/Load_RegistrarVentaFarmacia';
 $route['NotaRemision/CrearPDF/(.+)'] = 'NotaRemision_Controller/generarPDFNotaRemision/$1';
 $route['NotaRemision/CargarNotaRemision/(.+)'] = 'NotaRemision_Controller/CargarTemplateNotaRemision/$1';
@@ -126,3 +128,18 @@ $route['Proveedores/PagarProveedor'] = 'Proveedor_Controller/Load_PagarProveedor
 //usuarios
 $route['Catalogos/NuevoUsuario'] = 'Usuario_Controller/Load_AgregarNuevoUsuario';
 $route['Catalogos/ConsultaUsuarios'] = 'Usuario_Controller/Load_ConsultarUsuarios';
+
+//SERVICIOS AUTOR: RICARDO
+$route['Catalogos/NuevoServicio'] = 'Servicio_Controller/Load_AgregarNuevoServicio';
+$route['Catalogos/ConsultarServicios'] = 'Servicio_Controller/Load_ConsultarServicios';
+//Cuentas 18-may0-2021
+$route['Catalogos/NuevaCuenta'] = 'Cuenta_ControllerPersona/Load_AgregarNuevaCuenta';
+$route['Catalogos/ConsultarCuentas'] = 'Cuenta_ControllerPersona/Load_ConsultarCuentas';
+
+//Clinicas 7-Junio-2021
+$route['Catalogos/NuevaClinica'] = 'Clinica_Controller/Load_AgregarNuevaClinica';
+$route['Catalogos/ConsultarClinicas'] = 'Clinica_Controller/Load_ConsultarClinicas';
+
+//Foliador 10-Junio-2021
+$route['Catalogos/NuevoFoliador'] = 'Foliador_Controller/Load_AgregarNuevoFoliador';
+$route['Catalogos/ConsultarFoliador'] = 'Foliador_Controller/Load_ConsultarFoliador';

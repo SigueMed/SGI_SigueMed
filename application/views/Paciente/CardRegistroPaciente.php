@@ -15,7 +15,7 @@
                 <div class="col-md-12">
                   <fieldset class="form-group">
                     <label for="txtNombrePaciente">Nombre</label>
-                    <input type="text" class="form-control" id="txtNombrePaciente" name="NombrePaciente" placeholder="Nombre Completo">
+                    <input type="text" class="form-control" id="txtNombrePaciente" name="NombrePaciente" placeholder="Nombre Completo" required>
                   </fieldset>
                 </div>
               </div>
@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                   <fieldset class="form-group">
                     <label for="txtNombreApellidos">Apellidos</label>
-                    <input type="text" class="form-control" id="txtNombreApellidos" name="ApellidosPaciente" placeholder="Apellidos">
+                    <input type="text" class="form-control" id="txtNombreApellidos" name="ApellidosPaciente" placeholder="Apellidos" required>
                   </fieldset>
                 </div>
               </div>
@@ -48,7 +48,7 @@
                 <div class="col-md-4  col-xs-12">
                   <div class="form-group">
                     <label for="cbSexo">Sexo:</label>
-                    <select name="Sexo" id="cbSexo" class="form-control" onchange="">
+                    <select name="Sexo" id="cbSexo" class="form-control" onchange="" required>
                       <option value="M">Masculino</option>
                       <option value="F">Femenino</option>
                     </select>
