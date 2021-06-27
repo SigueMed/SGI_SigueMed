@@ -90,6 +90,7 @@ $route['Paciente/NuevoPaciente'] = 'Paciente_Controller/Load_AgregarNuevoPacient
 $route['NotaRemision/CrearNota'] = 'NotaRemision_Controller/Load_RegistrarNotaRemision';
 $route['NotaRemision/AbrirNotaTemp/(.+)'] = 'NotaRemision_Controller/Load_AbrirNotaRemisionTemporal/$1';
 $route['NotaRemision/CrearNotaFarmacia'] = 'NotaRemision_Controller/Load_RegistrarVentaFarmacia';
+$route['NotaRemision/ConsultarNotasDeRemision'] = 'NotaRemision_Controller/Load_ConsultarNotasRemisionTemp';
 //$route['NotaRemision/RegistrarVentaFarmacia'] = 'NotaRemision_Controller/Load_RegistrarVentaFarmacia';
 $route['NotaRemision/CrearPDF/(.+)'] = 'NotaRemision_Controller/generarPDFNotaRemision/$1';
 $route['NotaRemision/CargarNotaRemision/(.+)'] = 'NotaRemision_Controller/CargarTemplateNotaRemision/$1';
@@ -138,3 +139,7 @@ $route['Catalogos/ConsultarCuentas'] = 'Cuenta_ControllerPersona/Load_ConsultarC
 //Clinicas 7-Junio-2021
 $route['Catalogos/NuevaClinica'] = 'Clinica_Controller/Load_AgregarNuevaClinica';
 $route['Catalogos/ConsultarClinicas'] = 'Clinica_Controller/Load_ConsultarClinicas';
+
+//Foliador 10-Junio-2021
+$route['Catalogos/NuevoFoliador'] = 'Foliador_Controller/Load_AgregarNuevoFoliador';
+$route['Catalogos/ConsultarFoliador'] = 'Foliador_Controller/Load_ConsultarFoliador';

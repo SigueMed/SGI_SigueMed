@@ -308,51 +308,6 @@ function CargarCatalogoCuentas()
         });
 
 }
-// function LoadRowDetail ( d ) {
-//     // `d` is the original data object for the row
-//     var div = $('<div/>')
-//           .addClass( 'loading' )
-//           .text( 'Loading...' );
-//
-//
-//       $.ajax({
-//         url: '<?= site_url()?>/Usuario_Controller/ConsultarClinicasUsuario_ajax',
-//         data:{IdUsuario:d.IdEmpleado},
-//         type: 'POST'
-//
-//
-//
-//       })
-//
-//       .done(function(data) {
-//
-//         var ClinicasUsuario = JSON.parse(data);
-//         var output ='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-//                         '<th>Clinicas</th>';
-//
-//         for (i=0; i<ClinicasUsuario.length;i++)
-//         {
-//
-//           output +='<tr>'+
-//                     '<td>'+ClinicasUsuario[i]['NombreClinica']+'</td>'+
-//                   '</tr>';
-//
-//         }
-//         output += '</table>';
-//
-//         div.html(output);
-//         div.removeClass('loading');
-//
-//         console.log(output);
-//       })
-//       .fail(function() {
-//         console.log("error");
-//       });
-//
-//
-//
-//       return div;
-// }
 
 function OpenModal_EditarCuenta(IdCuenta) {
 
@@ -388,6 +343,7 @@ function OpenModal_EditarCuenta(IdCuenta) {
     CargarClinicas(Usuario['IdEmpleado']);
 
   })
+
   .fail(function() {
     console.log("error");
   });
@@ -605,6 +561,7 @@ function cerrar(Ventana)
           type: 'success',
 
       });
+        CargarCatalogoCuentas();
 
     })
     .fail(function() {
@@ -622,15 +579,7 @@ function cerrar(Ventana)
 
   }
 
-  function ShowPassword() {
-    var x = document.getElementById("txtPassword");
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
-    }
 
-  }
 
 //
 </script>

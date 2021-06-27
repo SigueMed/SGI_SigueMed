@@ -43,11 +43,18 @@ class NotaRemisionTemp_Model extends CI_Model {
     public function ConsultarNotasRemisionTemp()
     {
 
-      $this->db->select($this->table.'*');
+      $this->db->select($this->table.'.*');
       $this->db->select('CONCAT(Nombre," ",Apellidos) as NombrePaciente');
+      $this->db->select('DescripcionFoliador');
+      $this->db->select('NombreClinica');
       $this->db->from($this->table);
       $this->db->join('paciente p',$this->table.'.IdPaciente = p.IdPaciente');
+      $this->db->join('foliador f',$this->table.'.IdFoliador = f.IdFoliador');
+      $this->db->join('clinicas c',$this->table.'.IdClinica = c.IdClinica');
 
+
+      $query = $this->db->get();
+      return $query->result_array();
       // code...
     }
 
