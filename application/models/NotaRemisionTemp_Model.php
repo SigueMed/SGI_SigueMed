@@ -51,6 +51,23 @@ class NotaRemisionTemp_Model extends CI_Model {
       // code...
     }
 
+    public function ConsultarNotaTemporalPorId($IdNotaRemisionTemp)
+    {
+      $this->db->select($this->table.'.*');
+      $this->db->select('CONCAT(Nombre," ",Apellidos) as NombrePaciente');
+
+      $this->db->from($this->table);
+      $this->db->join('paciente p',$this->table.'.IdPaciente = p.IdPaciente');
+
+
+      $this->db->where('IdNotaRemisionTemp',$IdNotaRemisionTemp);
+
+      $query = $this->db->get();
+
+      return $query->row();
+
+    }
+
 
     //put your code here
 }
