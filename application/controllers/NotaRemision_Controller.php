@@ -28,6 +28,7 @@ class NotaRemision_Controller extends CI_Controller {
         $this->load->model('MovimientoInventario_Model');
         $this->load->model('SeguimientoMedico_Model');
         $this->load->model('NotaRemisionTemp_Model');
+        $this->load->model('DetalleNotaRemisionTemp_Model');
 
     }
         public function index(){
@@ -408,6 +409,17 @@ class NotaRemision_Controller extends CI_Controller {
               // code...
 
 
+        }
+        public function DetallesNotaRemisionTemp()
+        {
+      
+          $IdDetalleNota = $this->input->post('IdDetalleNotaRemision_Temp');
+      
+          $DescripcionNota = $this->DetalleNotaRemisionTemp_Model->DetallesNotaRemisionTemp($IdDetalleNota);
+      
+          echo json_encode($DescripcionNota);
+          // code...
+      
         }
 
         public function PagarAdeudosAnteriores($IdPaciente, $TotalPagado, $TipoPago)

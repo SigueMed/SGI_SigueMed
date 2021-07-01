@@ -107,9 +107,16 @@
                   <input type="checkbox" class="form-control" name="ServicioHabilitado" id="ServicioHabilitado">
                 </fieldset>
               </div>
-
             </div>
 
+            <div class="row">
+              <div class="col-md-1 col-xs-12">
+                <fieldset class="form-group">
+                  <label for="txtManejoInventario">Inventario</label>
+                  <input type="checkbox" class="form-control" name="ManejoInventario" id="ManejoInventario">
+                </fieldset>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-1 col-xs-12">
                 <fieldset class="form-group">
@@ -117,18 +124,9 @@
                   <input type="checkbox" class="form-control" name="ManejoAgenda" id="ManejoAgenda">
                 </fieldset>
               </div>
-              
-              <div class="col-md-1 col-xs-12">
-                <fieldset class="form-group">
-                  <label for="txtManejoInventario">Inventario</label>
-                  <input type="checkbox" class="form-control" name="ManejoInventario" id="ManejoInventario">
-                </fieldset>
-              </div>
-            
             </div>
-            
-            <div class="row">
 
+            <div class="row">
                 <div class="col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="cbGrupoServicio">Grupo Servicio</label>
@@ -138,9 +136,8 @@
                         </select>
                     </div>
                 </div>
-
-
             </div>
+
             <h4 class="form-section"><i class="icon-clipboard4"></i> Clínicas</h4>
 
             <div class="row">
