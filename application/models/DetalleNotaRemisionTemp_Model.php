@@ -40,15 +40,25 @@ class DetalleNotaRemisionTemp_Model extends CI_Model {
 
     }
 
-    public function ConsultarDetalleNotasRemisionTemp($IdNotaRemisionTemp)
+    public function ConsultarDetalleNotaRemisionTemp($IdNotaRemisionTemp)
     {
+      $this->db->select($this->table.'.*');
 
-      $this->db->select($this->table.'*');
-      $this->db->select('CONCAT(Nombre," ",Apellidos) as NombrePaciente');
+      $this->db->select('DescripcionProducto, CostoProducto, PrecioProveedor');
+      $this->db->select('DescripcionServicio, EsProveedor');
       $this->db->from($this->table);
-      $this->db->join('paciente p',$this->table.'.IdPaciente = p.IdPaciente');
 
-      // code...
+      $this->db->join('catalogoproductos cp', $this->table.'.IdProducto = cp.IdProducto');
+      $this->db->join('servicio s','cp.IdServicio = s.IdServicio');
+      $this->db->join('gruposervicio gs','s.IdGrupoServicio = gs.IdGrupoServicio');
+
+
+      $this->db->where('IdNotaRemision_Temp',$IdNotaRemisionTemp);
+
+      $query = $this->db->get();
+
+      return $query->result_array();
+
     }
     public function DetallesNotaRemisionTemp($IdDetalleNota)
     {
@@ -63,6 +73,12 @@ class DetalleNotaRemisionTemp_Model extends CI_Model {
       // code...
     }
 
+    public function BorrarDetalleNotaRemisionTemp($IdNotaRemisionTemp)
+    {
+      $this->db->where('IdNotaRemision_Temp',$IdNotaRemisionTemp);
+      $this->db->delete($this->table);
 
-    //put your code here
+      return true;
+      // code...
+    }
 }

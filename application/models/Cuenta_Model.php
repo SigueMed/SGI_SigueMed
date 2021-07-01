@@ -131,6 +131,7 @@ class Cuenta_Model extends CI_Model{
     {
       $this->db->where('IdCuenta', $IdCuenta);
       return $this->db->update($this->table, $ActualizarEmpleado);
+      
 
       // code...
     }
