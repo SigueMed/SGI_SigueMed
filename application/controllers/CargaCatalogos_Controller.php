@@ -105,7 +105,7 @@ class CargaCatalogos_Controller extends CI_Controller {
 
       $Foliadores = $this->Foliador_Model->ConsultarFoliadoresClinica($this->session->userdata('IdClinica'),$Inventario);
 
-      $output='<option value="">Selecciona un Grupo</option>';
+      $output='<option value="">Selecciona un Folio</option>';
 
      foreach($Foliadores as $Foliador)
      {

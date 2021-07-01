@@ -154,6 +154,7 @@ class NotaRemision_Controller extends CI_Controller {
                                if (isset($CodigoSubProducto)&& is_array($CodigoSubProducto))
                                {
                                    $strCodigoSubProducto =$CodigoSubProducto[$i] ;
+                                   //log_message('DEBUG',"DetalleNotaRemision.IdCodigoSubProducto=".$strCodigoSubProducto);
                                }
                                else
                                {
@@ -163,6 +164,8 @@ class NotaRemision_Controller extends CI_Controller {
                                if(isset($Lote)&&is_array($Lote))
                                {
                                    $strLote = $Lote[$i];
+                                   //log_message('DEBUG',"DetalleNotaRemision.Lote=".$strLote);
+
                                }
                                else
                                {
@@ -176,6 +179,8 @@ class NotaRemision_Controller extends CI_Controller {
                                else {
                                  $PrecioProveedor = 0;
                                }
+
+
 
                                $DetalleNotaRemision = array(
                                    'IdNotaRemision'=>$IdNuevaNotaRemision->IdUltimaNotaRemision,
@@ -272,14 +277,13 @@ class NotaRemision_Controller extends CI_Controller {
 
                                     );
 
-                                    $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+                                    if ($TotalMovimientoCuenta>0)
+                                    {
+                                      $this->MovimientoCuenta_Model->RegistrarNuevoMovimientoCuenta($NuevoMovimientoCuenta);
+                                    }
+
+
                                 }
-
-                              //}
-
-
-
-
 
                               }
 

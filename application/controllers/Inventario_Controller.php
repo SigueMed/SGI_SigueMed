@@ -298,6 +298,7 @@ class Inventario_Controller extends CI_Controller {
     public function ConsultarExistenciaSubProducto_ajax()
     {
          $IdCodigoSubProducto = $this->input->post('CodigoSubProducto');
+         $IdFoliador = $this->input->post('IdFoliador');
 
         if ($IdCodigoSubProducto !== "")
         {
@@ -305,7 +306,7 @@ class Inventario_Controller extends CI_Controller {
 
             $IdClinica = $this->session->userdata('IdClinica');
 
-            $SubProducto = $this->SubProducto_Model->ConsultarExistenciaPorCaducidadSubProducto($IdCodigoSubProducto,$IdClinica);
+            $SubProducto = $this->SubProducto_Model->ConsultarExistenciaPorCaducidadSubProducto($IdCodigoSubProducto,$IdClinica,$IdFoliador);
 
             echo json_encode($SubProducto);
         }

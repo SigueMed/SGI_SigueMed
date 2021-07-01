@@ -97,12 +97,26 @@
         <!-- Resumen -->
         <div class="card my-4">
           <div class="card-header">
-              <h6>Medico</h6>
+              <h6>Servicio Médico</h6>
           </div>
 
           <div class="card-body">
               <div class="card-block">
                   <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="cbFoliador">Folio:</label>
+                            <select id="cbFoliador" name="cbFoliador" class="form-control" onchange="CargarProductos()" required>
+                            <input type="hidden" name="IdFoliador" id ="IdFoliador">
+                            </select>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
                       <div class="row">
 
                           <div class="col-md-12">
@@ -138,7 +152,7 @@
                         <div class="form-group">
 
                             <label for="txtCodigoProducto">Código</label>
-                            <input type="text" name ="txtCodigoProducto" id="txtCodigoProducto" class="form-control"/>
+                            <input type="text" name ="txtCodigoProducto" id="txtCodigoProducto" class="form-control" disabled/>
                         </div>
                     </div>
 
@@ -171,7 +185,7 @@
                                 <input type="hidden" class="form-control" id="IdProducto" name="IdProducto"  readonly="readonly"/>
                                 <label>Servicio/Producto:</label>
                                 <input type="text" class="inputBuscarProducto form-control" id="txtProducto" placeholder="Buscar" />
-                                <input type="hidden" name="IdFoliador" id="IdFoliador" value="2">
+
                             </div>
                         </div>
                         <div class="col-md-1 col-xs-1">
@@ -616,7 +630,60 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-      CargarProductos();
+
+      var t = $('#tbl_Productos').DataTable({
+     "ajax":{
+         url:"<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
+         method:"POST",
+         data:{
+             IdFoliador:function(){return $("#IdFoliador").val()}
+         },
+         dataSrc: ""
+     },
+
+      "destroy":true,
+      "language": {
+           "lengthMenu": "Mostrando _MENU_ registros por pag.",
+           "zeroRecords": "Sin Datos - disculpa",
+           "info": "Motrando pag. _PAGE_ de _PAGES_",
+           "infoEmpty": "Sin registros disponibles",
+           "infoFiltered": "(filtrado de _MAX_ total)"
+       },
+       "columnDefs":[
+         {
+          "type": 'currency',"targets":3, "render": function(data,type,row,meta)
+
+                 {
+                     return "$"+(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                 }
+         },
+         {
+             "targets":4, "render": function(data,type,row,meta)
+
+                 {
+                     return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\','+row['PrecioProveedor']+','+row['Proveedor']+')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
+                     //return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
+                 }
+           },
+           {
+             "targets":[5], "visible":false
+           }
+           ],
+
+       "columns": [
+
+             { "data": "IdProducto" },
+             { "data": "DescripcionServicio" },
+             { "data": "DescripcionProducto" },
+             { "data": "CostoProducto"},
+             {"data":"IdProducto", "width": "20%"},
+             {"data":"EsProveedor"}
+             ]
+
+     });
+
+
 
       // $(window).keydown(function(event){
       //   if(event.keyCode == 13) {
@@ -730,6 +797,7 @@
                $("#txtProducto").focus();
                $("#btnAgregar").attr("disabled","disabled");
                $("#Descuento").attr("readonly","readonly");
+               $("#cbFoliador").attr("disabled","disabled");
 
             }
             }
@@ -807,40 +875,6 @@
         });
     });
 
-    //INPUT AUTOCOMPLETE Productos
-    var optionsProducto = {
-        url: "<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
-        ajaxSettings: { dataType: "json", method: "POST", data: {IdFoliador:2} },
-        getValue: function (element){
-                        return "[" + element.DescripcionServicio +"]-" + element.DescripcionProducto ;
-                    },
-        template: {
-            type: "custom",
-            method: function(value, item){
-                return "[" + item.DescripcionServicio +"]-" + item.DescripcionProducto  ;
-
-            }
-        },
-        list: {
-            maxNumberOfElements: 6,
-            match:{
-                enabled:true
-            },
-
-            onClickEvent: function(){
-                Autocomplete_CargarDatosProducto();
-            },
-
-            onChooseEvent: function()
-            {
-
-              Autocomplete_CargarDatosProducto();
-            }
-
-        },
-        theme: "plate-dark"
-    };
-
     //input autocomplete Nombre
     var optionsNombre = {
         url: "<?php echo site_url();?>/Agenda_Controler/autocompleteNombre",
@@ -876,7 +910,7 @@
 
     $('#txtPaciente').easyAutocomplete(optionsNombre);
 
-    $("#txtProducto").easyAutocomplete(optionsProducto);
+
 
     function Autocomplete_CargarDatosProducto() {
      var value = $("#txtProducto").getSelectedItemData().IdProducto;
@@ -967,6 +1001,13 @@
         ActualizarTotalNota(Subtotal);
         CalcularTotalesNotaRemision();
 
+        var TotalRows=$("#tablaProductos").length;
+
+        if (TotalRows<=1)
+        {
+          $("#cbFoliador").removeAttr("disabled");
+        }
+
 
     }
     function EliminarPago(index)
@@ -992,7 +1033,7 @@
       $.ajax({
           url: "<?php echo site_url();?>/CargaCatalogos_Controller/CargarFoliador_ajax",
           data:{
-            ManejoInventario:0
+            ManejoInventario:1
           },
           method: "POST",
           success: function(data)
@@ -1086,14 +1127,16 @@
 
  function HabilitarPago() {
    var Paciente = $("#idPaciente").val();
-   var TotalNota = $("#TotalNota").val();
+   var TotalPago = parseFloat($("#resumenTotalPago").val());
 
-
-   if (Paciente!== "" && TotalNota !== "")
+   if (Paciente!== "" && TotalPago > 0)
    {
 
      $("#btnPagar").removeAttr('disabled');
 
+   }
+   else {
+     $("#btnPagar").attr("disabled","disabled");
    }
 
  }
@@ -1230,57 +1273,21 @@
  function CargarProductos()
  {
 
-     var t = $('#tbl_Productos').DataTable({
-    "ajax":{
-        url:"<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
-        method:"POST",
-        data:{
-            IdFoliador:2
-        },
-        dataSrc: ""
-    },
+   var IdFoliador = $("#cbFoliador").val();
 
-     "destroy":true,
-     "language": {
-          "lengthMenu": "Mostrando _MENU_ registros por pag.",
-          "zeroRecords": "Sin Datos - disculpa",
-          "info": "Motrando pag. _PAGE_ de _PAGES_",
-          "infoEmpty": "Sin registros disponibles",
-          "infoFiltered": "(filtrado de _MAX_ total)"
-      },
-      "columnDefs":[
-        {
-         "type": 'currency',"targets":3, "render": function(data,type,row,meta)
 
-                {
-                    return "$"+(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
-                }
-        },
-        {
-            "targets":4, "render": function(data,type,row,meta)
+   $("#IdFoliador").val(IdFoliador);
 
-                {
-                    return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\','+row['PrecioProveedor']+','+row['Proveedor']+')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
-                    //return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
-                }
-          },
-          {
-            "targets":[5], "visible":false
-          }
-          ],
+   $('#tbl_Productos').DataTable().ajax.reload();
 
-      "columns": [
 
-            { "data": "IdProducto" },
-            { "data": "DescripcionServicio" },
-            { "data": "DescripcionProducto" },
-            { "data": "CostoProducto"},
-            {"data":"IdProducto", "width": "20%"},
-            {"data":"EsProveedor"}
-            ]
+    $("#txtProducto").removeAttr("disabled");
+    $("#txtCodigoProducto").removeAttr("disabled");
 
-    });
+
+    SetAutocompleteProductos();
+
 
  }
 
@@ -1334,7 +1341,7 @@
      $.ajax({
              url:"<?php echo site_url();?>/Inventario_Controller/ConsultarExistenciaSubProducto_ajax",
              method:"POST",
-             data:{CodigoSubProducto:$('#txtCodigoProducto').val()},
+             data:{CodigoSubProducto:$('#txtCodigoProducto').val(), IdFoliador: $("#IdFoliador").val()},
              success: function(data)
              {
 
@@ -1425,6 +1432,50 @@
 
 
   }
+
+  function SetAutocompleteProductos() {
+
+    //INPUT AUTOCOMPLETE Productos
+
+    var optionsProducto = {
+        url: "<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
+        ajaxSettings: { dataType: "json", method: "POST", data: {IdFoliador:$("#IdFoliador").val()} },
+        getValue: function (element){
+                        return "[" + element.DescripcionServicio +"]-" + element.DescripcionProducto ;
+                    },
+        template: {
+            type: "custom",
+            method: function(value, item){
+                return "[" + item.DescripcionServicio +"]-" + item.DescripcionProducto  ;
+
+            }
+        },
+        list: {
+            maxNumberOfElements: 6,
+            match:{
+                enabled:true
+            },
+
+            onClickEvent: function(){
+                Autocomplete_CargarDatosProducto();
+            },
+
+            onChooseEvent: function()
+            {
+
+              Autocomplete_CargarDatosProducto();
+            }
+
+        },
+        theme: "plate-dark"
+    };
+
+    $("#txtProducto").easyAutocomplete(optionsProducto);
+
+
+
+  }
+
 
 
 </script>

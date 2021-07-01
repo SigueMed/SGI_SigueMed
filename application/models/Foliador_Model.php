@@ -202,4 +202,14 @@ class Foliador_Model extends CI_Model{
 
 
 
+  public function EditarFoliador($IdFoliador,$ActualizarFoliador)
+  {
+    $this->db->where('IdFoliador', $IdFoliador);
+    return $this->db->update($this->table, $ActualizarFoliador);
+
+    // code...
+  }
+
+
+
 }

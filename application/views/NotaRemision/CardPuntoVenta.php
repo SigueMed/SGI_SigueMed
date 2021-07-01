@@ -8,9 +8,11 @@
 
     .inputNombrePaciente{
          width: 100%;
+
     }
     .inputBuscarProducto{
          width: 100%;
+
     }
     .table th {
         font-size: 14px;
@@ -98,14 +100,26 @@
         <!-- Resumen -->
         <div class="card my-4">
           <div class="card-header">
-              <h6>Medico</h6>
+              <h6>Servicio Médico</h6>
           </div>
 
           <div class="card-body">
               <div class="card-block">
                   <div class="form-body">
-                      <div class="row">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="cbFoliador">Folio:</label>
+                            <select id="cbFoliador" name="cbFoliador" class="form-control" onchange="CargarProductos()" required>
+                            <input type="hidden" name="IdFoliador" id ="IdFoliador">
+                            </select>
 
+                        </div>
+
+                      </div>
+
+                    </div>
+                      <div class="row">
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="cb_Medico">Medico que atendió:</label>
@@ -134,6 +148,98 @@
             </div>
             <div class="card-body">
                 <div class="card-block">
+                  <div class="row  match-height">
+                    <div class="col-md-10 col-xs-10">
+                          <div class="form-group">
+                              <input type="hidden" class="form-control" id="IdProducto" name="IdProducto"  readonly="readonly"/>
+                              <label>Servicio/Producto:</label>
+                              <input type="text" class="inputBuscarProducto form-control" id="txtProducto" placeholder="Buscar" disabled/>
+
+                          </div>
+                      </div>
+                      <div class="col-md-1 col-xs-1">
+                        <div class="form-group">
+                          <label style ="color:white">_</label>
+                          <button type="button" name="button" class="btn btn-info form-control icon-search" onclick="LoadModal_BuscarProducto()"></button>
+
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-xs-4">
+                        <div class="form-group">
+                          <label for="DescripcionProducto">Descripción Producto:</label>
+                          <input type="text" class = "form-control" name="DescripcionProducto" id="DescripcionProducto" value="" readonly="readonly">
+                          <input type="hidden" class="form-control" id="IdServicio" name="IdServicio"  readonly="readonly"/>
+                          <input type="hidden" class="form-control" id="DescripcionServicio" name="DescripcionServicio"  readonly="readonly"/>
+                          <input type="hidden" class="form-control" id="PrecioProveedor" name="PrecioProveedor"  readonly="readonly"/>
+                          <input type="hidden" class="form-control" id="EsProveedor" name="EsProveedor"  readonly="readonly"/>
+                        </div>
+                      </div>
+                      <div class="col-md-1">
+                        <div class="form-group">
+                          <label for="CantidadProducto">Unit.</label>
+                          <input type="text" class="form-control" id="CostoProducto" name="CostoProducto" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-1 col-xs-2">
+                        <div class="form-group">
+                          <label for="CantidadProducto">Cant.</label>
+                          <input type="text" class ="form-control" name="CantidadProducto"  id="CantidadProducto" value="" onchange="AplicarDescuento()">
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-2 col-xs-2">
+                          <div class="form-group">
+                               <label for="SubtotalProducto">%</label>
+
+                                  <input type="number" id="Descuento" name="Descuento" class="form-control" placeholder="%" value="0" min="0" max="100" readonly="readonly" onchange="AplicarDescuento()">
+
+
+                               <!-- <div class="input-group">
+
+                                  <span class="input-group-addon">$</span>
+                                  <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
+                               </div> -->
+
+                               <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
+                               <input type="hidden" name="Lote" id="Lote">
+                          </div>
+
+                      </div>
+                      <div class="col-md-2 col-xs-4">
+                          <div class="form-group">
+                               <label for="SubtotalProducto">Total</label>
+                               <div class="input-group">
+                                  <span class="input-group-addon">$</span>
+                                  <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly="readonly">
+                                </div>
+                               <!-- <div class="input-group">
+
+                                  <span class="input-group-addon">$</span>
+                                  <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
+                               </div> -->
+
+                               <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
+                               <input type="hidden" name="Lote" id="Lote">
+                          </div>
+
+                      </div>
+                      <div class="col-md-1">
+                          <div class="form-group">
+                              <label style="color:white">_</label>
+                              <button type="button" class="btn btn-info form-control icon-download5" id="btnAgregar">
+
+                              </button>
+                          </div>
+
+
+                      </div>
+
+
+                  </div>
                   <div class="row">
                     <div class="col-md-12">
                         <table class="table" style="width:100%" id="tablaProductos">
@@ -156,123 +262,15 @@
                     </div>
                   </div>
 
-                    <div class="row  match-height">
-                      <div class="col-md-10 col-xs-10">
-                            <div class="form-group">
-                                <input type="hidden" class="form-control" id="IdProducto" name="IdProducto"  readonly="readonly"/>
-                                <label>Servicio/Producto:</label>
-                                <input type="text" class="inputBuscarProducto form-control" id="txtProducto" placeholder="Buscar" />
-                                <input type="hidden" name="IdFoliador" id="IdFoliador" value="1">
-                            </div>
-                        </div>
-                        <div class="col-md-1 col-xs-1">
-                          <div class="form-group">
-                            <label style ="color:white">_</label>
-                            <button type="button" name="button" class="btn btn-info form-control icon-search" onclick="LoadModal_BuscarProducto()"></button>
 
-                          </div>
-
-                        </div>
-                      </div>
-                      <div class="row">
-
-
-                        <div class="col-md-4 col-xs-4">
-                          <div class="form-group">
-                            <label for="DescripcionProducto">Descripción Producto:</label>
-                            <input type="text" class = "form-control" name="DescripcionProducto" id="DescripcionProducto" value="" readonly="readonly">
-                            <input type="hidden" class="form-control" id="IdServicio" name="IdServicio"  readonly="readonly"/>
-                            <input type="hidden" class="form-control" id="DescripcionServicio" name="DescripcionServicio"  readonly="readonly"/>
-                            <input type="hidden" class="form-control" id="PrecioProveedor" name="PrecioProveedor"  readonly="readonly"/>
-                            <input type="hidden" class="form-control" id="EsProveedor" name="EsProveedor"  readonly="readonly"/>
-
-
-                          </div>
-
-                        </div>
-                        <div class="col-md-1">
-                          <div class="form-group">
-                            <label for="CantidadProducto">Unit.</label>
-                            <input type="text" class="form-control" id="CostoProducto" name="CostoProducto" readonly>
-
-                          </div>
-
-                        </div>
-                        <div class="col-md-1 col-xs-2">
-                          <div class="form-group">
-                            <label for="CantidadProducto">Cant.</label>
-                            <input type="text" class ="form-control" name="CantidadProducto"  id="CantidadProducto" value="" onchange="AplicarDescuento()">
-                          </div>
-
-                        </div>
-
-                        <div class="col-md-2 col-xs-2">
-                            <div class="form-group">
-                                 <label for="SubtotalProducto">%</label>
-
-                                    <input type="number" id="Descuento" name="Descuento" class="form-control" placeholder="%" value="0" min="0" max="100" readonly="readonly" onchange="AplicarDescuento()">
-
-
-                                 <!-- <div class="input-group">
-
-                                    <span class="input-group-addon">$</span>
-                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
-                                 </div> -->
-
-                                 <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
-                                 <input type="hidden" name="Lote" id="Lote">
-                            </div>
-
-                        </div>
-                        <div class="col-md-2 col-xs-4">
-                            <div class="form-group">
-                                 <label for="SubtotalProducto">Total</label>
-
-                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total" readonly="readonly">
-
-
-
-                                 <!-- <div class="input-group">
-
-                                    <span class="input-group-addon">$</span>
-                                    <input type="text" id="SubtotalProducto" name="SubtotalProducto" class="form-control" placeholder="Total">
-                                 </div> -->
-
-                                 <input type="hidden" name="CodigoSubProducto" id="CodigoSubProducto">
-                                 <input type="hidden" name="Lote" id="Lote">
-                            </div>
-
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group">
-                                <label style="color:white">_</label>
-                                <button type="button" class="btn btn-info form-control icon-download5" id="btnAgregar">
-
-                                </button>
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
                     <div class="row">
                       <div class="col-md-12 col-xs-12">
                         <div class="form-group">
                           <label for="DescripcionProducto">Comentarios:</label>
                           <input type="text" class = "form-control" name="ComentariosNota" id="ComentariosNota" value="">
-
-
-
                         </div>
-
                       </div>
-
                     </div>
-
-
-
-
                 </div>
             </div>
         </div>
@@ -619,14 +617,64 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
+      var t = $('#tbl_Productos').DataTable({
+      "ajax":{
+          url:"<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
+          method:"POST",
+          data:{
+              IdFoliador:function(){return $("#IdFoliador").val()}
+          },
+          dataSrc: ""
+      },
+
+       "destroy":true,
+       "language": {
+            "lengthMenu": "Mostrando _MENU_ registros por pag.",
+            "zeroRecords": "Sin Datos - disculpa",
+            "info": "Motrando pag. _PAGE_ de _PAGES_",
+            "infoEmpty": "Sin registros disponibles",
+            "infoFiltered": "(filtrado de _MAX_ total)"
+        },
+        "columnDefs":[
+          {
+           "type": 'currency',"targets":3, "render": function(data,type,row,meta)
+
+                  {
+                      return "$"+(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                  }
+          },
+          {
+              "targets":4, "render": function(data,type,row,meta)
+
+                  {
+                      return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\','+row['PrecioProveedor']+','+row['Proveedor']+')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
+                      //return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
+                  }
+            },
+            {
+              "targets":[5], "visible":false
+            }
+            ],
+
+        "columns": [
+
+              { "data": "IdProducto" },
+              { "data": "DescripcionServicio" },
+              { "data": "DescripcionProducto" },
+              { "data": "CostoProducto"},
+              {"data":"IdProducto", "width": "20%"},
+              {"data":"EsProveedor"}
+              ]
+
+      });
+
       var EsNotaTemporal = <?=$NotaTemporal?>;
 
       if (EsNotaTemporal)
       {
         CargarNotaTemporal();
       }
-
-      CargarProductos();
 
       $(window).keydown(function(event){
         if(event.keyCode == 13) {
@@ -738,39 +786,6 @@
         });
     });
 
-    //INPUT AUTOCOMPLETE Productos
-    var optionsProducto = {
-        url: "<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
-        ajaxSettings: { dataType: "json", method: "POST", data: {IdFoliador:1} },
-        getValue: function (element){
-                        return "[" + element.DescripcionServicio +"]-" + element.DescripcionProducto ;
-                    },
-        template: {
-            type: "custom",
-            method: function(value, item){
-                return "[" + item.DescripcionServicio +"]-" + item.DescripcionProducto  ;
-
-            }
-        },
-        list: {
-            maxNumberOfElements: 6,
-            match:{
-                enabled:true
-            },
-
-            onClickEvent: function(){
-                Autocomplete_CargarDatosProducto();
-            },
-
-            onChooseEvent: function()
-            {
-
-              Autocomplete_CargarDatosProducto();
-            }
-
-        },
-        theme: "plate-dark"
-    };
 
     //input autocomplete Nombre
     var optionsNombre = {
@@ -807,7 +822,7 @@
 
     $('#txtPaciente').easyAutocomplete(optionsNombre);
 
-    $("#txtProducto").easyAutocomplete(optionsProducto);
+
 
     function Autocomplete_CargarDatosProducto() {
       var value = $("#txtProducto").getSelectedItemData().IdProducto;
@@ -855,8 +870,6 @@
      $("#lblSexo").html(sexo);
      $("#lblFechaNacimiento").html(FechaNacimiento.toLocaleDateString());
 
-     //ConsultarAdeudosPaciente();
-     CalcularTotalesNotaRemision();
     }
 
     function AgregarProducto() {
@@ -904,8 +917,8 @@
                    '<td>'+
                        '<input type="hidden" value="'+idServicio+'">'+
                        '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
-                       '<input type="hidden" name="CodigoSubProducto[]" value="">'+
-                       '<input type="hidden" name="Lote[]" value="">'+
+                       //'<input type="hidden" name="CodigoSubProducto[]" value="null">'+
+                       //'<input type="hidden" name="Lote[]" value="null">'+
                        '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
                        '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
                        '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
@@ -935,6 +948,7 @@
              $("#CostoProducto").val("");
              $("#btnAgregar").attr("disabled","disabled");
              $("#Descuento").attr("readonly","readonly");
+             $("#cbFoliador").attr("disabled","disabled");
 
           }
         }
@@ -974,11 +988,21 @@
 
         document.getElementById("tablaProductos").deleteRow(Row.rowIndex);
 
+
         var Subtotal = parseFloat(Cell[3].innerText);
         Subtotal = Subtotal*-1;
 
         ActualizarTotalNota(Subtotal);
         CalcularTotalesNotaRemision();
+
+        var TotalRows=$("#tablaProductos").length;
+
+        if (TotalRows<=1)
+        {
+          $("#cbFoliador").removeAttr("disabled");
+        }
+
+
 
 
     }
@@ -1246,58 +1270,18 @@
  function CargarProductos()
  {
 
-     var t = $('#tbl_Productos').DataTable({
-    "ajax":{
-        url:"<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
-        method:"POST",
-        data:{
-            IdFoliador:1
-        },
-        dataSrc: ""
-    },
+   var IdFoliador = $("#cbFoliador").val();
 
-     "destroy":true,
-     "language": {
-          "lengthMenu": "Mostrando _MENU_ registros por pag.",
-          "zeroRecords": "Sin Datos - disculpa",
-          "info": "Motrando pag. _PAGE_ de _PAGES_",
-          "infoEmpty": "Sin registros disponibles",
-          "infoFiltered": "(filtrado de _MAX_ total)"
-      },
-      "columnDefs":[
-        {
-         "type": 'currency',"targets":3, "render": function(data,type,row,meta)
 
-                {
-                    return "$"+(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
-                }
-        },
-        {
-            "targets":4, "render": function(data,type,row,meta)
+   $("#IdFoliador").val(IdFoliador);
 
-                {
-                    return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\','+row['PrecioProveedor']+','+row['Proveedor']+')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
-                    //return '<a classs = "btn" onclick="SeleccionarProducto('+data+',\''+row['DescripcionProducto']+'\','+row['CostoProducto']+','+row['IdServicio']+',\''+row['DescripcionServicio']+'\')"><i class="icon-fast-forward2" data-toggle="tooltip" data-placement="top" id="SeleccionarProducto" title="Seleccionar"></i></a>';
-                }
-          },
-          {
-            "targets":[5], "visible":false
-          }
-          ],
+   $('#tbl_Productos').DataTable().ajax.reload();
 
-      "columns": [
 
-            { "data": "IdProducto" },
-            { "data": "DescripcionServicio" },
-            { "data": "DescripcionProducto" },
-            { "data": "CostoProducto"},
-            {"data":"IdProducto", "width": "20%"},
-            {"data":"EsProveedor"}
-            ]
+    $("#txtProducto").removeAttr("disabled");
 
-    });
-
+    SetAutocompleteProductos();
  }
 
  function SeleccionarProducto(IdProducto,DescripcionProducto,CostoProducto,IdServicio,DescripcionServicio,PrecioProveedor,Proveedor)
@@ -1429,15 +1413,58 @@
    var Paciente = $("#idPaciente").val();
    var TotalPago = parseFloat($("#resumenTotalPago").val());
 
-   
-
-
    if (Paciente!== "" && TotalPago > 0)
    {
 
      $("#btnPagar").removeAttr('disabled');
 
    }
+   else {
+     $("#btnPagar").attr("disabled","disabled");
+   }
+
+ }
+
+ function SetAutocompleteProductos() {
+
+   //INPUT AUTOCOMPLETE Productos
+
+   var optionsProducto = {
+       url: "<?php echo site_url();?>/CatalogoProductos_Controller/ConsultarProductosPuntoVenta",
+       ajaxSettings: { dataType: "json", method: "POST", data: {IdFoliador:$("#IdFoliador").val()} },
+       getValue: function (element){
+                       return "[" + element.DescripcionServicio +"]-" + element.DescripcionProducto ;
+                   },
+       template: {
+           type: "custom",
+           method: function(value, item){
+               return "[" + item.DescripcionServicio +"]-" + item.DescripcionProducto  ;
+
+           }
+       },
+       list: {
+           maxNumberOfElements: 6,
+           match:{
+               enabled:true
+           },
+
+           onClickEvent: function(){
+               Autocomplete_CargarDatosProducto();
+           },
+
+           onChooseEvent: function()
+           {
+
+             Autocomplete_CargarDatosProducto();
+           }
+
+       },
+       theme: "plate-dark"
+   };
+
+   $("#txtProducto").easyAutocomplete(optionsProducto);
+
+
 
  }
 
