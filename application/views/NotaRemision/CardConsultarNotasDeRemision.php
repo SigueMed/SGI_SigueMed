@@ -1,3 +1,18 @@
+<style>
+    .inputNombrePaciente{
+         width: 300px;
+    }
+    td.details-control {
+        background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_open.png');?>) no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url(<?php echo base_url('/app-assets/images/datatables/resources/details_close.png');?>) no-repeat center center;
+    }
+    th { font-size: 14px; }
+    td { font-size: 13px; }
+</style>
+
 <div class="row match-height">
         <div class="col-md-12">
             <div class="card">
@@ -25,6 +40,7 @@
                             <table id="tblNotasRemision" class="table table-striped table-bordered table-responsive" style="width:100%">
                                 <thead class="thead-inverse">
                                     <tr>
+                                        <th></th>
                                         <th>Id. Nota</th>
                                         <th>Foliador</th>
                                         <th>Clínica</th>
@@ -92,14 +108,20 @@ function CargarNotaRemision()
         },
         "autoWidth":true,
         "columnDefs":[
-            {"targets": 5, "render":function(data,type,row,meta){
+            {"targets": 6, "render":function(data,type,row,meta){
                 var url="<?=site_url("NotaRemision/AbrirNotaTemp/")?>"+data;
                 btnNotaRemision=' <button type="button" style="border-radius: 200px" class="btn btn-blue btn-sm" onclick="window.location.href=\''+url+'\'"><i class="icon-plus" data-toggle="tooltip" data-placement="top" id="NotaRemision" title="Nota Remision"></i></button>';
 
                 return btnNotaRemision;
             }},            
-            ],
+        ],
         "columns": [
+            {       
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
             { "data": "IdNotaRemisionTemp"},
             { "data": "DescripcionFoliador" },
             { "data": "NombreClinica" },
@@ -108,8 +130,55 @@ function CargarNotaRemision()
             { "data": "IdNotaRemisionTemp"}
         ]
 
-        });
-        
+    });
 }
+        
+function LoadRowDetail ( d ) {
+    // `d` is the original data object for the row
+    var div = $('<div/>')
+          .addClass( 'loading' )
+          .text( 'Loading...' );
+
+
+      $.ajax({
+        url: '<?= site_url()?>/NotaRemision_Controller/DetallesNotaRemisionTemp',
+        data:{IdDetalleNota:d.IdDetalleNota},
+        type: 'POST'
+
+
+      })
+      .done(function(data) {
+
+        var DescripcionNota = JSON.parse(data);
+        var output ='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                        '<th>Detalle Nota</th>';
+
+        for (i=0; i<DescripcionNota.length;i++)
+        {
+
+          output +='<tr>'+
+                    '<td>'+DescripcionNota[i]['DescripcionProducto']+'</td>'+
+                    '<td>'+DescripcionNota[i]['Cantidad']+'</td>'+
+                    '<td>'+DescripcionNota[i]['Descuento']+'</td>'+
+
+                  '</tr>';
+
+        }
+        output += '</table>';
+
+        div.html(output);
+        div.removeClass('loading');
+
+        console.log(output);
+      })
+      .fail(function() {
+        console.log("error");
+      });
+
+
+
+      return div;
+}
+
 
 </script>
