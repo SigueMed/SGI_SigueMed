@@ -360,14 +360,14 @@ function cerrar(Ventana)
     var DireccionFolio=$("#txtDireccionFolio").val();
 
     var ManejoInventario =0;
-    var TituloTicket= $("#txtResponsableFolio").val();
+    var TituloTicket= $("#txtTituloTicket").val();
     var ImagenTicket= $("#ImagenTicket").val();
 
 
 
     if ($("#ManejoInventario").is(":checked"))
     {
-      Habilitado = 1;
+      ManejoInventario = 1;
     }
 
 
