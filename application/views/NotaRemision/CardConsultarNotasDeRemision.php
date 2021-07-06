@@ -142,7 +142,7 @@ function LoadRowDetail ( d ) {
 
       $.ajax({
         url: '<?= site_url()?>/NotaRemision_Controller/DetallesNotaRemisionTemp',
-        data:{IdDetalleNota:d.IdDetalleNota},
+        data:{IdDetalleNota:d.IdNotaRemisionTemp},
         type: 'POST'
 
 
@@ -151,7 +151,9 @@ function LoadRowDetail ( d ) {
 
         var DescripcionNota = JSON.parse(data);
         var output ='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-                        '<th>Detalle Nota</th>';
+                        '<th>Detalle Nota</th>'+
+                        '<th>Cant.</th>'+
+                        '<th>Des.</th>';
 
         for (i=0; i<DescripcionNota.length;i++)
         {
