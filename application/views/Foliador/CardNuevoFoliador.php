@@ -36,15 +36,15 @@
 								<div class="row">
 									<div class="col-md-6">
 										<fieldset class="form-group">
-											<label for="txtDescripcionFoliador">Descripcion de Foliador</label>
-											<input type="text" class="form-control" id="txtDescripcionFoliador" name="DescripcionFoliador" placeholder="Descripcion">
+											<label for="txtDescripcionFoliador">Descripción de Foliador</label>
+											<input type="text" class="form-control" id="txtDescripcionFoliador" name="DescripcionFoliador" placeholder="Descripción">
 										</fieldset>
 									</div>
 									<div class="col-md-6">
 										<fieldset class="form-group">
 											<label for="txtValorFolio">Valor Folio</label>
 											<input type="number" class="form-control" id="txtValorFolio" name="ValorFolio" placeholder="Valor(solo numeros)">
-											
+
 										</fieldset>
 									</div>
 								</div>
@@ -61,8 +61,8 @@
 									</div>
 									<div class="col-md-6 col-xs-12">
 										<fieldset class="form-group">
-											<label for="txtDireccionFolio">Direccio de Folio</label>
-											<input type="text" class="form-control" id="txtDireccionFolio" name="DireccionFolio" placeholder="Direccion de Folio">
+											<label for="txtDireccionFolio">Dirección de Folio</label>
+											<input type="text" class="form-control" id="txtDireccionFolio" name="DireccionFolio" placeholder="Dirección de Folio">
 										</fieldset>
 									</div>
 
@@ -75,7 +75,7 @@
 
 									<div class="col-md-1 col-xs-12">
 										<fieldset class="form-group">
-											<label for="txtManejoInventario">ManejoInventario</label>
+											<label for="txtManejoInventario">Manejo de Inventario</label>
 											<input type="checkbox" class="form-control" name="ManejoInventario">
 										</fieldset>
 									</div>
