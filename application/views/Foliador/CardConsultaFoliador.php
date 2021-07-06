@@ -164,7 +164,7 @@
               <div class="col-md-6 col-xs-12">
                 <fieldset class="form-group">
                   <label for="ImgImagenTicket">Imagen Ticket</label>
-                  <input type="file" class="form-control-file"  id="ImagenTicket" name="ImagenTicket">
+                  <input type="text" class="form-control-file"  id="ImagenTicket" name="ImagenTicket">
                 </fieldset>
               </div>
 
