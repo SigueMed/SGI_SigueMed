@@ -55,7 +55,8 @@ class DetalleNotaRemisionTemp_Model extends CI_Model {
       $this->db->select('*, Cantidad, Descuento');
       $this->db->from($this->table);
       $this->db->join("catalogoproductos cp",$this->table.".IdProducto = cp.IdProducto");
-      //$this->db->where("IdNotaRemision_Temp",$IdDetalleNota);
+      //$this->db->from("notaremision_temp nt");
+      $this->db->where('IdNotaRemision_Temp',$IdDetalleNota);
 
       $query = $this->db->get();
       return $query->result_array();

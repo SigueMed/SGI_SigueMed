@@ -413,11 +413,12 @@ class NotaRemision_Controller extends CI_Controller {
         public function DetallesNotaRemisionTemp()
         {
       
-          $IdDetalleNota = $this->input->post('IdDetalleNotaRemision_Temp');
+          $IdDetalleNota = $this->input->post('IdDetalleNota');
       
           $DescripcionNota = $this->DetalleNotaRemisionTemp_Model->DetallesNotaRemisionTemp($IdDetalleNota);
       
           echo json_encode($DescripcionNota);
+          log_message('debug','IdNotaRemision_Temp='.$IdDetalleNota);
           // code...
       
         }
