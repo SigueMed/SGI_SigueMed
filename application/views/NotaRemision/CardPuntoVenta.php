@@ -56,6 +56,7 @@
                         <div class="col-md-8 col-xs-12">
                               <div class="form-group">
                                   <input type="hidden" class="form-control" id="idPaciente" name="idPaciente"  readonly="readonly"/>
+                                  <input type="hidden" class="form-control" id="IdNotaRemisionTemp" name="IdNotaRemisionTemp"  readonly="readonly"/>
                                   <label>Nombre:</label>
                                   <input type="text" class="inputNombrePaciente form-control" id="txtPaciente" required placeholder="Buscar" />
                               </div>
@@ -617,6 +618,14 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+      var EsNotaTemporal = <?=$NotaTemporal?>;
+
+      if (EsNotaTemporal)
+      {
+        CargarNotaTemporal();
+      }
+
       CargarProductos();
 
       $(window).keydown(function(event){
@@ -656,85 +665,7 @@
         //Agregar nueva fila a la tabla productos
         $('#btnAgregar').click(function(){
 
-
-
-            var idServicio = $("#IdServicio").val();
-            var idProducto =  $("#IdProducto").val();
-            var Cantidad = $("#CantidadProducto").val();
-            var PrecioProveedor = $("#PrecioProveedor").val();
-            var descServicio = $("#DescripcionServicio").val();
-            var EsProveedor = $("#EsProveedor").val();
-
-
-            if (idProducto !="")
-            {
-
-
-            var descProducto = $("#DescripcionProducto").val();
-            var TotalFilas = $('#tablaProductos tbody tr').length;
-            var precio =$("#CostoProducto").val();
-            var descuento =isNaN(parseFloat($("#Descuento").val())) ? 0 : $("#Descuento").val();
-
-
-            var numFila = 0;
-
-            if(TotalFilas <1)
-            {
-                numFila = 1;
-            }
-            else
-
-            {
-                numFila = parseInt(document.getElementById('tablaProductos').rows[TotalFilas].cells[0].innerHTML);
-                numFila +=1;
-            }
-
-
-
-            var subtotal = parseFloat($("#SubtotalProducto").val());
-
-            if (!isNaN(subtotal))
-            {
-              $('#tablaProductos').append(
-                     '<tr id=row'+numFila+'>'+
-                     '<td>'+numFila+'</td>'+
-                     '<td>'+
-                         '<input type="hidden" value="'+idServicio+'">'+
-                         '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
-                         '<input type="hidden" name="CodigoSubProducto[]" value="">'+
-                         '<input type="hidden" name="Lote[]" value="">'+
-                         '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
-                         '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
-                         '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
-                         '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
-                         '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
-                         '<input type="hidden" class="form-control" name="descuento[]" value="'+descuento+'">'+
-                         '<input type="hidden" name="IdEmpleado[]" value="">'+
-                         descServicio+'</td>'+
-                     '<td>'+descProducto+'</td>'+
-                     '<td>'+precio+'</td>'+
-                     '<td>'+Cantidad+'</td>'+
-                     '<td>'+descuento+'%</td>'+
-                     '<td>'+subtotal+'</td>'+
-                     '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
-                     //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
-                     '</tr>'
-                     );
-                 ActualizarTotalNota(subtotal);
-                 CalcularTotalesNotaRemision();
-                 HabilitarPago();
-
-               $("#txtProducto").val("");
-               $("#DescripcionProducto").val("");
-               $("#CantidadProducto").val("");
-               $("#SubtotalProducto").val("");
-               $("#txtProducto").focus();
-               $("#CostoProducto").val();
-               $("#btnAgregar").attr("disabled","disabled");
-               $("#Descuento").attr("readonly","readonly");
-
-            }
-            }
+          AgregarProducto();
         });
 
         $("#btnAgregarPago").click(function()
@@ -930,6 +861,88 @@
      CalcularTotalesNotaRemision();
     }
 
+    function AgregarProducto() {
+
+          var idServicio = $("#IdServicio").val();
+          var idProducto =  $("#IdProducto").val();
+          var Cantidad = $("#CantidadProducto").val();
+          var PrecioProveedor = $("#PrecioProveedor").val();
+          var descServicio = $("#DescripcionServicio").val();
+          var EsProveedor = $("#EsProveedor").val();
+
+
+          if (idProducto !="")
+          {
+
+
+          var descProducto = $("#DescripcionProducto").val();
+          var TotalFilas = $('#tablaProductos tbody tr').length;
+          var precio =$("#CostoProducto").val();
+          var descuento =isNaN(parseFloat($("#Descuento").val())) ? 0 : $("#Descuento").val();
+
+
+          var numFila = 0;
+
+          if(TotalFilas <1)
+          {
+              numFila = 1;
+          }
+          else
+
+          {
+              numFila = parseInt(document.getElementById('tablaProductos').rows[TotalFilas].cells[0].innerHTML);
+              numFila +=1;
+          }
+
+
+
+          var subtotal = parseFloat($("#SubtotalProducto").val());
+
+          if (!isNaN(subtotal))
+          {
+            $('#tablaProductos').append(
+                   '<tr id=row'+numFila+'>'+
+                   '<td>'+numFila+'</td>'+
+                   '<td>'+
+                       '<input type="hidden" value="'+idServicio+'">'+
+                       '<input type="hidden" name="IdProductos[]" value="'+idProducto+'">'+
+                       '<input type="hidden" name="CodigoSubProducto[]" value="">'+
+                       '<input type="hidden" name="Lote[]" value="">'+
+                       '<input type="hidden" class="form-control" name="subtotal[]" value="'+subtotal+'">'+
+                       '<input type="hidden" class="form-control" name="precio[]" value="'+precio+'">'+
+                       '<input type="hidden" class="form-control" name="cantidad[]" value="'+Cantidad+'">'+
+                       '<input type="hidden" class="form-control" name="proveedor[]" value="'+EsProveedor+'">'+
+                       '<input type="hidden" class="form-control" name="preciosproveedor[]" value="'+PrecioProveedor+'">'+
+                       '<input type="hidden" class="form-control" name="descuento[]" value="'+descuento+'">'+
+                       '<input type="hidden" name="IdEmpleado[]" value="">'+
+                       descServicio+'</td>'+
+                   '<td>'+descProducto+'</td>'+
+                   '<td>'+precio+'</td>'+
+                   '<td>'+Cantidad+'</td>'+
+                   '<td>'+descuento+'%</td>'+
+                   '<td>'+subtotal+'</td>'+
+                   '<td data-row="row'+numFila+'"><button class="btn btn-sm btn-danger" onclick="EliminarProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash"></i></button></td>'+
+                   //'<td data-row="row'+numFila+'"><a classs = "btn" onclick="BorrarCuentaProducto('+numFila+')" data-row="row'+numFila+'"><i class="icon-trash" data-toggle="tooltip" data-placement="top" id="EliminarProducto" title="Eliminar producto"> Eliminar</i></a></td>'+
+                   '</tr>'
+                   );
+               ActualizarTotalNota(subtotal);
+               CalcularTotalesNotaRemision();
+               HabilitarPago();
+
+             $("#txtProducto").val("");
+             $("#DescripcionProducto").val("");
+             $("#CantidadProducto").val("");
+             $("#SubtotalProducto").val("");
+             $("#txtProducto").focus();
+             $("#CostoProducto").val("");
+             $("#btnAgregar").attr("disabled","disabled");
+             $("#Descuento").attr("readonly","readonly");
+
+          }
+        }
+
+    }
+
 
      //Calcular el subtotal del producto seleccionado incluyendo el descuento
     function ActualizarTotalNota(subtotal)
@@ -1104,8 +1117,6 @@
          totalPagar = $("#resumenTotalPago").val();
      }
 
-
-
      var totalPendiente = 0;
 
      totalPendiente = parseFloat(totalNota)  - parseFloat(totalPagar);
@@ -1210,11 +1221,6 @@
 
           $("#Modal_NuevoPaciente").modal('hide');
         }
-
-
-
-
-
 
       }
     });
@@ -1363,7 +1369,7 @@
 
   var tbl = $("#tablaProductos IdProductos").serializeArray() ;
 
-  alert(tbl);
+
 
 
    $.ajax({
@@ -1405,5 +1411,40 @@
 
  }
 
+ function CargarNotaTemporal() {
+
+
+   <?php
+
+    if ($NotaRemisionTemp!= null)
+    {
+      echo '$("#idPaciente").val('.$NotaRemisionTemp->IdPaciente.');';
+      echo '$("#txtPaciente").val("'.$NotaRemisionTemp->NombrePaciente.'");';
+    }
+
+
+
+   ?>
+
+
+
+
+   $("#IdNotaRemisionTemp").val(<?=$IdNotaRemisionTemp?>);
+   var DetalleNota =<?=json_encode($DetalleNotaRemisionTemp)?>;
+
+   for(i=0;i<DetalleNota.length;i++)
+   {
+     //alert(DetalleNota[i]['IdProducto']);
+     SeleccionarProducto(DetalleNota[i]['IdProducto'],DetalleNota[i]['DescripcionProducto'],DetalleNota[i]['CostoProducto'],DetalleNota[i]['IdServicio'],DetalleNota[i]['DescripcionServicio'],DetalleNota[i]['PrecioProveedor'],DetalleNota[i]['Proveedor']);
+     $("#CantidadProducto").val(DetalleNota[i]['Cantidad']);
+     $("#Descuento").val(DetalleNota[i]['Descuento']);
+
+     AgregarProducto();
+
+   }
+
+   $("#txtPaciente").attr("readonly","readonly");
+
+ }
 
 </script>
